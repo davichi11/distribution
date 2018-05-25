@@ -147,7 +147,19 @@ insert  into `dis_profit_record`(`id`,`dis_platform_id`,`dis_get_user_id`,`dis_s
 /*Table structure for table `member_amount` */
 
 DROP TABLE IF EXISTS member_account;
-
+create table member_account
+(
+  account_id    varchar(32)    not null primary key,
+  member_id     varchar(32)    not null comment '会员管理ID',
+  member_type   varchar(10)    null comment '账户类型',
+  member_amount decimal(12, 2) null,
+  is_delete     varchar(1)     null,
+  add_time      varchar(20)    null,
+  update_time   varchar(20)    null,
+  constraint member_amount_id_uindex
+  unique (account_id)
+)
+  comment '用金额表';
 CREATE TABLE `member_amount` (
   `id` int(11) DEFAULT NULL,
   `member_code` varchar(100) DEFAULT NULL,
@@ -167,7 +179,7 @@ DROP TABLE IF EXISTS member_account_history;
 CREATE TABLE `member_amount_histroy` (
   `id` int(11) DEFAULT NULL,
   `his_type` varchar(10) DEFAULT NULL COMMENT '收入类型，支出或者收入',
-  `his_order` varchar(500) DEFAULT NULL,
+  `account_id` varchar(500) DEFAULT NULL,
   `his_amount` decimal(12,2) DEFAULT NULL,
   `his_note` varchar(800) DEFAULT NULL,
   `is_delete` varchar(1) DEFAULT NULL,
