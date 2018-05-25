@@ -37,4 +37,9 @@ public class MemberAccountHistory {
     /** */
     private String updateTime;
 
+    public static final class HisType{
+        public static final boolean EXPEND =false;
+        public static final boolean INCOME=true;;
+    }
+
 }
