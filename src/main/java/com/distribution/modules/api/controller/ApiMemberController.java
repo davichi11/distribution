@@ -8,7 +8,6 @@ import com.distribution.modules.account.entity.MemberAccountHistory;
 import com.distribution.modules.account.service.MemberAccountHistoryService;
 import com.distribution.modules.account.service.MemberAccountService;
 import com.distribution.modules.api.annotation.AuthIgnore;
-import com.distribution.modules.api.entity.UserEntity;
 import com.distribution.modules.api.pojo.vo.DisFansVO;
 import com.distribution.modules.dis.entity.CardOrderInfoEntity;
 import com.distribution.modules.dis.entity.DisFans;
@@ -150,9 +149,8 @@ public class ApiMemberController {
     @AuthIgnore
     @GetMapping("/MemberWithdrawalList")
     @ApiOperation(value = "提现记录")
-    @ApiImplicitParam(paramType = "body", dataType = "UserEntity", name = "UserEntity", value = "用户信息", required = true)
-    public Result MemberWithdrawalList(@RequestBody UserEntity user) {
-        List<WithdrawalInfo> withdrawalInfoList = withdrawalInfoService.queryList(user.getMobile());
+    public Result MemberWithdrawalList(@RequestParam String mobile) {
+        List<WithdrawalInfo> withdrawalInfoList = withdrawalInfoService.queryList(mobile);
         return Result.ok().put("MemberWithdrawalList", withdrawalInfoList);
     }
 
@@ -167,10 +165,9 @@ public class ApiMemberController {
     @AuthIgnore
     @GetMapping("/memberAmountHistroyList")
     @ApiOperation(value = "收益明细")
-    @ApiImplicitParam(paramType = "body", dataType = "UserEntity", name = "UserEntity", value = "用户信息", required = true)
-    public Result MemberReturns(@RequestBody UserEntity user) {
+    public Result MemberReturns(@RequestParam String userId) {
         Map<String, Object> map = new HashMap<>();
-        map.put("userId", user.getUserId());
+        map.put("userId",userId);
         List<MemberAccountHistory> memberAmountHistroyList = memberAccountHistoryService.findList(map);
         return Result.ok().put("MemberWithdrawalList", memberAmountHistroyList);
     }
@@ -185,11 +182,10 @@ public class ApiMemberController {
     @AuthIgnore
     @GetMapping("/MemberCardList")
     @ApiOperation(value = "用户银行卡列表")
-    @ApiImplicitParam(paramType = "body", dataType = "UserEntity", name = "UserEntity", value = "用户信息", required = true)
-    public Result MemberCardList(@RequestBody UserEntity user) {
+    public Result MemberCardList(@RequestParam String userId) {
         Map<String, Object> map = new HashMap<>();
         List<CardOrderInfoEntity> MemberCardList = new ArrayList<>();
-        map.put("userId", user.getUserId());
+        map.put("userId",userId);
         List<DisMemberInfoEntity> memberInfoEntities = disMemberInfoService.queryList(map);
         if (null != memberInfoEntities && memberInfoEntities.size() > 0) {
             Map<String, Object> param = new HashMap<>();
