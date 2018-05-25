@@ -157,4 +157,42 @@
       update_time = #{updateTime,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+
+  <select id="queryList" resultType="com.distribution.modules.account.entity.MemberAccountHistory">
+    select
+    m.id,
+    m.his_type,
+    m.account_id,
+    m.his_amount,
+    m.his_note,
+    m.is_delete,
+    m.add_time,
+    m.update_time
+    from distribution.member_account_history m
+    left join member_account n on   m.account_id=n.account_id
+    left join dis_member_info d on n.member_id=d.id
+    <where>
+      1=1
+      <if test="accountId != null">
+        and   m.account_id = #{accountId}
+      </if>
+      <if test="hisType != null and hisType != ''">
+        and  m.his_type = #{hisType,jdbcType=BIT}
+      </if>
+      <if test="userId != null and userId != ''">
+        and  d.dis_user_id = #{userId}
+      </if>
+    </where>
+    <choose>
+      <when test="sidx != null and sidx.trim() != ''">
+        order by ${sidx} ${order}
+      </when>
+      <otherwise>
+        order by id desc
+      </otherwise>
+    </choose>
+    <if test="offset != null and limit != null">
+      limit #{offset}, #{limit}
+    </if>
+  </select>
 </mapper>

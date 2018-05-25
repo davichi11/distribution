@@ -4,22 +4,19 @@ import com.alibaba.fastjson.JSON;
 import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.account.entity.MemberAccount;
+import com.distribution.modules.account.entity.MemberAccountHistory;
+import com.distribution.modules.account.service.MemberAccountHistoryService;
 import com.distribution.modules.account.service.MemberAccountService;
 import com.distribution.modules.api.annotation.AuthIgnore;
-import com.distribution.modules.api.annotation.LoginUser;
 import com.distribution.modules.api.entity.UserEntity;
 import com.distribution.modules.api.pojo.vo.DisFansVO;
-import com.distribution.modules.api.pojo.vo.DisMemberInfoAmountsVO;
 import com.distribution.modules.dis.entity.CardOrderInfoEntity;
 import com.distribution.modules.dis.entity.DisFans;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.CardOrderInfoService;
 import com.distribution.modules.dis.service.DisFansService;
 import com.distribution.modules.dis.service.DisMemberInfoService;
-import com.distribution.modules.memeber.dao.WithdrawalInfoDao;
-import com.distribution.modules.memeber.entity.MemberAmountHistroy;
 import com.distribution.modules.memeber.entity.WithdrawalInfo;
-import com.distribution.modules.memeber.service.MemberAmountHistroyService;
 import com.distribution.modules.memeber.service.WithdrawalInfoService;
 import com.distribution.queue.LevelUpSender;
 import io.swagger.annotations.ApiImplicitParam;
@@ -59,7 +56,7 @@ public class ApiMemberController {
     @Autowired
     private MemberAccountService memberAccountService;
     @Autowired
-    private MemberAmountHistroyService memberAmountHistroyService;
+    private MemberAccountHistoryService memberAccountHistoryService;
     @Autowired
     private CardOrderInfoService cardOrderInfoService;
 
@@ -109,28 +106,30 @@ public class ApiMemberController {
      */
     @AuthIgnore
     @GetMapping("/MemberAmount")
-    @ApiOperation(value = "获取用户和账户信息")
-    @ApiImplicitParam(paramType = "header", name = "token", value = "token", required = true)
-    public Result MemberAmount(@LoginUser UserEntity user) {
+    @ApiOperation(value = "用户总金额，提现，总收入")
+    public Result MemberAmount(@RequestParam String userId,@RequestParam String mobile) {
         Map<String, Object> resultMap = new HashMap<>();
-        Map<String, Object> param = new HashMap<>(2);
-        param.put("userId", user.getUserId());
+//        Map<String, Object> param = new HashMap<>(2);
+//        param.put("userId",userId);
         //提现金额
-        BigDecimal withdrawalAmount = withdrawalInfoService.withdrawalAmounts(user.getMobile());
+        BigDecimal withdrawalAmount = withdrawalInfoService.withdrawalAmounts(mobile);
         resultMap.put("withdrawalAmount", withdrawalAmount);
-        //账户余额
-        MemberAccount memberAccount = memberAccountService.selectMemberAccountByUserId(user.getUserId());
-        resultMap.put("memberAccount", memberAccount.getMemberAmount());
+        resultMap.put("memberAccount", 0.00);
+        resultMap.put("generalIncome", 0.00);
+        //账户信息
+        MemberAccount memberAccount = memberAccountService.selectMemberAccountByUserId(userId);
         if (memberAccount != null) {
+            //账户余额
+            resultMap.put("memberAccount", memberAccount.getMemberAmount());
             Map<String, Object> map = new HashMap<>();
             map.put("accountId", memberAccount.getAccountId());
-            map.put("hisType", MemberAmountHistroy.HisType.INCOME);
-            map.put("userId", user.getUserId());
-            List<MemberAmountHistroy> list = memberAmountHistroyService.findList(map);
+            map.put("hisType", MemberAccountHistory.HisType.INCOME);
+            map.put("userId", userId);
+            List<MemberAccountHistory> list = memberAccountHistoryService.findList(map);
             Double generalIncome = 0.00;
             if (null != list && list.size() > 0) {
-                for (MemberAmountHistroy memberAmountHistroy : list) {
-                    generalIncome = memberAmountHistroy.getHisAmount().add(new BigDecimal(generalIncome)).doubleValue();
+                for (MemberAccountHistory memberAccountHistory : list) {
+                    generalIncome = memberAccountHistory.getHisAmount().add(new BigDecimal(generalIncome)).doubleValue();
                 }
             }
             //收入总金额
@@ -150,9 +149,9 @@ public class ApiMemberController {
      */
     @AuthIgnore
     @GetMapping("/MemberWithdrawalList")
-    @ApiOperation(value = "获取用户和账户信息")
-    @ApiImplicitParam(paramType = "header", name = "token", value = "token", required = true)
-    public Result MemberWithdrawalList(@LoginUser UserEntity user) {
+    @ApiOperation(value = "提现记录")
+    @ApiImplicitParam(paramType = "body", dataType = "UserEntity", name = "UserEntity", value = "用户信息", required = true)
+    public Result MemberWithdrawalList(@RequestBody UserEntity user) {
         List<WithdrawalInfo> withdrawalInfoList = withdrawalInfoService.queryList(user.getMobile());
         return Result.ok().put("MemberWithdrawalList", withdrawalInfoList);
     }
@@ -167,12 +166,12 @@ public class ApiMemberController {
      */
     @AuthIgnore
     @GetMapping("/memberAmountHistroyList")
-    @ApiOperation(value = "获取用户和账户信息")
-    @ApiImplicitParam(paramType = "header", name = "token", value = "token", required = true)
-    public Result MemberReturns(@LoginUser UserEntity user) {
+    @ApiOperation(value = "收益明细")
+    @ApiImplicitParam(paramType = "body", dataType = "UserEntity", name = "UserEntity", value = "用户信息", required = true)
+    public Result MemberReturns(@RequestBody UserEntity user) {
         Map<String, Object> map = new HashMap<>();
         map.put("userId", user.getUserId());
-        List<MemberAmountHistroy> memberAmountHistroyList = memberAmountHistroyService.findList(map);
+        List<MemberAccountHistory> memberAmountHistroyList = memberAccountHistoryService.findList(map);
         return Result.ok().put("MemberWithdrawalList", memberAmountHistroyList);
     }
 
@@ -185,9 +184,9 @@ public class ApiMemberController {
      */
     @AuthIgnore
     @GetMapping("/MemberCardList")
-    @ApiOperation(value = "获取用户和账户信息")
-    @ApiImplicitParam(paramType = "header", name = "token", value = "token", required = true)
-    public Result MemberCardList(@LoginUser UserEntity user) {
+    @ApiOperation(value = "用户银行卡列表")
+    @ApiImplicitParam(paramType = "body", dataType = "UserEntity", name = "UserEntity", value = "用户信息", required = true)
+    public Result MemberCardList(@RequestBody UserEntity user) {
         Map<String, Object> map = new HashMap<>();
         List<CardOrderInfoEntity> MemberCardList = new ArrayList<>();
         map.put("userId", user.getUserId());
