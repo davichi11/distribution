@@ -11,6 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * 分润服务实现类
+ * @author huchunliang
+ */
 @Service("disProfiParamService")
 public class DisProfiParamServiceImpl implements DisProfiParamService {
     @Autowired

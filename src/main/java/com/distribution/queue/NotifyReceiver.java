@@ -33,10 +33,10 @@ public class NotifyReceiver {
     /**
      * 产品域名,开发者无需替换
      */
-    static final String DOMAIN = "dysmsapi.aliyuncs.com";
+    private static final String DOMAIN = "dysmsapi.aliyuncs.com";
 
-    static final String ACCESS_KEY_ID = "LTAINPI8FPggKcPG";
-    static final String ACCESS_KEY_SECRET = "zrQmH9MvijTVOWSxYRsHvztGhDgZ7M";
+    private static final String ACCESS_KEY_ID = "LTAINPI8FPggKcPG";
+    private static final String ACCESS_KEY_SECRET = "zrQmH9MvijTVOWSxYRsHvztGhDgZ7M";
 
     @SuppressWarnings("unchecked")
     @RabbitHandler
