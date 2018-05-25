@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.distribution.modules.memeber.dao.MemberAmountHistroyDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.distribution.modules.memeber.entity.MemberAmountHistroy" id="MemberAmountHistroyMap">
+        <result property="id" column="id"/>
+        <result property="his_type" column="hisType"/>
+        <result property="account_id" column="accountId"/>
+        <result property="his_amount" column="hisAmount"/>
+        <result property="his_note" column="hisNote"/>
+        <result property="is_delete" column="isDelete"/>
+        <result property="add_time" column="addTime"/>
+        <result property="update_time" column="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,
+        his_type,
+        account_id,
+        his_amount,
+        his_note,
+        is_delete,
+        add_time,
+        update_time
+    </sql>
+
+    <select id="queryList" resultType="com.distribution.modules.memeber.entity.MemberAmountHistroy">
+        select
+        m.id,
+        m.his_type,
+        m.account_id,
+        m.his_amount,
+        m.his_note,
+        m.is_delete,
+        m.add_time,
+        m.update_time
+        from member_amount_histroy m
+        left join member_account n on   m.account_id=n.account_id
+        left join dis_member_info d on n.member_id=d.id
+        <where>
+            <if test="accountId != null">
+                m.account_id = #{accountId}
+            </if>
+            <if test="hisType != null and hisType != ''">
+                m.his_type = #{hisType}
+            </if>
+            <if test="userId != null and userId != ''">
+                d.dis_user_id = #{userId}
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.distribution.modules.memeber.entity.MemberAmountHistroy">
+        insert into member_amount_histroy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id">
+                id,
+            </if>
+            <if test="hisType != null">
+                his_type,
+            </if>
+            <if test="accountId != null">
+                account_id,
+            </if>
+            <if test="hisAmount != null">
+                his_amount,
+            </if>
+            <if test="hisNote != null">
+                his_note,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="addTime != null">
+                add_time,
+            </if>
+            <if test="updateTime != null">
+                update_time
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="hisType != null">
+                #{hisType},
+            </if>
+            <if test="accountId != null">
+                #{accountId},
+            </if>
+            <if test="hisAmount != null">
+                #{hisAmount},
+            </if>
+            <if test="hisNote != null">
+                #{hisNote},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+            <if test="addTime != null">
+                #{addTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime}
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

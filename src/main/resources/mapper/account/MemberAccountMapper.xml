@@ -12,8 +12,7 @@
         <result column="is_delete" jdbcType="VARCHAR" property="isDelete"/>
         <result column="add_time" jdbcType="VARCHAR" property="addTime"/>
         <result column="update_time" jdbcType="VARCHAR" property="updateTime"/>
-        <association property="member" javaType="com.distribution.modules.dis.entity.DisMemberInfoEntity"
-                     column="member_id">
+        <association property="member" javaType="com.distribution.modules.dis.entity.DisMemberInfoEntity" column="member_id">
             <id property="id" column="m_id"/>
             <result property="disPlatformId" column="dis_platform_id"/>
             <result property="disFullIndex" column="dis_full_index"/>
@@ -191,6 +190,31 @@
             m.is_delete
         from member_account a
             left join dis_member_info m on a.member_id=m.id
-        where member_id = #{member.id}
+        where member_id = #{memberId}
+    </select>
+
+    <select id="selectMemberAccountByUserId" resultMap="BaseResultMap">
+        select
+            account_id,
+            member_type,
+            member_amount,
+            a.is_delete,
+            a.add_time,
+            a.update_time,
+            id as "m_id",
+            dis_platform_id,
+            dis_user_id,
+            dis_model_id,
+            dis_full_index,
+            dis_user_name,
+            dis_level,
+            dis_user_type,
+            dis_note,
+            m.add_time,
+            m.update_time,
+            m.is_delete
+        from member_account a
+            left join dis_member_info m on a.member_id=m.id
+        where m.dis_user_id=#{userId}
     </select>
 </mapper>
