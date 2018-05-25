@@ -1,6 +1,9 @@
 package com.distribution.modules.dis.service.impl;
 
+import com.distribution.modules.account.dao.MemberAccountMapper;
+import com.distribution.modules.dis.dao.DisMemberInfoDao;
 import com.distribution.modules.dis.dao.DisProfiParamMapper;
+import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.entity.DisProfiParam;
 import com.distribution.modules.dis.service.DisProfiParamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,10 @@ import java.util.Map;
 public class DisProfiParamServiceImpl implements DisProfiParamService {
     @Autowired
     private DisProfiParamMapper disProfiParamMapper;
+    @Autowired
+    private MemberAccountMapper accountMapper;
+    @Autowired
+    private DisMemberInfoDao memberInfoDao;
 
     @Override
     public DisProfiParam queryObject(String id) {
@@ -53,6 +60,11 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
     @Transactional(rollbackFor = Exception.class)
     public void deleteBatch(String[]ids) throws Exception{
         disProfiParamMapper.deleteBatch(ids);
+    }
+
+    @Override
+    public void doFeeSplitting(DisMemberInfoEntity member, DisProfiParam profiParam) {
+
     }
 
 }

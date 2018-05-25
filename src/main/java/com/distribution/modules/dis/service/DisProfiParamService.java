@@ -1,5 +1,6 @@
 package com.distribution.modules.dis.service;
 
+import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.entity.DisProfiParam;
 
 import java.util.List;
@@ -61,4 +62,9 @@ public interface DisProfiParamService {
      * @throws Exception
      */
     void deleteBatch(String[] ids) throws Exception;
+
+    /**
+     * 执行分润逻辑
+     */
+    void doFeeSplitting(DisMemberInfoEntity member,DisProfiParam profiParam);
 }
