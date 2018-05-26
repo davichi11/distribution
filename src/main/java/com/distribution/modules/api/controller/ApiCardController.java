@@ -15,15 +15,15 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -52,7 +52,8 @@ public class ApiCardController {
     private final Pattern idCardNo = Pattern.compile("^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$");
 
     /**
-     *  信用卡列表(模糊查詢)
+     * 信用卡列表(模糊查詢)
+     *
      * @Auther: liuxinxin
      * @Date: 2018/5/26 0:10
      * @Description:
@@ -68,21 +69,21 @@ public class ApiCardController {
     }
 
     /**
+     * 添加申请人信息
      *
-     *   添加申请人信息
-     * @author liuxinxin
-     * @date  10:58
      * @param
      * @return
+     * @author liuxinxin
+     * @date 10:58
      */
     @AuthIgnore
     @PostMapping("/saveCardOrder")
     @ApiOperation(value = "添加申请人信息")
-    public Result saveCaedOrderInfo(@RequestBody CardOrderInfoVO cardOrderInfoVO, String captcha){
-        if (StringUtils.isBlank(cardOrderInfoVO.getOrderMobile())||!phone.matcher(cardOrderInfoVO.getOrderMobile()).matches()){
+    public Result saveCaedOrderInfo(@RequestBody CardOrderInfoVO cardOrderInfoVO, String captcha) {
+        if (StringUtils.isBlank(cardOrderInfoVO.getOrderMobile()) || !phone.matcher(cardOrderInfoVO.getOrderMobile()).matches()) {
             return Result.error("手机号码不正确");
         }
-        if (StringUtils.isBlank(cardOrderInfoVO.getOrderIdcardno())||!idCardNo.matcher(cardOrderInfoVO.getOrderIdcardno()).matches()){
+        if (StringUtils.isBlank(cardOrderInfoVO.getOrderIdcardno()) || !idCardNo.matcher(cardOrderInfoVO.getOrderIdcardno()).matches()) {
             return Result.error("身份证号码不正确");
         }
         //根据手机号获取验证码
@@ -94,7 +95,7 @@ public class ApiCardController {
             cardOrderInfoVO.setId(CommonUtils.getUUID());
             cardOrderInfoVO.setOrderId(CommonUtils.getUUID());
             cardOrderInfoVO.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
-            CardOrderInfoEntity cardOrderInfoEntity=modelMapper.map(cardOrderInfoVO,CardOrderInfoEntity.class);
+            CardOrderInfoEntity cardOrderInfoEntity = modelMapper.map(cardOrderInfoVO, CardOrderInfoEntity.class);
             cardOrderInfoService.save(cardOrderInfoEntity);
         } catch (Exception e) {
             return Result.error("申请异常");

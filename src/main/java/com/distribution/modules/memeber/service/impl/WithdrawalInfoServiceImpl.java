@@ -27,13 +27,10 @@ public class WithdrawalInfoServiceImpl implements WithdrawalInfoService {
      */
     @Override
     public BigDecimal withdrawalAmounts(String withdrawMobile) {
-        Double aDouble=0.00;
         Map<String, Object> map = new HashMap<>();
         map.put("withdrawMobile", withdrawMobile);
         List<WithdrawalInfo> withdrawalInfoList = withdrawalInfoDao.queryList(map);
-        for (WithdrawalInfo withdrawalInfo : withdrawalInfoList) {
-            aDouble=withdrawalInfo.getWithdrawAmount().add(new BigDecimal(aDouble)).doubleValue();
-        }
+        Double aDouble = withdrawalInfoList.stream().mapToDouble(value -> value.getWithdrawAmount().doubleValue()).sum();
         return BigDecimal.valueOf(aDouble);
     }
 
@@ -44,6 +41,7 @@ public class WithdrawalInfoServiceImpl implements WithdrawalInfoService {
      * @Date: 2018/5/22 22:32
      * @Description:
      */
+    @Override
     public List<WithdrawalInfo> queryList(String withdrawMobile) {
         Map<String, Object> map = new HashMap<>();
         map.put("withdrawMobile", withdrawMobile);
@@ -51,12 +49,14 @@ public class WithdrawalInfoServiceImpl implements WithdrawalInfoService {
     }
 
     /**
-     *  添加提现信息
+     * 添加提现信息
+     *
      * @Auther: liuxinxin
      * @Date: 2018/5/22 22:50
      * @Description:
      */
-    @Transactional
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void save(WithdrawalInfo withdrawalInfo) throws Exception {
         withdrawalInfoDao.save(withdrawalInfo);
     }

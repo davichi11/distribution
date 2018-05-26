@@ -22,6 +22,7 @@ import com.distribution.queue.LevelUpSender;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * @author ChunLiang Hu
@@ -106,10 +106,9 @@ public class ApiMemberController {
      * @Date: 2018/5/24 19:54
      * @Description:
      */
-    @AuthIgnore
     @GetMapping("/MemberAmount")
     @ApiOperation(value = "用户总金额，提现，总收入")
-    public Result MemberAmount(@RequestParam String userId,@RequestParam String mobile) {
+    public Result memberAmount(@RequestParam String userId, @RequestParam String mobile) {
         Map<String, Object> resultMap = new HashMap<>();
 //        Map<String, Object> param = new HashMap<>(2);
 //        param.put("userId",userId);
@@ -130,9 +129,7 @@ public class ApiMemberController {
             List<MemberAccountHistory> list = memberAccountHistoryService.findList(map);
             Double generalIncome = 0.00;
             if (null != list && list.size() > 0) {
-                for (MemberAccountHistory memberAccountHistory : list) {
-                    generalIncome = memberAccountHistory.getHisAmount().add(new BigDecimal(generalIncome)).doubleValue();
-                }
+                generalIncome = list.stream().mapToDouble(value -> value.getHisAmount().doubleValue()).sum();
             }
             //收入总金额
             resultMap.put("generalIncome", generalIncome);
@@ -152,9 +149,9 @@ public class ApiMemberController {
     @AuthIgnore
     @GetMapping("/MemberWithdrawalList")
     @ApiOperation(value = "提现记录")
-    public Result MemberWithdrawalList(@RequestParam String mobile) {
+    public Result memberWithdrawalList(@RequestParam String mobile) {
         List<WithdrawalInfo> withdrawalInfoList = withdrawalInfoService.queryList(mobile);
-        return Result.ok().put("MemberWithdrawalList", withdrawalInfoList);
+        return Result.ok().put("memberWithdrawalList", withdrawalInfoList);
     }
 
 
@@ -168,11 +165,11 @@ public class ApiMemberController {
     @AuthIgnore
     @GetMapping("/memberAmountHistroyList")
     @ApiOperation(value = "收益明细")
-    public Result MemberReturns(@RequestParam String userId) {
+    public Result memberReturns(@RequestParam String userId) {
         Map<String, Object> map = new HashMap<>();
-        map.put("userId",userId);
+        map.put("userId", userId);
         List<MemberAccountHistory> memberAmountHistroyList = memberAccountHistoryService.findList(map);
-        return Result.ok().put("MemberWithdrawalList", memberAmountHistroyList);
+        return Result.ok().put("memberWithdrawalList", memberAmountHistroyList);
     }
 
     /**
@@ -182,32 +179,30 @@ public class ApiMemberController {
      * @Date: 2018/5/24 20:40
      * @Description:
      */
-    @AuthIgnore
     @GetMapping("/MemberCardList")
-    @ApiOperation(value = "用户银行卡列表")
-    public Result MemberCardList(@RequestParam String userId) {
+    @ApiOperation(value = "用户办卡信息列表")
+    public Result memberCardList(@RequestParam String userId) {
         Map<String, Object> map = new HashMap<>();
-        List<CardOrderInfoEntity> MemberCardList = new ArrayList<>();
-        map.put("userId",userId);
+        List<CardOrderInfoEntity> memberCardList = new ArrayList<>();
+        map.put("userId", userId);
         List<DisMemberInfoEntity> memberInfoEntities = disMemberInfoService.queryList(map);
-        if (null != memberInfoEntities && memberInfoEntities.size() > 0) {
+        if (CollectionUtils.isNotEmpty(memberInfoEntities)) {
             Map<String, Object> param = new HashMap<>();
             param.put("memberId", memberInfoEntities.get(0).getId());
 //            param.put("orderStatus", CardOrderInfoEntity.OrderStatus.SUCCESS);
-            MemberCardList = cardOrderInfoService.queryList(param);
+            memberCardList = cardOrderInfoService.queryList(param);
         }
-        return Result.ok().put("MemberCardList",MemberCardList);
+        return Result.ok().put("memberCardList", memberCardList);
     }
 
     /**
-     *    添加提现记录
+     * 添加提现记录
      *
-     * @author liuxinxin
-     * @date  10:45
      * @param
      * @return
+     * @author liuxinxin
+     * @date 10:45
      */
-    @AuthIgnore
     @PostMapping("/saveWithdrawalInfo")
     @ApiOperation(value = "添加提现记录")
     public Result saveWithdrawalInfo(@RequestBody WithdrawalInfo withdrawalInfo) {
@@ -222,23 +217,22 @@ public class ApiMemberController {
     }
 
     /**
+     * 查询用户信息
      *
-     *   查询用户信息
-     * @author liuxinxin
-     * @date  11:40
      * @param
      * @return
+     * @author liuxinxin
+     * @date 11:40
      */
-    @AuthIgnore
     @GetMapping("/disMember")
     @ApiOperation(value = "查询用户信息")
-    public Result disMember(@RequestParam String userId){
-        Map<String,Object> map=new HashMap<>(2);
-        map.put("userId",userId);
+    public Result disMember(@RequestParam String userId) {
+        Map<String, Object> map = new HashMap<>(2);
+        map.put("userId", userId);
         List<DisMemberInfoEntity> disMemberInfoEntities = disMemberInfoService.queryList(map);
-        if (null!=disMemberInfoEntities&&disMemberInfoEntities.size()>0){
-            return Result.ok().put("disMember",disMemberInfoEntities.get(0));
-        }else {
+        if (CollectionUtils.isNotEmpty(disMemberInfoEntities)) {
+            return Result.ok().put("disMember", disMemberInfoEntities.get(0));
+        } else {
             return Result.error("没有查询到用户信息");
         }
     }
