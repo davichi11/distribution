@@ -41,14 +41,15 @@
         <include refid="Base_Column_List"/>
         from card_info c
         <where>
+            1=1
             <if test="bankNum!=null and bankNum!=''">
-                c.bank_num like concat('%',#{bankNum},'%')
+              and  c.bank_num like concat('%',#{bankNum},'%')
             </if>
             <if test="cardNum !=null and cardNum != ''">
-                c.card_num like concat('%',#{cardNum},'%')
+                and  c.card_num like concat('%',#{cardNum},'%')
             </if>
             <if test="cardName !=null and cardName != ''">
-                c.card_name like concat('%',#{cardName},'%')
+                and  c.card_name like concat('%',#{cardName},'%')
             </if>
         </where>
         <choose>
