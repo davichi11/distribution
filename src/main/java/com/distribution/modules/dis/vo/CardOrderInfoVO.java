@@ -1,25 +1,9 @@
-package com.distribution.modules.dis.entity;
+package com.distribution.modules.dis.vo;
 
-import com.distribution.modules.card.entity.CardInfo;
 import lombok.Data;
 
-import java.io.Serializable;
-
-
-/**
- * 办卡订单信息表
- *
- * @author huchunliang
- * @email davichi2009@gmail.com
- * @date 2018-05-08
- */
 @Data
-public class CardOrderInfoEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
-
-    /**
-     *
-     */
+public class CardOrderInfoVO {
     private String id;
     /**
      *
@@ -45,14 +29,6 @@ public class CardOrderInfoEntity implements Serializable {
      * 订单状态 0:失败,1:成功,2:申请中
      */
     private Integer orderStatus;
-    /**
-     * 用户关联ID
-     */
-    private DisMemberInfoEntity memberInfo;
-    /**
-     * 关联信用卡ID
-     */
-    private CardInfo cardInfo;
     /**
      *
      */

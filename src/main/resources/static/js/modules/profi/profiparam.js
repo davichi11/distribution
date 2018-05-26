@@ -3,17 +3,8 @@ $(function () {
         url: baseURL + 'disprofiparam/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', index: 'id', width: 50, key: true},
+            {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
             {label: '平台id', name: 'disPlatformId', index: 'dis_platform_id', width: 80},
-            {
-                label: '分润模型',
-                name: 'disProMode',
-                index: 'dis_pro_mode',
-                width: 80,
-                formatter: (value, options, row) => value === 0 ?
-                    '百分比' :
-                    '金额'
-            },
             {
                 label: '分润类别',
                 name: 'disProType',
@@ -24,6 +15,15 @@ $(function () {
                     '上下级分润'
             },
             {label: '分润值', name: 'disProValue', index: 'dis_pro_value', width: 80},
+            {
+                label: '分润模型',
+                name: 'disProMode',
+                index: 'dis_pro_mode',
+                width: 80,
+                formatter: (value, options, row) => value === '0' ?
+                    '百分比' :
+                    '金额'
+            },
             {label: '从下往上对应的级别关系', name: 'disProLevel', index: 'dis_pro_level', width: 80},
             {
                 label: '会员类型',

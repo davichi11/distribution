@@ -8,8 +8,7 @@
         <result property="username" column="username"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
-    <insert id="save" parameterType="com.distribution.modules.api.entity.UserEntity" useGeneratedKeys="true"
-            keyProperty="userId">
+    <insert id="save" parameterType="com.distribution.modules.api.entity.UserEntity">
         INSERT INTO tb_user
         (
             user_id,
@@ -27,6 +26,21 @@
                 #{createTime}
             )
     </insert>
+    <update id="update" parameterType="com.distribution.modules.api.entity.UserEntity">
+        update tb_user
+        <set>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=VARCHAR}
+    </update>
 
     <select id="queryObject" resultType="com.distribution.modules.api.entity.UserEntity">
         SELECT *

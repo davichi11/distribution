@@ -1,5 +1,6 @@
 package com.distribution.modules.dis.service;
 
+import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.entity.DisProfiParam;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public interface DisProfiParamService {
     /**
      * 根据ID查询
      *
+     * @param id
      * @return
      */
     DisProfiParam queryObject(String id);
@@ -32,6 +34,7 @@ public interface DisProfiParamService {
     /**
      * 保存
      *
+     * @param disProfiParam
      * @throws Exception
      */
     void save(DisProfiParam disProfiParam) throws Exception;
@@ -39,6 +42,7 @@ public interface DisProfiParamService {
     /**
      * 更新
      *
+     * @param disProfiParam
      * @throws Exception
      */
     void update(DisProfiParam disProfiParam) throws Exception;
@@ -46,6 +50,7 @@ public interface DisProfiParamService {
     /**
      * 删除
      *
+     * @param id
      * @throws Exception
      */
     void delete(String id) throws Exception;
@@ -53,7 +58,17 @@ public interface DisProfiParamService {
     /**
      * 批量删除
      *
+     * @param ids
      * @throws Exception
      */
     void deleteBatch(String[] ids) throws Exception;
+
+    /**
+     * 分润逻辑
+     *
+     * @param member     会员信息
+     * @param money      金额
+     * @param isReward 是否是会员推荐奖励
+     */
+    void doFeeSplitting(DisMemberInfoEntity member, Double money,boolean isReward) throws Exception;
 }

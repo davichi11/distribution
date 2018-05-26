@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.distribution.modules.memeber.dao.WithdrawalInfoDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.distribution.modules.memeber.entity.WithdrawalInfo" id="WithdrawalInfoMap">
+        <result property="id" column="id"/>
+        <result property="withdrawNum" column="withdraw_num"/>
+        <result property="withdrawType" column="withdraw_type"/>
+        <result property="withdrawName" column="withdraw_name"/>
+        <result property="withdrawNobile" column="withdraw_mobile"/>
+        <result property="withdrawCard" column="withdraw_card"/>
+        <result property="withdrawAmount" column="withdraw_amount"/>
+        <result property="withdrawPoundage" column="withdraw_poundage"/>
+        <result property="realAmount" column="real_amount"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="addTime" column="add_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+
+        id,withdraw_num,withdraw_type,withdraw_name,withdraw_mobile,withdraw_card,withdraw_amount,withdraw_poundage,real_amount,is_delete,add_time,update_time
+    </sql>
+
+
+    <select id="queryList" resultType="com.distribution.modules.memeber.entity.WithdrawalInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from withdrawal_info
+        <where>
+            <if test="withdrawMobile != null">
+                withdraw_mobile = #{withdrawMobile}
+            </if>
+            <if test="withdrawType != null and withdrawType != ''">
+                withdraw_type = #{withdrawType}
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.distribution.modules.memeber.entity.WithdrawalInfo">
+        insert into withdrawal_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="withdrawNum != null">
+                withdraw_num,
+            </if>
+            <if test="withdrawType != null">
+                withdraw_type,
+            </if>
+            <if test="withdrawName != null">
+                withdraw_name,
+            </if>
+            <if test="withdrawMobile != null">
+                withdraw_mobile,
+            </if>
+            <if test="withdrawCard != null">
+                withdraw_card,
+            </if>
+            <if test="withdrawAmount != null">
+                withdraw_amount,
+            </if>
+            <if test="withdrawPoundage != null">
+                withdraw_poundage,
+            </if>
+            <if test="realAmount != null">
+              real_amount,
+            </if>
+            <if test="isDelete != null">
+                is_delete,
+            </if>
+            <if test="addTime != null">
+                add_time,
+            </if>
+            <if test="updateTime != null">
+                update_time
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="withdrawNum != null">
+                #{withdrawNum},
+            </if>
+            <if test="withdrawType != null">
+                #{withdrawType},
+            </if>
+            <if test="withdrawName != null">
+                #{withdrawName},
+            </if>
+            <if test="withdrawMobile != null">
+                #{withdrawMobile},
+            </if>
+            <if test="withdrawCard != null">
+                #{withdrawCard},
+            </if>
+            <if test="withdrawAmount != null">
+                #{withdrawAmount},
+            </if>
+            <if test="withdrawPoundage != null">
+                #{withdrawPoundage},
+            </if>
+            <if test="realAmount != null">
+                #{realAmount},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+            <if test="addTime != null">
+                #{addTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime}
+            </if>
+        </trim>
+    </insert>
+
+</mapper>

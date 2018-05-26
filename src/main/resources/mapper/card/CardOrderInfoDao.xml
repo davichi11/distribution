@@ -98,7 +98,7 @@
         left join dis_member_info m on o.member_id = m.id
         left join card_info c on o.card_id = c.id
         <where>
-            <if test="member_id != null">
+            <if test="memberId != null">
                 o.member_id = #{member_id}
             </if>
             <if test="orderStatus != null and orderStatus != ''">

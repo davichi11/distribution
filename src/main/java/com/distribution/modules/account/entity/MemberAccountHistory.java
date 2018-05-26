@@ -19,8 +19,8 @@ public class MemberAccountHistory {
     /** 收入类型，0:支出,1:收入*/
     private Boolean hisType;
 
-    /** 关联的订单ID*/
-    private String orderId;
+    /** 用户金额ID*/
+    private String accountId;
 
     /** */
     private BigDecimal hisAmount;
@@ -36,5 +36,10 @@ public class MemberAccountHistory {
 
     /** */
     private String updateTime;
+
+    public static final class HisType{
+        public static final boolean EXPEND =false;
+        public static final boolean INCOME=true;;
+    }
 
 }

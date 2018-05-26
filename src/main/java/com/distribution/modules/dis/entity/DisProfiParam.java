@@ -32,7 +32,7 @@ public class DisProfiParam {
     /**
      * 分润值
      */
-    private String disProValue;
+    private Double disProValue;
 
     /**
      * 从下往上对应的级别关系

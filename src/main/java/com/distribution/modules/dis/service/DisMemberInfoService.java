@@ -63,4 +63,5 @@ public interface DisMemberInfoService {
      * @return
      */
     boolean levelUp(DisMemberInfoEntity memberInfo);
+
 }

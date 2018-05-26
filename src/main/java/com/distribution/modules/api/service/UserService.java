@@ -43,9 +43,10 @@ public interface UserService {
      *
      * @param mobile
      * @param password
+     * @param openId 微信openID
      * @throws Exception
      */
-    void save(String mobile, String password) throws Exception;
+    void save(String mobile, String password,String openId) throws Exception;
 
     /**
      * 更新
@@ -87,5 +88,6 @@ public interface UserService {
      * @return 返回用户ID
      */
     String login(String mobile, String password);
+
 
 }
