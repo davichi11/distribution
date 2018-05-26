@@ -70,5 +70,5 @@ public interface DisProfiParamService {
      * @param money      金额
      * @param isReward 是否是会员推荐奖励
      */
-    void doFeeSplitting(DisMemberInfoEntity member, Double money,boolean isReward);
+    void doFeeSplitting(DisMemberInfoEntity member, Double money,boolean isReward) throws Exception;
 }

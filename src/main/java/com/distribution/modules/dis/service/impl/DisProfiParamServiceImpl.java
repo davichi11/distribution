@@ -77,7 +77,7 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void doFeeSplitting(DisMemberInfoEntity member, Double money, boolean isReward) {
+    public void doFeeSplitting(DisMemberInfoEntity member, Double money, boolean isReward) throws Exception {
         //获取分润参数配置
         Map<String, Object> profiMap = new HashMap<>(2);
         profiMap.put("disPlatformId", "1");
@@ -150,13 +150,9 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
      * @param account
      * @param money
      */
-    private void updateAccont(DisMemberInfoEntity member, MemberAccount account, BigDecimal money) {
+    private void updateAccont(DisMemberInfoEntity member, MemberAccount account, BigDecimal money) throws Exception {
         account.setMemberAmount(account.getMemberAmount().add(money));
-        try {
-            accountMapper.updateByPrimaryKeySelective(account);
-        } catch (Exception e) {
-            log.error("会员" + member.getDisUserName() + "分润异常", e);
-        }
+        accountMapper.updateByPrimaryKeySelective(account);
         //保存交易记录
         MemberAccountHistory history = new MemberAccountHistory();
         history.setId(CommonUtils.getUUID());
@@ -164,11 +160,7 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
         history.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
         history.setHisAmount(money);
         history.setHisType(MemberAccountHistory.HisType.INCOME);
-        try {
-            historyMapper.insert(history);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        historyMapper.insert(history);
     }
 
 }

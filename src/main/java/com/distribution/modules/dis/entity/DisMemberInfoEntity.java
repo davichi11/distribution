@@ -56,7 +56,7 @@ public class DisMemberInfoEntity implements Serializable, Comparable<DisMemberIn
      */
     private Integer disLevel;
     /**
-     * 身份类型(0 代理商 1会员)
+     * 身份类型(0 非会员 1会员)
      */
     private String disUserType;
     /**

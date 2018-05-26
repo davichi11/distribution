@@ -10,6 +10,7 @@ import com.distribution.modules.account.service.MemberAccountHistoryService;
 import com.distribution.modules.account.service.MemberAccountService;
 import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.api.pojo.vo.DisFansVO;
+import com.distribution.modules.api.pojo.vo.DisMemberVO;
 import com.distribution.modules.dis.entity.CardOrderInfoEntity;
 import com.distribution.modules.dis.entity.DisFans;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
@@ -24,6 +25,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -61,6 +63,8 @@ public class ApiMemberController {
     private MemberAccountHistoryService memberAccountHistoryService;
     @Autowired
     private CardOrderInfoService cardOrderInfoService;
+    @Autowired
+    private ModelMapper modelMapper;
 
     /**
      * 锁粉接口
@@ -106,7 +110,7 @@ public class ApiMemberController {
      * @Date: 2018/5/24 19:54
      * @Description:
      */
-    @GetMapping("/MemberAmount")
+    @GetMapping("/memberAmount")
     @ApiOperation(value = "用户总金额，提现，总收入")
     public Result memberAmount(@RequestParam String userId, @RequestParam String mobile) {
         Map<String, Object> resultMap = new HashMap<>();
@@ -147,7 +151,7 @@ public class ApiMemberController {
      * @Description:
      */
     @AuthIgnore
-    @GetMapping("/MemberWithdrawalList")
+    @GetMapping("/memberWithdrawalList")
     @ApiOperation(value = "提现记录")
     public Result memberWithdrawalList(@RequestParam String mobile) {
         List<WithdrawalInfo> withdrawalInfoList = withdrawalInfoService.queryList(mobile);
@@ -179,7 +183,7 @@ public class ApiMemberController {
      * @Date: 2018/5/24 20:40
      * @Description:
      */
-    @GetMapping("/MemberCardList")
+    @GetMapping("/memberCardList")
     @ApiOperation(value = "用户办卡信息列表")
     public Result memberCardList(@RequestParam String userId) {
         Map<String, Object> map = new HashMap<>();
@@ -235,6 +239,25 @@ public class ApiMemberController {
         } else {
             return Result.error("没有查询到用户信息");
         }
+    }
+
+    /**
+     * 更新会员信息
+     * @param id
+     * @param memberVO
+     * @return
+     */
+    @PatchMapping("/disMember/{id}")
+    public Result updateMemberInfo(@PathVariable("id") String id, @RequestBody DisMemberVO memberVO) {
+        DisMemberInfoEntity member = modelMapper.map(memberVO, DisMemberInfoEntity.class);
+        member.setId(id);
+        try {
+            disMemberInfoService.update(member);
+        } catch (Exception e) {
+            log.error("更新会员信息异常", e);
+            return Result.error("更新会员信息异常");
+        }
+        return Result.ok("更新成功");
     }
 
 }
