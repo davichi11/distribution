@@ -8,9 +8,15 @@ import com.distribution.modules.card.entity.CardInfo;
 import com.distribution.modules.card.service.CardInfoService;
 import com.distribution.modules.dis.entity.CardOrderInfoEntity;
 import com.distribution.modules.dis.service.CardOrderInfoService;
+import com.distribution.modules.dis.vo.CardOrderInfoVO;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +39,9 @@ public class ApiCardController {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     /**
      * 手机号正则
      */
@@ -42,7 +51,6 @@ public class ApiCardController {
      */
     private final Pattern idCardNo = Pattern.compile("^[1-9]\\d{5}(18|19|([23]\\d))\\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$");
 
-
     /**
      *  信用卡列表(模糊查詢)
      * @Auther: liuxinxin
@@ -50,21 +58,13 @@ public class ApiCardController {
      * @Description:
      */
     @AuthIgnore
-    @GetMapping("/cardList")
-    @ApiOperation(value = "用户银行卡列表")
-    public Result cardList(String bankNum, String cardNum, String cardName) {
-        Map<String, Object> map = new HashMap<>();
-        if (StringUtils.isNotBlank(bankNum)) {
-            map.put("bankNum", bankNum);
-        }
-        if (StringUtils.isNotBlank(cardNum)) {
-            map.put("cardNum", cardNum);
-        }
-        if (StringUtils.isNotBlank(cardName)) {
-            map.put("cardName", cardName);
-        }
-        List<CardInfo> cardInfoList = cardInfoService.queryList(map);
-        return Result.ok().put("cardList", cardInfoList);
+    @PostMapping("/cardList")
+    @ApiOperation(value = "信用卡列表")
+    public Result list(@RequestBody Map<String, Object> params) {
+        //查询列表数据
+        PageInfo<CardInfo> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
+                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> cardInfoService.queryList(params));
+        return Result.ok().put("page", pageInfo);
     }
 
     /**
@@ -78,22 +78,23 @@ public class ApiCardController {
     @AuthIgnore
     @PostMapping("/saveCardOrder")
     @ApiOperation(value = "添加申请人信息")
-    public Result saveCaedOrderInfo(@RequestBody CardOrderInfoEntity cardOrderInfoEntity, String captcha){
-        if (StringUtils.isBlank(cardOrderInfoEntity.getOrderMobile())||!phone.matcher(cardOrderInfoEntity.getOrderMobile()).matches()){
+    public Result saveCaedOrderInfo(@RequestBody CardOrderInfoVO cardOrderInfoVO, String captcha){
+        if (StringUtils.isBlank(cardOrderInfoVO.getOrderMobile())||!phone.matcher(cardOrderInfoVO.getOrderMobile()).matches()){
             return Result.error("手机号码不正确");
         }
-        if (StringUtils.isBlank(cardOrderInfoEntity.getOrderIdcardno())||!idCardNo.matcher(cardOrderInfoEntity.getOrderIdcardno()).matches()){
+        if (StringUtils.isBlank(cardOrderInfoVO.getOrderIdcardno())||!idCardNo.matcher(cardOrderInfoVO.getOrderIdcardno()).matches()){
             return Result.error("身份证号码不正确");
         }
         //根据手机号获取验证码
-        String code = redisTemplate.opsForValue().get(cardOrderInfoEntity.getOrderMobile());
+        String code = redisTemplate.opsForValue().get(cardOrderInfoVO.getOrderMobile());
         if (!captcha.equals(code)) {
             return Result.error("验证码不正确");
         }
         try {
-            cardOrderInfoEntity.setId(CommonUtils.getUUID());
-            cardOrderInfoEntity.setOrderId(CommonUtils.getUUID());
-            cardOrderInfoEntity.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
+            cardOrderInfoVO.setId(CommonUtils.getUUID());
+            cardOrderInfoVO.setOrderId(CommonUtils.getUUID());
+            cardOrderInfoVO.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
+            CardOrderInfoEntity cardOrderInfoEntity=modelMapper.map(cardOrderInfoVO,CardOrderInfoEntity.class);
             cardOrderInfoService.save(cardOrderInfoEntity);
         } catch (Exception e) {
             return Result.error("申请异常");
