@@ -5,6 +5,7 @@ import com.distribution.modules.memeber.entity.WithdrawalInfo;
 import com.distribution.modules.memeber.service.WithdrawalInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -55,6 +56,7 @@ public class WithdrawalInfoServiceImpl implements WithdrawalInfoService {
      * @Date: 2018/5/22 22:50
      * @Description:
      */
+    @Transactional
     public void save(WithdrawalInfo withdrawalInfo) throws Exception {
         withdrawalInfoDao.save(withdrawalInfo);
     }

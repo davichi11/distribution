@@ -2,6 +2,7 @@ package com.distribution.modules.api.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.distribution.common.utils.CommonUtils;
+import com.distribution.common.utils.DateUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.account.entity.MemberAccount;
 import com.distribution.modules.account.entity.MemberAccountHistory;
@@ -27,10 +28,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * @author ChunLiang Hu
@@ -194,6 +197,50 @@ public class ApiMemberController {
             MemberCardList = cardOrderInfoService.queryList(param);
         }
         return Result.ok().put("MemberCardList",MemberCardList);
+    }
+
+    /**
+     *    添加提现记录
+     *
+     * @author liuxinxin
+     * @date  10:45
+     * @param
+     * @return
+     */
+    @AuthIgnore
+    @PostMapping("/saveWithdrawalInfo")
+    @ApiOperation(value = "添加提现记录")
+    public Result saveWithdrawalInfo(@RequestBody WithdrawalInfo withdrawalInfo) {
+        try {
+            withdrawalInfo.setId(CommonUtils.getUUID());
+            withdrawalInfo.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
+            withdrawalInfoService.save(withdrawalInfo);
+        } catch (Exception e) {
+            return Result.error("提现异常");
+        }
+        return Result.ok();
+    }
+
+    /**
+     *
+     *   查询用户信息
+     * @author liuxinxin
+     * @date  11:40
+     * @param
+     * @return
+     */
+    @AuthIgnore
+    @GetMapping("/disMember")
+    @ApiOperation(value = "查询用户信息")
+    public Result disMember(@RequestParam String userId){
+        Map<String,Object> map=new HashMap<>(2);
+        map.put("userId",userId);
+        List<DisMemberInfoEntity> disMemberInfoEntities = disMemberInfoService.queryList(map);
+        if (null!=disMemberInfoEntities&&disMemberInfoEntities.size()>0){
+            return Result.ok().put("disMember",disMemberInfoEntities.get(0));
+        }else {
+            return Result.error("没有查询到用户信息");
+        }
     }
 
 }
