@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Pattern;
 
 /**
  * 注册
@@ -40,10 +39,6 @@ public class ApiRegisterController {
     private NotifySender sender;
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
-    /**
-     * 手机号正则
-     */
-    private final Pattern p = Pattern.compile("^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|70)\\d{8}$");
 
     /**
      * 注册
@@ -85,14 +80,15 @@ public class ApiRegisterController {
     @ApiOperation(value = "发送验证码")
     @ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "手机号", required = true)
     public Result sendCaptcha(String mobile) {
-        if (StringUtils.isBlank(mobile) || !p.matcher(mobile).matches()) {
+        if (StringUtils.isBlank(mobile)) {
             return Result.error("手机号不正确");
         }
         String captcha = CommonUtils.getRandom();
         //放入Redis缓存,60秒过期
-        redisTemplate.opsForValue().set(mobile, captcha, 60, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(mobile, captcha, 300, TimeUnit.SECONDS);
         JSONObject json = new JSONObject();
         json.put("code", captcha);
+        json.put("cellphone", mobile);
         sender.send(json.toJSONString());
         return Result.ok().put("captcha", captcha);
     }
