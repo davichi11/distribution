@@ -64,7 +64,10 @@ public interface DisProfiParamService {
     void deleteBatch(String[] ids) throws Exception;
 
     /**
-     * 执行分润逻辑
+     * 分润逻辑
+     *
+     * @param member     会员信息
+     * @param money      金额
      */
-    void doFeeSplitting(DisMemberInfoEntity member,DisProfiParam profiParam);
+    void doFeeSplitting(DisMemberInfoEntity member, Double money);
 }

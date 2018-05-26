@@ -10,7 +10,7 @@
         <result column="dis_platform_id" jdbcType="VARCHAR" property="disPlatformId"/>
         <result column="dis_pro_mode" jdbcType="VARCHAR" property="disProMode"/>
         <result column="dis_pro_type" jdbcType="VARCHAR" property="disProType"/>
-        <result column="dis_pro_value" jdbcType="VARCHAR" property="disProValue"/>
+        <result column="dis_pro_value" jdbcType="DOUBLE" property="disProValue"/>
         <result column="dis_pro_level" jdbcType="VARCHAR" property="disProLevel"/>
         <result column="dis_user_type" jdbcType="VARCHAR" property="disUserType"/>
         <result column="is_delete" jdbcType="VARCHAR" property="isDelete"/>
@@ -44,7 +44,18 @@
             <if test="disProLevel != null and disProLevel !=''">
                 and dis_pro_level = #{disProLevel}
             </if>
+            <if test="disPlatformId != null and disPlatformId !=''">
+                and dis_platform_id = #{disPlatformId}
+            </if>
         </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by dis_platform_id desc
+            </otherwise>
+        </choose>
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
         <!--
@@ -64,7 +75,7 @@
         dis_user_type, is_delete, update_time,
         add_time)
         values (#{id,jdbcType=VARCHAR}, #{disPlatformId,jdbcType=VARCHAR}, #{disProMode,jdbcType=VARCHAR},
-        #{disProType,jdbcType=VARCHAR}, #{disProValue,jdbcType=VARCHAR}, #{disProLevel,jdbcType=VARCHAR},
+        #{disProType,jdbcType=VARCHAR}, #{disProValue,jdbcType=DOUBLE}, #{disProLevel,jdbcType=VARCHAR},
         #{disUserType,jdbcType=VARCHAR}, #{isDelete,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR},
         #{addTime,jdbcType=VARCHAR})
     </insert>
@@ -120,7 +131,7 @@
                 #{disProType,jdbcType=VARCHAR},
             </if>
             <if test="disProValue != null">
-                #{disProValue,jdbcType=VARCHAR},
+                #{disProValue,jdbcType=DOUBLE},
             </if>
             <if test="disProLevel != null">
                 #{disProLevel,jdbcType=VARCHAR},
@@ -156,7 +167,7 @@
                 dis_pro_type = #{disProType,jdbcType=VARCHAR},
             </if>
             <if test="disProValue != null">
-                dis_pro_value = #{disProValue,jdbcType=VARCHAR},
+                dis_pro_value = #{disProValue,jdbcType=DOUBLE},
             </if>
             <if test="disProLevel != null">
                 dis_pro_level = #{disProLevel,jdbcType=VARCHAR},
@@ -185,7 +196,7 @@
         set dis_platform_id = #{disPlatformId,jdbcType=VARCHAR},
         dis_pro_mode = #{disProMode,jdbcType=VARCHAR},
         dis_pro_type = #{disProType,jdbcType=VARCHAR},
-        dis_pro_value = #{disProValue,jdbcType=VARCHAR},
+        dis_pro_value = #{disProValue,jdbcType=DOUBLE},
         dis_pro_level = #{disProLevel,jdbcType=VARCHAR},
         dis_user_type = #{disUserType,jdbcType=VARCHAR},
         is_delete = #{isDelete,jdbcType=VARCHAR},

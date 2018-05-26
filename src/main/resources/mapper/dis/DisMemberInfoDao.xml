@@ -10,6 +10,7 @@
         <result property="disFullIndex" column="dis_full_index"/>
         <result property="disUserName" column="dis_user_name"/>
         <result property="disLevel" column="dis_level"/>
+        <result property="parentId" column="dis_model_id"/>
         <result property="disUserType" column="dis_user_type"/>
         <result property="disNote" column="dis_note"/>
         <result property="addTime" column="add_time"/>
@@ -26,6 +27,7 @@
             <id column="p_id" property="id"/>
             <result property="disUserName" column="p_name"/>
             <result property="disLevel" column="p_dis_level"/>
+            <result property="parentId" column="p_dis_model_id"/>
             <result property="disUserType" column="p_dis_user_type"/>
         </association>
         <collection property="disMemberChildren" ofType="com.distribution.modules.dis.entity.DisMemberInfoEntity"
@@ -58,6 +60,7 @@
             p.dis_user_id   "p_user_id",
             p.dis_user_name "p_name",
             p.dis_user_type "p_dis_user_type",
+            p.dis_model_id "p_dis_model_id",
             c.id            "c_id",
             c.dis_user_id   "c_user_id",
             c.dis_user_type "c_dis_user_type",
