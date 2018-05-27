@@ -11,8 +11,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 
@@ -50,8 +48,8 @@ public class CardOrderInfoController {
     @RequestMapping("/info/{id}")
     @RequiresPermissions("cardorderinfo:info")
     public Result info(@PathVariable("id") String id) {
-        CardOrderInfoEntity CardOrderInfo = cardOrderInfoService.queryObject(id);
-        return Result.ok().put("cardOrderInfo", CardOrderInfo);
+        CardOrderInfoEntity cardOrderInfo = cardOrderInfoService.queryObject(id);
+        return Result.ok().put("cardOrderInfo", cardOrderInfo);
     }
 
     /**
@@ -59,9 +57,9 @@ public class CardOrderInfoController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("cardorderinfo:save")
-    public Result save(@RequestBody CardOrderInfoEntity CardOrderInfo) {
+    public Result save(@RequestBody CardOrderInfoEntity cardOrderInfo) {
         try {
-            cardOrderInfoService.save(CardOrderInfo);
+            cardOrderInfoService.save(cardOrderInfo);
         } catch (Exception e) {
             log.error("保存异常", e);
             Result.error("保存异常");
@@ -75,9 +73,9 @@ public class CardOrderInfoController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("cardorderinfo:update")
-    public Result update(@RequestBody CardOrderInfoEntity CardOrderInfo) {
+    public Result update(@RequestBody CardOrderInfoEntity cardOrderInfo) {
         try {
-            cardOrderInfoService.update(CardOrderInfo);
+            cardOrderInfoService.update(cardOrderInfo);
         } catch (Exception e) {
             log.error("修改异常", e);
             Result.error("修改异常");
@@ -85,24 +83,6 @@ public class CardOrderInfoController {
         return Result.ok();
     }
 
-    /**
-     * 删除
-     */
-    @RequestMapping("/delete")
-    @RequiresPermissions("cardorderinfo:delete")
-    public Result delete(@RequestBody String[] ids) {
-        try {
-            if (ids.length == 1) {
-                cardOrderInfoService.delete(ids[0]);
-            } else {
-                cardOrderInfoService.deleteBatch(ids);
-            }
-        } catch (Exception e) {
-            log.error("删除异常", e);
-            Result.error("删除异常");
-        }
-        return Result.ok();
-    }
    /**
     * 修改订单状态
     *

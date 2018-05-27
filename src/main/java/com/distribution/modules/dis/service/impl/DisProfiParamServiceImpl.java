@@ -11,12 +11,17 @@ import com.distribution.modules.dis.dao.DisProfiParamMapper;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.entity.DisProfiParam;
 import com.distribution.modules.dis.service.DisProfiParamService;
+import com.distribution.weixin.service.WeiXinService;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +44,8 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
     private DisMemberInfoDao memberInfoDao;
     @Autowired
     private MemberAccountHistoryMapper historyMapper;
+    @Autowired
+    private WeiXinService weiXinService;
 
     @Override
     public DisProfiParam queryObject(String id) {
@@ -161,6 +168,33 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
         history.setHisAmount(money);
         history.setHisType(MemberAccountHistory.HisType.INCOME);
         historyMapper.insert(history);
+        //公众号给用户发送消息
+        WxMpTemplateMessage templateMessage = buildTemplateMsg(member.getOpenId(), money,
+                member.getDisUserName(), account.getMemberAmount());
+    }
+
+    /**
+     * 组装模板消息
+     *
+     * @param openId
+     * @param money   返现金额
+     * @param name    用户名
+     * @param balance 账户余额
+     * @return
+     */
+    private WxMpTemplateMessage buildTemplateMsg(String openId, BigDecimal money, String name, BigDecimal balance) {
+        WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
+        wxMpTemplateMessage.setTemplateId("U15JWsWuFzZZIeP9VvfzoXRBtOlfdjNkc3QPoIQJQuE");
+        wxMpTemplateMessage.setToUser(openId);
+        List<WxMpTemplateData> templateDataList = Lists.newArrayList(
+                new WxMpTemplateData("first", MessageFormat.format("尊敬的{0}您好，佣金返现已充入您的现金帐户！", name)),
+                new WxMpTemplateData("keyword1", DateUtils.formatDateTime(LocalDateTime.now())),
+                new WxMpTemplateData("keyword2", money.toString()),
+                new WxMpTemplateData("keyword3", balance.toString()),
+                new WxMpTemplateData("remark", "感谢您的使用")
+        );
+        wxMpTemplateMessage.setData(templateDataList);
+        return wxMpTemplateMessage;
     }
 
 }
