@@ -58,7 +58,6 @@ public class ApiCardController {
      * @Date: 2018/5/26 0:10
      * @Description:
      */
-    @AuthIgnore
     @PostMapping("/cardList")
     @ApiOperation(value = "信用卡列表")
     public Result list(@RequestBody Map<String, Object> params) {
@@ -76,7 +75,6 @@ public class ApiCardController {
      * @author liuxinxin
      * @date 10:58
      */
-    @AuthIgnore
     @PostMapping("/saveCardOrder")
     @ApiOperation(value = "添加申请人信息")
     public Result saveCaedOrderInfo(@RequestBody CardOrderInfoVO cardOrderInfoVO, String captcha) {
@@ -95,6 +93,7 @@ public class ApiCardController {
             cardOrderInfoVO.setId(CommonUtils.getUUID());
             cardOrderInfoVO.setOrderId(CommonUtils.getUUID());
             cardOrderInfoVO.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
+            cardOrderInfoVO.setOrderStatus(CardOrderInfoVO.OrderStatus.APPLICATION);
             CardOrderInfoEntity cardOrderInfoEntity = modelMapper.map(cardOrderInfoVO, CardOrderInfoEntity.class);
             cardOrderInfoService.save(cardOrderInfoEntity);
         } catch (Exception e) {
