@@ -61,6 +61,19 @@ swagger:
   title: API接口文档
   description: API接口文档
 
+
+wechat:
+  pay:
+    appId: wxf89f12ae63042617
+    mchId: 1386801502
+    mchKey: RmXDEA0hMdZs4AZoCAwLLIg4jQ9gfHJd
+    keyPath: 123
+  mp:
+      appId: wx167da65db4907b84
+      secret: c872c0b347faec4ed3827d07f40f4206
+      token:
+      aesKey:
+
 pay:
     alipay:
         server-url: https://openapi.alipay.com/gateway.do

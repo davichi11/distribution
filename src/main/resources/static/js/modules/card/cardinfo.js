@@ -15,7 +15,8 @@ $(function () {
                 index: 'card_url',
                 width: 80,
                 formatter: (value, options, row) => `<a href="#">${value}</a>`
-            }
+            },
+            {label: '佣金返利', name: 'rebate', index: 'rebate', width: 80}
         ],
         viewrecords: true,
         height: 385,
