@@ -150,7 +150,6 @@ public class ApiMemberController {
      * @Date: 2018/5/24 20:05
      * @Description:
      */
-    @AuthIgnore
     @GetMapping("/memberWithdrawalList")
     @ApiOperation(value = "提现记录")
     public Result memberWithdrawalList(@RequestParam String mobile) {
@@ -166,7 +165,6 @@ public class ApiMemberController {
      * @Date: 2018/5/24 20:06
      * @Description:
      */
-    @AuthIgnore
     @GetMapping("/memberAmountHistroyList")
     @ApiOperation(value = "收益明细")
     public Result memberReturns(@RequestParam String userId) {
