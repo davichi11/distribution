@@ -73,6 +73,7 @@ public class UserServiceImpl implements UserService {
                 DisFans fans = disFansList.get(0);
                 member.setParentId(fans.getDisMemberInfo().getParentId());
                 member.setDisMemberParent(fans.getDisMemberInfo());
+                member.setOpenId(fans.getWechatId());
             }
         }
         member.setDisLevel(0);

@@ -12,6 +12,7 @@
         <result property="disLevel" column="dis_level"/>
         <result property="parentId" column="dis_model_id"/>
         <result property="disUserType" column="dis_user_type"/>
+        <result property="openId" column="open_id"/>
         <result property="disNote" column="dis_note"/>
         <result property="addTime" column="add_time"/>
         <result property="updateTime" column="update_time"/>
@@ -29,6 +30,7 @@
             <result property="disLevel" column="p_dis_level"/>
             <result property="parentId" column="p_dis_model_id"/>
             <result property="disUserType" column="p_dis_user_type"/>
+            <result property="openId" column="p_open_id"/>
         </association>
         <collection property="disMemberChildren" ofType="com.distribution.modules.dis.entity.DisMemberInfoEntity"
                     javaType="ArrayList">
@@ -50,6 +52,7 @@
             m.dis_level,
             m.dis_user_type,
             m.dis_note,
+            m.open_id,
             m.add_time,
             m.update_time,
             m.is_delete,
@@ -60,7 +63,8 @@
             p.dis_user_id   "p_user_id",
             p.dis_user_name "p_name",
             p.dis_user_type "p_dis_user_type",
-            p.dis_model_id "p_dis_model_id",
+            p.dis_model_id  "p_dis_model_id",
+            p.open_id       "p_open_id",
             c.id            "c_id",
             c.dis_user_id   "c_user_id",
             c.dis_user_type "c_dis_user_type",
@@ -83,6 +87,7 @@
         m.dis_level,
         m.dis_user_type,
         m.dis_note,
+        m.open_id,
         m.add_time,
         m.update_time,
         m.is_delete,
@@ -93,6 +98,7 @@
         p.dis_user_id "p_user_id",
         p.dis_user_name "p_name",
         p.dis_user_type "p_dis_user_type",
+        p.open_id "p_open_id",
         c.id "c_id",
         c.dis_user_id "c_user_id",
         c.dis_user_type "c_dis_user_type",
@@ -159,6 +165,9 @@
             <if test="disNote != null">
                 `dis_note`,
             </if>
+            <if test="openId != null">
+                `open_id`,
+            </if>
             <if test="addTime != null">
                 `add_time`,
             </if>
@@ -201,6 +210,9 @@
             <if test="disNote != null">
                 #{disNote}
                 ,
+            </if>
+            <if test="openId!=null">
+                #{openId},
             </if>
             <if test="addTime != null">
                 #{addTime}
@@ -250,6 +262,9 @@
             <if test="disNote != null">
                 `dis_note` = #{disNote}
                 ,
+            </if>
+            <if test="openId!=null">
+                `open_id` = #{openId},
             </if>
             <if test="addTime != null">
                 `add_time` = #{addTime}

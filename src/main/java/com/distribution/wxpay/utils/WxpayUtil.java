@@ -1,5 +1,6 @@
 package com.distribution.wxpay.utils;
 
+import com.distribution.common.utils.DateUtils;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.MultiFormatWriter;
@@ -25,6 +26,7 @@ import java.io.InputStream;
 import java.io.Writer;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -50,7 +52,7 @@ public class WxpayUtil {
      */
     public static String getNonceStr() {
         // 随机数
-        String currTime = TenpayUtil.getCurrTime();
+        String currTime = DateUtils.formatDateTime(LocalDateTime.now(), "yyyyMMddHHmmss");
         // 8位日期
         String strTime = currTime.substring(8, currTime.length());
         // 四位随机数
@@ -143,11 +145,9 @@ public class WxpayUtil {
             try {
                 ImageIO.write(image, "png", response.getOutputStream());
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         } catch (WriterException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
     }
@@ -156,7 +156,7 @@ public class WxpayUtil {
 
     private static final int WHITE = 0xFFFFFFFF;
 
-    public static BufferedImage toBufferedImage(BitMatrix matrix) {
+    private static BufferedImage toBufferedImage(BitMatrix matrix) {
 
         int width = matrix.getWidth();
 
@@ -200,22 +200,20 @@ public class WxpayUtil {
         if (sArray == null || sArray.size() <= 0) {
             return result;
         }
-
-        for (String key : sArray.keySet()) {
-            String value = sArray.get(key);
+        sArray.forEach((key, value) -> {
             if (StringUtils.isNotBlank(value) || "sign".equalsIgnoreCase(key) || "sign_type".equalsIgnoreCase(key)) {
-                continue;
+                return;
             }
             result.put(key, value);
-        }
 
+        });
         return result;
     }
 
     /**
      * 创建md5摘要,规则是:按参数名称a-z排序,遇到空值的参数不参加签名。
      */
-    public static String createSign(SortedMap<String, String> packageParams, String key) {
+    private static String createSign(SortedMap<String, String> packageParams, String key) {
         StringBuilder sb = new StringBuilder();
         packageParams.forEach((k, v) -> {
             if (null != v && !"".equals(v) && !"sign".equals(k) && !"key".equals(k)) {
@@ -224,59 +222,8 @@ public class WxpayUtil {
         });
         sb.append("key=").append(key);
         System.out.println("sb:" + sb.toString());
-        String sign = MD5Util.MD5Encode(sb.toString(), "UTF-8").toUpperCase();
-        return sign;
+        return MD5Util.MD5Encode(sb.toString(), "UTF-8").toUpperCase();
 
-    }
-
-    // /**
-    // * 将map类型数据转换成XML文档
-    // *
-    // * @param map
-    // * 该节点
-    // * @param element
-    // * 上一级节点
-    // * @return
-    // */
-    @SuppressWarnings("rawtypes")
-    public static String parseToXML(Map map) {
-        StringBuffer sb = new StringBuffer();
-        sb.append("<xml>");
-        mapToXMLTest2(map, sb);
-        sb.append("</xml>");
-        return sb.toString();
-    }
-
-    @SuppressWarnings({"rawtypes"})
-    private static void mapToXMLTest2(Map map, StringBuffer sb) {
-        Set set = map.keySet();
-        for (Object aSet : set) {
-            String key = (String) aSet;
-            Object value = map.get(key);
-            if (null == value) {
-                value = "";
-            }
-            if ("java.util.ArrayList".equals(value.getClass().getName())) {
-                ArrayList list = (ArrayList) map.get(key);
-                sb.append("<" + key + ">");
-                for (int i = 0; i < list.size(); i++) {
-                    HashMap hm = (HashMap) list.get(i);
-                    mapToXMLTest2(hm, sb);
-                }
-                sb.append("</").append(key).append(">");
-
-            } else {
-                if (value instanceof HashMap) {
-                    sb.append("<").append(key).append(">");
-                    mapToXMLTest2((HashMap) value, sb);
-                    sb.append("</").append(key).append(">");
-                } else {
-                    sb.append("<").append(key).append(">").append(value).append("</").append(key).append(">");
-                }
-
-            }
-
-        }
     }
 
 }
