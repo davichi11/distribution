@@ -74,8 +74,8 @@ public class SysGeneratorController {
             return Result.error("生成失败");
         }
         String fileName = "gender" + DateUtils.formatDateTime(LocalDateTime.now(), "yyyyMMddHHMMss") + ".zip";
-        //        File file = new File(GenUtils.getClasspath() + "code/" + fileName);
-        File file = new File("/Users/huchunliang/Documents/" + fileName);
+//                File file = new File(GenUtils.getClasspath() + "code/" + fileName);
+        File file = new File("F:/code/" + fileName);
         try {
             FileUtils.writeByteArrayToFile(file, data);
         } catch (IOException e) {

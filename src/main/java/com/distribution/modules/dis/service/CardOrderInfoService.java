@@ -63,4 +63,13 @@ public interface CardOrderInfoService {
      * @return
      */
     Integer countOrder(Map<String, Object> param);
+
+    /**
+     * 批量修改订单状态
+     *
+     * @Auther: liuxinxin
+     * @Date: 2018/5/27 15:22
+     * @Description:
+     */
+    void statusUpdate(Map<String,Object> map) throws Exception;
 }

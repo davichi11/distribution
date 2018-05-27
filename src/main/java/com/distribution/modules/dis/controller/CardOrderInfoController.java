@@ -11,6 +11,8 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -37,6 +39,7 @@ public class CardOrderInfoController {
         //查询列表数据
         PageInfo<CardOrderInfoEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
                 MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> cardOrderInfoService.queryList(params));
+
         return Result.ok().put("page", pageInfo);
     }
 
@@ -48,7 +51,6 @@ public class CardOrderInfoController {
     @RequiresPermissions("cardorderinfo:info")
     public Result info(@PathVariable("id") String id) {
         CardOrderInfoEntity CardOrderInfo = cardOrderInfoService.queryObject(id);
-
         return Result.ok().put("cardOrderInfo", CardOrderInfo);
     }
 
@@ -101,5 +103,21 @@ public class CardOrderInfoController {
         }
         return Result.ok();
     }
-
+   /**
+    * 修改订单状态
+    *
+    * @Auther: liuxinxin
+    * @Date: 2018/5/27 12:39
+    * @Description:
+    */
+   @PutMapping("/statusUpdate")
+    public Result statusUpdate(@RequestBody Map<String,Object> param){
+       try {
+           cardOrderInfoService.statusUpdate(param);
+       } catch (Exception e) {
+           log.error("========",e);
+           return Result.error("订单状态修改失败");
+       }
+       return Result.ok();
+   }
 }

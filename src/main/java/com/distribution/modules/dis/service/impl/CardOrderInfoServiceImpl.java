@@ -3,9 +3,11 @@ package com.distribution.modules.dis.service.impl;
 import com.distribution.modules.dis.dao.CardOrderInfoDao;
 import com.distribution.modules.dis.entity.CardOrderInfoEntity;
 import com.distribution.modules.dis.service.CardOrderInfoService;
+import com.distribution.modules.dis.service.DisProfiParamService;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +17,9 @@ import java.util.Map;
 public class CardOrderInfoServiceImpl implements CardOrderInfoService {
     @Autowired
     private CardOrderInfoDao cardOrderInfoDao;
+
+    @Autowired
+    private DisProfiParamService disProfiParamService;
 
     @Override
     public CardOrderInfoEntity queryObject(String id) {
@@ -61,4 +66,24 @@ public class CardOrderInfoServiceImpl implements CardOrderInfoService {
         return cardOrderInfoDao.countOrder(param);
     }
 
+    /**
+     * 批量修改订单状态
+     *
+     * @Auther: liuxinxin
+     * @Date: 2018/5/27 15:20
+     * @Description:
+     */
+    @Transactional
+    public void statusUpdate(Map<String,Object> map) throws Exception{
+        cardOrderInfoDao.statusUpdate(map);
+        int status= (int) map.get("orderStatus");
+        //订单成功后调用分润
+        if (1==status){
+            List<CardOrderInfoEntity> cardOrderInfoEntityList = cardOrderInfoDao.queryListByIds((List) map.get("ids"));
+            for (CardOrderInfoEntity cardOrderInfoEntity:cardOrderInfoEntityList){
+                //调用分润
+                disProfiParamService.doFeeSplitting(cardOrderInfoEntity.getMemberInfo(),cardOrderInfoEntity.getCardInfo().getRebate(),false);
+            }
+        }
+    }
 }

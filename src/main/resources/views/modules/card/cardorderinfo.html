@@ -21,108 +21,44 @@
 </head>
 <body>
 <div id="rrapp" v-cloak>
+    <div class="grid-btn">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <label for="mobile" class="control-label">客户手机号:</label>
+                <input type="tel" id="mobile" class="form-control" v-model="orderMobile"
+                       @keyup.enter="query" placeholder="客户手机号" autocomplete="tel-national">
+            </div>
+            <div class="form-group">
+                <label for="borrowerName" class="control-label" style="margin-left: 10px">客户姓名:</label>
+                <input type="text" id="borrowerName" class="form-control" v-model="disUserName"
+                       @keyup.enter="query" placeholder="客户姓名">
+            </div>
+            <div class="form-group">
+                <label for="borrowerCard" class="control-label" style="margin-left: 10px">信用卡名称:</label>
+                <input class="form-control" style="width: 150px" id="borrowerCard"
+                       v-model="cardName"
+                       @keyup.enter="query" placeholder="信用卡名称">
+            </div>
+            <br>
+            <br>
+            <div style="margin-top: 10px;margin-bottom: 10px">
+                <a class="btn btn-default" @click="query">查询</a>
+                <a class="btn btn-info" @click="reset">重置</a>
+                <a  class="btn btn-primary" @click="statusUpdate(1)"><i
+                        class="fa fa-pencil-square-o"></i>&nbsp;办卡成功</a>
+                <a  class="btn btn-primary" @click="statusUpdate(0)"><i
+                        class="fa fa-trash-o"></i>&nbsp;办卡失败</a>
+            </div>
+
+        </form>
+
+</div>
     <div v-show="showList">
-        <div class="grid-btn">
-            <a v-if="hasPermission('cardorderinfo:save')" class="btn btn-primary" @click="add"><i
-                    class="fa fa-plus"></i>&nbsp;新增</a>
-            <a v-if="hasPermission('cardorderinfo:update')" class="btn btn-primary" @click="update"><i
-                    class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-            <a v-if="hasPermission('cardorderinfo:delete')" class="btn btn-primary" @click="del"><i
-                    class="fa fa-trash-o"></i>&nbsp;删除</a>
-        </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
     </div>
-
-    <div v-show="!showList" class="panel panel-default">
-        <div class="panel-heading">{{title}}</div>
-        <form class="form-horizontal">
-            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardOrderInfo.orderName"
-                           placeholder=""/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardOrderInfo.orderId"
-                           placeholder=""/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardOrderInfo.orderMobile"
-                           placeholder=""/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardOrderInfo.orderIdcardno"
-                           placeholder=""/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardOrderInfo.orderEmail"
-                           placeholder=""/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">订单状态 0:失败,1:成功,2:申请中</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardOrderInfo.orderStatus"
-                           placeholder="订单状态 0:失败,1:成功,2:申请中"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">用户关联ID</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardOrderInfo.memberId"
-                           placeholder="用户关联ID"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">关联信用卡ID</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardOrderInfo.cardId"
-                           placeholder="关联信用卡ID"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardOrderInfo.isDelete"
-                           placeholder=""/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardOrderInfo.addTime"
-                           placeholder=""/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardOrderInfo.updateTime"
-                           placeholder=""/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
-                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
-            </div>
-        </form>
-    </div>
 </div>
 
-<script src="../../js/modules/generator/cardorderinfo.js"></script>
+<script src="../../js/modules/card/cardorderinfo.js"></script>
 </body>
 </html>

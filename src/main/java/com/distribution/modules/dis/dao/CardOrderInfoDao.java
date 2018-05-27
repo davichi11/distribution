@@ -3,7 +3,9 @@ package com.distribution.modules.dis.dao;
 import com.distribution.modules.dis.entity.CardOrderInfoEntity;
 import com.distribution.modules.sys.dao.BaseDao;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,5 +23,14 @@ public interface CardOrderInfoDao extends BaseDao<CardOrderInfoEntity> {
      * @return
      */
     Integer countOrder(Map<String, Object> param);
+
+    /**
+     * 批量修改订单状态
+     * @param orderStatus
+     * @param ids
+     */
+    void statusUpdate(Map<String,Object> map);
+
+    List<CardOrderInfoEntity> queryListByIds(List ids);
 
 }
