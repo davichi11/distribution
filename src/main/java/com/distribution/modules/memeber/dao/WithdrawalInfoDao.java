@@ -9,5 +9,5 @@ import java.util.List;
 @Mapper
 public interface WithdrawalInfoDao extends BaseDao<WithdrawalInfo> {
 
-    List<WithdrawalInfo> findAmounts(String withdrawMobile);
+    List<WithdrawalInfo> findByAliPayAccount(String withdrawMobile);
 }

@@ -37,3 +37,27 @@ swagger:
   enabled: false
   title: API接口文档
   description: API接口文档
+
+risk:
+    # APP模块，是通过jwt认证的，如果要使用APP模块，则需要修改【加密秘钥】
+    jwt:
+        # 加密秘钥
+        secret: f4e2e52034348f86b67cde581c0f9eb5[com.distribution]
+        # token有效时长，7天，单位秒
+        expire: 604800
+        header: token
+    open-kaptcha:
+        is-open: false
+    url: localhost
+
+wechat:
+  pay:
+      appId: wxf89f12ae63042617
+      mchId: 1386801502
+      mchKey: RmXDEA0hMdZs4AZoCAwLLIg4jQ9gfHJd
+      keyPath: 123
+  mp:
+      appId: wx167da65db4907b84
+      secret: c872c0b347faec4ed3827d07f40f4206
+      token:
+      aesKey:

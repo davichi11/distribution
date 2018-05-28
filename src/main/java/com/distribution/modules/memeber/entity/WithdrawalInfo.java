@@ -23,6 +23,7 @@ public class WithdrawalInfo {
     private BigDecimal withdrawAmount;
     private BigDecimal withdrawPoundage;
     private BigDecimal realAmount;
+    private String aliPayAccount;
     private String isDelete;
     private String addTime;
     private String updateTime;

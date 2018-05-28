@@ -14,6 +14,7 @@
         <result property="withdrawAmount" column="withdraw_amount"/>
         <result property="withdrawPoundage" column="withdraw_poundage"/>
         <result property="realAmount" column="real_amount"/>
+        <result property="aliPayAccount" column="alipay_account"/>
         <result property="isDelete" column="is_delete"/>
         <result property="addTime" column="add_time"/>
         <result property="updateTime" column="update_time"/>
@@ -21,7 +22,8 @@
 
     <sql id="Base_Column_List">
 
-        id,withdraw_num,withdraw_type,withdraw_name,withdraw_mobile,withdraw_card,withdraw_amount,withdraw_poundage,real_amount,is_delete,add_time,update_time
+        id,withdraw_num,withdraw_type,withdraw_name,withdraw_mobile,withdraw_card,withdraw_amount,withdraw_poundage,
+        alipay_account,real_amount,is_delete,add_time,update_time
     </sql>
 
 
@@ -80,6 +82,9 @@
             <if test="realAmount != null">
               real_amount,
             </if>
+            <if test="aliPayAccount != null">
+                alipay_account,
+            </if>
             <if test="isDelete != null">
                 is_delete,
             </if>
@@ -118,6 +123,9 @@
             <if test="realAmount != null">
                 #{realAmount},
             </if>
+            <if test="aliPayAccount != null">
+                #{aliPayAccount},
+            </if>
             <if test="isDelete != null">
                 #{isDelete},
             </if>
@@ -129,5 +137,21 @@
             </if>
         </trim>
     </insert>
+    <select id="findByAliPayAccount" resultType="com.distribution.modules.memeber.entity.WithdrawalInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from withdrawal_info
+        <where>
+            <if test="aliPayAccount != null">
+                and alipay_account = #{aliPayAccount}
+            </if>
+            <if test="startTime != null and startTime != ''">
+                and addTime >= #{startTime}
+            </if>
+            <if test="endTime != null and endTime !=''">
+                and addTime &lt;=#{endTIme}
+            </if>
+        </where>
+    </select>
 
 </mapper>
