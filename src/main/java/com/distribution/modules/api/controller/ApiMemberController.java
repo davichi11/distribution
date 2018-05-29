@@ -257,5 +257,38 @@ public class ApiMemberController {
         }
         return Result.ok("更新成功");
     }
+    /**
+     *
+     * 购买会员校验
+     * @author liuxinxin
+     * @date  14:25
+     * @param
+     * @return
+     */
+    @GetMapping("/checkMemberDisLevel")
+    @ApiOperation(value = "购买会员校验")
+    public Result checkMemberDisLevel(@RequestParam  String memberId,@RequestParam Integer disLevel){
+        DisMemberInfoEntity disMemberInfoEntity = disMemberInfoService.queryObject(memberId);
+        //非会员可以通过
+        if ("1".equals(disMemberInfoEntity.getDisUserType())){
+            //如果是1级会员
+            if (1==disMemberInfoEntity.getDisLevel()) {
+                return Result.error("您已是1级会员，无需升级");
+            }
+            //如果是2级会员
+            else if(2==disMemberInfoEntity.getDisLevel()){
+                if (1!=disLevel){
+                    return Result.error("您已是2级会员，无需升级");
+                }
+            }
+            //如果是3级会员
+            else if(3==disMemberInfoEntity.getDisLevel()){
+                if (3==disLevel){
+                    return Result.error("您已是3级会员，无需升级");
+                }
+            }
+        }
+        return Result.ok();
+    }
 
 }
