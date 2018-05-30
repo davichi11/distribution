@@ -13,7 +13,8 @@
         <result column="is_delete" jdbcType="VARCHAR" property="isDelete"/>
         <result column="add_time" jdbcType="VARCHAR" property="addTime"/>
         <result column="update_time" jdbcType="VARCHAR" property="updateTime"/>
-        <association property="member" javaType="com.distribution.modules.dis.entity.DisMemberInfoEntity" column="member_id">
+        <association property="member" javaType="com.distribution.modules.dis.entity.DisMemberInfoEntity"
+                     column="member_id">
             <id property="id" column="m_id"/>
             <result property="disPlatformId" column="dis_platform_id"/>
             <result property="disFullIndex" column="dis_full_index"/>
@@ -202,7 +203,7 @@
             m.update_time,
             m.is_delete
         from member_account a
-            left join dis_member_info m on a.member_id=m.id
+            left join dis_member_info m on a.member_id = m.id
         where member_id = #{memberId}
     </select>
 
@@ -227,7 +228,8 @@
             m.update_time,
             m.is_delete
         from member_account a
-            left join dis_member_info m on a.member_id=m.id
-        where m.dis_user_id=#{userId}
+            left join dis_member_info m on a.member_id = m.id
+            left join tb_user t on t.user_id = m.dis_user_id
+        where m.dis_user_id = #{userId} or t.mobile = #{userId}
     </select>
 </mapper>

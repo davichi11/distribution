@@ -1,7 +1,8 @@
 package com.distribution;
 
-import com.distribution.common.utils.CommonUtils;
 import org.junit.Test;
+
+import java.math.BigDecimal;
 
 /**
  * @author ChunLiang Hu
@@ -14,7 +15,7 @@ import org.junit.Test;
 public class MyTest {
     @Test
     public void test1() {
-        System.out.println(CommonUtils.getRandom());
+        System.out.println(new BigDecimal(5000).compareTo(new BigDecimal(50000)));
     }
 
     @Test

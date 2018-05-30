@@ -2,6 +2,7 @@ package com.distribution.modules.memeber.entity;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 /**
@@ -16,10 +17,15 @@ public class WithdrawalInfo {
 
     private String id;
     private String withdrawNum;
+    /**
+     * 提现状态 0:失败,1:成功
+     */
     private String withdrawType;
     private String withdrawName;
+    @NotNull
     private String withdrawMobile;
     private String withdrawCard;
+    @NotNull
     private BigDecimal withdrawAmount;
     private BigDecimal withdrawPoundage;
     private BigDecimal realAmount;

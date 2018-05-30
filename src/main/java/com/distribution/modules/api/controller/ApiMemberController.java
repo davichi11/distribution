@@ -1,7 +1,11 @@
 package com.distribution.modules.api.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alipay.api.response.AlipayFundTransToaccountTransferResponse;
+import com.distribution.ali.pay.AliPayParams;
+import com.distribution.ali.pay.AliPayUtil;
 import com.distribution.common.utils.CommonUtils;
+import com.distribution.common.utils.Constant;
 import com.distribution.common.utils.DateUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.account.entity.MemberAccount;
@@ -113,7 +117,7 @@ public class ApiMemberController {
     @GetMapping("/memberAmount")
     @ApiOperation(value = "用户总金额，提现，总收入")
     public Result memberAmount(@RequestParam String userId, @RequestParam String mobile) {
-        Map<String, Object> resultMap = new HashMap<>();
+        Map<String, Object> resultMap = new HashMap<>(6);
 //        Map<String, Object> param = new HashMap<>(2);
 //        param.put("userId",userId);
         //提现金额
@@ -126,7 +130,7 @@ public class ApiMemberController {
         if (memberAccount != null) {
             //账户余额
             resultMap.put("memberAccount", memberAccount.getMemberAmount());
-            Map<String, Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>(6);
             map.put("accountId", memberAccount.getAccountId());
             map.put("hisType", MemberAccountHistory.HisType.INCOME);
             map.put("userId", userId);
@@ -153,7 +157,9 @@ public class ApiMemberController {
     @GetMapping("/memberWithdrawalList")
     @ApiOperation(value = "提现记录")
     public Result memberWithdrawalList(@RequestParam String mobile) {
-        List<WithdrawalInfo> withdrawalInfoList = withdrawalInfoService.queryList(mobile);
+        Map<String, Object> param = new HashMap<>(2);
+        param.put("withdrawMobile", mobile);
+        List<WithdrawalInfo> withdrawalInfoList = withdrawalInfoService.queryList(param);
         return Result.ok().put("memberWithdrawalList", withdrawalInfoList);
     }
 
@@ -168,7 +174,7 @@ public class ApiMemberController {
     @GetMapping("/memberAmountHistroyList")
     @ApiOperation(value = "收益明细")
     public Result memberReturns(@RequestParam String userId) {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(2);
         map.put("userId", userId);
         List<MemberAccountHistory> memberAmountHistroyList = memberAccountHistoryService.findList(map);
         return Result.ok().put("memberWithdrawalList", memberAmountHistroyList);
@@ -184,12 +190,12 @@ public class ApiMemberController {
     @GetMapping("/memberCardList")
     @ApiOperation(value = "用户办卡信息列表")
     public Result memberCardList(@RequestParam String userId) {
-        Map<String, Object> map = new HashMap<>();
-        List<CardOrderInfoEntity> memberCardList = new ArrayList<>();
+        Map<String, Object> map = new HashMap<>(2);
         map.put("userId", userId);
+        List<CardOrderInfoEntity> memberCardList = new ArrayList<>();
         List<DisMemberInfoEntity> memberInfoEntities = disMemberInfoService.queryList(map);
         if (CollectionUtils.isNotEmpty(memberInfoEntities)) {
-            Map<String, Object> param = new HashMap<>();
+            Map<String, Object> param = new HashMap<>(2);
             param.put("memberId", memberInfoEntities.get(0).getId());
 //            param.put("orderStatus", CardOrderInfoEntity.OrderStatus.SUCCESS);
             memberCardList = cardOrderInfoService.queryList(param);
@@ -198,19 +204,47 @@ public class ApiMemberController {
     }
 
     /**
-     * 添加提现记录
+     * 用户提现
      *
      * @param
      * @return
      * @author liuxinxin
      * @date 10:45
      */
-    @PostMapping("/saveWithdrawalInfo")
-    @ApiOperation(value = "添加提现记录")
+    @PostMapping("/withdrawal")
+    @ApiOperation(value = "用户提现")
     public Result saveWithdrawalInfo(@RequestBody WithdrawalInfo withdrawalInfo) {
+        //提现校验
+        MemberAccount account = memberAccountService.selectMemberAccountByUserId(withdrawalInfo.getWithdrawMobile());
+        if (account.getMemberAmount().compareTo(withdrawalInfo.getWithdrawAmount()) < 0) {
+            return Result.error("提现金额超出可用余额");
+        }
+
+        String orderId = AliPayUtil.generateOrderId(withdrawalInfo.getWithdrawMobile(),
+                Constant.PayType.WITHDRAWAL.getValue());
+        AliPayParams payParams = new AliPayParams();
+        payParams.setAmount(withdrawalInfo.getWithdrawAmount().toString());
+        payParams.setOutBizNo(orderId);
+        payParams.setPayeeAccount(account.getAliPayAccount());
+        payParams.setPayeeRealName(account.getMember().getDisUserName());
+        //如果提现金额达到50000,remark必填
+        if (withdrawalInfo.getWithdrawAmount().compareTo(new BigDecimal(50000)) > 0) {
+            payParams.setRemark(String.format("会员%s提现,金额:%s", account.getMember().getDisUserName(),
+                    withdrawalInfo.getWithdrawAmount()));
+        }
+
         try {
-            withdrawalInfo.setId(CommonUtils.getUUID());
+            //调用支付宝转账接口
+            AlipayFundTransToaccountTransferResponse response = AliPayUtil.transferResponse(payParams);
+            if (!response.isSuccess()) {
+                log.error(String.format("会员%s提现失败,case:%s,订单号为%s", account.getMember().getDisUserName(),
+                        response.getMsg(), orderId));
+            }
+            //保存提现记录
+            withdrawalInfo.setWithdrawType(response.isSuccess() ? "1" : "0");
+            withdrawalInfo.setWithdrawNum(orderId);
             withdrawalInfo.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
+            withdrawalInfo.setId(CommonUtils.getUUID());
             withdrawalInfoService.save(withdrawalInfo);
         } catch (Exception e) {
             return Result.error("提现异常");
@@ -241,6 +275,7 @@ public class ApiMemberController {
 
     /**
      * 更新会员信息
+     *
      * @param id
      * @param memberVO
      * @return
@@ -257,33 +292,34 @@ public class ApiMemberController {
         }
         return Result.ok("更新成功");
     }
+
     /**
-     *
      * 购买会员校验
-     * @author liuxinxin
-     * @date  14:25
+     *
      * @param
      * @return
+     * @author liuxinxin
+     * @date 14:25
      */
     @GetMapping("/checkMemberDisLevel")
     @ApiOperation(value = "购买会员校验")
-    public Result checkMemberDisLevel(@RequestParam  String memberId,@RequestParam Integer disLevel){
+    public Result checkMemberDisLevel(@RequestParam String memberId, @RequestParam Integer disLevel) {
         DisMemberInfoEntity disMemberInfoEntity = disMemberInfoService.queryObject(memberId);
         //非会员可以通过
-        if ("1".equals(disMemberInfoEntity.getDisUserType())){
+        if ("1".equals(disMemberInfoEntity.getDisUserType())) {
             //如果是1级会员
-            if (1==disMemberInfoEntity.getDisLevel()) {
+            if (1 == disMemberInfoEntity.getDisLevel()) {
                 return Result.error("您已是1级会员，无需升级");
             }
             //如果是2级会员
-            else if(2==disMemberInfoEntity.getDisLevel()){
-                if (1!=disLevel){
+            else if (2 == disMemberInfoEntity.getDisLevel()) {
+                if (1 != disLevel) {
                     return Result.error("您已是2级会员，无需升级");
                 }
             }
             //如果是3级会员
-            else if(3==disMemberInfoEntity.getDisLevel()){
-                if (3==disLevel){
+            else if (3 == disMemberInfoEntity.getDisLevel()) {
+                if (3 == disLevel) {
                     return Result.error("您已是3级会员，无需升级");
                 }
             }
