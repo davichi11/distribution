@@ -232,4 +232,29 @@
             left join tb_user t on t.user_id = m.dis_user_id
         where m.dis_user_id = #{userId} or t.mobile = #{userId}
     </select>
+    <select id="selectByAlipay" resultMap="BaseResultMap">
+        select
+            account_id,
+            member_type,
+            member_amount,
+            a.is_delete,
+            a.add_time,
+            a.update_time,
+            id as "m_id",
+            dis_platform_id,
+            dis_user_id,
+            dis_model_id,
+            dis_full_index,
+            dis_user_name,
+            dis_level,
+            dis_user_type,
+            dis_note,
+            m.add_time,
+            m.update_time,
+            m.is_delete
+        from member_account a
+            left join dis_member_info m on a.member_id = m.id
+            left join tb_user t on t.user_id = m.dis_user_id
+        where alipay_account =#{alipayAccount}
+    </select>
 </mapper>

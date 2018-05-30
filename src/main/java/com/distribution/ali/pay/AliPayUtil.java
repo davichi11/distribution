@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayFundTransToaccountTransferRequest;
 import com.alipay.api.response.AlipayFundTransToaccountTransferResponse;
 import com.distribution.common.utils.DateUtils;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 /**
  * @author ChunLiang Hu
@@ -62,4 +64,12 @@ public final class AliPayUtil {
         return payPlatform + payType + time + last;
     }
 
+    /**
+     * 支付宝APP支付异步回调验签
+     * @param params
+     * @return
+     */
+    public static boolean signVerified(Map<String, String> params) throws AlipayApiException {
+        return AlipaySignature.rsaCheckV1(params, ALIPAY_PUBLIC_KEY, "UTF-8","RSA2");
+    }
 }

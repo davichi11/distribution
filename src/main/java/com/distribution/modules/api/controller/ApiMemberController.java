@@ -1,6 +1,7 @@
 package com.distribution.modules.api.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alipay.api.AlipayApiException;
 import com.alipay.api.response.AlipayFundTransToaccountTransferResponse;
 import com.distribution.ali.pay.AliPayParams;
 import com.distribution.ali.pay.AliPayUtil;
@@ -29,12 +30,15 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -325,6 +329,46 @@ public class ApiMemberController {
             }
         }
         return Result.ok();
+    }
+
+    /**
+     * 购买会员 支付回调
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("/alipayCallback")
+    public Result alipayCallback(HttpServletRequest request, Map<String, String> params) {
+//        Map<String, String[]> parameterMap = request.getParameterMap();
+//        Map<String, String> params = new HashMap<>(parameterMap.size());
+//        parameterMap.forEach((k, v) -> params.put(k, Arrays.stream(v).collect(Collectors.joining(","))));
+        try {
+            if (AliPayUtil.signVerified(params)) {
+                //从回传参数中取出购买的会员等级
+                String level = JSON.parseObject(URLDecoder.decode(params.get("passback_params"))).getString("level");
+                if (StringUtils.isBlank(level)) {
+                    return Result.error("回传参数中没有会员等级");
+                }
+                //根据支付宝账户查询对应的会员信息
+                DisMemberInfoEntity member = memberAccountService.selectByAlipay(params.get("buyer_logon_id")).getMember();
+                //升级会员
+                member.setDisLevel(NumberUtils.toInt(level));
+                //用户类型升级为会员
+                if ("0".equals(member.getDisUserType())) {
+                    member.setDisUserType("1");
+                }
+                disMemberInfoService.update(member);
+                return Result.ok();
+            } else {
+                return Result.error("验签失败");
+            }
+        } catch (AlipayApiException e) {
+            log.error("回调参数验签异常", e);
+            return Result.error("回调参数验签异常");
+        } catch (Exception e) {
+            log.error("会员升级异常", e);
+            return Result.error("会员升级异常");
+        }
     }
 
 }

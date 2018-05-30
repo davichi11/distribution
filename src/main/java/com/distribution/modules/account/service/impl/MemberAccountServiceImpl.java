@@ -3,7 +3,6 @@ package com.distribution.modules.account.service.impl;
 import com.distribution.modules.account.dao.MemberAccountMapper;
 import com.distribution.modules.account.entity.MemberAccount;
 import com.distribution.modules.account.service.MemberAccountService;
-import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +23,10 @@ public class MemberAccountServiceImpl implements MemberAccountService {
     @Override
     public MemberAccount selectMemberAccountByUserId(String userId) {
         return memberAccountMapper.selectMemberAccountByUserId(userId);
+    }
+
+    @Override
+    public MemberAccount selectByAlipay(String alipayAccount) {
+        return memberAccountMapper.selectByAlipay(alipayAccount);
     }
 }
