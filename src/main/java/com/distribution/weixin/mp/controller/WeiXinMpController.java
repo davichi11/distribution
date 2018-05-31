@@ -3,6 +3,7 @@ package com.distribution.weixin.mp.controller;
 import com.alibaba.fastjson.JSON;
 import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.Result;
+import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.dis.entity.DisFans;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.DisFansService;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @Slf4j
 @RestController
+@RequestMapping("/api")
 public class WeiXinMpController {
     @Autowired
     private WxMpService wxMpService;
@@ -42,6 +45,7 @@ public class WeiXinMpController {
     @Value("{risk.url}")
     private String url;
 
+    @AuthIgnore
     @GetMapping("/weixin")
     public String check(String signature, String timestamp, String nonce, String echostr) {
         log.info("\n接收到来自微信服务器的认证消息：[{}, {}, {}, {}]", signature,
@@ -63,6 +67,7 @@ public class WeiXinMpController {
      * @param memberId 推荐人ID
      * @return
      */
+    @AuthIgnore
     @GetMapping("/weixin/oauthUrl")
     public String buildOauthUrl(String memberId) {
         return wxMpService.oauth2buildAuthorizationUrl(url, "snsapi_userinfo", memberId);

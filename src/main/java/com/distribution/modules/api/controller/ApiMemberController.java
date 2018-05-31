@@ -345,7 +345,7 @@ public class ApiMemberController {
         try {
             if (AliPayUtil.signVerified(params)) {
                 //从回传参数中取出购买的会员等级
-                String level = JSON.parseObject(URLDecoder.decode(params.get("passback_params"))).getString("level");
+                String level = JSON.parseObject(URLDecoder.decode(params.get("passback_params"),"UTF-8")).getString("level");
                 if (StringUtils.isBlank(level)) {
                     return Result.error("回传参数中没有会员等级");
                 }

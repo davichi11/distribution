@@ -72,5 +72,5 @@ wechat:
   mp:
       appId: wx167da65db4907b84
       secret: c872c0b347faec4ed3827d07f40f4206
-      token:
-      aesKey:
+      token: cfe6112227094086817c92f36984ee88
+      aesKey: hkhoCLA7FcrZwXTWsVWGl8Osqz7twJPdMLi2EemKg8o
