@@ -45,7 +45,7 @@ public class ApiLoginController {
      */
     @AuthIgnore
     @PostMapping("loginOrRegister")
-    @ApiOperation(value = "登录", notes = "登录说明")
+    @ApiOperation(value = "登录/注册", notes = "登录或注册,注册过校验验证码,成功登陆,没有注册过执行注册逻辑")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "手机号", required = true),
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "captcha", value = "验证码", required = true),

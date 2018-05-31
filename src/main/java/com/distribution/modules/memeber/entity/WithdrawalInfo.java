@@ -7,10 +7,10 @@ import java.math.BigDecimal;
 
 /**
  * 提现信息表
- * 
+ *
  * @Auther: liuxinxin
  * @Date: 2018/5/22 22:01
- * @Description: 
+ * @Description:
  */
 @Data
 public class WithdrawalInfo {

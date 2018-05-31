@@ -29,12 +29,12 @@ public class RedisAspect {
     public Object around(ProceedingJoinPoint point) throws Throwable {
         Object result = null;
 //        if (open) {
-            try {
-                result = point.proceed();
-            } catch (Exception e) {
-                log.error("redis error", e);
-                throw new RRException("Redis服务异常");
-            }
+        try {
+            result = point.proceed();
+        } catch (Exception e) {
+            log.error("redis error", e);
+            throw new RRException("Redis服务异常");
+        }
 //        }
         return result;
     }

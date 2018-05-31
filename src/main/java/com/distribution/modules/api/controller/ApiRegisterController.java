@@ -101,7 +101,7 @@ public class ApiRegisterController {
         try {
             userService.update(userEntity);
         } catch (Exception e) {
-            log.error("用户修改密码异常",e);
+            log.error("用户修改密码异常", e);
             return Result.error("用户修改密码异常");
         }
         return Result.ok("修改成功");

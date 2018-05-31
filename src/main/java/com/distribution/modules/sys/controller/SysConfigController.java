@@ -34,8 +34,8 @@ public class SysConfigController extends AbstractController {
     @RequiresPermissions("sys:config:list")
     public Result list(@RequestParam Map<String, Object> params) {
         //查询列表数据
-        PageInfo<SysConfigEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
-                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> sysConfigService.queryList(params));
+        PageInfo<SysConfigEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
+                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> sysConfigService.queryList(params));
         return Result.ok().put("page", pageInfo);
     }
 

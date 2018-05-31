@@ -74,15 +74,15 @@ public class CardOrderInfoServiceImpl implements CardOrderInfoService {
      * @Description:
      */
     @Transactional
-    public void statusUpdate(Map<String,Object> map) throws Exception{
+    public void statusUpdate(Map<String, Object> map) throws Exception {
         cardOrderInfoDao.statusUpdate(map);
-        int status= (int) map.get("orderStatus");
+        int status = (int) map.get("orderStatus");
         //订单成功后调用分润
-        if (1==status){
+        if (1 == status) {
             List<CardOrderInfoEntity> cardOrderInfoEntityList = cardOrderInfoDao.queryListByIds((List) map.get("ids"));
-            for (CardOrderInfoEntity cardOrderInfoEntity:cardOrderInfoEntityList){
+            for (CardOrderInfoEntity cardOrderInfoEntity : cardOrderInfoEntityList) {
                 //调用分润
-                disProfiParamService.doFeeSplitting(cardOrderInfoEntity.getMemberInfo(),cardOrderInfoEntity.getCardInfo().getRebate(),false);
+                disProfiParamService.doFeeSplitting(cardOrderInfoEntity.getMemberInfo(), cardOrderInfoEntity.getCardInfo().getRebate(), false);
             }
         }
     }

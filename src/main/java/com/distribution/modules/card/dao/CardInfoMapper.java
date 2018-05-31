@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 import java.util.Map;
+
 /**
  * @author huchunliang
  */
@@ -20,6 +21,7 @@ public interface CardInfoMapper {
 
     /**
      * 批量删除
+     *
      * @param ids
      * @return
      */
@@ -51,6 +53,7 @@ public interface CardInfoMapper {
 
     /**
      * 查询列表
+     *
      * @param param
      * @return
      */

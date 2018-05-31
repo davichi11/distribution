@@ -59,8 +59,9 @@ public interface MemberAccountHistoryMapper {
 
     /**
      * 查询列表
+     *
      * @param map
      * @return
      */
-    List<MemberAccountHistory> queryList(Map<String,Object> map);
+    List<MemberAccountHistory> queryList(Map<String, Object> map);
 }

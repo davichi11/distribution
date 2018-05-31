@@ -18,6 +18,7 @@ public final class CommonUtils {
 
     /**
      * 生成32位的UUID
+     *
      * @return
      */
     public static String getUUID() {
@@ -26,6 +27,7 @@ public final class CommonUtils {
 
     /**
      * 获取6位随机验证码
+     *
      * @return
      */
     public static String getRandom() {

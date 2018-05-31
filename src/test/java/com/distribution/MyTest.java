@@ -1,8 +1,11 @@
 package com.distribution;
 
+import com.alibaba.fastjson.JSON;
 import org.junit.Test;
 
-import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author ChunLiang Hu
@@ -15,7 +18,9 @@ import java.math.BigDecimal;
 public class MyTest {
     @Test
     public void test1() {
-        System.out.println(new BigDecimal(5000).compareTo(new BigDecimal(50000)));
+        Map<String, Object> map = new HashMap<>();
+        map.put("level", 1);
+        System.out.println(URLEncoder.encode(JSON.toJSONString(map)));
     }
 
     @Test

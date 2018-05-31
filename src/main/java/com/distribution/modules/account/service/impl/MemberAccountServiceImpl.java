@@ -13,12 +13,12 @@ public class MemberAccountServiceImpl implements MemberAccountService {
     private MemberAccountMapper memberAccountMapper;
 
     /**
+     * 根据userId查询其账户信息
      *
-     *   根据userId查询其账户信息
-     * @author liuxinxin
-     * @date  13:24
      * @param
      * @return
+     * @author liuxinxin
+     * @date 13:24
      */
     @Override
     public MemberAccount selectMemberAccountByUserId(String userId) {
@@ -28,5 +28,15 @@ public class MemberAccountServiceImpl implements MemberAccountService {
     @Override
     public MemberAccount selectByAlipay(String alipayAccount) {
         return memberAccountMapper.selectByAlipay(alipayAccount);
+    }
+
+    @Override
+    public void save(MemberAccount memberAccount) throws Exception {
+        memberAccountMapper.insertSelective(memberAccount);
+    }
+
+    @Override
+    public void update(MemberAccount memberAccount) throws Exception {
+        memberAccountMapper.updateByPrimaryKeySelective(memberAccount);
     }
 }

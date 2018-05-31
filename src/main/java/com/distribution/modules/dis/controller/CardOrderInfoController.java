@@ -35,8 +35,8 @@ public class CardOrderInfoController {
     @RequiresPermissions("cardorderinfo:list")
     public Result list(@RequestParam Map<String, Object> params) {
         //查询列表数据
-        PageInfo<CardOrderInfoEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
-                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> cardOrderInfoService.queryList(params));
+        PageInfo<CardOrderInfoEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
+                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> cardOrderInfoService.queryList(params));
 
         return Result.ok().put("page", pageInfo);
     }
@@ -83,21 +83,21 @@ public class CardOrderInfoController {
         return Result.ok();
     }
 
-   /**
-    * 修改订单状态
-    *
-    * @Auther: liuxinxin
-    * @Date: 2018/5/27 12:39
-    * @Description:
-    */
-   @PutMapping("/statusUpdate")
-    public Result statusUpdate(@RequestBody Map<String,Object> param){
-       try {
-           cardOrderInfoService.statusUpdate(param);
-       } catch (Exception e) {
-           log.error("========",e);
-           return Result.error("订单状态修改失败");
-       }
-       return Result.ok();
-   }
+    /**
+     * 修改订单状态
+     *
+     * @Auther: liuxinxin
+     * @Date: 2018/5/27 12:39
+     * @Description:
+     */
+    @PutMapping("/statusUpdate")
+    public Result statusUpdate(@RequestBody Map<String, Object> param) {
+        try {
+            cardOrderInfoService.statusUpdate(param);
+        } catch (Exception e) {
+            log.error("========", e);
+            return Result.error("订单状态修改失败");
+        }
+        return Result.ok();
+    }
 }

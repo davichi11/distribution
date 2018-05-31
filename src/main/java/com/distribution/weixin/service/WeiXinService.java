@@ -4,6 +4,7 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 
 /**
  * 微信公众号,支付服务类
+ *
  * @author ChunLiang Hu
  * @Company
  * @Project distribution
@@ -14,6 +15,7 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 public interface WeiXinService {
     /**
      * 发送模板消息
+     *
      * @param wxMpTemplateMessage 模板消息
      * @return
      */

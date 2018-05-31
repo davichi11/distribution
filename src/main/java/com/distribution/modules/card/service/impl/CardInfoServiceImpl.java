@@ -22,6 +22,7 @@ public class CardInfoServiceImpl implements CardInfoService {
 
     @Autowired
     private CardInfoMapper cardInfoMapper;
+
     /**
      * 根据ID查询
      *

@@ -59,6 +59,7 @@ public interface CardOrderInfoService {
 
     /**
      * 根据查询条件统计订单数量
+     *
      * @param param
      * @return
      */
@@ -71,5 +72,5 @@ public interface CardOrderInfoService {
      * @Date: 2018/5/27 15:22
      * @Description:
      */
-    void statusUpdate(Map<String,Object> map) throws Exception;
+    void statusUpdate(Map<String, Object> map) throws Exception;
 }

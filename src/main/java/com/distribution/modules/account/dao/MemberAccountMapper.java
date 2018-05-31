@@ -39,12 +39,15 @@ public interface MemberAccountMapper {
 
     /**
      * 根据会员ID查询其账户信息
+     *
      * @param memberId
      * @return
      */
     MemberAccount selectMemberAccount(String memberId);
+
     /**
      * 根据userId查询其账户信息
+     *
      * @param userId
      * @return
      */
@@ -52,6 +55,7 @@ public interface MemberAccountMapper {
 
     /**
      * 根据支付宝账户查询会员账户
+     *
      * @param alipayAccount
      * @return
      */

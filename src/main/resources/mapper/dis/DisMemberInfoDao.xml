@@ -141,6 +141,9 @@
     <insert id="save" parameterType="com.distribution.modules.dis.entity.DisMemberInfoEntity">
         insert into distribution.dis_member_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
             <if test="disPlatformId != null">
                 `dis_platform_id`,
             </if>
@@ -179,48 +182,41 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
             <if test="disPlatformId != null">
-                #{disPlatformId}
-                ,
+                #{disPlatformId},
             </if>
             <if test="userEntity != null">
-                #{userEntity.userId}
-                ,
+                #{userEntity.userId},
             </if>
             <if test="disMemberParent != null">
-                #{disMemberParent.id}
-                ,
+                #{disMemberParent.id},
             </if>
             <if test="disFullIndex != null">
-                #{disFullIndex}
-                ,
+                #{disFullIndex},
             </if>
             <if test="disUserName != null">
-                #{disUserName}
-                ,
+                #{disUserName},
             </if>
             <if test="disLevel != null">
-                #{disLevel}
-                ,
+                #{disLevel},
             </if>
             <if test="disUserType != null">
-                #{disUserType}
-                ,
+                #{disUserType},
             </if>
             <if test="disNote != null">
-                #{disNote}
-                ,
+                #{disNote},
             </if>
             <if test="openId!=null">
                 #{openId},
             </if>
             <if test="addTime != null">
-                #{addTime}
-                ,
+                #{addTime},
             </if>
             <if test="updateTime != null">
-                #{updateTime}
-                ,
+                #{updateTime},
             </if>
             <if test="isDelete != null">
                 #{isDelete}

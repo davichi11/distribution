@@ -10,6 +10,7 @@ public interface WithdrawalInfoService {
 
     /**
      * 根据用户手机号查询用户提现金额
+     *
      * @param withdrawMobile
      * @return
      */
@@ -17,6 +18,7 @@ public interface WithdrawalInfoService {
 
     /**
      * 提现记录查询
+     *
      * @param params
      * @return
      */
@@ -24,13 +26,15 @@ public interface WithdrawalInfoService {
 
     /**
      * 添加提现信息
+     *
      * @param withdrawalInfo
      * @throws Exception
      */
-    void save(WithdrawalInfo withdrawalInfo)throws Exception;
+    void save(WithdrawalInfo withdrawalInfo) throws Exception;
 
     /**
      * 查询详情
+     *
      * @param id
      * @return
      */

@@ -43,10 +43,10 @@ public interface UserService {
      *
      * @param mobile
      * @param password
-     * @param openId 微信openID
+     * @param openId   微信openID
      * @throws Exception
      */
-    void save(String mobile, String password,String openId) throws Exception;
+    void save(String mobile, String password, String openId) throws Exception;
 
     /**
      * 更新

@@ -42,7 +42,7 @@ public class WithdrawalInfoServiceImpl implements WithdrawalInfoService {
      * @Description:
      */
     @Override
-    public List<WithdrawalInfo> queryList( Map<String, Object> params) {
+    public List<WithdrawalInfo> queryList(Map<String, Object> params) {
         return withdrawalInfoDao.queryList(params);
     }
 

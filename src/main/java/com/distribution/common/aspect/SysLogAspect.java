@@ -1,12 +1,12 @@
 package com.distribution.common.aspect;
 
-import com.google.gson.Gson;
 import com.distribution.common.annotation.SysLog;
 import com.distribution.common.utils.HttpContextUtils;
 import com.distribution.common.utils.IPUtils;
 import com.distribution.modules.sys.entity.SysLogEntity;
 import com.distribution.modules.sys.entity.SysUserEntity;
 import com.distribution.modules.sys.service.SysLogService;
+import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.JoinPoint;

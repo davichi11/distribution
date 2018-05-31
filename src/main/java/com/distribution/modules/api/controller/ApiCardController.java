@@ -3,7 +3,6 @@ package com.distribution.modules.api.controller;
 import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.DateUtils;
 import com.distribution.common.utils.Result;
-import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.card.entity.CardInfo;
 import com.distribution.modules.card.service.CardInfoService;
 import com.distribution.modules.dis.entity.CardOrderInfoEntity;
@@ -62,8 +61,8 @@ public class ApiCardController {
     @ApiOperation(value = "信用卡列表")
     public Result list(@RequestBody Map<String, Object> params) {
         //查询列表数据
-        PageInfo<CardInfo> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
-                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> cardInfoService.queryList(params));
+        PageInfo<CardInfo> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
+                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> cardInfoService.queryList(params));
         return Result.ok().put("page", pageInfo);
     }
 

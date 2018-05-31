@@ -59,6 +59,7 @@ public interface DisMemberInfoService {
 
     /**
      * 会员升级逻辑
+     *
      * @param memberInfo
      * @return
      */

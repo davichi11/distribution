@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 public class LevelUpReceiver {
     @Autowired
     private DisMemberInfoService disMemberInfoService;
+
     @RabbitHandler
     public void process(String msg) {
         if (StringUtils.isBlank(msg)) {

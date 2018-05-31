@@ -13,7 +13,7 @@ import java.util.Map;
  * @Description TODO(描述)
  * @create 2018/5/11-23:04
  */
-public interface DisFansService  {
+public interface DisFansService {
     /**
      * 根据ID查询
      *

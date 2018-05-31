@@ -17,7 +17,7 @@ public class DisMemberVO {
      */
     private String parentId;
     /**
-     *用户名
+     * 用户名
      */
     private String disUserName;
 

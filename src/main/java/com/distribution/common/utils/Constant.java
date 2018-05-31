@@ -104,7 +104,7 @@ public class Constant {
     /**
      * 业务类型
      */
-    public enum PayType{
+    public enum PayType {
         /**
          * 提现
          */

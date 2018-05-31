@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 
-
 /**
  * 提现信息表
  *
@@ -36,8 +35,8 @@ public class WithdrawalInfoController {
     @RequiresPermissions("withdrawalinfo:list")
     public Result list(@RequestParam Map<String, Object> params) {
         //查询列表数据
-        PageInfo<WithdrawalInfo> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
-                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> withdrawalInfoService.queryList(params));
+        PageInfo<WithdrawalInfo> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
+                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> withdrawalInfoService.queryList(params));
         return Result.ok().put("page", pageInfo);
     }
 
@@ -48,7 +47,7 @@ public class WithdrawalInfoController {
     @RequestMapping("/info/{id}")
     @RequiresPermissions("withdrawalinfo:info")
     public Result info(@PathVariable("id") String id) {
-            WithdrawalInfo withdrawalInfo = withdrawalInfoService.querySingle(id);
+        WithdrawalInfo withdrawalInfo = withdrawalInfoService.querySingle(id);
 
         return Result.ok().put("withdrawalInfo", withdrawalInfo);
     }
@@ -60,7 +59,7 @@ public class WithdrawalInfoController {
     @RequiresPermissions("withdrawalinfo:save")
     public Result save(@RequestBody WithdrawalInfo withdrawalInfo) {
         try {
-                withdrawalInfoService.save(withdrawalInfo);
+            withdrawalInfoService.save(withdrawalInfo);
         } catch (Exception e) {
             log.error("保存异常", e);
             Result.error("保存异常");
@@ -68,7 +67,6 @@ public class WithdrawalInfoController {
 
         return Result.ok();
     }
-
 
 
 }

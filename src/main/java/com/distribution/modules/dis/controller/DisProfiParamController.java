@@ -38,8 +38,8 @@ public class DisProfiParamController {
     @RequiresPermissions("disprofiparam:list")
     public Result list(@RequestParam Map<String, Object> params) {
         //查询列表数据
-        PageInfo<DisProfiParam> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
-                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> disProfiParamService.queryList(params));
+        PageInfo<DisProfiParam> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
+                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> disProfiParamService.queryList(params));
         return Result.ok().put("page", pageInfo);
     }
 

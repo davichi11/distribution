@@ -42,7 +42,7 @@ public class CardOrderInfoVO {
      */
     private String updateTime;
 
-    public static final class OrderStatus{
+    public static final class OrderStatus {
         public static final int LOSE = 0;//失败
         public static final int SUCCESS = 1;//成功
         public static final int APPLICATION = 2;//申请中

@@ -69,6 +69,7 @@ public class SysLogServiceImpl implements SysLogService {
 
     /**
      * 保存异常的日志信息
+     *
      * @param params
      * @throws Exception
      */

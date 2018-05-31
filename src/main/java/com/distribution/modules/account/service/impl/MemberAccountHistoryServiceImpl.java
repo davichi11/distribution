@@ -16,7 +16,7 @@ public class MemberAccountHistoryServiceImpl implements MemberAccountHistoryServ
     private MemberAccountHistoryMapper memberAccountHistoryMapper;
 
     @Override
-    public List<MemberAccountHistory> findList(Map<String,Object> param) {
+    public List<MemberAccountHistory> findList(Map<String, Object> param) {
         return memberAccountHistoryMapper.queryList(param);
     }
 

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class LevelUpSender {
     @Autowired
     private AmqpTemplate amqpTemplate;
+
     public void send(String context) {
         System.out.println("Sender : " + context);
         amqpTemplate.convertAndSend("level_up", context);

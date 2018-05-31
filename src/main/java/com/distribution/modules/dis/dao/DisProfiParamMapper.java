@@ -58,12 +58,14 @@ public interface DisProfiParamMapper {
 
     /**
      * 批量删除
+     *
      * @param ids
      */
     void deleteBatch(String[] ids);
 
     /**
      * 查询列表
+     *
      * @param map
      * @return
      */

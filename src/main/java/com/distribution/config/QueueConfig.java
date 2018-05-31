@@ -60,6 +60,7 @@ public class QueueConfig {
 
     /**
      * 短信发送队列
+     *
      * @return
      */
     @Bean
@@ -69,6 +70,7 @@ public class QueueConfig {
 
     /**
      * 会员自动升级队列
+     *
      * @return
      */
     @Bean
