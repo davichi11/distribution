@@ -55,7 +55,7 @@ risk:
         header: token
     open-kaptcha:
         is-open: false
-    url: localhost
+    url: http://www.qiandaoshou.cn/dis
 swagger:
   base-package: com.distribution.modules.api.controller
   enabled: false

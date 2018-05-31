@@ -90,6 +90,7 @@ public class WeiXinMpController {
             accessToken = wxMpService.oauth2getAccessToken(code);
             //拉取用户信息
             user = wxMpService.oauth2getUserInfo(accessToken, null);
+            log.info("用户信息为{}", user);
         } catch (WxErrorException e) {
             log.error("拉取用户信息异常", e);
             return Result.error("拉取用户信息异常");

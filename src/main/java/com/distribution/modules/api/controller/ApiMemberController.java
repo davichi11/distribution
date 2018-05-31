@@ -1,8 +1,10 @@
 package com.distribution.modules.api.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.alipay.api.response.AlipayFundTransToaccountTransferResponse;
+import com.alipay.api.response.AlipayTradeWapPayResponse;
 import com.distribution.ali.pay.AliPayParams;
 import com.distribution.ali.pay.AliPayUtil;
 import com.distribution.common.utils.CommonUtils;
@@ -24,6 +26,7 @@ import com.distribution.modules.dis.service.DisFansService;
 import com.distribution.modules.dis.service.DisMemberInfoService;
 import com.distribution.modules.memeber.entity.WithdrawalInfo;
 import com.distribution.modules.memeber.service.WithdrawalInfoService;
+import com.distribution.modules.sys.service.SysConfigService;
 import com.distribution.queue.LevelUpSender;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -34,11 +37,13 @@ import org.apache.commons.lang3.math.NumberUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -72,7 +77,12 @@ public class ApiMemberController {
     @Autowired
     private CardOrderInfoService cardOrderInfoService;
     @Autowired
+    private SysConfigService configService;
+    @Autowired
     private ModelMapper modelMapper;
+
+    @Value("{risk.url}")
+    private String renturnUrl;
 
     /**
      * 锁粉接口
@@ -298,7 +308,7 @@ public class ApiMemberController {
     }
 
     /**
-     * 购买会员校验
+     * 购买会员
      *
      * @param
      * @return
@@ -306,7 +316,7 @@ public class ApiMemberController {
      * @date 14:25
      */
     @GetMapping("/checkMemberDisLevel")
-    @ApiOperation(value = "购买会员校验")
+    @ApiOperation(value = "购买会员")
     public Result checkMemberDisLevel(@RequestParam String memberId, @RequestParam Integer disLevel) {
         DisMemberInfoEntity disMemberInfoEntity = disMemberInfoService.queryObject(memberId);
         //非会员可以通过
@@ -328,7 +338,32 @@ public class ApiMemberController {
                 }
             }
         }
-        return Result.ok();
+        Map<String, Object> json = new HashMap<>();
+        json.put("level", disLevel);
+        //获取会员升级价格配置
+        String price = configService.getValue("level_price", "");
+        JSONObject priceJson = JSON.parseObject(price);
+        String amount = priceJson.getString("level_" + disLevel);
+        //校验通过 生成APP支付订单
+        String orderNo = AliPayUtil.generateOrderId(memberId, "1");
+        //构造支付请求参数
+        AliPayParams payParams = new AliPayParams();
+        payParams.setSubject("会员升级服务");
+        payParams.setOutTradeNo(orderNo);
+        payParams.setTotalAmount(amount);
+        payParams.setQuitUrl(renturnUrl);
+        try {
+            payParams.setPassbackParams(URLEncoder.encode(JSON.toJSONString(json), "UTF-8"));
+            AlipayTradeWapPayResponse wapPayResponse = AliPayUtil.tradeWapPay(payParams);
+            if (wapPayResponse.isSuccess()) {
+                return Result.ok("支付成功");
+            } else {
+                return Result.error("支付失败");
+            }
+        } catch (Exception e) {
+            log.error("生成APP支付订单异常", e);
+            return Result.error("生成APP支付订单异常");
+        }
     }
 
     /**
@@ -345,7 +380,7 @@ public class ApiMemberController {
         try {
             if (AliPayUtil.signVerified(params)) {
                 //从回传参数中取出购买的会员等级
-                String level = JSON.parseObject(URLDecoder.decode(params.get("passback_params"),"UTF-8")).getString("level");
+                String level = JSON.parseObject(URLDecoder.decode(params.get("passbackParams"), "UTF-8")).getString("level");
                 if (StringUtils.isBlank(level)) {
                     return Result.error("回传参数中没有会员等级");
                 }
