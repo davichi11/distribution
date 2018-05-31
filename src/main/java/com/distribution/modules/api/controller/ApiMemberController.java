@@ -28,9 +28,13 @@ import com.distribution.modules.memeber.entity.WithdrawalInfo;
 import com.distribution.modules.memeber.service.WithdrawalInfoService;
 import com.distribution.modules.sys.service.SysConfigService;
 import com.distribution.queue.LevelUpSender;
+import com.distribution.weixin.service.WeiXinService;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -44,6 +48,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,6 +83,8 @@ public class ApiMemberController {
     private CardOrderInfoService cardOrderInfoService;
     @Autowired
     private SysConfigService configService;
+    @Autowired
+    private WeiXinService weiXinService;
     @Autowired
     private ModelMapper modelMapper;
 
@@ -386,6 +393,9 @@ public class ApiMemberController {
                 }
                 //根据支付宝账户查询对应的会员信息
                 DisMemberInfoEntity member = memberAccountService.selectByAlipay(params.get("buyer_logon_id")).getMember();
+                //构造模板消息
+                WxMpTemplateMessage templateMessage = buildTemplateMsg(member.getOpenId(), member.getDisLevel().toString(),
+                        level, member.getDisUserName());
                 //升级会员
                 member.setDisLevel(NumberUtils.toInt(level));
                 //用户类型升级为会员
@@ -393,6 +403,8 @@ public class ApiMemberController {
                     member.setDisUserType("1");
                 }
                 disMemberInfoService.update(member);
+                //生级成功发送消息
+                weiXinService.sendTemplateMsg(templateMessage);
                 return Result.ok();
             } else {
                 return Result.error("验签失败");
@@ -404,6 +416,30 @@ public class ApiMemberController {
             log.error("会员升级异常", e);
             return Result.error("会员升级异常");
         }
+    }
+
+    /**
+     * 组装会员升级提醒模板消息
+     *
+     * @param openId
+     * @param oldLevel
+     * @param newLevel
+     * @param name
+     * @return
+     */
+    private WxMpTemplateMessage buildTemplateMsg(String openId, String oldLevel, String newLevel, String name) {
+        WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
+        wxMpTemplateMessage.setTemplateId("kfKckhHo6GnTqO35SPHgQYKkomi1HV9kXsGbm9AO2Y8");
+        wxMpTemplateMessage.setToUser(openId);
+        List<WxMpTemplateData> templateDataList = Lists.newArrayList(
+                new WxMpTemplateData("first", MessageFormat.format("尊敬的会员：{0}，您的会员已经成功开通！", name)),
+                new WxMpTemplateData("keyword1", oldLevel),
+                new WxMpTemplateData("keyword2", newLevel),
+                new WxMpTemplateData("keyword3", " "),
+                new WxMpTemplateData("remark", "感谢您的使用")
+        );
+        wxMpTemplateMessage.setData(templateDataList);
+        return wxMpTemplateMessage;
     }
 
 }

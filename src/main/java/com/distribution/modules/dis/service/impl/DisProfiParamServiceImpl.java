@@ -171,6 +171,7 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
         //公众号给用户发送消息
         WxMpTemplateMessage templateMessage = buildTemplateMsg(member.getOpenId(), money,
                 member.getDisUserName(), account.getMemberAmount());
+        weiXinService.sendTemplateMsg(templateMessage);
     }
 
     /**
@@ -184,13 +185,12 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
      */
     private WxMpTemplateMessage buildTemplateMsg(String openId, BigDecimal money, String name, BigDecimal balance) {
         WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
-        wxMpTemplateMessage.setTemplateId("U15JWsWuFzZZIeP9VvfzoXRBtOlfdjNkc3QPoIQJQuE");
+        wxMpTemplateMessage.setTemplateId("8PktExsPLnwT5Z6IXFuTsMhLIHzfY0m4MZxqBbeQvEg");
         wxMpTemplateMessage.setToUser(openId);
         List<WxMpTemplateData> templateDataList = Lists.newArrayList(
-                new WxMpTemplateData("first", MessageFormat.format("尊敬的{0}您好，佣金返现已充入您的现金帐户！", name)),
-                new WxMpTemplateData("keyword1", DateUtils.formatDateTime(LocalDateTime.now())),
-                new WxMpTemplateData("keyword2", money.toString()),
-                new WxMpTemplateData("keyword3", balance.toString()),
+                new WxMpTemplateData("first", MessageFormat.format("尊敬的{0}您好，您获得了一笔新的佣金！", name)),
+                new WxMpTemplateData("keyword2", DateUtils.formatDateTime(LocalDateTime.now())),
+                new WxMpTemplateData("keyword1", money.toString()),
                 new WxMpTemplateData("remark", "感谢您的使用")
         );
         wxMpTemplateMessage.setData(templateDataList);
