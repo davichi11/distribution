@@ -150,10 +150,10 @@ public class ApiMemberController {
         map.put("mobile", mobile);
         DisMemberInfoEntity member = disMemberInfoService.queryList(map).stream().findFirst().orElse(new DisMemberInfoEntity());
         MemberAccount memberAccount = new MemberAccount();
-        memberAccount.setMember(new DisMemberInfoEntity());
+        memberAccount.setMember(member);
         memberAccount.setMemberType("1");
         memberAccount.setAliPayAccount(alipayAccount);
-        memberAccount.setIsDelete("0");
+        memberAccount.setIsDelete("1");
         memberAccount.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
         memberAccount.setAccountId(CommonUtils.getUUID());
         memberAccount.setMemberAmount(new BigDecimal(0));
@@ -342,11 +342,11 @@ public class ApiMemberController {
      * @author liuxinxin
      * @date 11:40
      */
-    @GetMapping("/disMember")
+    @GetMapping("/disMember/{mobile}")
     @ApiOperation(value = "查询用户信息")
-    public Result disMember(@RequestParam String userId) {
+    public Result disMember(@PathVariable("mobile") String mobile) {
         Map<String, Object> map = new HashMap<>(2);
-        map.put("userId", userId);
+        map.put("mobile", mobile);
         List<DisMemberInfoEntity> disMemberInfoEntities = disMemberInfoService.queryList(map);
         if (CollectionUtils.isNotEmpty(disMemberInfoEntities)) {
             return Result.ok().put("disMember", disMemberInfoEntities.get(0));
@@ -368,7 +368,7 @@ public class ApiMemberController {
     })
     @PatchMapping("/disMember/{mobile}")
     public Result updateMemberInfo(@PathVariable("mobile") String mobile, @RequestBody DisMemberVO memberVO) {
-        Map<String, Object> param = new HashMap<>();
+        Map<String, Object> param = new HashMap<>(2);
         param.put("mobile", mobile);
         DisMemberInfoEntity member = disMemberInfoService.queryList(param).stream().findFirst()
                 .orElse(new DisMemberInfoEntity());
@@ -413,7 +413,7 @@ public class ApiMemberController {
                 }
             }
         }
-        Map<String, Object> json = new HashMap<>();
+        Map<String, Object> json = new HashMap<>(2);
         json.put("level", disLevel);
         //获取会员升级价格配置
         String price = configService.getValue("level_price", "");

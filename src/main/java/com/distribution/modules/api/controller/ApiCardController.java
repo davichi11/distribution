@@ -6,7 +6,9 @@ import com.distribution.common.utils.Result;
 import com.distribution.modules.card.entity.CardInfo;
 import com.distribution.modules.card.service.CardInfoService;
 import com.distribution.modules.dis.entity.CardOrderInfoEntity;
+import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.CardOrderInfoService;
+import com.distribution.modules.dis.service.DisMemberInfoService;
 import com.distribution.modules.dis.vo.CardOrderInfoVO;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -34,6 +37,8 @@ public class ApiCardController {
     private CardInfoService cardInfoService;
     @Autowired
     private CardOrderInfoService cardOrderInfoService;
+    @Autowired
+    private DisMemberInfoService disMemberInfoService;
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -89,13 +94,19 @@ public class ApiCardController {
             return Result.error("验证码不正确");
         }
         try {
-            cardOrderInfoVO.setId(CommonUtils.getUUID());
-            cardOrderInfoVO.setOrderId(CommonUtils.getUUID());
-            cardOrderInfoVO.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
-            cardOrderInfoVO.setOrderStatus(CardOrderInfoVO.OrderStatus.APPLICATION);
+            Map<String, Object> map = new HashMap<>(2);
+            map.put("mobile", cardOrderInfoVO.getOrderMobile());
+            DisMemberInfoEntity member = disMemberInfoService.queryList(map).stream().findFirst().orElse(new DisMemberInfoEntity());
             CardOrderInfoEntity cardOrderInfoEntity = modelMapper.map(cardOrderInfoVO, CardOrderInfoEntity.class);
+            cardOrderInfoEntity.setId(CommonUtils.getUUID());
+            cardOrderInfoEntity.setOrderId(CommonUtils.getUUID());
+            cardOrderInfoEntity.setMemberInfo(member);
+            cardOrderInfoEntity.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
+            cardOrderInfoEntity.setOrderStatus(CardOrderInfoVO.OrderStatus.APPLICATION);
+            cardOrderInfoEntity.setIsDelete("1");
             cardOrderInfoService.save(cardOrderInfoEntity);
         } catch (Exception e) {
+            log.error("申请异常", e);
             return Result.error("申请异常");
         }
         return Result.ok();

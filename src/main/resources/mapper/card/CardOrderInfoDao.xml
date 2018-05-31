@@ -133,6 +133,9 @@
     <insert id="save" parameterType="com.distribution.modules.dis.entity.CardOrderInfoEntity">
         insert into card_order_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
             <if test="orderName != null">
                 `order_name`,
             </if>
@@ -151,10 +154,10 @@
             <if test="orderStatus != null">
                 `order_status`,
             </if>
-            <if test="memberId != null">
+            <if test="memberInfo != null">
                 `member_id`,
             </if>
-            <if test="cardId != null">
+            <if test="cardInfo != null">
                 `card_id`,
             </if>
             <if test="isDelete != null">
@@ -168,6 +171,9 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
             <if test="orderName != null">
                 #{orderName}
                 ,
@@ -192,12 +198,12 @@
                 #{orderStatus}
                 ,
             </if>
-            <if test="memberId != null">
-                #{memberId}
+            <if test="memberInfo != null">
+                #{memberInfo.id}
                 ,
             </if>
-            <if test="cardId != null">
-                #{cardId}
+            <if test="cardInfo != null">
+                #{cardInfo.id}
                 ,
             </if>
             <if test="isDelete != null">
@@ -241,12 +247,12 @@
                 `order_status` = #{orderStatus}
                 ,
             </if>
-            <if test="memberId != null">
-                `member_id` = #{memberId}
+            <if test="memberInfo != null">
+                `member_id` = #{memberInfo.id}
                 ,
             </if>
-            <if test="cardId != null">
-                `card_id` = #{cardId}
+            <if test="cardInfo != null">
+                `card_id` = #{cardInfo.id}
                 ,
             </if>
             <if test="isDelete != null">

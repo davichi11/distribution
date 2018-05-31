@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class CardOrderInfoVO {
-    private String id;
     /**
      *
      */
@@ -26,21 +25,14 @@ public class CardOrderInfoVO {
      */
     private String orderEmail;
     /**
+     * 信用卡ID
+     */
+    private String cardId;
+    /**
      * 订单状态 0:失败,1:成功,2:申请中
      */
     private Integer orderStatus;
-    /**
-     *
-     */
-    private String isDelete;
-    /**
-     *
-     */
-    private String addTime;
-    /**
-     *
-     */
-    private String updateTime;
+
 
     public static final class OrderStatus {
         public static final int LOSE = 0;//失败
