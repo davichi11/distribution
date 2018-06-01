@@ -74,9 +74,3 @@ wechat:
       secret: c872c0b347faec4ed3827d07f40f4206
       token: cfe6112227094086817c92f36984ee88
       aesKey: hkhoCLA7FcrZwXTWsVWGl8Osqz7twJPdMLi2EemKg8o
-server:
-  tomcat:
-    port-header: X-Forwarded-Port
-    protocol-header: x-forwarded-proto
-    remote-ip-header: x-forwarded-for
-  use-forward-headers: true
