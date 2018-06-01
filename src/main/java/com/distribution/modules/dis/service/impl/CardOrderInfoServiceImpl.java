@@ -73,7 +73,8 @@ public class CardOrderInfoServiceImpl implements CardOrderInfoService {
      * @Date: 2018/5/27 15:20
      * @Description:
      */
-    @Transactional
+    @Override
+    @Transactional(rollbackFor = Exception.class)
     public void statusUpdate(Map<String, Object> map) throws Exception {
         cardOrderInfoDao.statusUpdate(map);
         int status = (int) map.get("orderStatus");

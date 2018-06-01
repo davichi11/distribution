@@ -27,11 +27,15 @@ public interface CardOrderInfoDao extends BaseDao<CardOrderInfoEntity> {
     /**
      * 批量修改订单状态
      *
-     * @param orderStatus
-     * @param ids
+     * @param map
      */
     void statusUpdate(Map<String, Object> map);
 
+    /**
+     * 批量查询办卡订单
+     * @param ids
+     * @return
+     */
     List<CardOrderInfoEntity> queryListByIds(List ids);
 
 }

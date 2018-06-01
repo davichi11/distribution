@@ -42,6 +42,10 @@ public class CardInfo {
      * 信用卡办理链接
      */
     private String cardUrl;
+    /**
+     * 佣金返利
+     */
+    private Double rebate;
 
     /** */
     private String updateTime;
@@ -51,8 +55,4 @@ public class CardInfo {
 
     /** */
     private String isDelete;
-    /**
-     * 佣金返利
-     */
-    private Double rebate;
 }

@@ -32,6 +32,7 @@
             <result column="card_img" jdbcType="VARCHAR" property="cardImg"/>
             <result column="card_info" jdbcType="VARCHAR" property="cardInfo"/>
             <result column="card_url" jdbcType="VARCHAR" property="cardUrl"/>
+            <result column="rebate" property="rebate"/>
         </association>
     </resultMap>
 
@@ -61,6 +62,7 @@
             card_name,
             card_img,
             card_info,
+            rebate,
             card_url
         from card_order_info o
             left join dis_member_info m on o.member_id = m.id
@@ -94,6 +96,7 @@
         card_name,
         card_img,
         card_info,
+        rebate,
         card_url
         from card_order_info o
         left join dis_member_info m on o.member_id = m.id
@@ -320,6 +323,7 @@
         card_name,
         card_img,
         card_info,
+        rebate,
         card_url
         from card_order_info o
         left join dis_member_info m on o.member_id = m.id
