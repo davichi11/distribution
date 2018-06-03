@@ -1,6 +1,8 @@
 package com.distribution.queue;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.distribution.modules.api.service.UserService;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.DisMemberInfoService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,8 @@ import org.springframework.stereotype.Component;
 public class LevelUpReceiver {
     @Autowired
     private DisMemberInfoService disMemberInfoService;
+    @Autowired
+    private UserService userService;
 
     @RabbitHandler
     public void process(String msg) {
@@ -31,7 +35,8 @@ public class LevelUpReceiver {
             log.error("消息为空");
             return;
         }
-        DisMemberInfoEntity memberInfo = (DisMemberInfoEntity) JSON.parse(msg);
+        JSONObject memberObject = JSON.parseObject(msg);
+        DisMemberInfoEntity memberInfo = disMemberInfoService.queryObject(memberObject.getString("id"));
         disMemberInfoService.levelUp(memberInfo);
     }
 

@@ -13,4 +13,10 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface DisMemberInfoDao extends BaseDao<DisMemberInfoEntity> {
+    /**
+     * 根据open的ID查询
+     * @param openId
+     * @return
+     */
+    DisMemberInfoEntity findByOpenId(String openId);
 }

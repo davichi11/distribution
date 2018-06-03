@@ -22,6 +22,13 @@ public interface DisMemberInfoService {
     DisMemberInfoEntity queryObject(String id);
 
     /**
+     * 根据openID查询会员信息
+     * @param openId
+     * @return
+     */
+    DisMemberInfoEntity queryByOpenId(String openId);
+
+    /**
      * 查询列表
      *
      * @param map

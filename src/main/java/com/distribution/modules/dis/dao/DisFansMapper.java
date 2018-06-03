@@ -41,6 +41,13 @@ public interface DisFansMapper {
     DisFans selectByPrimaryKey(String id);
 
     /**
+     * 根据openID查
+     * @param openId
+     * @return
+     */
+    DisFans findWechatId(String openId);
+
+    /**
      * 查询列表
      *
      * @param param

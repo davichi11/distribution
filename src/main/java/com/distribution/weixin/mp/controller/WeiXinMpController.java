@@ -117,6 +117,11 @@ public class WeiXinMpController {
             log.error("拉取用户信息异常", e);
             return Result.error("拉取用户信息异常");
         }
+        if (disFansService.queryByOpenId(user.getOpenId()) != null ||
+                disMemberInfoService.queryByOpenId(user.getOpenId()) != null) {
+            return Result.error("您已注册");
+        }
+
         DisFans disFans = new DisFans();
         disFans.setId(CommonUtils.getUUID());
         disFans.setWechatId(user.getOpenId());
@@ -129,6 +134,9 @@ public class WeiXinMpController {
             map.put("mobile", state);
             DisMemberInfoEntity disMemberInfo = disMemberInfoService.queryList(map).stream().findFirst()
                     .orElse(new DisMemberInfoEntity());
+            if (disMemberInfo.getOpenId().equals(user.getOpenId())) {
+                return Result.error("不能琐自己");
+            }
             //关联推荐人
             disFans.setDisMemberInfo(disMemberInfo);
             //异步执行会员升级逻辑

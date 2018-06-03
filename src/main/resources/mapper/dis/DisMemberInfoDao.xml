@@ -288,5 +288,39 @@
             #{id}
         </foreach>
     </delete>
+    <select id="findByOpenId" resultType="com.distribution.modules.dis.entity.DisMemberInfoEntity">
+        select
+            m.id,
+            m.dis_platform_id,
+            m.dis_user_id,
+            m.dis_model_id,
+            m.dis_full_index,
+            m.dis_user_name,
+            m.dis_level,
+            m.dis_user_type,
+            m.dis_note,
+            m.open_id,
+            m.add_time,
+            m.update_time,
+            m.is_delete,
+            u.user_id,
+            u.username,
+            u.mobile,
+            p.id            "p_id",
+            p.dis_user_id   "p_user_id",
+            p.dis_user_name "p_name",
+            p.dis_user_type "p_dis_user_type",
+            p.dis_model_id  "p_dis_model_id",
+            p.open_id       "p_open_id",
+            c.id            "c_id",
+            c.dis_user_id   "c_user_id",
+            c.dis_user_type "c_dis_user_type",
+            c.dis_user_name "c_name"
+        from distribution.dis_member_info m
+            left join distribution.tb_user u on u.user_id = m.dis_user_id
+            left join dis_member_info p on m.dis_model_id = p.id
+            left join dis_member_info c on c.dis_model_id = m.id
+        where m.open_id = #{openId}
+    </select>
 
 </mapper>

@@ -21,6 +21,8 @@ public interface DisFansService {
      */
     DisFans queryObject(String id);
 
+    DisFans queryByOpenId(String openId);
+
     /**
      * 查询列表
      *

@@ -34,6 +34,11 @@ public class DisFansServiceImpl implements DisFansService {
         return disFansMapper.selectByPrimaryKey(id);
     }
 
+    @Override
+    public DisFans queryByOpenId(String openId) {
+        return disFansMapper.findWechatId(openId);
+    }
+
     /**
      * 查询列表
      *

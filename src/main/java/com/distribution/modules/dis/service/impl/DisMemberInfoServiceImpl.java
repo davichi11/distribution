@@ -30,6 +30,11 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
     }
 
     @Override
+    public DisMemberInfoEntity queryByOpenId(String openId) {
+        return disMemberInfoDao.findByOpenId(openId);
+    }
+
+    @Override
     public List<DisMemberInfoEntity> queryList(Map<String, Object> map) {
         return disMemberInfoDao.queryList(map);
     }
