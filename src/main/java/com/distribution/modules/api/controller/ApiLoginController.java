@@ -5,7 +5,12 @@ import com.distribution.common.utils.Result;
 import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.api.config.JWTConfig;
 import com.distribution.modules.api.entity.UserEntity;
+import com.distribution.modules.api.pojo.vo.DisMemberVO;
 import com.distribution.modules.api.service.UserService;
+import com.distribution.modules.dis.entity.DisFans;
+import com.distribution.modules.dis.entity.DisMemberInfoEntity;
+import com.distribution.modules.dis.service.DisFansService;
+import com.distribution.modules.dis.service.DisMemberInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -36,6 +41,10 @@ public class ApiLoginController {
     @Autowired
     private UserService userService;
     @Autowired
+    private DisMemberInfoService memberInfoService;
+    @Autowired
+    private DisFansService fansService;
+    @Autowired
     private JWTConfig jwtConfig;
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -44,7 +53,7 @@ public class ApiLoginController {
      * 登录或注册,注册过校验验证码,成功登陆,没有注册过执行注册逻辑
      */
     @AuthIgnore
-    @PostMapping("loginOrRegister")
+    @PostMapping("/loginOrRegister")
     @ApiOperation(value = "登录/注册", notes = "登录或注册,注册过校验验证码,成功登陆,没有注册过执行注册逻辑")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "手机号", required = true),
@@ -57,30 +66,59 @@ public class ApiLoginController {
         }
         //校验验证码
         //根据手机号获取验证码
-        String code = redisTemplate.opsForValue().get(mobile);
-        if (!captcha.equals(code)) {
-            return Result.error("验证码不正确");
-        }
+//        String code = redisTemplate.opsForValue().get(mobile);
+//        if (!captcha.equals(code)) {
+//            return Result.error("验证码不正确");
+//        }
+        DisMemberVO disMemberVO = new DisMemberVO();
+
         //用户登录
         UserEntity userEntity = userService.queryByMobile(mobile);
         //如果已注册,登陆
         if (userEntity != null) {
+            DisMemberInfoEntity memberInfo = memberInfoService.queryByMobile(userEntity.getMobile());
+            buildMemberVO(mobile, disMemberVO, memberInfo);
             //生成token
             String token = jwtConfig.generateToken(userEntity.getUserId());
             Map<String, Object> map = new HashMap<>(16);
             map.put("token", token);
             map.put("expire", jwtConfig.getExpire());
+            map.put("user", disMemberVO);
+
             return Result.ok(map);
         } else { //没有就注册
             try {
                 //默认密码就是手机号
-                userService.save(mobile, mobile, openId);
+                UserEntity user = userService.save(mobile, mobile, openId);
+
+                //获取用户信息
+                DisMemberInfoEntity memberInfo = user.getMemberInfo();
+                buildMemberVO(mobile, disMemberVO, memberInfo);
+                //生成token
+                String token = jwtConfig.generateToken(user.getUserId());
+                Map<String, Object> map = new HashMap<>(16);
+                map.put("token", token);
+                map.put("expire", jwtConfig.getExpire());
+                map.put("user", disMemberVO);
+                return Result.ok(map);
             } catch (Exception e) {
                 log.error("注册用户异常", e);
                 return Result.error("注册用户异常");
             }
         }
-        return Result.ok();
+    }
+
+    private void buildMemberVO(String mobile, DisMemberVO disMemberVO, DisMemberInfoEntity memberInfo) {
+        DisFans fans = fansService.queryByOpenId(memberInfo.getOpenId());
+        disMemberVO.setDisUserName(memberInfo.getDisUserName());
+        disMemberVO.setDisUserType(memberInfo.getDisUserType());
+        disMemberVO.setDisLevel(memberInfo.getDisLevel());
+        disMemberVO.setMobile(mobile);
+        disMemberVO.setOpenId(memberInfo.getOpenId());
+        if (fans != null) {
+            disMemberVO.setNickName(fans.getWechatNickname());
+            disMemberVO.setImgUrl(fans.getWechatImg());
+        }
     }
 
 }

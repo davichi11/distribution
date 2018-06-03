@@ -19,4 +19,6 @@ public interface DisMemberInfoDao extends BaseDao<DisMemberInfoEntity> {
      * @return
      */
     DisMemberInfoEntity findByOpenId(String openId);
+
+    DisMemberInfoEntity queryByMobile(String mobile);
 }

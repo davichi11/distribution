@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(String mobile, String password, String openId) throws Exception {
+    public UserEntity save(String mobile, String password, String openId) throws Exception {
         UserEntity user = new UserEntity();
         user.setUserId(CommonUtils.getUUID());
         user.setMobile(mobile);
@@ -80,6 +80,8 @@ public class UserServiceImpl implements UserService {
         member.setDisUserType("0");
         member.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
         memberInfoDao.save(member);
+        user.setMemberInfo(member);
+        return user;
     }
 
     @Override

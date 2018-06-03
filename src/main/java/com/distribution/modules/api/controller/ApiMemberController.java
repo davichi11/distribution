@@ -16,7 +16,6 @@ import com.distribution.modules.account.entity.MemberAccountHistory;
 import com.distribution.modules.account.service.MemberAccountHistoryService;
 import com.distribution.modules.account.service.MemberAccountService;
 import com.distribution.modules.api.annotation.AuthIgnore;
-import com.distribution.modules.api.pojo.vo.DisFansVO;
 import com.distribution.modules.api.pojo.vo.DisMemberVO;
 import com.distribution.modules.api.pojo.vo.WithdrawalVo;
 import com.distribution.modules.dis.entity.CardOrderInfoEntity;
@@ -52,10 +51,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author ChunLiang Hu
@@ -94,44 +90,35 @@ public class ApiMemberController {
     private String renturnUrl;
 
     /**
-     * 锁粉接口
+     * 我的团队
      *
-     * @param disFansVO
+     * @param mobile
      * @return
      */
-    @AuthIgnore
-    @PostMapping("disFans")
-    @ApiOperation(value = "锁粉接口")
-    @ApiImplicitParam(paramType = "body", dataType = "DisFansVO", name = "disFansVO", value = "锁粉信息", required = true)
-    public Result lockFans(@RequestBody DisFansVO disFansVO) {
-        if (StringUtils.isBlank(disFansVO.getWechatId())) {
-            return Result.error("微信openID为空");
+    @GetMapping("team")
+    @ApiOperation(value = "我的团队")
+    @ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "会员手机号", required = true)
+    public Result myTeam(String mobile) {
+        if (StringUtils.isBlank(mobile)) {
+            return Result.error("手机号不能为空");
         }
-        if (StringUtils.isBlank(disFansVO.getMemberId())) {
-            return Result.error("推荐人ID为空");
-        }
-        DisFans disFans = new DisFans();
-        BeanUtils.copyProperties(disFansVO, disFans);
-        disFans.setId(CommonUtils.getUUID());
-        //查询推荐人是否存在
-        DisMemberInfoEntity disMemberInfo = disMemberInfoService.queryObject(disFansVO.getMemberId());
-        if (disMemberInfo == null) {
-            return Result.error("推荐人ID不存在");
-        }
-        //关联推荐人
-        disFans.setDisMemberInfo(disMemberInfo);
-        try {
-            disFansService.save(disFans);
-        } catch (Exception e) {
-            log.error("保存锁粉信息异常", e);
-            return Result.error("保存锁粉信息异常");
-        }
-        levelUpSender.send(JSON.toJSONString(disMemberInfo));
-        return Result.ok("锁粉成功");
+        DisMemberInfoEntity member = disMemberInfoService.queryByMobile(mobile);
+        //查询所有锁粉信息
+        Map<String, Object> fansParam = new HashMap<>(2);
+        fansParam.put("memberId", member.getId());
+        List<DisFans> disFansList = disFansService.queryList(fansParam);
+        //返回数据
+        Map<String, Object> map = new HashMap<>();
+        map.put("countFans", Optional.ofNullable(disFansList).orElse(new ArrayList<>()).size());
+        map.put("fansList", disFansList);
+        map.put("countChirldern", Optional.ofNullable(member.getDisMemberChildren()).orElse(new ArrayList<>()).size());
+        map.put("children", member.getDisMemberChildren());
+        return Result.ok().put("results", map);
     }
 
     /**
      * 创建用户账户信息
+     *
      * @param mobile
      * @param alipayAccount
      * @return
@@ -200,27 +187,26 @@ public class ApiMemberController {
         Map<String, Object> resultMap = new HashMap<>(6);
 //        Map<String, Object> param = new HashMap<>(2);
 //        param.put("userId",userId);
+        //账户信息
+        MemberAccount memberAccount = memberAccountService.selectMemberAccountByUserId(mobile);
+        if (memberAccount == null) {
+            return Result.ok("请先设置账户信息");
+        }
         //提现金额
         BigDecimal withdrawalAmount = withdrawalInfoService.withdrawalAmounts(mobile);
         resultMap.put("withdrawalAmount", withdrawalAmount);
-        resultMap.put("memberAccount", 0.00);
-        resultMap.put("generalIncome", 0.00);
-        //账户信息
-        MemberAccount memberAccount = memberAccountService.selectMemberAccountByUserId(mobile);
-        if (memberAccount != null) {
-            //账户余额
-            resultMap.put("memberAccount", memberAccount.getMemberAmount());
-            Map<String, Object> map = new HashMap<>(6);
-            map.put("accountId", memberAccount.getAccountId());
-            map.put("hisType", MemberAccountHistory.HisType.INCOME);
-            List<MemberAccountHistory> list = memberAccountHistoryService.findList(map);
-            Double generalIncome = 0.00;
-            if (null != list && list.size() > 0) {
-                generalIncome = list.stream().mapToDouble(value -> value.getHisAmount().doubleValue()).sum();
-            }
-            //收入总金额
-            resultMap.put("generalIncome", generalIncome);
+        //账户余额
+        resultMap.put("memberAccount", memberAccount.getMemberAmount());
+        Map<String, Object> map = new HashMap<>(6);
+        map.put("accountId", memberAccount.getAccountId());
+        map.put("hisType", MemberAccountHistory.HisType.INCOME);
+        List<MemberAccountHistory> list = memberAccountHistoryService.findList(map);
+        Double generalIncome = 0.00;
+        if (null != list && list.size() > 0) {
+            generalIncome = list.stream().mapToDouble(value -> value.getHisAmount().doubleValue()).sum();
         }
+        //收入总金额
+        resultMap.put("generalIncome", generalIncome);
 
         return Result.ok(resultMap);
     }
@@ -297,6 +283,9 @@ public class ApiMemberController {
     public Result saveWithdrawalInfo(@RequestBody WithdrawalVo withdrawalVo) {
         //提现校验
         MemberAccount account = memberAccountService.selectMemberAccountByUserId(withdrawalVo.getWithdrawMobile());
+        if (account == null) {
+            return Result.error("请先设置支付宝账户");
+        }
         if (account.getMemberAmount().compareTo(withdrawalVo.getWithdrawAmount()) < 0) {
             return Result.error("提现金额超出可用余额");
         }

@@ -98,7 +98,7 @@ public class ApiCardController {
         try {
             Map<String, Object> map = new HashMap<>(2);
             map.put("mobile", cardOrderInfoVO.getOrderMobile());
-            DisMemberInfoEntity member = disMemberInfoService.queryList(map).stream().findFirst().orElse(new DisMemberInfoEntity());
+            DisMemberInfoEntity member = disMemberInfoService.queryByMobile(cardOrderInfoVO.getOrderMobile());
             CardOrderInfoEntity cardOrderInfoEntity = modelMapper.map(cardOrderInfoVO, CardOrderInfoEntity.class);
             cardOrderInfoEntity.setId(CommonUtils.getUUID());
             cardOrderInfoEntity.setOrderId(CommonUtils.getUUID());

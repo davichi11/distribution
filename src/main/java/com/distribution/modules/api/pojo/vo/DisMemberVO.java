@@ -30,5 +30,21 @@ public class DisMemberVO {
      * 级别
      */
     private Integer disLevel;
+    /**
+     * 手机号
+     */
+    private String mobile;
+    /**
+     * 微信openID
+     */
+    private String openId;
+    /**
+     * 微信昵称
+     */
+    private String nickName;
+    /**
+     * 微信头像地址
+     */
+    private String imgUrl;
 
 }

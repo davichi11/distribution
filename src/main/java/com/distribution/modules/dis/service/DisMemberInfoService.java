@@ -29,6 +29,13 @@ public interface DisMemberInfoService {
     DisMemberInfoEntity queryByOpenId(String openId);
 
     /**
+     * 根据手机号查询
+     * @param mobile
+     * @return
+     */
+    DisMemberInfoEntity queryByMobile(String mobile);
+
+    /**
      * 查询列表
      *
      * @param map

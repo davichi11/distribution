@@ -35,6 +35,11 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
     }
 
     @Override
+    public DisMemberInfoEntity queryByMobile(String mobile) {
+        return disMemberInfoDao.queryByMobile(mobile);
+    }
+
+    @Override
     public List<DisMemberInfoEntity> queryList(Map<String, Object> map) {
         return disMemberInfoDao.queryList(map);
     }

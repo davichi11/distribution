@@ -98,7 +98,7 @@ public class WeiXinMpController {
      * @return
      */
     @AuthIgnore
-    @ApiOperation(value = "微信授权回调地址",notes = "接收微信回调获取用户信息+锁粉")
+    @ApiOperation(value = "微信授权回调地址", notes = "接收微信回调获取用户信息+锁粉")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "code", value = "微信code"),
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "state", value = "会员手机号")
@@ -117,9 +117,10 @@ public class WeiXinMpController {
             log.error("拉取用户信息异常", e);
             return Result.error("拉取用户信息异常");
         }
+        //判断该用户是否已关注或已注册
         if (disFansService.queryByOpenId(user.getOpenId()) != null ||
                 disMemberInfoService.queryByOpenId(user.getOpenId()) != null) {
-            return Result.error("您已注册");
+            return Result.ok("您已关注").put("user", disFansService.queryByOpenId(user.getOpenId()));
         }
 
         DisFans disFans = new DisFans();
@@ -155,7 +156,7 @@ public class WeiXinMpController {
             log.error("保存锁粉信息异常", e);
             return Result.error("保存锁粉信息异常");
         }
-        return Result.ok("锁粉成功");
+        return Result.ok("锁粉成功").put("user", user);
 
     }
 
