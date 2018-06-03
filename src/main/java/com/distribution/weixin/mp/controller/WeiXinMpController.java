@@ -11,6 +11,10 @@ import com.distribution.modules.dis.service.DisFansService;
 import com.distribution.modules.dis.service.DisMemberInfoService;
 import com.distribution.queue.LevelUpSender;
 import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.exception.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -22,13 +26,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ChunLiang Hu
@@ -38,6 +43,7 @@ import java.util.List;
  * @Description TODO(描述)
  * @create 2018/5/27-15:54
  */
+@Api("微信接口")
 @Slf4j
 @RestController
 @RequestMapping("/api")
@@ -50,7 +56,7 @@ public class WeiXinMpController {
     private DisMemberInfoService disMemberInfoService;
     @Autowired
     private LevelUpSender levelUpSender;
-    @Value("{risk.url}")
+    @Value("${risk.url}")
     private String url;
 
     @AuthIgnore
@@ -72,13 +78,15 @@ public class WeiXinMpController {
     /**
      * 生成用户授权链接,用于获取授权code
      *
-     * @param memberId 推荐人ID
+     * @param mobile 推荐人ID
      * @return
      */
+    @ApiOperation(value = "生成用户授权链接,用于获取授权code")
+    @ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "会员手机号")
     @AuthIgnore
     @GetMapping("/weixin/oauthUrl")
-    public String buildOauthUrl(String memberId) {
-        return wxMpService.oauth2buildAuthorizationUrl(url, "snsapi_userinfo", memberId);
+    public String buildOauthUrl(String mobile) {
+        return wxMpService.oauth2buildAuthorizationUrl(url, "snsapi_userinfo", mobile);
     }
 
     /**
@@ -89,7 +97,13 @@ public class WeiXinMpController {
      * @param state 推荐人ID
      * @return
      */
-    @PostMapping("/weixin/getUserInfo")
+    @AuthIgnore
+    @ApiOperation(value = "微信授权回调地址",notes = "接收微信回调获取用户信息+锁粉")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", dataType = "string", name = "code", value = "微信code"),
+            @ApiImplicitParam(paramType = "query", dataType = "string", name = "state", value = "会员手机号")
+    })
+    @GetMapping("/getUserInfo")
     public Result getUserInfo(String code, String state) {
         WxMpOAuth2AccessToken accessToken;
         WxMpUser user;
@@ -108,9 +122,13 @@ public class WeiXinMpController {
         disFans.setWechatId(user.getOpenId());
         disFans.setWechatImg(user.getHeadImgUrl());
         disFans.setWechatNickname(user.getNickname());
-        //查询推荐人是否存在
-        DisMemberInfoEntity disMemberInfo = disMemberInfoService.queryObject(state);
-        if (disMemberInfo != null) {
+
+        if (StringUtils.isNotBlank(state)) {
+            //查询推荐人是否存在
+            Map<String, Object> map = new HashMap<>(2);
+            map.put("mobile", state);
+            DisMemberInfoEntity disMemberInfo = disMemberInfoService.queryList(map).stream().findFirst()
+                    .orElse(new DisMemberInfoEntity());
             //关联推荐人
             disFans.setDisMemberInfo(disMemberInfo);
             //异步执行会员升级逻辑

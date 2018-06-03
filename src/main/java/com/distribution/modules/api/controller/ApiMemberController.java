@@ -342,6 +342,7 @@ public class ApiMemberController {
      * @author liuxinxin
      * @date 11:40
      */
+    @AuthIgnore
     @GetMapping("/disMember/{mobile}")
     @ApiOperation(value = "查询用户信息")
     public Result disMember(@PathVariable("mobile") String mobile) {

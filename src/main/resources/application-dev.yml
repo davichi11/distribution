@@ -55,13 +55,16 @@ risk:
         header: token
     open-kaptcha:
         is-open: false
-    url: localhost
+    url: http://www.qiandaoshou.cn/dis/api/getUserInfo
 swagger:
-  base-package: com.distribution.modules.api.controller
   enabled: true
-  title: API接口文档
-  description: API接口文档
-
+  docket:
+    api:
+      title: 基础API文档
+      base-package: com.distribution.modules.api.controller
+    weixin:
+      title: 微信接口
+      base-package: com.distribution.weixin.mp.controller
 
 wechat:
   pay:

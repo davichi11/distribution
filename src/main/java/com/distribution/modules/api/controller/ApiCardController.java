@@ -3,6 +3,7 @@ package com.distribution.modules.api.controller;
 import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.DateUtils;
 import com.distribution.common.utils.Result;
+import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.card.entity.CardInfo;
 import com.distribution.modules.card.service.CardInfoService;
 import com.distribution.modules.dis.entity.CardOrderInfoEntity;
@@ -62,6 +63,7 @@ public class ApiCardController {
      * @Date: 2018/5/26 0:10
      * @Description:
      */
+    @AuthIgnore
     @PostMapping("/cardList")
     @ApiOperation(value = "信用卡列表")
     public Result list(@RequestBody Map<String, Object> params) {

@@ -55,7 +55,7 @@ risk:
         header: token
     open-kaptcha:
         is-open: false
-    url: http://www.qiandaoshou.cn/dis
+    url: http://www.qiandaoshou.cn/dis/api/getUserInfo
 swagger:
   base-package: com.distribution.modules.api.controller
   enabled: false
