@@ -1,5 +1,6 @@
 package com.distribution.queue;
 
+import com.distribution.config.QueueConfig;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,6 @@ public class NotifySender {
     private RabbitTemplate rabbitTemplate;
 
     public void send(String context) {
-        rabbitTemplate.convertAndSend("notify", context);
+        rabbitTemplate.convertAndSend(QueueConfig.DELAY_QUEUE_PER_MESSAGE_TTL_NAME, context);
     }
 }

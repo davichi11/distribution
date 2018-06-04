@@ -30,4 +30,8 @@ public class DisFansVO {
      * 推荐人ID
      */
     private String memberId;
+
+    private String mobile;
+
+    private String token;
 }

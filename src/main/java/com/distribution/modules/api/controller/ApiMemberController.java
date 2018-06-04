@@ -16,6 +16,8 @@ import com.distribution.modules.account.entity.MemberAccountHistory;
 import com.distribution.modules.account.service.MemberAccountHistoryService;
 import com.distribution.modules.account.service.MemberAccountService;
 import com.distribution.modules.api.annotation.AuthIgnore;
+import com.distribution.modules.api.config.JWTConfig;
+import com.distribution.modules.api.pojo.vo.DisFansVO;
 import com.distribution.modules.api.pojo.vo.DisMemberVO;
 import com.distribution.modules.api.pojo.vo.WithdrawalVo;
 import com.distribution.modules.dis.entity.CardOrderInfoEntity;
@@ -24,6 +26,7 @@ import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.CardOrderInfoService;
 import com.distribution.modules.dis.service.DisFansService;
 import com.distribution.modules.dis.service.DisMemberInfoService;
+import com.distribution.modules.dis.service.DisProfiParamService;
 import com.distribution.modules.memeber.entity.WithdrawalInfo;
 import com.distribution.modules.memeber.service.WithdrawalInfoService;
 import com.distribution.modules.sys.service.SysConfigService;
@@ -70,6 +73,8 @@ public class ApiMemberController {
     @Autowired
     private DisMemberInfoService disMemberInfoService;
     @Autowired
+    private DisProfiParamService profiParamService;
+    @Autowired
     private LevelUpSender levelUpSender;
     @Autowired
     private WithdrawalInfoService withdrawalInfoService;
@@ -85,7 +90,8 @@ public class ApiMemberController {
     private WeiXinService weiXinService;
     @Autowired
     private ModelMapper modelMapper;
-
+    @Autowired
+    private JWTConfig jwtConfig;
     @Value("{risk.url}")
     private String renturnUrl;
 
@@ -243,6 +249,7 @@ public class ApiMemberController {
         map.put("mobile", mobile);
         DisMemberInfoEntity member = disMemberInfoService.queryList(map).stream().findFirst().orElse(new DisMemberInfoEntity());
         map.put("userId", member.getId());
+        map.put("hisType", MemberAccountHistory.HisType.INCOME);
         List<MemberAccountHistory> memberAmountHistroyList = memberAccountHistoryService.findList(map);
         return Result.ok().put("memberWithdrawalList", memberAmountHistroyList);
     }
@@ -257,13 +264,11 @@ public class ApiMemberController {
     @GetMapping("/memberCardList")
     @ApiOperation(value = "用户办卡信息列表")
     public Result memberCardList(@RequestParam String mobile) {
-        Map<String, Object> map = new HashMap<>(2);
-        map.put("mobile", mobile);
         List<CardOrderInfoEntity> memberCardList = new ArrayList<>();
-        List<DisMemberInfoEntity> memberInfoEntities = disMemberInfoService.queryList(map);
-        if (CollectionUtils.isNotEmpty(memberInfoEntities)) {
+        DisMemberInfoEntity memberInfoEntities = disMemberInfoService.queryByMobile(mobile);
+        if (memberInfoEntities != null) {
             Map<String, Object> param = new HashMap<>(2);
-            param.put("memberId", memberInfoEntities.get(0).getId());
+            param.put("memberId", memberInfoEntities.getId());
 //            param.put("orderStatus", CardOrderInfoEntity.OrderStatus.SUCCESS);
             memberCardList = cardOrderInfoService.queryList(param);
         }
@@ -344,6 +349,21 @@ public class ApiMemberController {
             return Result.error("没有查询到用户信息");
         }
     }
+
+    @AuthIgnore
+    @ApiOperation(value = "查询微信关注者信息")
+    @GetMapping("/disFans/{openId}")
+    public Result disFansInfo(@PathVariable("openId") String openId) {
+        DisFans fans = disFansService.queryByOpenId(openId);
+        DisFansVO fansVO = modelMapper.map(fans, DisFansVO.class);
+        DisMemberInfoEntity member = disMemberInfoService.queryByOpenId(openId);
+        if (member != null) {
+            fansVO.setMobile(member.getUserEntity().getMobile());
+            fansVO.setToken(jwtConfig.generateToken(member.getUserEntity().getUserId()));
+        }
+        return Result.ok().put("weixinInfo", fans);
+    }
+
 
     /**
      * 更新会员信息
@@ -461,6 +481,21 @@ public class ApiMemberController {
                     member.setDisUserType("1");
                 }
                 disMemberInfoService.update(member);
+                //调用分润
+                Double money = 0.00;
+                switch (level) {
+                    case "1":
+                        money = 300.00;
+                        break;
+                    case "2":
+                        money = 200.00;
+                        break;
+                    case "3":
+                        money = 100.00;
+                        break;
+                    default:
+                }
+                profiParamService.doFeeSplitting(member, money, true);
                 //生级成功发送消息
                 weiXinService.sendTemplateMsg(templateMessage);
                 return Result.ok();

@@ -3,7 +3,6 @@ package com.distribution.weixin.mp.controller;
 import com.alibaba.fastjson.JSON;
 import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.DateUtils;
-import com.distribution.common.utils.Result;
 import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.dis.entity.DisFans;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
@@ -25,9 +24,10 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
@@ -45,7 +45,7 @@ import java.util.Map;
  */
 @Api("微信接口")
 @Slf4j
-@RestController
+@Controller
 @RequestMapping("/api")
 public class WeiXinMpController {
     @Autowired
@@ -58,9 +58,12 @@ public class WeiXinMpController {
     private LevelUpSender levelUpSender;
     @Value("${risk.url}")
     private String url;
+    @Value("${risk.return-url}")
+    private String returnUrl;
 
     @AuthIgnore
     @GetMapping("/weixin")
+    @ResponseBody
     public String check(String signature, String timestamp, String nonce, String echostr) {
         log.info("\n接收到来自微信服务器的认证消息：[{}, {}, {}, {}]", signature,
                 timestamp, nonce, echostr);
@@ -85,8 +88,9 @@ public class WeiXinMpController {
     @ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "会员手机号")
     @AuthIgnore
     @GetMapping("/weixin/oauthUrl")
+    @ResponseBody
     public String buildOauthUrl(String mobile) {
-        return wxMpService.oauth2buildAuthorizationUrl(url, "snsapi_userinfo", mobile);
+        return wxMpService.oauth2buildAuthorizationUrl(returnUrl, "snsapi_userinfo", mobile);
     }
 
     /**
@@ -104,7 +108,7 @@ public class WeiXinMpController {
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "state", value = "会员手机号")
     })
     @GetMapping("/getUserInfo")
-    public Result getUserInfo(String code, String state) {
+    public String getUserInfo(String code, String state) {
         WxMpOAuth2AccessToken accessToken;
         WxMpUser user;
         try {
@@ -115,12 +119,13 @@ public class WeiXinMpController {
             log.info("用户信息为{}", user);
         } catch (WxErrorException e) {
             log.error("拉取用户信息异常", e);
-            return Result.error("拉取用户信息异常");
+            return "redirect:" + url;
+
         }
         //判断该用户是否已关注或已注册
         if (disFansService.queryByOpenId(user.getOpenId()) != null ||
                 disMemberInfoService.queryByOpenId(user.getOpenId()) != null) {
-            return Result.ok("您已关注").put("user", disFansService.queryByOpenId(user.getOpenId()));
+            return "redirect:" + url + "?openId=" + user.getOpenId();
         }
 
         DisFans disFans = new DisFans();
@@ -136,7 +141,7 @@ public class WeiXinMpController {
             DisMemberInfoEntity disMemberInfo = disMemberInfoService.queryList(map).stream().findFirst()
                     .orElse(new DisMemberInfoEntity());
             if (disMemberInfo.getOpenId().equals(user.getOpenId())) {
-                return Result.error("不能琐自己");
+                return "redirect:" + url + "?openId=" + disMemberInfo.getOpenId();
             }
             //关联推荐人
             disFans.setDisMemberInfo(disMemberInfo);
@@ -154,10 +159,8 @@ public class WeiXinMpController {
             disFansService.save(disFans);
         } catch (Exception e) {
             log.error("保存锁粉信息异常", e);
-            return Result.error("保存锁粉信息异常");
         }
-        return Result.ok("锁粉成功").put("user", user);
-
+        return "redirect:" + url + "?openId=" + user.getOpenId();
     }
 
     /**

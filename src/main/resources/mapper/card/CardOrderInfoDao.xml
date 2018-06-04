@@ -36,7 +36,7 @@
         </association>
     </resultMap>
 
-    <select id="queryObject" resultType="com.distribution.modules.dis.entity.CardOrderInfoEntity">
+    <select id="queryObject" resultMap="CardOrderInfoMap">
         select
             o.id,
             order_name,
@@ -70,7 +70,7 @@
         where o.id = #{value}
     </select>
 
-    <select id="queryList" resultType="com.distribution.modules.dis.entity.CardOrderInfoEntity">
+    <select id="queryList" resultMap="CardOrderInfoMap">
         select
         o.id,
         order_name,
@@ -104,7 +104,7 @@
         <where>
             1=1
             <if test="memberId != null">
-                and o.member_id = #{member_id}
+                and o.member_id = #{memberId}
             </if>
             <if test="orderStatus != null and orderStatus != ''">
                 and o.order_status = #{orderStatus}
