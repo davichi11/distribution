@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @Api("测试接口")
-public class ApiTestController {
+public class ApiCommonController {
 
 
     /**

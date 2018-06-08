@@ -21,12 +21,15 @@ public class WithdrawalInfo {
      * 提现状态 0:失败,1:成功
      */
     private String withdrawType;
+    /**
+     * 提现金额
+     */
+    @NotNull
+    private BigDecimal withdrawAmount;
     private String withdrawName;
     @NotNull
     private String withdrawMobile;
     private String withdrawCard;
-    @NotNull
-    private BigDecimal withdrawAmount;
     private BigDecimal withdrawPoundage;
     private BigDecimal realAmount;
     private String aliPayAccount;

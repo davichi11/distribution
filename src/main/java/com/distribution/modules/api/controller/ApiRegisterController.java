@@ -63,13 +63,20 @@ public class ApiRegisterController {
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "openId", value = "微信open_id")
     })
     public Result register(String mobile, String password, String captcha, String openId) {
-        if (StringUtils.isBlank(mobile) || StringUtils.isBlank(captcha) || StringUtils.isBlank(password)) {
-            return Result.error("手机号,密码或验证码不能为空");
+        if (StringUtils.isBlank(mobile) ) {
+            return Result.error("手机号不能为空");
+        }
+        if (StringUtils.isBlank(password)) {
+            password = mobile;
         }
         //根据手机号获取验证码
         String code = redisTemplate.opsForValue().get(mobile);
         if (!captcha.equals(code)) {
             return Result.error("验证码不正确");
+        }
+
+        if (StringUtils.isBlank(openId)) {
+            return Result.error("openid不能为空");
         }
         try {
             //查询是否有对应的会员

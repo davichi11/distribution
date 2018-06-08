@@ -120,7 +120,7 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
                     .equals(grand.getDisLevel().toString())).findFirst().orElse(new DisProfiParam());
         }
         //上两级会员分润
-        //当当前会员与上两级都在同级时,当前会员拿级别佣金,上一级拿5%
+        //当三人都在同级时,当前会员拿级别佣金,上一级拿5%
         if (member.getDisLevel().equals(parent.getDisLevel()) && grand != null && member.getDisLevel().equals(grand.getDisLevel())) {
             updateAccont(parent, parentAccount, new BigDecimal(money * 0.05));
         } else {
@@ -136,15 +136,27 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
                 } else { //当办卡人和以上2级都不在同级时各自拿各自的佣金比例
                     BigDecimal parentMoney = new BigDecimal(money * (parentParam.getDisProValue() - memberParam.getDisProValue()));
                     updateAccont(parent, parentAccount, parentMoney);
-                    if (grandAccount != null) {
+                    //当第二级会员等级高于当前会员等级,并且高于第一级会员时,第二级级会员拿差价佣金
+                    if (grandAccount != null && grand.getDisLevel() < member.getDisLevel()
+                            && grand.getDisLevel() < parent.getDisLevel()) {
                         BigDecimal grandMoney = new BigDecimal(money * (grandParam.getDisProValue() - parentParam.getDisProValue()));
                         updateAccont(grand, grandAccount, grandMoney);
                     }
                 }
-            } else { //当办卡人超越第一级时、办卡人拿级别拥挤、第一级不拿佣金，第二级拿与办卡人的差价佣金
-                if (grand != null) {
-                    BigDecimal grandMoney = new BigDecimal(money * (grandParam.getDisProValue() - memberParam.getDisProValue()));
-                    updateAccont(grand, grandAccount, grandMoney);
+            } else {
+                //当办卡人超越第一级时、办卡人拿级别拥挤、第一级不拿佣金，第二级拿与办卡人的差价佣金
+                if (grand != null && grand.getDisLevel() < member.getDisLevel()) {
+                    if (parent.getDisLevel() > member.getDisLevel()) {
+                        BigDecimal grandMoney = new BigDecimal(money * (grandParam.getDisProValue() - memberParam.getDisProValue()));
+                        updateAccont(grand, grandAccount, grandMoney);
+                    }
+                    //当办卡人与第一级同级时、第一级拿差价佣金，第二级拿5%
+                    if (parent.getDisLevel().equals(member.getDisLevel())) {
+                        BigDecimal parentMoney = new BigDecimal(money * (parentParam.getDisProValue() - memberParam.getDisProValue()));
+                        updateAccont(parent, parentAccount, parentMoney);
+
+                        updateAccont(grand, grandAccount, new BigDecimal(money * 0.05));
+                    }
                 }
             }
         }

@@ -288,7 +288,7 @@
             #{id}
         </foreach>
     </delete>
-    <select id="findByOpenId" resultType="com.distribution.modules.dis.entity.DisMemberInfoEntity">
+    <select id="findByOpenId" resultMap="disMemberInfoMap">
         select
             m.id,
             m.dis_platform_id,

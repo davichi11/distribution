@@ -20,13 +20,12 @@ import org.apache.commons.lang.StringUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -71,6 +70,28 @@ public class ApiCardController {
         PageInfo<CardInfo> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
                 MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> cardInfoService.queryList(params));
         return Result.ok().put("page", pageInfo);
+    }
+
+
+    /**
+     * 用户银行卡列表
+     *
+     * @Auther: liuxinxin
+     * @Date: 2018/5/24 20:40
+     * @Description:
+     */
+    @GetMapping("/memberCardList/{mobile}")
+    @ApiOperation(value = "用户办卡信息列表")
+    public Result memberCardList(@PathVariable String mobile) {
+        List<CardOrderInfoEntity> memberCardList = new ArrayList<>();
+        DisMemberInfoEntity memberInfoEntities = disMemberInfoService.queryByMobile(mobile);
+        if (memberInfoEntities != null) {
+            Map<String, Object> param = new HashMap<>(2);
+            param.put("memberId", memberInfoEntities.getId());
+//            param.put("orderStatus", CardOrderInfoEntity.OrderStatus.SUCCESS);
+            memberCardList = cardOrderInfoService.queryList(param);
+        }
+        return Result.ok().put("memberCardList", memberCardList);
     }
 
     /**

@@ -46,5 +46,9 @@ public class DisMemberVO {
      * 微信头像地址
      */
     private String imgUrl;
+    /**
+     * 加入时间
+     */
+    private String addTime;
 
 }

@@ -64,6 +64,7 @@ public class UserServiceImpl implements UserService {
         member.setId(CommonUtils.getUUID());
         member.setDisPlatformId("1");
         member.setUserEntity(user);
+        member.setOpenId(openId);
         //是否已是锁粉
         if (StringUtils.isNotBlank(openId)) {
             Map<String, Object> fansParam = new HashMap<>(2);
@@ -73,7 +74,6 @@ public class UserServiceImpl implements UserService {
                 DisFans fans = disFansList.get(0);
                 member.setParentId(fans.getDisMemberInfo().getParentId());
                 member.setDisMemberParent(fans.getDisMemberInfo());
-                member.setOpenId(fans.getWechatId());
             }
         }
         member.setDisLevel(0);

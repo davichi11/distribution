@@ -53,59 +53,40 @@ public class ApiLoginController {
      * 登录或注册,注册过校验验证码,成功登陆,没有注册过执行注册逻辑
      */
     @AuthIgnore
-    @PostMapping("/loginOrRegister")
-    @ApiOperation(value = "登录/注册", notes = "登录或注册,注册过校验验证码,成功登陆,没有注册过执行注册逻辑")
+    @PostMapping("/login")
+    @ApiOperation(value = "登录", notes = "登录,注册过校验验证码,成功登陆")
     @ApiImplicitParams({
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "手机号", required = true),
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "captcha", value = "验证码", required = true),
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "openId", value = "微信open_id")
     })
-    public Result loginOrRegister(String mobile, String captcha, String openId) {
+    public Result login(String mobile, String captcha, String openId) {
         if (StringUtils.isBlank(mobile) || StringUtils.isBlank(captcha)) {
             return Result.error("手机号或验证码不能为空");
         }
         //校验验证码
         //根据手机号获取验证码
-//        String code = redisTemplate.opsForValue().get(mobile);
-//        if (!captcha.equals(code)) {
-//            return Result.error("验证码不正确");
-//        }
+        String code = redisTemplate.opsForValue().get(mobile);
+        if (!captcha.equals(code)) {
+            return Result.error("验证码不正确");
+        }
         DisMemberVO disMemberVO = new DisMemberVO();
 
         //用户登录
         UserEntity userEntity = userService.queryByMobile(mobile);
-        //如果已注册,登陆
-        if (userEntity != null) {
-            DisMemberInfoEntity memberInfo = memberInfoService.queryByMobile(userEntity.getMobile());
-            buildMemberVO(mobile, disMemberVO, memberInfo);
-            //生成token
-            String token = jwtConfig.generateToken(userEntity.getUserId());
-            Map<String, Object> map = new HashMap<>(16);
-            map.put("token", token);
-            map.put("expire", jwtConfig.getExpire());
-            map.put("user", disMemberVO);
-
-            return Result.ok(map);
-        } else { //没有就注册
-            try {
-                //默认密码就是手机号
-                UserEntity user = userService.save(mobile, mobile, openId);
-
-                //获取用户信息
-                DisMemberInfoEntity memberInfo = user.getMemberInfo();
-                buildMemberVO(mobile, disMemberVO, memberInfo);
-                //生成token
-                String token = jwtConfig.generateToken(user.getUserId());
-                Map<String, Object> map = new HashMap<>(16);
-                map.put("token", token);
-                map.put("expire", jwtConfig.getExpire());
-                map.put("user", disMemberVO);
-                return Result.ok(map);
-            } catch (Exception e) {
-                log.error("注册用户异常", e);
-                return Result.error("注册用户异常");
-            }
+        if (userEntity == null) {
+            return Result.error("请先注册");
         }
+        DisMemberInfoEntity memberInfo = memberInfoService.queryByMobile(userEntity.getMobile());
+        buildMemberVO(mobile, disMemberVO, memberInfo);
+        //生成token
+        String token = jwtConfig.generateToken(userEntity.getUserId());
+        Map<String, Object> map = new HashMap<>(16);
+        map.put("token", token);
+        map.put("expire", jwtConfig.getExpire());
+        map.put("user", disMemberVO);
+
+        return Result.ok(map);
     }
 
     private void buildMemberVO(String mobile, DisMemberVO disMemberVO, DisMemberInfoEntity memberInfo) {
@@ -115,6 +96,7 @@ public class ApiLoginController {
         disMemberVO.setDisLevel(memberInfo.getDisLevel());
         disMemberVO.setMobile(mobile);
         disMemberVO.setOpenId(memberInfo.getOpenId());
+        disMemberVO.setAddTime(memberInfo.getAddTime());
         if (fans != null) {
             disMemberVO.setNickName(fans.getWechatNickname());
             disMemberVO.setImgUrl(fans.getWechatImg());

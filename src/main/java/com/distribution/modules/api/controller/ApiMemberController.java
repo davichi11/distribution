@@ -3,36 +3,29 @@ package com.distribution.modules.api.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
-import com.alipay.api.response.AlipayFundTransToaccountTransferResponse;
 import com.alipay.api.response.AlipayTradeWapPayResponse;
 import com.distribution.ali.pay.AliPayParams;
 import com.distribution.ali.pay.AliPayUtil;
-import com.distribution.common.utils.CommonUtils;
-import com.distribution.common.utils.Constant;
-import com.distribution.common.utils.DateUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.account.entity.MemberAccount;
-import com.distribution.modules.account.entity.MemberAccountHistory;
 import com.distribution.modules.account.service.MemberAccountHistoryService;
 import com.distribution.modules.account.service.MemberAccountService;
 import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.api.config.JWTConfig;
 import com.distribution.modules.api.pojo.vo.DisFansVO;
 import com.distribution.modules.api.pojo.vo.DisMemberVO;
-import com.distribution.modules.api.pojo.vo.WithdrawalVo;
-import com.distribution.modules.dis.entity.CardOrderInfoEntity;
 import com.distribution.modules.dis.entity.DisFans;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.CardOrderInfoService;
 import com.distribution.modules.dis.service.DisFansService;
 import com.distribution.modules.dis.service.DisMemberInfoService;
 import com.distribution.modules.dis.service.DisProfiParamService;
-import com.distribution.modules.memeber.entity.WithdrawalInfo;
 import com.distribution.modules.memeber.service.WithdrawalInfoService;
 import com.distribution.modules.sys.service.SysConfigService;
 import com.distribution.queue.LevelUpSender;
 import com.distribution.weixin.service.WeiXinService;
 import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -42,6 +35,7 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.jetbrains.annotations.NotNull;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,12 +43,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
-import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author ChunLiang Hu
@@ -64,6 +57,7 @@ import java.util.*;
  * @Description TODO(描述)
  * @create 2018/5/11-23:09
  */
+@Api("会员信息相关接口")
 @Slf4j
 @RestController
 @RequestMapping("/api")
@@ -93,7 +87,7 @@ public class ApiMemberController {
     @Autowired
     private JWTConfig jwtConfig;
     @Value("{risk.url}")
-    private String renturnUrl;
+    private String returnUrl;
 
     /**
      * 我的团队
@@ -112,220 +106,48 @@ public class ApiMemberController {
         //查询所有锁粉信息
         Map<String, Object> fansParam = new HashMap<>(2);
         fansParam.put("memberId", member.getId());
-        List<DisFans> disFansList = disFansService.queryList(fansParam);
+        List<DisMemberVO> disFansList = disFansService.queryList(fansParam).stream().filter(Objects::nonNull)
+                .map(disFans -> {
+                    DisMemberInfoEntity memberInfo = disMemberInfoService.queryByOpenId(disFans.getWechatId());
+                    return getDisMemberVO(disFans, memberInfo);
+                }).collect(Collectors.toList());
+
+        //所有代理信息
+        List<DisMemberVO> children = member.getDisMemberChildren().stream().filter(Objects::nonNull).map(memberInfo -> {
+            DisFans disFans = disFansService.queryByOpenId(memberInfo.getOpenId());
+            return getDisMemberVO(disFans,memberInfo);
+        }).collect(Collectors.toList());
+
         //返回数据
         Map<String, Object> map = new HashMap<>();
         map.put("countFans", Optional.ofNullable(disFansList).orElse(new ArrayList<>()).size());
         map.put("fansList", disFansList);
         map.put("countChirldern", Optional.ofNullable(member.getDisMemberChildren()).orElse(new ArrayList<>()).size());
-        map.put("children", member.getDisMemberChildren());
+        map.put("children", children);
         return Result.ok().put("results", map);
     }
 
-    /**
-     * 创建用户账户信息
-     *
-     * @param mobile
-     * @param alipayAccount
-     * @return
-     */
-    @ApiOperation(value = "创建用户账户信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "path", dataType = "string", name = "mobile", value = "手机号", required = true),
-            @ApiImplicitParam(paramType = "query", dataType = "string", name = "alipay_account", value = "支付宝账户", required = true),
-    })
-    @PostMapping("/memberAccount/{mobile}")
-    public Result memberAccount(@PathVariable("mobile") String mobile, @RequestParam("alipay_account") String alipayAccount) {
-        if (StringUtils.isBlank(alipayAccount)) {
-            return Result.error("支付宝账户不能为空");
-        }
-        Map<String, Object> map = new HashMap<>(2);
-        map.put("mobile", mobile);
-        DisMemberInfoEntity member = disMemberInfoService.queryList(map).stream().findFirst().orElse(new DisMemberInfoEntity());
-        MemberAccount memberAccount = new MemberAccount();
-        memberAccount.setMember(member);
-        memberAccount.setMemberType("1");
-        memberAccount.setAliPayAccount(alipayAccount);
-        memberAccount.setIsDelete("1");
-        memberAccount.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
-        memberAccount.setAccountId(CommonUtils.getUUID());
-        memberAccount.setMemberAmount(new BigDecimal(0));
-        try {
-            memberAccountService.save(memberAccount);
-            return Result.ok("用户账户信息保存成功");
-        } catch (Exception e) {
-            log.error("保存用户账户信息异常", e);
-            return Result.error("保存用户账户信息异常");
-        }
-    }
-
-    @ApiOperation(value = "用户支付宝账户更新")
-    @ApiImplicitParams({
-            @ApiImplicitParam(paramType = "path", dataType = "string", name = "mobile", value = "手机号", required = true),
-            @ApiImplicitParam(paramType = "query", dataType = "string", name = "alipay_account", value = "支付宝账户", required = true),
-    })
-    @PatchMapping("/memberAccount/{mobile}")
-    public Result updateAliPayAccount(@PathVariable("mobile") String mobile, @RequestParam("alipay_account") String alipayAccount) {
-        if (StringUtils.isBlank(alipayAccount)) {
-            return Result.error("支付宝账户不能为空");
-        }
-        MemberAccount memberAccount = memberAccountService.selectMemberAccountByUserId(mobile);
-        memberAccount.setAliPayAccount(alipayAccount);
-        try {
-            memberAccountService.update(memberAccount);
-            return Result.ok("用户支付宝账户更新成功");
-        } catch (Exception e) {
-            log.error("用户支付宝账户更新异常", e);
-            return Result.error("用户支付宝账户更新异常");
-        }
-    }
-
-    /**
-     * 用户总金额，提现，总收入
-     *
-     * @Auther: liuxinxin
-     * @Date: 2018/5/24 19:54
-     * @Description:
-     */
-    @GetMapping("/memberAmount")
-    @ApiOperation(value = "用户总金额，提现，总收入")
-    public Result memberAmount(@RequestParam String mobile) {
-        Map<String, Object> resultMap = new HashMap<>(6);
-//        Map<String, Object> param = new HashMap<>(2);
-//        param.put("userId",userId);
-        //账户信息
-        MemberAccount memberAccount = memberAccountService.selectMemberAccountByUserId(mobile);
-        if (memberAccount == null) {
-            return Result.ok("请先设置账户信息");
-        }
-        //提现金额
-        BigDecimal withdrawalAmount = withdrawalInfoService.withdrawalAmounts(mobile);
-        resultMap.put("withdrawalAmount", withdrawalAmount);
-        //账户余额
-        resultMap.put("memberAccount", memberAccount.getMemberAmount());
-        Map<String, Object> map = new HashMap<>(6);
-        map.put("accountId", memberAccount.getAccountId());
-        map.put("hisType", MemberAccountHistory.HisType.INCOME);
-        List<MemberAccountHistory> list = memberAccountHistoryService.findList(map);
-        Double generalIncome = 0.00;
-        if (null != list && list.size() > 0) {
-            generalIncome = list.stream().mapToDouble(value -> value.getHisAmount().doubleValue()).sum();
-        }
-        //收入总金额
-        resultMap.put("generalIncome", generalIncome);
-
-        return Result.ok(resultMap);
+    @NotNull
+    private DisMemberVO getDisMemberVO(DisFans disFans, DisMemberInfoEntity memberInfo) {
+        DisMemberVO memberVO = new DisMemberVO();
+        memberVO.setDisUserName(memberInfo.getDisUserName());
+        memberVO.setDisUserType(memberInfo.getDisUserType());
+        memberVO.setDisLevel(memberInfo.getDisLevel());
+        memberVO.setMobile(memberInfo.getUserEntity().getMobile());
+        memberVO.setOpenId(memberInfo.getOpenId());
+        memberVO.setAddTime(memberInfo.getAddTime());
+        memberVO.setNickName(disFans.getWechatNickname());
+        memberVO.setImgUrl(disFans.getWechatImg());
+        return memberVO;
     }
 
 
-    /**
-     * 提现记录
-     *
-     * @Auther: liuxinxin
-     * @Date: 2018/5/24 20:05
-     * @Description:
-     */
-    @GetMapping("/withdrawals/{mobile}")
-    @ApiOperation(value = "提现记录")
-    public Result memberWithdrawalList(@PathVariable String mobile) {
-        Map<String, Object> param = new HashMap<>(2);
-        param.put("withdrawMobile", mobile);
-        List<WithdrawalInfo> withdrawalInfoList = withdrawalInfoService.queryList(param);
-        return Result.ok().put("memberWithdrawalList", withdrawalInfoList);
-    }
-
-
-    /**
-     * 收益明细
-     *
-     * @Auther: liuxinxin
-     * @Date: 2018/5/24 20:06
-     * @Description:
-     */
-    @GetMapping("/memberAccountHistory/{mobile}")
-    @ApiOperation(value = "收益明细")
-    public Result memberReturns(@PathVariable String mobile) {
-        Map<String, Object> map = new HashMap<>(2);
-        map.put("mobile", mobile);
-        DisMemberInfoEntity member = disMemberInfoService.queryList(map).stream().findFirst().orElse(new DisMemberInfoEntity());
-        map.put("userId", member.getId());
-        map.put("hisType", MemberAccountHistory.HisType.INCOME);
-        List<MemberAccountHistory> memberAmountHistroyList = memberAccountHistoryService.findList(map);
-        return Result.ok().put("memberWithdrawalList", memberAmountHistroyList);
-    }
-
-    /**
-     * 用户银行卡列表
-     *
-     * @Auther: liuxinxin
-     * @Date: 2018/5/24 20:40
-     * @Description:
-     */
-    @GetMapping("/memberCardList")
-    @ApiOperation(value = "用户办卡信息列表")
-    public Result memberCardList(@RequestParam String mobile) {
-        List<CardOrderInfoEntity> memberCardList = new ArrayList<>();
-        DisMemberInfoEntity memberInfoEntities = disMemberInfoService.queryByMobile(mobile);
-        if (memberInfoEntities != null) {
-            Map<String, Object> param = new HashMap<>(2);
-            param.put("memberId", memberInfoEntities.getId());
-//            param.put("orderStatus", CardOrderInfoEntity.OrderStatus.SUCCESS);
-            memberCardList = cardOrderInfoService.queryList(param);
-        }
-        return Result.ok().put("memberCardList", memberCardList);
-    }
-
-    /**
-     * 用户提现
-     *
-     * @param
-     * @return
-     * @author liuxinxin
-     * @date 10:45
-     */
-    @PostMapping("/withdrawal")
-    @ApiOperation(value = "用户提现")
-    public Result saveWithdrawalInfo(@RequestBody WithdrawalVo withdrawalVo) {
-        //提现校验
-        MemberAccount account = memberAccountService.selectMemberAccountByUserId(withdrawalVo.getWithdrawMobile());
-        if (account == null) {
-            return Result.error("请先设置支付宝账户");
-        }
-        if (account.getMemberAmount().compareTo(withdrawalVo.getWithdrawAmount()) < 0) {
-            return Result.error("提现金额超出可用余额");
-        }
-
-        String orderId = AliPayUtil.generateOrderId(withdrawalVo.getWithdrawMobile(),
-                Constant.PayType.WITHDRAWAL.getValue());
-        AliPayParams payParams = new AliPayParams();
-        payParams.setAmount(withdrawalVo.getWithdrawAmount().toString());
-        payParams.setOutBizNo(orderId);
-        payParams.setPayeeAccount(account.getAliPayAccount());
-        payParams.setPayeeRealName(account.getMember().getDisUserName());
-        //如果提现金额达到50000,remark必填
-        if (withdrawalVo.getWithdrawAmount().compareTo(new BigDecimal(50000)) > 0) {
-            payParams.setRemark(String.format("会员%s提现,金额:%s", account.getMember().getDisUserName(),
-                    withdrawalVo.getWithdrawAmount()));
-        }
-
-        try {
-            //调用支付宝转账接口
-            AlipayFundTransToaccountTransferResponse response = AliPayUtil.transferResponse(payParams);
-            if (!response.isSuccess()) {
-                log.error("会员{}提现失败,case:{},订单号为{}", account.getMember().getDisUserName(),
-                        response.getMsg(), orderId);
-            }
-            //保存提现记录
-            WithdrawalInfo withdrawalInfo = modelMapper.map(withdrawalVo, WithdrawalInfo.class);
-            withdrawalInfo.setWithdrawType(response.isSuccess() ? "1" : "0");
-            withdrawalInfo.setWithdrawNum(orderId);
-            withdrawalInfo.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
-            withdrawalInfo.setId(CommonUtils.getUUID());
-            withdrawalInfoService.save(withdrawalInfo);
-        } catch (Exception e) {
-            return Result.error("提现异常");
-        }
-        return Result.ok();
+    @GetMapping("/memberAccount/{mobile}")
+    @ApiOperation(value = "查询用户信息")
+    public Result memberAccountInfo(@PathVariable("mobile") String mobile) {
+        MemberAccount memberAccount = Optional.ofNullable(memberAccountService.selectMemberAccountByUserId(mobile))
+                .orElse(new MemberAccount());
+        return Result.ok().put("alipayAccount", memberAccount.getAliPayAccount());
     }
 
     /**
@@ -350,10 +172,33 @@ public class ApiMemberController {
         }
     }
 
+
+    @AuthIgnore
+    @GetMapping("/upLevel/{mobile}")
+    @ApiOperation(value = "查询用户上级信息")
+    public Result getUpLevel(@PathVariable("mobile") String mobile) {
+        DisMemberInfoEntity up = disMemberInfoService.queryByMobile(mobile);
+        if (up == null) {
+            return Result.error("用户不存在");
+        }
+        DisFans disFans = disFansService.queryByOpenId(up.getOpenId());
+        DisMemberVO memberVO = new DisMemberVO();
+        memberVO.setDisUserName(up.getDisUserName());
+        memberVO.setDisUserType(up.getDisLevel().toString());
+        memberVO.setMobile(up.getUserEntity().getMobile());
+        memberVO.setOpenId(up.getOpenId());
+        memberVO.setNickName(disFans.getWechatNickname());
+        memberVO.setImgUrl(disFans.getWechatImg());
+        memberVO.setDisLevel(up.getDisLevel());
+
+        return Result.ok().put("upLevel", memberVO);
+    }
+
+
     @AuthIgnore
     @ApiOperation(value = "查询微信关注者信息")
-    @GetMapping("/disFans/{openId}")
-    public Result disFansInfo(@PathVariable("openId") String openId) {
+    @GetMapping("/disFans")
+    public Result disFansInfo(@RequestParam String openId) {
         DisFans fans = disFansService.queryByOpenId(openId);
         DisFansVO fansVO = modelMapper.map(fans, DisFansVO.class);
         DisMemberInfoEntity member = disMemberInfoService.queryByOpenId(openId);
@@ -402,8 +247,8 @@ public class ApiMemberController {
      */
     @GetMapping("/checkMemberDisLevel")
     @ApiOperation(value = "购买会员")
-    public Result checkMemberDisLevel(@RequestParam String memberId, @RequestParam Integer disLevel) {
-        DisMemberInfoEntity disMemberInfoEntity = disMemberInfoService.queryObject(memberId);
+    public Result checkMemberDisLevel(@RequestParam String mobile, @RequestParam Integer disLevel) {
+        DisMemberInfoEntity disMemberInfoEntity = disMemberInfoService.queryByMobile(mobile);
         //非会员可以通过
         if ("1".equals(disMemberInfoEntity.getDisUserType())) {
             //如果是1级会员
@@ -430,13 +275,13 @@ public class ApiMemberController {
         JSONObject priceJson = JSON.parseObject(price);
         String amount = priceJson.getString("level_" + disLevel);
         //校验通过 生成APP支付订单
-        String orderNo = AliPayUtil.generateOrderId(memberId, "1");
+        String orderNo = AliPayUtil.generateOrderId(mobile, "1");
         //构造支付请求参数
         AliPayParams payParams = new AliPayParams();
         payParams.setSubject("会员升级服务");
         payParams.setOutTradeNo(orderNo);
         payParams.setTotalAmount(amount);
-        payParams.setQuitUrl(renturnUrl);
+        payParams.setQuitUrl(returnUrl);
         try {
             payParams.setPassbackParams(URLEncoder.encode(JSON.toJSONString(json), "UTF-8"));
             AlipayTradeWapPayResponse wapPayResponse = AliPayUtil.tradeWapPay(payParams);
