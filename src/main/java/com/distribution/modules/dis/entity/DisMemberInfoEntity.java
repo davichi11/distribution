@@ -52,9 +52,13 @@ public class DisMemberInfoEntity implements Serializable, Comparable<DisMemberIn
      */
     private String disFullIndex;
     /**
-     *
+     * 真实姓名
      */
     private String disUserName;
+    /**
+     * 身份证号码
+     */
+    private String idCode;
     /**
      * 级别
      */

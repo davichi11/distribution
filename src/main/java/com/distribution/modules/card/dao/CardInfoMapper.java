@@ -52,6 +52,13 @@ public interface CardInfoMapper {
     CardInfo selectByPrimaryKey(String id);
 
     /**
+     * 根据银行卡号查询
+     * @param num
+     * @return
+     */
+    CardInfo selectByBankNum(String num);
+
+    /**
      * 查询列表
      *
      * @param param

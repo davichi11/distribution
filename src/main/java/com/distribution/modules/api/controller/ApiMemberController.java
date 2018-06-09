@@ -115,7 +115,7 @@ public class ApiMemberController {
         //所有代理信息
         List<DisMemberVO> children = member.getDisMemberChildren().stream().filter(Objects::nonNull).map(memberInfo -> {
             DisFans disFans = disFansService.queryByOpenId(memberInfo.getOpenId());
-            return getDisMemberVO(disFans,memberInfo);
+            return getDisMemberVO(disFans, memberInfo);
         }).collect(Collectors.toList());
 
         //返回数据
@@ -235,6 +235,15 @@ public class ApiMemberController {
             return Result.error("更新会员信息异常");
         }
         return Result.ok("更新成功");
+    }
+
+    @AuthIgnore
+    @ApiOperation("获取VIP购买列表")
+    @GetMapping("/vip")
+    public Result getVipList() {
+        String config = configService.getValue("level_price", "");
+        JSONObject json = JSON.parseObject(config);
+        return Result.ok().put("level", json);
     }
 
     /**

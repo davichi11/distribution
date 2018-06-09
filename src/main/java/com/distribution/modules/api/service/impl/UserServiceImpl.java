@@ -50,11 +50,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public UserEntity save(String mobile, String password, String openId) throws Exception {
+    public UserEntity save(String mobile, String password, String name, String idCode, String openId) throws Exception {
         UserEntity user = new UserEntity();
         user.setUserId(CommonUtils.getUUID());
         user.setMobile(mobile);
-        user.setUsername(mobile);
+        user.setUsername(name);
         user.setPassword(DigestUtils.sha256Hex(password));
         user.setCreateTime(LocalDateTime.now());
         user.setUserId(CommonUtils.getUUID());
@@ -63,6 +63,8 @@ public class UserServiceImpl implements UserService {
         DisMemberInfoEntity member = new DisMemberInfoEntity();
         member.setId(CommonUtils.getUUID());
         member.setDisPlatformId("1");
+        member.setDisUserName(name);
+        member.setIdCode(idCode);
         member.setUserEntity(user);
         member.setOpenId(openId);
         //是否已是锁粉

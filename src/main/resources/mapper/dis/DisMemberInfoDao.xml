@@ -12,6 +12,7 @@
         <result property="disLevel" column="dis_level"/>
         <result property="parentId" column="dis_model_id"/>
         <result property="disUserType" column="dis_user_type"/>
+        <result property="idCode" column="dis_user_id_code"/>
         <result property="openId" column="open_id"/>
         <result property="disNote" column="dis_note"/>
         <result property="addTime" column="add_time"/>
@@ -51,6 +52,7 @@
             m.dis_user_name,
             m.dis_level,
             m.dis_user_type,
+            m.dis_user_id_code,
             m.dis_note,
             m.open_id,
             m.add_time,
@@ -86,6 +88,7 @@
         m.dis_user_name,
         m.dis_level,
         m.dis_user_type,
+        m.dis_user_id_code,
         m.dis_note,
         m.open_id,
         m.add_time,
@@ -165,6 +168,9 @@
             <if test="disUserType != null">
                 `dis_user_type`,
             </if>
+            <if test="idCode != null">
+                `dis_user_id_code`,
+            </if>
             <if test="disNote != null">
                 `dis_note`,
             </if>
@@ -205,6 +211,9 @@
             </if>
             <if test="disUserType != null">
                 #{disUserType},
+            </if>
+            <if test="idCode != null">
+                #{idCode},
             </if>
             <if test="disNote != null">
                 #{disNote},
@@ -255,6 +264,9 @@
                 `dis_user_type` = #{disUserType}
                 ,
             </if>
+            <if test="idCode != null">
+                `dis_user_id_code` = #{idCode},
+            </if>
             <if test="disNote != null">
                 `dis_note` = #{disNote}
                 ,
@@ -298,6 +310,7 @@
             m.dis_user_name,
             m.dis_level,
             m.dis_user_type,
+            m.dis_user_id_code,
             m.dis_note,
             m.open_id,
             m.add_time,
@@ -322,7 +335,7 @@
             left join dis_member_info c on c.dis_model_id = m.id
         where m.open_id = #{openId}
     </select>
-    <select id="queryByMobile" resultType="com.distribution.modules.dis.entity.DisMemberInfoEntity">
+    <select id="queryByMobile" resultMap="disMemberInfoMap">
         select
             m.id,
             m.dis_platform_id,
@@ -332,6 +345,7 @@
             m.dis_user_name,
             m.dis_level,
             m.dis_user_type,
+            m.dis_user_id_code,
             m.dis_note,
             m.open_id,
             m.add_time,

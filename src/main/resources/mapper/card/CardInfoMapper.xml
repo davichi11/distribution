@@ -37,6 +37,13 @@
         where id = #{id,jdbcType=VARCHAR}
     </select>
 
+    <select id="selectByBankNum" resultType="com.distribution.modules.card.entity.CardInfo">
+        select
+        <include refid="Base_Column_List"/>
+        from card_info
+        where bank_num = #{num}
+    </select>
+
     <select id="selectList" resultType="com.distribution.modules.card.entity.CardInfo">
         select
         <include refid="Base_Column_List"/>
@@ -192,7 +199,7 @@
                 card_url = #{cardUrl,jdbcType=VARCHAR},
             </if>
             <if test="rebate != null">
-                rebate = #{rebate}
+                rebate = #{rebate},
             </if>
             <if test="updateTime != null">
                 update_time = #{updateTime,jdbcType=VARCHAR},
@@ -224,5 +231,6 @@
         is_delete = #{isDelete,jdbcType=VARCHAR}
         where id = #{id,jdbcType=VARCHAR}
     </update>
+
 
 </mapper>

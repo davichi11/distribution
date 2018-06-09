@@ -23,11 +23,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -81,17 +80,29 @@ public class ApiCardController {
      * @Description:
      */
     @GetMapping("/memberCardList/{mobile}")
-    @ApiOperation(value = "用户办卡信息列表")
-    public Result memberCardList(@PathVariable String mobile) {
-        List<CardOrderInfoEntity> memberCardList = new ArrayList<>();
-        DisMemberInfoEntity memberInfoEntities = disMemberInfoService.queryByMobile(mobile);
-        if (memberInfoEntities != null) {
-            Map<String, Object> param = new HashMap<>(2);
-            param.put("memberId", memberInfoEntities.getId());
-//            param.put("orderStatus", CardOrderInfoEntity.OrderStatus.SUCCESS);
-            memberCardList = cardOrderInfoService.queryList(param);
+    @ApiOperation(value = "用户办卡记录,订单明细")
+    public Result memberCardList(@PathVariable String mobile, Map<String, Object> param) {
+        PageInfo<CardOrderInfoEntity> pageInfo = null;
+        DisMemberInfoEntity member = disMemberInfoService.queryByMobile(mobile);
+        if (member != null) {
+            String memberIds = member.getDisMemberChildren().stream().filter(Objects::nonNull)
+                    .map(DisMemberInfoEntity::getId).collect(Collectors.joining(","));
+            if (StringUtils.isNotBlank(memberIds)) {
+                memberIds = memberIds + "," + member.getId();
+            } else {
+                memberIds = member.getId();
+            }
+            param.put("memberIds", memberIds);
+            param.put("orderStatus", param.get("type"));
+            pageInfo = PageHelper.startPage(MapUtils.getInteger(param, "page", 0),
+                    MapUtils.getInteger(param, "limit", 0)).doSelectPageInfo(() -> cardOrderInfoService.queryList(param));
+            //模糊手机号和身份证
+            pageInfo.getList().forEach(order -> {
+                order.setOrderIdcardno(CommonUtils.fuzzyIdCode(order.getOrderIdcardno()));
+                order.setOrderMobile(CommonUtils.fuzzyMobile(order.getOrderMobile()));
+            });
         }
-        return Result.ok().put("memberCardList", memberCardList);
+        return Result.ok().put("memberCardList", pageInfo);
     }
 
     /**
@@ -104,30 +115,27 @@ public class ApiCardController {
      */
     @PostMapping("/saveCardOrder")
     @ApiOperation(value = "添加申请人信息")
-    public Result saveCaedOrderInfo(@RequestBody CardOrderInfoVO cardOrderInfoVO, String captcha) {
+    public Result saveCaedOrderInfo(@RequestBody CardOrderInfoVO cardOrderInfoVO, String prodId) {
         if (StringUtils.isBlank(cardOrderInfoVO.getOrderMobile()) || !phone.matcher(cardOrderInfoVO.getOrderMobile()).matches()) {
             return Result.error("手机号码不正确");
         }
         if (StringUtils.isBlank(cardOrderInfoVO.getOrderIdcardno()) || !idCardNo.matcher(cardOrderInfoVO.getOrderIdcardno()).matches()) {
             return Result.error("身份证号码不正确");
         }
-        //根据手机号获取验证码
-        String code = redisTemplate.opsForValue().get(cardOrderInfoVO.getOrderMobile());
-        if (!captcha.equals(code)) {
-            return Result.error("验证码不正确");
-        }
         try {
-            Map<String, Object> map = new HashMap<>(2);
-            map.put("mobile", cardOrderInfoVO.getOrderMobile());
             DisMemberInfoEntity member = disMemberInfoService.queryByMobile(cardOrderInfoVO.getOrderMobile());
-            CardOrderInfoEntity cardOrderInfoEntity = modelMapper.map(cardOrderInfoVO, CardOrderInfoEntity.class);
-            cardOrderInfoEntity.setId(CommonUtils.getUUID());
-            cardOrderInfoEntity.setOrderId(CommonUtils.getUUID());
-            cardOrderInfoEntity.setMemberInfo(member);
-            cardOrderInfoEntity.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
-            cardOrderInfoEntity.setOrderStatus(CardOrderInfoVO.OrderStatus.APPLICATION);
-            cardOrderInfoEntity.setIsDelete("1");
-            cardOrderInfoService.save(cardOrderInfoEntity);
+            //先调用第三方接口保存用户信息并返回url
+            String url = cardInfoService.getProductUrl(member, prodId);
+            if (StringUtils.isNotBlank(url)) {
+                CardOrderInfoEntity cardOrderInfoEntity = modelMapper.map(cardOrderInfoVO, CardOrderInfoEntity.class);
+                cardOrderInfoEntity.setId(CommonUtils.getUUID());
+                cardOrderInfoEntity.setOrderId(CommonUtils.getUUID());
+                cardOrderInfoEntity.setMemberInfo(member);
+                cardOrderInfoEntity.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
+                cardOrderInfoEntity.setOrderStatus(CardOrderInfoVO.OrderStatus.APPLICATION);
+                cardOrderInfoEntity.setIsDelete("1");
+                cardOrderInfoService.save(cardOrderInfoEntity);
+            }
         } catch (Exception e) {
             log.error("申请异常", e);
             return Result.error("申请异常");

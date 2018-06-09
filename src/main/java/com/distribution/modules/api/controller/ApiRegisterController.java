@@ -60,10 +60,12 @@ public class ApiRegisterController {
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "手机号", required = true),
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "password", value = "密码", required = true),
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "captcha", value = "验证码", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "string", name = "name", value = "真实姓名", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "string", name = "idCode", value = "身份证号", required = true),
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "openId", value = "微信open_id")
     })
-    public Result register(String mobile, String password, String captcha, String openId) {
-        if (StringUtils.isBlank(mobile) ) {
+    public Result register(String mobile, String password, String name, String idCode, String captcha, String openId) {
+        if (StringUtils.isBlank(mobile)) {
             return Result.error("手机号不能为空");
         }
         if (StringUtils.isBlank(password)) {
@@ -86,7 +88,7 @@ public class ApiRegisterController {
             if (CollectionUtils.isNotEmpty(memberList)) {
                 return Result.error("该手机号已注册");
             }
-            userService.save(mobile, password, openId);
+            userService.save(mobile, password, name, idCode, openId);
         } catch (Exception e) {
             log.error("注册异常", e);
             return Result.error("注册异常");

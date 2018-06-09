@@ -44,9 +44,11 @@ public interface UserService {
      * @param mobile
      * @param password
      * @param openId   微信openID
+     * @param name
+     * @param idCode
      * @throws Exception
      */
-    UserEntity save(String mobile, String password, String openId) throws Exception;
+    UserEntity save(String mobile, String password,String name, String idCode, String openId) throws Exception;
 
     /**
      * 更新

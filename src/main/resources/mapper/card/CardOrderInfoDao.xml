@@ -102,7 +102,6 @@
         left join dis_member_info m on o.member_id = m.id
         left join card_info c on o.card_id = c.id
         <where>
-            1=1
             <if test="memberId != null">
                 and o.member_id = #{memberId}
             </if>
@@ -117,6 +116,9 @@
             </if>
             <if test="cardName != null and cardName != ''">
                 and c.card_name = #{cardName}
+            </if>
+            <if test="memberIds != null">
+                and o.member_id in (#{memberIds})
             </if>
         </where>
         <choose>
