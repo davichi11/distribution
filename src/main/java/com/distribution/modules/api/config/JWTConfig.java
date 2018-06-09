@@ -32,7 +32,7 @@ public class JWTConfig {
      */
     public String generateToken(String userId) {
         //过期时间
-        LocalDateTime expireDate = LocalDateTime.now().plusSeconds(expire * 1000);
+        LocalDateTime expireDate = LocalDateTime.now().plusSeconds(expire);
 
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")

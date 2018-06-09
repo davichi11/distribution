@@ -14,15 +14,9 @@ import com.distribution.modules.account.service.MemberAccountService;
 import com.distribution.modules.api.config.JWTConfig;
 import com.distribution.modules.api.pojo.vo.WithdrawalVo;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
-import com.distribution.modules.dis.service.CardOrderInfoService;
-import com.distribution.modules.dis.service.DisFansService;
 import com.distribution.modules.dis.service.DisMemberInfoService;
-import com.distribution.modules.dis.service.DisProfiParamService;
 import com.distribution.modules.memeber.entity.WithdrawalInfo;
 import com.distribution.modules.memeber.service.WithdrawalInfoService;
-import com.distribution.modules.sys.service.SysConfigService;
-import com.distribution.queue.LevelUpSender;
-import com.distribution.weixin.service.WeiXinService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -32,9 +26,11 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -57,13 +53,7 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ApiAccountController {
     @Autowired
-    private DisFansService disFansService;
-    @Autowired
     private DisMemberInfoService disMemberInfoService;
-    @Autowired
-    private DisProfiParamService profiParamService;
-    @Autowired
-    private LevelUpSender levelUpSender;
     @Autowired
     private WithdrawalInfoService withdrawalInfoService;
     @Autowired
@@ -71,17 +61,14 @@ public class ApiAccountController {
     @Autowired
     private MemberAccountHistoryService memberAccountHistoryService;
     @Autowired
-    private CardOrderInfoService cardOrderInfoService;
-    @Autowired
-    private SysConfigService configService;
-    @Autowired
-    private WeiXinService weiXinService;
+    private RedisTemplate<String, String> redisTemplate;
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
     private JWTConfig jwtConfig;
     @Value("{risk.url}")
     private String returnUrl;
+
     /**
      * 创建用户账户信息
      *
@@ -247,6 +234,12 @@ public class ApiAccountController {
         if (account.getMemberAmount().compareTo(withdrawalVo.getWithdrawAmount()) < 0) {
             return Result.error("提现金额超出可用余额");
         }
+        String countKey = withdrawalVo.getWithdrawMobile() + "_withdrawal";
+
+        Double count = NumberUtils.toDouble(redisTemplate.opsForValue().get(countKey));
+        if (count >= 500) {
+            return Result.error("已超出每日提现限额");
+        }
 
         String orderId = AliPayUtil.generateOrderId(withdrawalVo.getWithdrawMobile(),
                 Constant.PayType.WITHDRAWAL.getValue());
@@ -275,6 +268,8 @@ public class ApiAccountController {
             withdrawalInfo.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
             withdrawalInfo.setId(CommonUtils.getUUID());
             withdrawalInfoService.save(withdrawalInfo);
+            //更新每日提现限额
+            redisTemplate.opsForValue().set(countKey, withdrawalVo.getWithdrawAmount().add(new BigDecimal(count)) + "");
         } catch (Exception e) {
             return Result.error("提现异常");
         }

@@ -3,8 +3,6 @@ package com.distribution.modules.api.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
-import com.alipay.api.response.AlipayTradeWapPayResponse;
-import com.distribution.ali.pay.AliPayParams;
 import com.distribution.ali.pay.AliPayUtil;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.account.entity.MemberAccount;
@@ -12,8 +10,10 @@ import com.distribution.modules.account.service.MemberAccountHistoryService;
 import com.distribution.modules.account.service.MemberAccountService;
 import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.api.config.JWTConfig;
+import com.distribution.modules.api.entity.UserEntity;
 import com.distribution.modules.api.pojo.vo.DisFansVO;
 import com.distribution.modules.api.pojo.vo.DisMemberVO;
+import com.distribution.modules.api.service.UserService;
 import com.distribution.modules.dis.entity.DisFans;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.CardOrderInfoService;
@@ -40,11 +40,11 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -82,6 +82,10 @@ public class ApiMemberController {
     private SysConfigService configService;
     @Autowired
     private WeiXinService weiXinService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
     @Autowired
     private ModelMapper modelMapper;
     @Autowired
@@ -143,7 +147,7 @@ public class ApiMemberController {
 
 
     @GetMapping("/memberAccount/{mobile}")
-    @ApiOperation(value = "查询用户信息")
+    @ApiOperation(value = "查询用户账户信息")
     public Result memberAccountInfo(@PathVariable("mobile") String mobile) {
         MemberAccount memberAccount = Optional.ofNullable(memberAccountService.selectMemberAccountByUserId(mobile))
                 .orElse(new MemberAccount());
@@ -209,6 +213,31 @@ public class ApiMemberController {
         return Result.ok().put("weixinInfo", fans);
     }
 
+    @ApiOperation("更新会员手机号")
+    @ApiImplicitParams({
+            @ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "手机号", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "string", name = "oldMobile", value = "旧手机号", required = true),
+            @ApiImplicitParam(paramType = "query", dataType = "string", name = "captcha", value = "验证码", required = true)
+    })
+    @PostMapping("/updateMobile")
+    public Result updateMobile(String mobile,String oldMobile,String captcha) {
+        if (!redisTemplate.opsForValue().get(mobile).equals(captcha)) {
+            return Result.error("验证码不正确");
+        }
+        UserEntity userEntity = userService.queryByMobile(oldMobile);
+        if (userEntity == null) {
+            return Result.error("用户不存在");
+        }
+        userEntity.setMobile(mobile);
+        try {
+            userService.update(userEntity);
+        } catch (Exception e) {
+            log.error("更新用户手机号异常",e);
+            return Result.error("更新用户手机号异常");
+        }
+        return Result.ok("更新用户手机号成功");
+    }
+
 
     /**
      * 更新会员信息
@@ -246,64 +275,7 @@ public class ApiMemberController {
         return Result.ok().put("level", json);
     }
 
-    /**
-     * 购买会员
-     *
-     * @param
-     * @return
-     * @author liuxinxin
-     * @date 14:25
-     */
-    @GetMapping("/checkMemberDisLevel")
-    @ApiOperation(value = "购买会员")
-    public Result checkMemberDisLevel(@RequestParam String mobile, @RequestParam Integer disLevel) {
-        DisMemberInfoEntity disMemberInfoEntity = disMemberInfoService.queryByMobile(mobile);
-        //非会员可以通过
-        if ("1".equals(disMemberInfoEntity.getDisUserType())) {
-            //如果是1级会员
-            if (1 == disMemberInfoEntity.getDisLevel()) {
-                return Result.error("您已是1级会员，无需升级");
-            }
-            //如果是2级会员
-            else if (2 == disMemberInfoEntity.getDisLevel()) {
-                if (1 != disLevel) {
-                    return Result.error("您已是2级会员，无需升级");
-                }
-            }
-            //如果是3级会员
-            else if (3 == disMemberInfoEntity.getDisLevel()) {
-                if (3 == disLevel) {
-                    return Result.error("您已是3级会员，无需升级");
-                }
-            }
-        }
-        Map<String, Object> json = new HashMap<>(2);
-        json.put("level", disLevel);
-        //获取会员升级价格配置
-        String price = configService.getValue("level_price", "");
-        JSONObject priceJson = JSON.parseObject(price);
-        String amount = priceJson.getString("level_" + disLevel);
-        //校验通过 生成APP支付订单
-        String orderNo = AliPayUtil.generateOrderId(mobile, "1");
-        //构造支付请求参数
-        AliPayParams payParams = new AliPayParams();
-        payParams.setSubject("会员升级服务");
-        payParams.setOutTradeNo(orderNo);
-        payParams.setTotalAmount(amount);
-        payParams.setQuitUrl(returnUrl);
-        try {
-            payParams.setPassbackParams(URLEncoder.encode(JSON.toJSONString(json), "UTF-8"));
-            AlipayTradeWapPayResponse wapPayResponse = AliPayUtil.tradeWapPay(payParams);
-            if (wapPayResponse.isSuccess()) {
-                return Result.ok("支付成功");
-            } else {
-                return Result.error("支付失败");
-            }
-        } catch (Exception e) {
-            log.error("生成APP支付订单异常", e);
-            return Result.error("生成APP支付订单异常");
-        }
-    }
+
 
     /**
      * 购买会员 支付回调

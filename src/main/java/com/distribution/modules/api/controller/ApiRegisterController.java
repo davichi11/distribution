@@ -6,6 +6,7 @@ import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.api.entity.UserEntity;
+import com.distribution.modules.api.service.IdCardQueryService;
 import com.distribution.modules.api.service.UserService;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.DisMemberInfoService;
@@ -46,6 +47,8 @@ public class ApiRegisterController {
     @Autowired
     private DisMemberInfoService memberInfoService;
     @Autowired
+    private IdCardQueryService idCardQueryService;
+    @Autowired
     private NotifySender sender;
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -81,6 +84,10 @@ public class ApiRegisterController {
             return Result.error("openid不能为空");
         }
         try {
+            //身份证号码实名认证
+            if (!idCardQueryService.isMatched(idCode, name)) {
+                return Result.error("身份证号不正确,请确认");
+            }
             //查询是否有对应的会员
             Map<String, Object> param = new HashMap<>(2);
             param.put("mobile", mobile);

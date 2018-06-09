@@ -1,6 +1,8 @@
 package com.distribution.modules.api.controller;
 
+import com.distribution.ali.pay.AliPayUtil;
 import com.distribution.common.utils.CommonUtils;
+import com.distribution.common.utils.Constant;
 import com.distribution.common.utils.DateUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.api.annotation.AuthIgnore;
@@ -15,14 +17,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -62,12 +65,12 @@ public class ApiCardController {
      * @Description:
      */
     @AuthIgnore
-    @PostMapping("/cardList")
+    @GetMapping("/cardList")
     @ApiOperation(value = "信用卡列表")
-    public Result list(@RequestBody Map<String, Object> params) {
+    public Result list(String page, String limit) {
         //查询列表数据
-        PageInfo<CardInfo> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
-                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> cardInfoService.queryList(params));
+        PageInfo<CardInfo> pageInfo = PageHelper.startPage(NumberUtils.toInt(page, 0), NumberUtils.toInt(limit, 0))
+                .doSelectPageInfo(() -> cardInfoService.queryList(null));
         return Result.ok().put("page", pageInfo);
     }
 
@@ -81,7 +84,7 @@ public class ApiCardController {
      */
     @GetMapping("/memberCardList/{mobile}")
     @ApiOperation(value = "用户办卡记录,订单明细")
-    public Result memberCardList(@PathVariable String mobile, Map<String, Object> param) {
+    public Result memberCardList(@PathVariable String mobile, String page, String limit, String type) {
         PageInfo<CardOrderInfoEntity> pageInfo = null;
         DisMemberInfoEntity member = disMemberInfoService.queryByMobile(mobile);
         if (member != null) {
@@ -92,10 +95,12 @@ public class ApiCardController {
             } else {
                 memberIds = member.getId();
             }
+
+            Map<String, Object> param = new HashMap<>(4);
             param.put("memberIds", memberIds);
-            param.put("orderStatus", param.get("type"));
-            pageInfo = PageHelper.startPage(MapUtils.getInteger(param, "page", 0),
-                    MapUtils.getInteger(param, "limit", 0)).doSelectPageInfo(() -> cardOrderInfoService.queryList(param));
+            param.put("orderStatus", type);
+            pageInfo = PageHelper.startPage(NumberUtils.toInt(page, 0), NumberUtils.toInt(limit, 0))
+                    .doSelectPageInfo(() -> cardOrderInfoService.queryList(param));
             //模糊手机号和身份证
             pageInfo.getList().forEach(order -> {
                 order.setOrderIdcardno(CommonUtils.fuzzyIdCode(order.getOrderIdcardno()));
@@ -115,7 +120,7 @@ public class ApiCardController {
      */
     @PostMapping("/saveCardOrder")
     @ApiOperation(value = "添加申请人信息")
-    public Result saveCaedOrderInfo(@RequestBody CardOrderInfoVO cardOrderInfoVO, String prodId) {
+    public Result saveCaedOrderInfo(@RequestBody CardOrderInfoVO cardOrderInfoVO) {
         if (StringUtils.isBlank(cardOrderInfoVO.getOrderMobile()) || !phone.matcher(cardOrderInfoVO.getOrderMobile()).matches()) {
             return Result.error("手机号码不正确");
         }
@@ -125,11 +130,12 @@ public class ApiCardController {
         try {
             DisMemberInfoEntity member = disMemberInfoService.queryByMobile(cardOrderInfoVO.getOrderMobile());
             //先调用第三方接口保存用户信息并返回url
-            String url = cardInfoService.getProductUrl(member, prodId);
+            String url = cardInfoService.getProductUrl(member, cardOrderInfoVO.getBankNum());
             if (StringUtils.isNotBlank(url)) {
                 CardOrderInfoEntity cardOrderInfoEntity = modelMapper.map(cardOrderInfoVO, CardOrderInfoEntity.class);
                 cardOrderInfoEntity.setId(CommonUtils.getUUID());
-                cardOrderInfoEntity.setOrderId(CommonUtils.getUUID());
+                cardOrderInfoEntity.setOrderId(AliPayUtil.generateOrderId(cardOrderInfoVO.getOrderMobile(),
+                        Constant.PayType.applyCard.getValue()));
                 cardOrderInfoEntity.setMemberInfo(member);
                 cardOrderInfoEntity.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
                 cardOrderInfoEntity.setOrderStatus(CardOrderInfoVO.OrderStatus.APPLICATION);

@@ -1,5 +1,6 @@
 package com.distribution;
 
+import com.distribution.modules.api.service.IdCardQueryService;
 import com.distribution.modules.sys.service.SysUserService;
 import com.google.common.collect.Maps;
 import org.junit.Before;
@@ -15,11 +16,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.io.IOException;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class DistributionApplicationTests {
     @Autowired
     SysUserService userService;
+    @Autowired
+    IdCardQueryService idCardQueryService;
     @Autowired
     WebApplicationContext context;
 
@@ -34,6 +39,12 @@ public class DistributionApplicationTests {
     public void contextLoads() {
         userService.queryList(Maps.newHashMap()).forEach(System.out::println);
 
+    }
+
+    @Test
+    public void testIdCard() throws IOException {
+        boolean matched = idCardQueryService.isMatched("140109198701040532", "胡春亮");
+        System.out.println(matched);
     }
 
     @Test

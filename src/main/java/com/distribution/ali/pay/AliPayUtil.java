@@ -11,7 +11,6 @@ import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayFundTransToaccountTransferResponse;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
-import com.alipay.api.response.AlipayTradeWapPayResponse;
 import com.distribution.common.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -59,12 +58,12 @@ public final class AliPayUtil {
     /**
      * 生成订单号,规则:
      * 支付平台1位 0:支付宝,1:微信 (暂时使用支付宝)
-     * 业务类型一位 0:提现,1:充值
+     * 业务类型一位 0:提现,1:充值,2:申请信用卡
      * 时间戳14位
      * 用户手机号后四位
      *
      * @param mobile
-     * @param payType 业务类型 0:提现,1:充值
+     * @param payType 业务类型 0:提现,1:充值,2申请信用卡
      * @return
      */
     public static String generateOrderId(String mobile, String payType) {
@@ -121,12 +120,14 @@ public final class AliPayUtil {
      * @param payParams 请求参数
      * @return
      */
-    public static AlipayTradeWapPayResponse tradeWapPay(AliPayParams payParams) throws AlipayApiException {
+    public static String tradeWapPay(AliPayParams payParams) throws AlipayApiException {
         AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do",
                 APP_ID, PRIVATE_KEY, "json", "UTF-8", ALIPAY_PUBLIC_KEY, "RSA2", ENCRYPT_KEY, ENCRYPT_TYPE);
         AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
         request.setNeedEncrypt(true);
         request.setBizContent(JSON.toJSONString(payParams));
-        return alipayClient.execute(request);
+        request.setNotifyUrl("http://www.qiandaoshou.cn/dis/api/alipayCallback");
+        request.setReturnUrl("http://www.qdddds.com/");
+        return alipayClient.pageExecute(request).getBody();
     }
 }

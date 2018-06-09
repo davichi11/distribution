@@ -112,7 +112,12 @@ public class Constant {
         /**
          * 购买
          */
-        BUY("1");
+        BUY("1"),
+        /**
+         * 申请信用卡
+         */
+        applyCard("2");
+
         private String value;
 
         PayType(String value) {

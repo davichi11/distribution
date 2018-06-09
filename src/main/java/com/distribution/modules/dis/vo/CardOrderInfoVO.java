@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class CardOrderInfoVO {
     /**
-     *
+     * 真实姓名
      */
     private String orderName;
     /**
@@ -13,11 +13,11 @@ public class CardOrderInfoVO {
      */
     private String orderId;
     /**
-     *
+     * 手机号
      */
     private String orderMobile;
     /**
-     *
+     * 身份证
      */
     private String orderIdcardno;
     /**
@@ -25,9 +25,13 @@ public class CardOrderInfoVO {
      */
     private String orderEmail;
     /**
-     * 信用卡ID
+     * 信用卡编号
      */
-    private String cardId;
+    private String cardNum;
+    /**
+     * 银行编号
+     */
+    private String bankNum;
     /**
      * 订单状态 0:失败,1:成功,2:申请中
      */

@@ -35,6 +35,10 @@ public class DisMemberVO {
      */
     private String mobile;
     /**
+     * 身份证号码
+     */
+    private String idCode;
+    /**
      * 微信openID
      */
     private String openId;

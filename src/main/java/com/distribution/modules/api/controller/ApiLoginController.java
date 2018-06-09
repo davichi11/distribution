@@ -95,6 +95,7 @@ public class ApiLoginController {
         disMemberVO.setDisUserType(memberInfo.getDisUserType());
         disMemberVO.setDisLevel(memberInfo.getDisLevel());
         disMemberVO.setMobile(mobile);
+        disMemberVO.setIdCode(memberInfo.getIdCode());
         disMemberVO.setOpenId(memberInfo.getOpenId());
         disMemberVO.setAddTime(memberInfo.getAddTime());
         if (fans != null) {
