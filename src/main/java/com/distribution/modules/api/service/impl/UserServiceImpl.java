@@ -39,6 +39,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserEntity queryByMemberId(String memberId) {
+        return userDao.queryByMemberId(memberId);
+    }
+
+    @Override
     public List<UserEntity> queryList(Map<String, Object> map) {
         return userDao.queryList(map);
     }

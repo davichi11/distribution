@@ -2,7 +2,7 @@ package com.distribution.modules.api.controller;
 
 import com.alipay.api.response.AlipayFundTransToaccountTransferResponse;
 import com.distribution.ali.pay.AliPayParams;
-import com.distribution.ali.pay.AliPayUtil;
+import com.distribution.ali.pay.AliPayUtils;
 import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.Constant;
 import com.distribution.common.utils.DateUtils;
@@ -19,11 +19,15 @@ import com.distribution.modules.memeber.entity.WithdrawalInfo;
 import com.distribution.modules.memeber.service.WithdrawalInfoService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
+import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -34,10 +38,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.text.MessageFormat;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ChunLiang Hu
@@ -60,6 +67,8 @@ public class ApiAccountController {
     private MemberAccountService memberAccountService;
     @Autowired
     private MemberAccountHistoryService memberAccountHistoryService;
+    @Autowired
+    private WxMpService wxMpService;
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
     @Autowired
@@ -210,8 +219,9 @@ public class ApiAccountController {
         DisMemberInfoEntity member = disMemberInfoService.queryList(map).stream().findFirst().orElse(new DisMemberInfoEntity());
         map.put("userId", member.getId());
         map.put("hisType", MemberAccountHistory.HisType.INCOME);
+        map.putAll(params);
         PageInfo<MemberAccountHistory> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
-                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> memberAccountHistoryService.findList(params));
+                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> memberAccountHistoryService.findList(map));
         return Result.ok().put("memberWithdrawalList", pageInfo);
     }
 
@@ -241,10 +251,10 @@ public class ApiAccountController {
             return Result.error("已超出每日提现限额");
         }
 
-        String orderId = AliPayUtil.generateOrderId(withdrawalVo.getWithdrawMobile(),
+        String orderId = AliPayUtils.generateOrderId(withdrawalVo.getWithdrawMobile(),
                 Constant.PayType.WITHDRAWAL.getValue());
         AliPayParams payParams = new AliPayParams();
-        payParams.setAmount(withdrawalVo.getWithdrawAmount().toString());
+        payParams.setAmount(withdrawalVo.getWithdrawAmount().doubleValue());
         payParams.setOutBizNo(orderId);
         payParams.setPayeeAccount(account.getAliPayAccount());
         payParams.setPayeeRealName(account.getMember().getDisUserName());
@@ -256,11 +266,16 @@ public class ApiAccountController {
 
         try {
             //调用支付宝转账接口
-            AlipayFundTransToaccountTransferResponse response = AliPayUtil.transferResponse(payParams);
+            AlipayFundTransToaccountTransferResponse response = AliPayUtils.transferResponse(payParams);
             if (!response.isSuccess()) {
+
                 log.error("会员{}提现失败,case:{},订单号为{}", account.getMember().getDisUserName(),
                         response.getMsg(), orderId);
+                return Result.error("提现失败");
             }
+            //提现成功更新账户余额
+            account.setMemberAmount(account.getMemberAmount().subtract(withdrawalVo.getWithdrawAmount()));
+            memberAccountService.update(account);
             //保存提现记录
             WithdrawalInfo withdrawalInfo = modelMapper.map(withdrawalVo, WithdrawalInfo.class);
             withdrawalInfo.setWithdrawType(response.isSuccess() ? "1" : "0");
@@ -268,11 +283,47 @@ public class ApiAccountController {
             withdrawalInfo.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
             withdrawalInfo.setId(CommonUtils.getUUID());
             withdrawalInfoService.save(withdrawalInfo);
+            //当前时间
+            LocalDateTime start = LocalDateTime.now();
+            //第二天开始时间
+            LocalDateTime end = LocalDateTime.now().plusDays(1).with(LocalDateTime.MIN);
+            //计算时间差
+            Duration between = Duration.between(start, end);
+            //获取相差的小时
+            long hours = between.toMillis();
+
             //更新每日提现限额
-            redisTemplate.opsForValue().set(countKey, withdrawalVo.getWithdrawAmount().add(new BigDecimal(count)) + "");
+            redisTemplate.opsForValue().set(countKey, withdrawalVo.getWithdrawAmount().add(new BigDecimal(count)) + "",
+                    hours, TimeUnit.MILLISECONDS);
+            //发送提现成功提醒
+            wxMpService.getTemplateMsgService().sendTemplateMsg(buildTemplateMsg(account.getMember().getOpenId(),
+                    withdrawalVo.getWithdrawAmount().toString(), withdrawalInfo.getWithdrawName()));
         } catch (Exception e) {
+            log.error("提现异常", e);
             return Result.error("提现异常");
         }
         return Result.ok();
+    }
+
+    /**
+     * 构造提现提醒模板信息
+     *
+     * @param openId
+     * @param amount
+     * @param name
+     * @return
+     */
+    private WxMpTemplateMessage buildTemplateMsg(String openId, String amount, String name) {
+        WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
+        wxMpTemplateMessage.setTemplateId("g-fARpDMBjuMPPnAQnUgUN1YLivLZQvhnAFaELvV_bU");
+        wxMpTemplateMessage.setToUser(openId);
+        List<WxMpTemplateData> templateDataList = Lists.newArrayList(
+                new WxMpTemplateData("first", MessageFormat.format("提现成功！", name)),
+                new WxMpTemplateData("keyword1", amount),
+                new WxMpTemplateData("keyword2", DateUtils.formatDateTime(LocalDateTime.now())),
+                new WxMpTemplateData("remark", "感谢您的使用")
+        );
+        wxMpTemplateMessage.setData(templateDataList);
+        return wxMpTemplateMessage;
     }
 }

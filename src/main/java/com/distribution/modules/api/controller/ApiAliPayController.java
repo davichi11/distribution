@@ -3,13 +3,14 @@ package com.distribution.modules.api.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.distribution.ali.pay.AliPayParams;
-import com.distribution.ali.pay.AliPayUtil;
+import com.distribution.ali.pay.AliPayUtils;
 import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.DisMemberInfoService;
 import com.distribution.modules.sys.service.SysConfigService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,8 +40,9 @@ public class ApiAliPayController {
     private DisMemberInfoService disMemberInfoService;
     @Autowired
     private SysConfigService configService;
-    @Value("{risk.url}")
+    @Value("${risk.url}")
     private String returnUrl;
+
     /**
      * 购买会员
      *
@@ -51,7 +54,7 @@ public class ApiAliPayController {
     @AuthIgnore
     @GetMapping("/checkMemberDisLevel")
     @ApiOperation(value = "购买会员")
-    public ModelAndView checkMemberDisLevel(@RequestParam String mobile, @RequestParam Integer disLevel) {
+    public ModelAndView checkMemberDisLevel(@RequestParam String mobile, @RequestParam Integer disLevel, HttpServletResponse response) {
         ModelAndView modelAndView = new ModelAndView();
         DisMemberInfoEntity disMemberInfoEntity = disMemberInfoService.queryByMobile(mobile);
         //非会员可以通过
@@ -82,16 +85,17 @@ public class ApiAliPayController {
         JSONObject priceJson = JSON.parseObject(price);
         String amount = priceJson.getString("level_" + disLevel);
         //校验通过 生成APP支付订单
-        String orderNo = AliPayUtil.generateOrderId(mobile, "1");
+        String orderNo = AliPayUtils.generateOrderId(mobile, "1");
         //构造支付请求参数
         AliPayParams payParams = new AliPayParams();
         payParams.setSubject("会员升级服务");
         payParams.setOutTradeNo(orderNo);
-        payParams.setTotalAmount(amount);
+        payParams.setTotalAmount(NumberUtils.toDouble(amount));
         payParams.setQuitUrl(returnUrl);
+        payParams.setProductCode("QUICK_WAP_WAY");
         try {
             payParams.setPassbackParams(URLEncoder.encode(JSON.toJSONString(json), "UTF-8"));
-            modelAndView.addObject("form", AliPayUtil.tradeWapPay(payParams));
+            modelAndView.addObject("form", AliPayUtils.tradeWapPay(payParams, response));
             modelAndView.setViewName("pay");
             return modelAndView;
         } catch (Exception e) {

@@ -5,6 +5,7 @@ import com.alipay.api.AlipayApiException;
 import com.alipay.api.AlipayClient;
 import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.domain.AlipayTradeAppPayModel;
+import com.alipay.api.domain.AlipayTradeWapPayModel;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayFundTransToaccountTransferRequest;
 import com.alipay.api.request.AlipayTradeAppPayRequest;
@@ -12,9 +13,13 @@ import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayFundTransToaccountTransferResponse;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.distribution.common.utils.DateUtils;
+import com.jpay.alipay.AliPayApiConfig;
+import com.jpay.alipay.AliPayApiConfigKit;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -28,8 +33,12 @@ import java.util.Map;
  * @create 2018/5/29-20:50
  */
 @Slf4j
-public final class AliPayUtil {
-    private AliPayUtil() {
+public final class AliPayUtils {
+    private AliPayUtils() {
+    }
+
+    static {
+
     }
 
     private static final String APP_ID = "2018052860259186";
@@ -120,12 +129,30 @@ public final class AliPayUtil {
      * @param payParams 请求参数
      * @return
      */
-    public static String tradeWapPay(AliPayParams payParams) throws AlipayApiException {
+    public static String tradeWapPay(AliPayParams payParams, HttpServletResponse response) throws AlipayApiException, IOException {
+        AliPayApiConfig aliPayApiConfig = AliPayApiConfig.New()
+                .setAppId(APP_ID)
+                .setAlipayPublicKey(ALIPAY_PUBLIC_KEY)
+                .setCharset("UTF-8")
+                .setPrivateKey(PRIVATE_KEY)
+                .setServiceUrl("https://openapi.alipay.com/gateway.do")
+                .setSignType("RSA2")
+                .build();
+        AliPayApiConfigKit.setThreadLocalAliPayApiConfig(aliPayApiConfig);
+
         AlipayClient alipayClient = new DefaultAlipayClient("https://openapi.alipay.com/gateway.do",
-                APP_ID, PRIVATE_KEY, "json", "UTF-8", ALIPAY_PUBLIC_KEY, "RSA2", ENCRYPT_KEY, ENCRYPT_TYPE);
+                APP_ID, PRIVATE_KEY, "json", "UTF-8", ALIPAY_PUBLIC_KEY, "RSA2");
+        AlipayTradeWapPayModel payModel = new AlipayTradeWapPayModel();
+        payModel.setQuitUrl(payParams.getQuitUrl());
+        payModel.setOutTradeNo(payParams.getOutTradeNo());
+        payModel.setBody(payParams.getSubject());
+        payModel.setTotalAmount(payParams.getTotalAmount().toString());
+        payModel.setPassbackParams(payParams.getPassbackParams());
+        payModel.setSubject(payParams.getSubject());
         AlipayTradeWapPayRequest request = new AlipayTradeWapPayRequest();
-        request.setNeedEncrypt(true);
-        request.setBizContent(JSON.toJSONString(payParams));
+//        request.setNeedEncrypt(true);
+//        request.setBizContent(JSON.toJSONString(payParams));
+        request.setBizModel(payModel);
         request.setNotifyUrl("http://www.qiandaoshou.cn/dis/api/alipayCallback");
         request.setReturnUrl("http://www.qdddds.com/");
         return alipayClient.pageExecute(request).getBody();

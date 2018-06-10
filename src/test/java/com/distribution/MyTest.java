@@ -9,9 +9,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.Date;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +33,15 @@ public class MyTest {
 
     @Test
     public void test2() {
-        System.out.println(Date.from(LocalDateTime.now().plusSeconds(604800).toInstant(ZoneOffset.UTC)));
+        //当前时间
+        LocalDateTime start = LocalDateTime.now();
+        //第二天开始时间
+        LocalDateTime end = LocalDateTime.now().plusDays(1).with(LocalTime.MIN);
+
+        Duration between = Duration.between(start, end);
+
+        long hours = between.toHours();
+        System.out.println(hours);
     }
 
     @Test
@@ -43,7 +51,7 @@ public class MyTest {
         Request request = new Request.Builder().url(url).get().build();
         Response response = OkHttpUtil.execute(request);
         if (response.isSuccessful()) {
-            CardApiResponse cardApiResponse = JSON.parseObject(response.body().string(),CardApiResponse.class);
+            CardApiResponse cardApiResponse = JSON.parseObject(response.body().string(), CardApiResponse.class);
             System.out.println(cardApiResponse);
         }
     }

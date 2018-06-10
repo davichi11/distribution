@@ -85,5 +85,6 @@ public class NotifyReceiver {
         } catch (ClientException e) {
             log.error("短信发送异常");
         }
+        log.info("短信发送成功{}", msg);
     }
 }

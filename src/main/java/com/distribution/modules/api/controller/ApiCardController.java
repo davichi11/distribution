@@ -1,6 +1,6 @@
 package com.distribution.modules.api.controller;
 
-import com.distribution.ali.pay.AliPayUtil;
+import com.distribution.ali.pay.AliPayUtils;
 import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.Constant;
 import com.distribution.common.utils.DateUtils;
@@ -51,7 +51,7 @@ public class ApiCardController {
     /**
      * 手机号正则
      */
-    private final Pattern phone = Pattern.compile("^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|70)\\d{8}$");
+//    private final Pattern phone = Pattern.compile("^1(3[0-9]|4[57]|5[0-35-9]|8[0-9]|70)\\d{8}$");
     /**
      * 身份证正则
      */
@@ -118,10 +118,11 @@ public class ApiCardController {
      * @author liuxinxin
      * @date 10:58
      */
+    @AuthIgnore
     @PostMapping("/saveCardOrder")
     @ApiOperation(value = "添加申请人信息")
-    public Result saveCaedOrderInfo(@RequestBody CardOrderInfoVO cardOrderInfoVO) {
-        if (StringUtils.isBlank(cardOrderInfoVO.getOrderMobile()) || !phone.matcher(cardOrderInfoVO.getOrderMobile()).matches()) {
+    public Result saveCardOrderInfo(@RequestBody CardOrderInfoVO cardOrderInfoVO) {
+        if (StringUtils.isBlank(cardOrderInfoVO.getOrderMobile())) {
             return Result.error("手机号码不正确");
         }
         if (StringUtils.isBlank(cardOrderInfoVO.getOrderIdcardno()) || !idCardNo.matcher(cardOrderInfoVO.getOrderIdcardno()).matches()) {
@@ -134,7 +135,7 @@ public class ApiCardController {
             if (StringUtils.isNotBlank(url)) {
                 CardOrderInfoEntity cardOrderInfoEntity = modelMapper.map(cardOrderInfoVO, CardOrderInfoEntity.class);
                 cardOrderInfoEntity.setId(CommonUtils.getUUID());
-                cardOrderInfoEntity.setOrderId(AliPayUtil.generateOrderId(cardOrderInfoVO.getOrderMobile(),
+                cardOrderInfoEntity.setOrderId(AliPayUtils.generateOrderId(cardOrderInfoVO.getOrderMobile(),
                         Constant.PayType.applyCard.getValue()));
                 cardOrderInfoEntity.setMemberInfo(member);
                 cardOrderInfoEntity.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
@@ -142,10 +143,10 @@ public class ApiCardController {
                 cardOrderInfoEntity.setIsDelete("1");
                 cardOrderInfoService.save(cardOrderInfoEntity);
             }
+            return Result.ok().put("url", url);
         } catch (Exception e) {
             log.error("申请异常", e);
             return Result.error("申请异常");
         }
-        return Result.ok();
     }
 }

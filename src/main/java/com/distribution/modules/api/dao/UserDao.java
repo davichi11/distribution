@@ -22,4 +22,11 @@ public interface UserDao extends BaseDao<UserEntity> {
      */
     UserEntity queryByMobile(String mobile);
 
+    /**
+     * 根据会员ID查询用户信息
+     * @param memberId
+     * @return
+     */
+    UserEntity queryByMemberId(String memberId);
+
 }

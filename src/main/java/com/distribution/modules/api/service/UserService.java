@@ -23,6 +23,13 @@ public interface UserService {
     UserEntity queryObject(String userId);
 
     /**
+     * 根据会员ID查询
+     * @param memberId
+     * @return
+     */
+    UserEntity queryByMemberId(String memberId);
+
+    /**
      * 查询用户列表
      *
      * @param map

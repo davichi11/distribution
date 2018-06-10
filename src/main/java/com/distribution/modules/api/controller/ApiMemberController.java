@@ -3,7 +3,7 @@ package com.distribution.modules.api.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
-import com.distribution.ali.pay.AliPayUtil;
+import com.distribution.ali.pay.AliPayUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.account.entity.MemberAccount;
 import com.distribution.modules.account.service.MemberAccountHistoryService;
@@ -11,7 +11,6 @@ import com.distribution.modules.account.service.MemberAccountService;
 import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.api.config.JWTConfig;
 import com.distribution.modules.api.entity.UserEntity;
-import com.distribution.modules.api.pojo.vo.DisFansVO;
 import com.distribution.modules.api.pojo.vo.DisMemberVO;
 import com.distribution.modules.api.service.UserService;
 import com.distribution.modules.dis.entity.DisFans;
@@ -112,13 +111,14 @@ public class ApiMemberController {
         fansParam.put("memberId", member.getId());
         List<DisMemberVO> disFansList = disFansService.queryList(fansParam).stream().filter(Objects::nonNull)
                 .map(disFans -> {
-                    DisMemberInfoEntity memberInfo = disMemberInfoService.queryByOpenId(disFans.getWechatId());
+                    DisMemberInfoEntity memberInfo = Optional.ofNullable(disMemberInfoService.queryByOpenId(disFans.getWechatId()))
+                            .orElse(new DisMemberInfoEntity());
                     return getDisMemberVO(disFans, memberInfo);
                 }).collect(Collectors.toList());
 
         //所有代理信息
         List<DisMemberVO> children = member.getDisMemberChildren().stream().filter(Objects::nonNull).map(memberInfo -> {
-            DisFans disFans = disFansService.queryByOpenId(memberInfo.getOpenId());
+            DisFans disFans = Optional.ofNullable(disFansService.queryByOpenId(memberInfo.getOpenId())).orElse(new DisFans());
             return getDisMemberVO(disFans, memberInfo);
         }).collect(Collectors.toList());
 
@@ -137,7 +137,7 @@ public class ApiMemberController {
         memberVO.setDisUserName(memberInfo.getDisUserName());
         memberVO.setDisUserType(memberInfo.getDisUserType());
         memberVO.setDisLevel(memberInfo.getDisLevel());
-        memberVO.setMobile(memberInfo.getUserEntity().getMobile());
+        memberVO.setMobile(Optional.ofNullable(memberInfo.getUserEntity()).orElse(new UserEntity()).getMobile());
         memberVO.setOpenId(memberInfo.getOpenId());
         memberVO.setAddTime(memberInfo.getAddTime());
         memberVO.setNickName(disFans.getWechatNickname());
@@ -178,22 +178,24 @@ public class ApiMemberController {
 
 
     @AuthIgnore
-    @GetMapping("/upLevel/{mobile}")
+    @GetMapping("/upLevel/{openId}")
     @ApiOperation(value = "查询用户上级信息")
-    public Result getUpLevel(@PathVariable("mobile") String mobile) {
-        DisMemberInfoEntity up = disMemberInfoService.queryByMobile(mobile);
-        if (up == null) {
+    public Result getUpLevel(@PathVariable("openId") String openId) {
+        DisFans fans = disFansService.queryByOpenId(openId);
+        //获取上级会员信息
+        DisMemberInfoEntity parent = fans.getDisMemberInfo();
+        if (parent == null) {
             return Result.error("用户不存在");
         }
-        DisFans disFans = disFansService.queryByOpenId(up.getOpenId());
+        DisFans disFans = disFansService.queryByOpenId(parent.getOpenId());
         DisMemberVO memberVO = new DisMemberVO();
-        memberVO.setDisUserName(up.getDisUserName());
-        memberVO.setDisUserType(up.getDisLevel().toString());
-        memberVO.setMobile(up.getUserEntity().getMobile());
-        memberVO.setOpenId(up.getOpenId());
+        memberVO.setDisUserName(parent.getDisUserName());
+        memberVO.setDisUserType(parent.getDisLevel().toString());
+        memberVO.setMobile(userService.queryByMemberId(parent.getId()).getMobile());
+        memberVO.setOpenId(parent.getOpenId());
         memberVO.setNickName(disFans.getWechatNickname());
         memberVO.setImgUrl(disFans.getWechatImg());
-        memberVO.setDisLevel(up.getDisLevel());
+        memberVO.setDisLevel(parent.getDisLevel());
 
         return Result.ok().put("upLevel", memberVO);
     }
@@ -204,13 +206,21 @@ public class ApiMemberController {
     @GetMapping("/disFans")
     public Result disFansInfo(@RequestParam String openId) {
         DisFans fans = disFansService.queryByOpenId(openId);
-        DisFansVO fansVO = modelMapper.map(fans, DisFansVO.class);
+        DisMemberVO memberVO = new DisMemberVO();
+        memberVO.setMobile("");
+        memberVO.setToken("");
+        memberVO.setExpire(null);
         DisMemberInfoEntity member = disMemberInfoService.queryByOpenId(openId);
         if (member != null) {
-            fansVO.setMobile(member.getUserEntity().getMobile());
-            fansVO.setToken(jwtConfig.generateToken(member.getUserEntity().getUserId()));
+            BeanUtils.copyProperties(member, memberVO);
+            memberVO.setToken(jwtConfig.generateToken(member.getUserEntity().getUserId()));
+            memberVO.setExpire(jwtConfig.getExpire());
+            memberVO.setMobile(member.getUserEntity().getMobile());
         }
-        return Result.ok().put("weixinInfo", fans);
+        memberVO.setImgUrl(fans.getWechatImg());
+        memberVO.setNickName(fans.getWechatNickname());
+        memberVO.setOpenId(openId);
+        return Result.ok().put("weixinInfo", memberVO);
     }
 
     @ApiOperation("更新会员手机号")
@@ -220,7 +230,7 @@ public class ApiMemberController {
             @ApiImplicitParam(paramType = "query", dataType = "string", name = "captcha", value = "验证码", required = true)
     })
     @PostMapping("/updateMobile")
-    public Result updateMobile(String mobile,String oldMobile,String captcha) {
+    public Result updateMobile(String mobile, String oldMobile, String captcha) {
         if (!redisTemplate.opsForValue().get(mobile).equals(captcha)) {
             return Result.error("验证码不正确");
         }
@@ -232,7 +242,7 @@ public class ApiMemberController {
         try {
             userService.update(userEntity);
         } catch (Exception e) {
-            log.error("更新用户手机号异常",e);
+            log.error("更新用户手机号异常", e);
             return Result.error("更新用户手机号异常");
         }
         return Result.ok("更新用户手机号成功");
@@ -276,7 +286,6 @@ public class ApiMemberController {
     }
 
 
-
     /**
      * 购买会员 支付回调
      *
@@ -289,7 +298,7 @@ public class ApiMemberController {
 //        Map<String, String> params = new HashMap<>(parameterMap.size());
 //        parameterMap.forEach((k, v) -> params.put(k, Arrays.stream(v).collect(Collectors.joining(","))));
         try {
-            if (AliPayUtil.signVerified(params)) {
+            if (AliPayUtils.signVerified(params)) {
                 //从回传参数中取出购买的会员等级
                 String level = JSON.parseObject(URLDecoder.decode(params.get("passbackParams"), "UTF-8")).getString("level");
                 if (StringUtils.isBlank(level)) {

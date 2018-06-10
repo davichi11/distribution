@@ -2,6 +2,7 @@ package com.distribution.modules.card.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.distribution.common.utils.OkHttpUtil;
+import com.distribution.modules.api.dao.UserDao;
 import com.distribution.modules.card.dao.CardInfoMapper;
 import com.distribution.modules.card.entity.CardApiResponse;
 import com.distribution.modules.card.entity.CardInfo;
@@ -29,6 +30,8 @@ import java.util.Map;
 public class CardInfoServiceImpl implements CardInfoService {
     @Autowired
     private CardInfoMapper cardInfoMapper;
+    @Autowired
+    private UserDao userDao;
 
     /**
      * 根据ID查询
@@ -134,19 +137,22 @@ public class CardInfoServiceImpl implements CardInfoService {
         params.put("type", "1");
         params.put("goodsId", prodId);
         params.put("idCard", member.getIdCode());
-        params.put("fatherId", member.getId());
-        params.put("otherUserId", member.getDisMemberParent().getId());
-        String url = OkHttpUtil.attachHttpGetParams("http://www.qichangkeji.vip/qckjgzhManager/DownSingleLoan/selectById.do",
-                params);
-        Request request = new Request.Builder().url(url).get().build();
-        Response response = OkHttpUtil.execute(request);
-        if (response.isSuccessful()) {
-            //只有提交数据成功才返回办卡URL
-            CardApiResponse apiResponse = JSON.parseObject(response.body().string(), CardApiResponse.class);
-            if (apiResponse.isSuccess()) {
-                return cardInfo.getCardUrl();
-            }
+        params.put("fatherId", "5710");
+        params.put("otherUserId", "0");
+        String parentMobile = "0";
+        if (member.getDisMemberParent() != null) {
+            parentMobile = userDao.queryByMemberId(member.getDisMemberParent().getId()).getMobile();
+            params.put("otherUserId", parentMobile);
         }
-        return null;
+        String url = OkHttpUtil.attachHttpGetParams("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do",
+                params);
+//        RequestBody formBody = RequestBody.create(MediaType.parse("text/json; charset=utf-8"), JSON.toJSONString(params));
+//        Request request = new Request.Builder().url("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do")
+//                .post(formBody).build();
+        Request request = new Request.Builder().url(url).get().build();
+        try (Response response = OkHttpUtil.execute(request)) {
+            System.out.println(response.body().string());
+            return response.isSuccessful() ? cardInfo.getCardUrl() : null;
+        }
     }
 }

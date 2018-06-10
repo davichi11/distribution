@@ -36,6 +36,7 @@ spring:
                 wall:
                     config:
                         multi-statement-allow: true
+            connection-init-sqls: set names 'utf8mb4'
 
 
 #eureka:
@@ -55,7 +56,7 @@ risk:
         header: token
     open-kaptcha:
         is-open: false
-    url: http://www.qiandaoshou.cn/#/auth
+    url: http://www.qiandaoshou.cn/wx/#/auth
     return-url: http://www.qiandaoshou.cn/dis/api/getUserInfo
 swagger:
   enabled: true
