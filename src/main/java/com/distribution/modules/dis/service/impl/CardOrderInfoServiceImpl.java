@@ -1,7 +1,9 @@
 package com.distribution.modules.dis.service.impl;
 
 import com.distribution.modules.dis.dao.CardOrderInfoDao;
+import com.distribution.modules.dis.dao.DisMemberInfoDao;
 import com.distribution.modules.dis.entity.CardOrderInfoEntity;
+import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.CardOrderInfoService;
 import com.distribution.modules.dis.service.DisProfiParamService;
 import org.apache.commons.collections.MapUtils;
@@ -20,6 +22,8 @@ public class CardOrderInfoServiceImpl implements CardOrderInfoService {
 
     @Autowired
     private DisProfiParamService disProfiParamService;
+    @Autowired
+    private DisMemberInfoDao disMemberInfoDao;
 
     @Override
     public CardOrderInfoEntity queryObject(String id) {
@@ -82,8 +86,13 @@ public class CardOrderInfoServiceImpl implements CardOrderInfoService {
         if (1 == status) {
             List<CardOrderInfoEntity> cardOrderInfoEntityList = cardOrderInfoDao.queryListByIds((List) map.get("ids"));
             for (CardOrderInfoEntity cardOrderInfoEntity : cardOrderInfoEntityList) {
+                //非会员不分润
+                if ("0".equals(cardOrderInfoEntity.getMemberInfo().getDisUserType())) {
+                    continue;
+                }
+                DisMemberInfoEntity member = disMemberInfoDao.queryObject(cardOrderInfoEntity.getMemberInfo().getId());
                 //调用分润
-                disProfiParamService.doFeeSplitting(cardOrderInfoEntity.getMemberInfo(), cardOrderInfoEntity.getCardInfo().getRebate(), false);
+                disProfiParamService.doFeeSplitting(member, cardOrderInfoEntity.getCardInfo().getRebate(), false);
             }
         }
     }

@@ -232,7 +232,7 @@
         from member_account a
             left join dis_member_info m on a.member_id = m.id
             left join tb_user t on t.user_id = m.dis_user_id
-        where m.dis_user_id = #{userId} or t.mobile = #{userId}
+        where m.id = #{userId} or t.mobile = #{userId}
     </select>
     <select id="selectByAlipay" resultMap="BaseResultMap">
         select

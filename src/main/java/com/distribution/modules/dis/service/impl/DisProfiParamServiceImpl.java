@@ -89,24 +89,26 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
         Map<String, Object> profiMap = new HashMap<>(2);
         profiMap.put("disPlatformId", "1");
         List<DisProfiParam> disProfiParams = disProfiParamMapper.queryList(profiMap);
+        disProfiParams.forEach(profiParam -> {
+            //如果是百分比 转换分润值
+            if ("0".equals(profiParam.getDisProMode())) {
+                //会员推荐奖励 推荐人拿全款
+                if (isReward) {
+                    profiParam.setDisProValue(100.00);
+                } else {
+                    profiParam.setDisProValue(profiParam.getDisProValue() / 100);
+                }
+            }
+        });
         //获取当前用户等级的分润
         DisProfiParam memberParam = disProfiParams.stream().filter(p -> p.getDisProLevel()
                 .equals(member.getDisLevel().toString())).findFirst().orElse(new DisProfiParam());
-        //如果是百分比 转换分润值
-        if ("0".equals(memberParam.getDisProMode())) {
-            //会员推荐奖励 推荐人拿全款
-            if (isReward) {
-                memberParam.setDisProValue(100.00);
-            } else {
-                memberParam.setDisProValue(memberParam.getDisProValue() / 100);
-            }
-        }
         //当前用户账户信息
         //当前用户分润
         MemberAccount memberAccount = accountMapper.selectMemberAccountByUserId(member.getId());
         updateAccont(member, memberAccount, new BigDecimal(money * memberParam.getDisProValue()));
         //当前会员的上两级
-        DisMemberInfoEntity parent = member.getDisMemberParent();
+        DisMemberInfoEntity parent = memberInfoDao.queryObject(member.getDisMemberParent().getId());
         MemberAccount parentAccount = accountMapper.selectMemberAccountByUserId(parent.getId());
         DisProfiParam parentParam = disProfiParams.stream().filter(p -> p.getDisProLevel()
                 .equals(parent.getDisLevel().toString())).findFirst().orElse(new DisProfiParam());
@@ -201,8 +203,8 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
         wxMpTemplateMessage.setToUser(openId);
         List<WxMpTemplateData> templateDataList = Lists.newArrayList(
                 new WxMpTemplateData("first", MessageFormat.format("尊敬的{0}您好，您获得了一笔新的佣金！", name)),
+                new WxMpTemplateData("keyword1", money.setScale(2, BigDecimal.ROUND_HALF_EVEN).toString()),
                 new WxMpTemplateData("keyword2", DateUtils.formatDateTime(LocalDateTime.now())),
-                new WxMpTemplateData("keyword1", money.toString()),
                 new WxMpTemplateData("remark", "感谢您的使用")
         );
         wxMpTemplateMessage.setData(templateDataList);

@@ -41,6 +41,7 @@ import java.math.BigDecimal;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -286,7 +287,7 @@ public class ApiAccountController {
             //当前时间
             LocalDateTime start = LocalDateTime.now();
             //第二天开始时间
-            LocalDateTime end = LocalDateTime.now().plusDays(1).with(LocalDateTime.MIN);
+            LocalDateTime end = LocalDateTime.now().plusDays(1).with(LocalTime.MIN);
             //计算时间差
             Duration between = Duration.between(start, end);
             //获取相差的小时

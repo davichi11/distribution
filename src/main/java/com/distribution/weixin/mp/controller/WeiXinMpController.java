@@ -1,7 +1,6 @@
 package com.distribution.weixin.mp.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.DateUtils;
 import com.distribution.common.utils.Result;
@@ -36,6 +35,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.MessageFormat;
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -98,14 +99,15 @@ public class WeiXinMpController {
     @AuthIgnore
     @GetMapping("/weixin/oauthUrl")
     @ResponseBody
-    public String buildOauthUrl(String mobile) {
+    public String buildOauthUrl(String mobile) throws UnsupportedEncodingException {
         if (StringUtils.isBlank(mobile)) {
             mobile = userService.queryObject("1").getMobile();
         }
         Map<String, Object> map = new HashMap<>();
         map.put("mobile", mobile);
         map.put("to", "/");
-        return wxMpService.oauth2buildAuthorizationUrl(returnUrl, "snsapi_userinfo", JSON.toJSONString(map));
+        return wxMpService.oauth2buildAuthorizationUrl(returnUrl, "snsapi_userinfo",
+                URLEncoder.encode(JSON.toJSONString(map), "UTF-8"));
     }
 
 
@@ -116,14 +118,24 @@ public class WeiXinMpController {
     })
     @AuthIgnore
     @GetMapping("/weixin/shareUrl")
-    public String buildOauthUrl(String mobile, String to) {
+    public String buildShareUrl(String mobile, String to) {
         if (StringUtils.isBlank(mobile)) {
             mobile = userService.queryObject("1").getMobile();
         }
         Map<String, Object> map = new HashMap<>();
         map.put("mobile", mobile);
-        map.put("to", to);
-        String url = wxMpService.oauth2buildAuthorizationUrl(returnUrl, "snsapi_userinfo", JSON.toJSONString(map));
+        try {
+            map.put("to", URLEncoder.encode(to, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            log.error("", e);
+        }
+        String url = null;
+        try {
+            url = wxMpService.oauth2buildAuthorizationUrl(returnUrl, "snsapi_userinfo",
+                    URLEncoder.encode(JSON.toJSONString(map), "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            log.error("", e);
+        }
         log.info("URL={}", url);
         return "redirect:" + url;
     }
@@ -168,9 +180,9 @@ public class WeiXinMpController {
     @GetMapping("/getUserInfo")
     public String getUserInfo(String code, String state) {
         log.info(state);
-        JSONObject jsonObject = JSON.parseObject(state);
-        String mobile = jsonObject.getString("mobile");
-        String to = jsonObject.getString("to");
+        state = StringUtils.substringBetween(state, "{", "}");
+        String mobile = state.split(",")[0].split(":")[1];
+        String to = state.split(",")[1].split(":")[1];
         String returnUrl = "";
         if (StringUtils.isBlank(mobile)) {
             mobile = userService.queryObject("1").getMobile();
@@ -204,11 +216,12 @@ public class WeiXinMpController {
         disFans.setWechatId(user.getOpenId());
         disFans.setWechatImg(user.getHeadImgUrl());
         disFans.setWechatNickname(user.getNickname());
+        disFans.setWorkerId(1L);
 
         //查询推荐人是否存在
         DisMemberInfoEntity disMemberInfo = disMemberInfoService.queryByMobile(mobile);
         //如果是自己,直接返回
-        if (disMemberInfo.getOpenId().equals(user.getOpenId())) {
+        if (user.getOpenId().equals(disMemberInfo.getOpenId())) {
             return "redirect:" + returnUrl;
         }
         //关联推荐人

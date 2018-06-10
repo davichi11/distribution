@@ -24,6 +24,8 @@ public interface CardInfoService {
      */
     CardInfo queryObject(String id);
 
+    CardInfo queryByBankNum(String bankNum);
+
     /**
      * 查询列表
      *

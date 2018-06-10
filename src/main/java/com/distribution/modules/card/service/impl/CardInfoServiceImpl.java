@@ -44,6 +44,11 @@ public class CardInfoServiceImpl implements CardInfoService {
         return cardInfoMapper.selectByPrimaryKey(id);
     }
 
+    @Override
+    public CardInfo queryByBankNum(String bankNum) {
+        return cardInfoMapper.selectByBankNum(bankNum);
+    }
+
     /**
      * 查询列表
      *
@@ -138,14 +143,8 @@ public class CardInfoServiceImpl implements CardInfoService {
         params.put("goodsId", prodId);
         params.put("idCard", member.getIdCode());
         params.put("fatherId", "5710");
-        params.put("otherUserId", "0");
-        String parentMobile = "0";
-        if (member.getDisMemberParent() != null) {
-            parentMobile = userDao.queryByMemberId(member.getDisMemberParent().getId()).getMobile();
-            params.put("otherUserId", parentMobile);
-        }
-        String url = OkHttpUtil.attachHttpGetParams("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do",
-                params);
+        params.put("otherUserId", member.getDisPlatformId().toString());
+        String url = OkHttpUtil.attachHttpGetParams("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do", params);
 //        RequestBody formBody = RequestBody.create(MediaType.parse("text/json; charset=utf-8"), JSON.toJSONString(params));
 //        Request request = new Request.Builder().url("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do")
 //                .post(formBody).build();

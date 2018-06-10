@@ -12,7 +12,6 @@ import com.distribution.modules.dis.entity.DisFans;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,21 +66,19 @@ public class UserServiceImpl implements UserService {
         //添加会员信息
         DisMemberInfoEntity member = new DisMemberInfoEntity();
         member.setId(CommonUtils.getUUID());
-        member.setDisPlatformId("1");
         member.setDisUserName(name);
         member.setIdCode(idCode);
         member.setUserEntity(user);
         member.setOpenId(openId);
         //是否已是锁粉
-        if (StringUtils.isNotBlank(openId)) {
-            Map<String, Object> fansParam = new HashMap<>(2);
-            fansParam.put("openId", openId);
-            List<DisFans> disFansList = fansMapper.selectList(fansParam);
-            if (CollectionUtils.isNotEmpty(disFansList)) {
-                DisFans fans = disFansList.get(0);
-                member.setParentId(fans.getDisMemberInfo().getParentId());
-                member.setDisMemberParent(fans.getDisMemberInfo());
-            }
+        Map<String, Object> fansParam = new HashMap<>(2);
+        fansParam.put("openId", openId);
+        List<DisFans> disFansList = fansMapper.selectList(fansParam);
+        if (CollectionUtils.isNotEmpty(disFansList)) {
+            DisFans fans = disFansList.get(0);
+            member.setParentId(fans.getDisMemberInfo().getParentId());
+            member.setDisMemberParent(fans.getDisMemberInfo());
+            member.setDisPlatformId(1L);
         }
         member.setDisLevel(0);
         member.setDisUserType("0");

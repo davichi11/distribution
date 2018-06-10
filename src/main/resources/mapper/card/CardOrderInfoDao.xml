@@ -112,13 +112,16 @@
                 and o.order_mobile = #{orderMobile}
             </if>
             <if test="disUserName != null and disUserName != ''">
-                and o.m.dis_user_name = #{disUserName}
+                and m.dis_user_name = #{disUserName}
             </if>
             <if test="cardName != null and cardName != ''">
                 and c.card_name = #{cardName}
             </if>
             <if test="memberIds != null">
-                and o.member_id in (#{memberIds})
+                and o.member_id in
+                <foreach item="item" collection="memberIds" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
             </if>
         </where>
         <choose>
@@ -298,8 +301,7 @@
         </where>
     </select>
 
-    <select id="queryListByIds" parameterType="java.util.List"
-            resultType="com.distribution.modules.dis.entity.CardOrderInfoEntity">
+    <select id="queryListByIds" parameterType="java.util.List" resultMap="CardOrderInfoMap">
         select
         o.id,
         order_name,
