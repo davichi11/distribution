@@ -31,6 +31,7 @@ public class LevelUpReceiver {
 
     @RabbitHandler
     public void process(String msg) {
+        log.info("进入会员升级队列,数据为{}", msg);
         if (StringUtils.isBlank(msg)) {
             log.error("消息为空");
             return;

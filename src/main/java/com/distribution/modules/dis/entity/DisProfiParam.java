@@ -32,7 +32,7 @@ public class DisProfiParam {
     /**
      * 分润值
      */
-    private Double disProValue;
+    private Double disProValue = 0.00;
 
     /**
      * 从下往上对应的级别关系

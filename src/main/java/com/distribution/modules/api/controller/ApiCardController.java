@@ -113,6 +113,28 @@ public class ApiCardController {
         return Result.ok().put("memberCardList", pageInfo);
     }
 
+    @ApiOperation(value = "业绩总数,信用卡,贷款,积分 数量")
+    @GetMapping("/allCount/{mobile}")
+    public Result getAllCount(@PathVariable("mobile") String mobile) {
+        DisMemberInfoEntity member = disMemberInfoService.queryByMobile(mobile);
+        int allCount = 0;
+        int cardCount = 0;
+        int loanCount = 0;
+        int inteCount = 0;
+        if (member != null) {
+            List<String> memberIds = member.getDisMemberChildren().stream().filter(Objects::nonNull)
+                    .map(DisMemberInfoEntity::getId).collect(Collectors.toList());
+            memberIds.add(member.getId());
+            Map<String, Object> param = new HashMap<>(4);
+            param.put("memberIds", memberIds);
+            param.put("orderStatus", "1");
+            allCount = cardCount = cardOrderInfoService.queryList(param).size();
+        }
+        return Result.ok().put("allCount", allCount).put("cardCount", cardCount).put("loanCount", loanCount)
+                .put("inteCount", inteCount);
+    }
+
+
     /**
      * 添加申请人信息
      *
@@ -175,7 +197,7 @@ public class ApiCardController {
      * @param name
      * @return
      */
-    private WxMpTemplateMessage buildTemplateMsg(String openId,String name, String bankName,
+    private WxMpTemplateMessage buildTemplateMsg(String openId, String name, String bankName,
                                                  String orderItemName, String orderItemData) {
         WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
         wxMpTemplateMessage.setTemplateId("GB5gLcSDAjHtSxnZxmkcSMd4yU_WEnt2KHhpAZF3_fw");

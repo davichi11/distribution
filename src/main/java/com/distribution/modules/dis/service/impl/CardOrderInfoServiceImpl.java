@@ -86,11 +86,11 @@ public class CardOrderInfoServiceImpl implements CardOrderInfoService {
         if (1 == status) {
             List<CardOrderInfoEntity> cardOrderInfoEntityList = cardOrderInfoDao.queryListByIds((List) map.get("ids"));
             for (CardOrderInfoEntity cardOrderInfoEntity : cardOrderInfoEntityList) {
-                //非会员不分润
-                if ("0".equals(cardOrderInfoEntity.getMemberInfo().getDisUserType())) {
+                DisMemberInfoEntity member = disMemberInfoDao.queryObject(cardOrderInfoEntity.getMemberInfo().getId());
+                //如果当前办卡人和其上级都是非会员,则跳过分润
+                if ("0".equals(member.getDisUserType()) && "0".equals(member.getDisMemberParent().getDisUserType())) {
                     continue;
                 }
-                DisMemberInfoEntity member = disMemberInfoDao.queryObject(cardOrderInfoEntity.getMemberInfo().getId());
                 //调用分润
                 disProfiParamService.doFeeSplitting(member, cardOrderInfoEntity.getCardInfo().getRebate(), false);
             }

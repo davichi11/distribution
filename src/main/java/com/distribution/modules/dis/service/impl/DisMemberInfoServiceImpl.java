@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service()
@@ -66,26 +67,32 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
 
     @Override
     public boolean levelUp(DisMemberInfoEntity memberInfo) {
-        //如果是非会员升级,查询其完成的订单和锁粉信息,大于三个并且锁粉达到10个可以升级为三级会员
+        //如果是非会员升级,查询其下线完成的订单和锁粉信息,大于三个并且锁粉达到10个可以升级为三级会员
         if ("0".equals(memberInfo.getDisUserType())) {
             //查询锁粉数据
             Map<String, Object> param = new HashMap<>(2);
             param.put("memberId", memberInfo.getId());
             List<DisFans> disFansList = disFansMapper.selectList(param);
 
-            Map<String, Object> orderParam = new HashMap<>(2);
-            orderParam.put("member_id", memberInfo.getId());
-            orderParam.put("orderStatus", "1");
-            Integer count = cardOrderInfoDao.countOrder(orderParam);
-            if (count >= 3 && disFansList.size() >= 10) {
-                memberInfo.setDisUserType("1");
-                memberInfo.setDisLevel(3);
-                try {
-                    update(memberInfo);
-                    return parentLevelUp(memberInfo.getDisMemberParent());
-                } catch (Exception e) {
-                    log.error(memberInfo.getDisUserName() + "升级异常", e);
-                    return false;
+            if (disFansList.size() >= 10) {
+                Map<String, Object> memberParam = new HashMap<>();
+                memberParam.put("openIds", disFansList.stream().map(DisFans::getWechatId).collect(Collectors.toList()));
+                List<String> fansMemberIds = disMemberInfoDao.queryList(memberParam).stream().map(DisMemberInfoEntity::getId)
+                        .collect(Collectors.toList());
+                memberParam.put("memberIds", fansMemberIds);
+                long count = cardOrderInfoDao.queryList(memberParam).stream()
+                        .filter(order -> order.getOrderStatus().equals(1)).count();
+                //
+                if (count >= 3) {
+                    memberInfo.setDisUserType("1");
+                    memberInfo.setDisLevel(3);
+                    try {
+                        update(memberInfo);
+                        return parentLevelUp(memberInfo.getDisMemberParent());
+                    } catch (Exception e) {
+                        log.error(memberInfo.getDisUserName() + "升级异常", e);
+                        return false;
+                    }
                 }
             }
         }

@@ -26,7 +26,7 @@ public class DisMemberInfoEntity implements Serializable, Comparable<DisMemberIn
     /**
      *
      */
-    private Long disPlatformId;
+    private Long disPlatformId = 1L;
     /**
      * 微信openID
      */
@@ -62,7 +62,7 @@ public class DisMemberInfoEntity implements Serializable, Comparable<DisMemberIn
     /**
      * 级别
      */
-    private Integer disLevel;
+    private Integer disLevel = 0;
     /**
      * 身份类型(0 非会员 1会员)
      */

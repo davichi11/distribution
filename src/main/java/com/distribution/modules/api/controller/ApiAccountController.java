@@ -197,11 +197,12 @@ public class ApiAccountController {
      */
     @GetMapping("/withdrawals/{mobile}")
     @ApiOperation(value = "提现记录")
-    public Result memberWithdrawalList(@PathVariable String mobile) {
+    public Result memberWithdrawalList(@PathVariable String mobile, Map<String, Object> params) {
         Map<String, Object> param = new HashMap<>(2);
         param.put("withdrawMobile", mobile);
-        List<WithdrawalInfo> withdrawalInfoList = withdrawalInfoService.queryList(param);
-        return Result.ok().put("memberWithdrawalList", withdrawalInfoList);
+        PageInfo<WithdrawalInfo> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
+                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> withdrawalInfoService.queryList(param));
+        return Result.ok().put("memberWithdrawalList", pageInfo);
     }
 
 
@@ -221,8 +222,8 @@ public class ApiAccountController {
         map.put("userId", member.getId());
         map.put("hisType", MemberAccountHistory.HisType.INCOME);
         map.putAll(params);
-        PageInfo<MemberAccountHistory> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
-                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> memberAccountHistoryService.findList(map));
+        PageInfo<MemberAccountHistory> pageInfo = PageHelper.startPage(MapUtils.getInteger(map, "page", 0),
+                MapUtils.getInteger(map, "limit", 0)).doSelectPageInfo(() -> memberAccountHistoryService.findList(map));
         return Result.ok().put("memberWithdrawalList", pageInfo);
     }
 
@@ -248,7 +249,7 @@ public class ApiAccountController {
         String countKey = withdrawalVo.getWithdrawMobile() + "_withdrawal";
 
         Double count = NumberUtils.toDouble(redisTemplate.opsForValue().get(countKey));
-        if (count >= 500) {
+        if (count >= 500 || withdrawalVo.getWithdrawAmount().doubleValue() >= 500) {
             return Result.error("已超出每日提现限额");
         }
 
@@ -291,11 +292,11 @@ public class ApiAccountController {
             //计算时间差
             Duration between = Duration.between(start, end);
             //获取相差的小时
-            long hours = between.toMillis();
+            long millis = between.toMillis();
 
             //更新每日提现限额
             redisTemplate.opsForValue().set(countKey, withdrawalVo.getWithdrawAmount().add(new BigDecimal(count)) + "",
-                    hours, TimeUnit.MILLISECONDS);
+                    millis, TimeUnit.MILLISECONDS);
             //发送提现成功提醒
             wxMpService.getTemplateMsgService().sendTemplateMsg(buildTemplateMsg(account.getMember().getOpenId(),
                     withdrawalVo.getWithdrawAmount().toString(), withdrawalInfo.getWithdrawName()));

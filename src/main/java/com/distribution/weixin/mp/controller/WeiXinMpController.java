@@ -179,10 +179,10 @@ public class WeiXinMpController {
     })
     @GetMapping("/getUserInfo")
     public String getUserInfo(String code, String state) {
-        log.info(state);
         state = StringUtils.substringBetween(state, "{", "}");
-        String mobile = state.split(",")[0].split(":")[1];
-        String to = state.split(",")[1].split(":")[1];
+        String mobile = StringUtils.substringBetween(state.split(",")[0].split(":")[1], "\"", "\"");
+        String to = StringUtils.substringBetween(state.split(",")[1].split(":")[1], "\"", "\"");
+        log.info("mobile={},to={}", mobile, to);
         String returnUrl = "";
         if (StringUtils.isBlank(mobile)) {
             mobile = userService.queryObject("1").getMobile();

@@ -32,6 +32,7 @@
             <result property="parentId" column="p_dis_model_id"/>
             <result property="disUserType" column="p_dis_user_type"/>
             <result property="openId" column="p_open_id"/>
+            <result property="addTime" column="p_add_time"/>
         </association>
         <collection property="disMemberChildren" ofType="com.distribution.modules.dis.entity.DisMemberInfoEntity"
                     javaType="ArrayList">
@@ -39,6 +40,8 @@
             <result property="disUserName" column="c_name"/>
             <result property="disLevel" column="c_dis_level"/>
             <result property="disUserType" column="c_dis_user_type"/>
+            <result property="addTime" column="c_add_time"/>
+            <result property="openId" column="c_open_id"/>
         </collection>
     </resultMap>
 
@@ -67,9 +70,13 @@
             p.dis_user_type "p_dis_user_type",
             p.dis_model_id  "p_dis_model_id",
             p.open_id       "p_open_id",
+            p.add_time      "p_add_time",
             c.id            "c_id",
             c.dis_user_id   "c_user_id",
             c.dis_user_type "c_dis_user_type",
+            c.dis_level     "c_dis_level",
+            c.open_id       "c_open_id",
+            c.add_time      "c_add_time",
             c.dis_user_name "c_name"
         from distribution.dis_member_info m
             left join distribution.tb_user u on u.user_id = m.dis_user_id
@@ -102,9 +109,13 @@
         p.dis_user_name "p_name",
         p.dis_user_type "p_dis_user_type",
         p.open_id "p_open_id",
+        p.add_time "p_add_time",
         c.id "c_id",
         c.dis_user_id "c_user_id",
         c.dis_user_type "c_dis_user_type",
+        c.open_id "c_open_id",
+        c.dis_level "c_dis_level",
+        c.add_time "c_add_time",
         c.dis_user_name "c_name"
         from distribution.dis_member_info m
         left join distribution.tb_user u on u.user_id = m.dis_user_id
@@ -128,6 +139,12 @@
             </if>
             <if test="mobile != null and mobile != ''">
                 and u.mobile = #{mobile}
+            </if>
+            <if test="openIds != null">
+                and m.open_id in
+                <foreach collection="openIds" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
             </if>
         </where>
         <choose>
@@ -325,9 +342,13 @@
             p.dis_user_type "p_dis_user_type",
             p.dis_model_id  "p_dis_model_id",
             p.open_id       "p_open_id",
+            p.add_time      "p_add_time",
             c.id            "c_id",
             c.dis_user_id   "c_user_id",
             c.dis_user_type "c_dis_user_type",
+            c.open_id       "c_open_id",
+            c.dis_level     "c_dis_level",
+            c.add_time      "c_add_time",
             c.dis_user_name "c_name"
         from distribution.dis_member_info m
             left join distribution.tb_user u on u.user_id = m.dis_user_id
@@ -360,9 +381,13 @@
             p.dis_user_type "p_dis_user_type",
             p.dis_model_id  "p_dis_model_id",
             p.open_id       "p_open_id",
+            p.add_time      "p_add_time",
             c.id            "c_id",
             c.dis_user_id   "c_user_id",
             c.dis_user_type "c_dis_user_type",
+            c.open_id       "c_open_id",
+            c.dis_level     "c_dis_level",
+            c.add_time      "c_add_time",
             c.dis_user_name "c_name"
         from distribution.dis_member_info m
             left join distribution.tb_user u on u.user_id = m.dis_user_id
@@ -370,6 +395,6 @@
             left join dis_member_info c on c.dis_model_id = m.id
         where u.mobile = #{mobile}
     </select>
-    
+
 
 </mapper>

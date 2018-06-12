@@ -24,7 +24,7 @@ public class QueueConfig {
      * 队列里所有的message都有统一的失效时间
      */
     final static String DELAY_QUEUE_PER_QUEUE_TTL_NAME = "delay_queue_per_queue_ttl";
-    private final static int QUEUE_EXPIRATION = 4000;
+    private final static int QUEUE_EXPIRATION = 60000;
 
     /**
      * message失效后进入的队列，也就是实际的消费队列

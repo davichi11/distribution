@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.distribution.ali.pay.AliPayParams;
 import com.distribution.ali.pay.AliPayUtils;
-import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.DisMemberInfoService;
 import com.distribution.modules.sys.service.SysConfigService;
@@ -15,14 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletResponse;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author ChunLiang Hu
@@ -34,7 +29,6 @@ import java.util.Map;
  */
 @Slf4j
 @Controller
-@RequestMapping("/api")
 public class ApiAliPayController {
     @Autowired
     private DisMemberInfoService disMemberInfoService;
@@ -51,10 +45,9 @@ public class ApiAliPayController {
      * @author liuxinxin
      * @date 14:25
      */
-    @AuthIgnore
-    @GetMapping("/checkMemberDisLevel")
+    @GetMapping("pay")
     @ApiOperation(value = "购买会员")
-    public ModelAndView checkMemberDisLevel(@RequestParam String mobile, @RequestParam Integer disLevel, HttpServletResponse response) {
+    public ModelAndView checkMemberDisLevel(@RequestParam String mobile, @RequestParam Integer disLevel) {
         ModelAndView modelAndView = new ModelAndView();
         DisMemberInfoEntity disMemberInfoEntity = disMemberInfoService.queryByMobile(mobile);
         //非会员可以通过
@@ -78,24 +71,23 @@ public class ApiAliPayController {
                 }
             }
         }
-        Map<String, Object> json = new HashMap<>(2);
-        json.put("level", disLevel);
         //获取会员升级价格配置
         String price = configService.getValue("level_price", "");
         JSONObject priceJson = JSON.parseObject(price);
         String amount = priceJson.getString("level_" + disLevel);
         //校验通过 生成APP支付订单
         String orderNo = AliPayUtils.generateOrderId(mobile, "1");
+        log.info("订单号={}",orderNo);
         //构造支付请求参数
         AliPayParams payParams = new AliPayParams();
         payParams.setSubject("会员升级服务");
         payParams.setOutTradeNo(orderNo);
         payParams.setTotalAmount(NumberUtils.toDouble(amount));
-        payParams.setQuitUrl(returnUrl);
+//        payParams.setQuitUrl("http://www.qiandaoshou.cn/");
         payParams.setProductCode("QUICK_WAP_WAY");
         try {
-            payParams.setPassbackParams(URLEncoder.encode(JSON.toJSONString(json), "UTF-8"));
-            modelAndView.addObject("form", AliPayUtils.tradeWapPay(payParams, response));
+            payParams.setPassbackParams(URLEncoder.encode(disLevel.toString(), "UTF-8"));
+            modelAndView.addObject("form", AliPayUtils.tradeWapPay(payParams));
             modelAndView.setViewName("pay");
             return modelAndView;
         } catch (Exception e) {

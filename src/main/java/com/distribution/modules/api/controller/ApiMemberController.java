@@ -24,6 +24,7 @@ import com.distribution.modules.sys.service.SysConfigService;
 import com.distribution.queue.LevelUpSender;
 import com.distribution.weixin.service.WeiXinService;
 import com.google.common.collect.Lists;
+import io.jsonwebtoken.Claims;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -114,19 +115,21 @@ public class ApiMemberController {
                     DisMemberInfoEntity memberInfo = Optional.ofNullable(disMemberInfoService.queryByOpenId(disFans.getWechatId()))
                             .orElse(new DisMemberInfoEntity());
                     return getDisMemberVO(disFans, memberInfo);
-                }).collect(Collectors.toList());
+                }).filter(vo -> "0".equals(vo.getDisUserType())).collect(Collectors.toList());
 
         //所有代理信息
-        List<DisMemberVO> children = member.getDisMemberChildren().stream().filter(Objects::nonNull).map(memberInfo -> {
-            DisFans disFans = Optional.ofNullable(disFansService.queryByOpenId(memberInfo.getOpenId())).orElse(new DisFans());
-            return getDisMemberVO(disFans, memberInfo);
-        }).collect(Collectors.toList());
+        List<DisMemberVO> children = member.getDisMemberChildren().stream().filter(m -> m != null && "1".equals(m.getDisUserType()))
+                .map(memberInfo -> {
+                    DisFans disFans = Optional.ofNullable(disFansService.queryByOpenId(memberInfo.getOpenId())).orElse(new DisFans());
+                    memberInfo.setUserEntity(userService.queryByMemberId(memberInfo.getId()));
+                    return getDisMemberVO(disFans, memberInfo);
+                }).collect(Collectors.toList());
 
         //返回数据
         Map<String, Object> map = new HashMap<>();
         map.put("countFans", Optional.ofNullable(disFansList).orElse(new ArrayList<>()).size());
         map.put("fansList", disFansList);
-        map.put("countChirldern", Optional.ofNullable(member.getDisMemberChildren()).orElse(new ArrayList<>()).size());
+        map.put("countChirldern", Optional.ofNullable(children).orElse(new ArrayList<>()).size());
         map.put("children", children);
         return Result.ok().put("results", map);
     }
@@ -139,7 +142,7 @@ public class ApiMemberController {
         memberVO.setDisLevel(memberInfo.getDisLevel());
         memberVO.setMobile(Optional.ofNullable(memberInfo.getUserEntity()).orElse(new UserEntity()).getMobile());
         memberVO.setOpenId(memberInfo.getOpenId());
-        memberVO.setAddTime(memberInfo.getAddTime());
+        memberVO.setAddTime(StringUtils.substring(memberInfo.getAddTime(), 0, 10));
         memberVO.setNickName(disFans.getWechatNickname());
         memberVO.setImgUrl(disFans.getWechatImg());
         return memberVO;
@@ -174,6 +177,44 @@ public class ApiMemberController {
         } else {
             return Result.error("没有查询到用户信息");
         }
+    }
+
+    @ApiOperation(value = "根据token获取用户信息")
+    @GetMapping("/memberByToken")
+    public Result getMemberInfoByToken(String token, HttpServletRequest request) {
+        if (StringUtils.isBlank(token)) {
+            if (StringUtils.isNotBlank(request.getHeader("token"))) {
+                token = request.getHeader("token");
+            } else {
+                return Result.error("token不能为空");
+            }
+        }
+        Claims claims = jwtConfig.getClaimByToken(token);
+        String userId = claims.getSubject();
+        UserEntity userEntity = userService.queryObject(userId);
+        if (userEntity == null) {
+            return Result.error("请先注册");
+        }
+        DisMemberInfoEntity memberInfoEntity = disMemberInfoService.queryByMobile(userEntity.getMobile());
+        DisMemberVO memberVO = buildMemberVO(userEntity, memberInfoEntity);
+        return Result.ok().put("memberInfo", memberVO);
+    }
+
+    private DisMemberVO buildMemberVO(UserEntity userEntity, DisMemberInfoEntity memberInfo) {
+        DisMemberVO disMemberVO = new DisMemberVO();
+        DisFans fans = disFansService.queryByOpenId(memberInfo.getOpenId());
+        disMemberVO.setDisUserName(memberInfo.getDisUserName());
+        disMemberVO.setDisUserType(memberInfo.getDisUserType());
+        disMemberVO.setDisLevel(memberInfo.getDisLevel());
+        disMemberVO.setMobile(userEntity.getMobile());
+        disMemberVO.setIdCode(memberInfo.getIdCode());
+        disMemberVO.setOpenId(memberInfo.getOpenId());
+        disMemberVO.setAddTime(memberInfo.getAddTime());
+        if (fans != null) {
+            disMemberVO.setNickName(fans.getWechatNickname());
+            disMemberVO.setImgUrl(fans.getWechatImg());
+        }
+        return disMemberVO;
     }
 
 
@@ -300,8 +341,9 @@ public class ApiMemberController {
         try {
             if (AliPayUtils.signVerified(params)) {
                 //从回传参数中取出购买的会员等级
-                String level = JSON.parseObject(URLDecoder.decode(params.get("passbackParams"), "UTF-8")).getString("level");
+                String level = URLDecoder.decode(params.get("passbackParams"), "UTF-8");
                 if (StringUtils.isBlank(level)) {
+                    log.info("回传参数中没有会员等级");
                     return Result.error("回传参数中没有会员等级");
                 }
                 //根据支付宝账户查询对应的会员信息
