@@ -7,7 +7,9 @@ import com.distribution.modules.card.dao.CardInfoMapper;
 import com.distribution.modules.card.entity.CardApiResponse;
 import com.distribution.modules.card.entity.CardInfo;
 import com.distribution.modules.card.service.CardInfoService;
+import com.distribution.modules.dis.entity.DisFans;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
+import com.distribution.modules.dis.service.DisFansService;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +32,8 @@ import java.util.Map;
 public class CardInfoServiceImpl implements CardInfoService {
     @Autowired
     private CardInfoMapper cardInfoMapper;
+    @Autowired
+    private DisFansService fansService;
     @Autowired
     private UserDao userDao;
 
@@ -143,7 +147,8 @@ public class CardInfoServiceImpl implements CardInfoService {
         params.put("goodsId", prodId);
         params.put("idCard", member.getIdCode());
         params.put("fatherId", "5710");
-        params.put("otherUserId", member.getDisPlatformId().toString());
+        DisFans fans = fansService.queryByOpenId(member.getOpenId());
+        params.put("otherUserId", fans.getWorkerId().toString());
         String url = OkHttpUtil.attachHttpGetParams("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do", params);
 //        RequestBody formBody = RequestBody.create(MediaType.parse("text/json; charset=utf-8"), JSON.toJSONString(params));
 //        Request request = new Request.Builder().url("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do")

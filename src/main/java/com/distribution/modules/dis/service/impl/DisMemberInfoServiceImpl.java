@@ -1,5 +1,7 @@
 package com.distribution.modules.dis.service.impl;
 
+import com.distribution.modules.api.dao.UserDao;
+import com.distribution.modules.api.entity.UserEntity;
 import com.distribution.modules.dis.dao.CardOrderInfoDao;
 import com.distribution.modules.dis.dao.DisFansMapper;
 import com.distribution.modules.dis.dao.DisMemberInfoDao;
@@ -24,6 +26,8 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
     private CardOrderInfoDao cardOrderInfoDao;
     @Autowired
     private DisFansMapper disFansMapper;
+    @Autowired
+    private UserDao userDao;
 
     @Override
     public DisMemberInfoEntity queryObject(String id) {
@@ -53,6 +57,11 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
     @Override
     public void update(DisMemberInfoEntity disMemberInfo) throws Exception {
         disMemberInfoDao.update(disMemberInfo);
+    }
+
+    @Override
+    public void updateDisLevel(Integer level, String type, String id) {
+        disMemberInfoDao.updateDisLevel(level, type, id);
     }
 
     @Override
@@ -87,6 +96,8 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
                     memberInfo.setDisUserType("1");
                     memberInfo.setDisLevel(3);
                     try {
+                        UserEntity userEntity = userDao.queryByMemberId(memberInfo.getId());
+                        memberInfo.setUserEntity(userEntity);
                         update(memberInfo);
                         return parentLevelUp(memberInfo.getDisMemberParent());
                     } catch (Exception e) {
@@ -119,7 +130,7 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
         if (member.getDisLevel() == 3 && children >= 5) {
             member.setDisLevel(2);
             try {
-                disMemberInfoDao.update(member);
+                disMemberInfoDao.updateDisLevel(member.getDisLevel(), member.getDisUserType(), member.getId());
             } catch (Exception e) {
                 log.error(String.format("会员%s升级异常", member.getDisUserName()), e);
                 return false;
@@ -129,7 +140,7 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
         if (member.getDisLevel() == 2 && children >= 15) {
             member.setDisLevel(1);
             try {
-                disMemberInfoDao.update(member);
+                disMemberInfoDao.updateDisLevel(member.getDisLevel(), member.getDisUserType(), member.getId());
             } catch (Exception e) {
                 log.error(String.format("会员%s升级异常", member.getDisUserName()), e);
                 return false;

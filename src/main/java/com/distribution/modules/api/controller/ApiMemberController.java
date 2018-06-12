@@ -6,7 +6,6 @@ import com.alipay.api.AlipayApiException;
 import com.distribution.ali.pay.AliPayUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.account.entity.MemberAccount;
-import com.distribution.modules.account.service.MemberAccountHistoryService;
 import com.distribution.modules.account.service.MemberAccountService;
 import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.api.config.JWTConfig;
@@ -15,10 +14,11 @@ import com.distribution.modules.api.pojo.vo.DisMemberVO;
 import com.distribution.modules.api.service.UserService;
 import com.distribution.modules.dis.entity.DisFans;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
-import com.distribution.modules.dis.service.CardOrderInfoService;
+import com.distribution.modules.dis.entity.OrderHistory;
 import com.distribution.modules.dis.service.DisFansService;
 import com.distribution.modules.dis.service.DisMemberInfoService;
 import com.distribution.modules.dis.service.DisProfiParamService;
+import com.distribution.modules.dis.service.OrderHistoryService;
 import com.distribution.modules.memeber.service.WithdrawalInfoService;
 import com.distribution.modules.sys.service.SysConfigService;
 import com.distribution.queue.LevelUpSender;
@@ -44,7 +44,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URLDecoder;
+import javax.servlet.http.HttpServletResponse;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -75,9 +75,7 @@ public class ApiMemberController {
     @Autowired
     private MemberAccountService memberAccountService;
     @Autowired
-    private MemberAccountHistoryService memberAccountHistoryService;
-    @Autowired
-    private CardOrderInfoService cardOrderInfoService;
+    private OrderHistoryService orderHistoryService;
     @Autowired
     private SysConfigService configService;
     @Autowired
@@ -246,7 +244,13 @@ public class ApiMemberController {
     @ApiOperation(value = "查询微信关注者信息")
     @GetMapping("/disFans")
     public Result disFansInfo(@RequestParam String openId) {
+        if (StringUtils.isBlank(openId)) {
+            return Result.error("openID不能为空");
+        }
         DisFans fans = disFansService.queryByOpenId(openId);
+        if (fans == null) {
+            return Result.error("没有该用户");
+        }
         DisMemberVO memberVO = new DisMemberVO();
         memberVO.setMobile("");
         memberVO.setToken("");
@@ -333,21 +337,33 @@ public class ApiMemberController {
      * @param request
      * @return
      */
-    @PostMapping("/alipayCallback")
-    public Result alipayCallback(HttpServletRequest request, Map<String, String> params) {
-//        Map<String, String[]> parameterMap = request.getParameterMap();
-//        Map<String, String> params = new HashMap<>(parameterMap.size());
-//        parameterMap.forEach((k, v) -> params.put(k, Arrays.stream(v).collect(Collectors.joining(","))));
+    @AuthIgnore
+    @RequestMapping("/alipayCallback")
+    public String alipayCallback(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, String[]> parameterMap = request.getParameterMap();
+        Map<String, String> params = new HashMap<>(parameterMap.size());
+        parameterMap.forEach((k, v) -> params.put(k, Arrays.stream(v).collect(Collectors.joining(","))));
+        log.info("接收支付宝支付回调,参数为{}", params);
         try {
             if (AliPayUtils.signVerified(params)) {
                 //从回传参数中取出购买的会员等级
-                String level = URLDecoder.decode(params.get("passbackParams"), "UTF-8");
+                String level = params.get("passback_params");
                 if (StringUtils.isBlank(level)) {
                     log.info("回传参数中没有会员等级");
-                    return Result.error("回传参数中没有会员等级");
+                    return "failure";
                 }
+                String orderNo = params.get("out_trade_no");
+
+                //更新订单状态
+                OrderHistory orderHistory = orderHistoryService.selectByOrderId(orderNo);
+                if (orderHistory == null) {
+                    log.error("没有{}该订单信息", orderNo);
+                    return "failure";
+                }
+                String aliAccount = orderHistory.getAccount();
+                orderHistoryService.updateOrderStatus(2, orderNo);
                 //根据支付宝账户查询对应的会员信息
-                DisMemberInfoEntity member = memberAccountService.selectByAlipay(params.get("buyer_logon_id")).getMember();
+                DisMemberInfoEntity member = disMemberInfoService.queryByMobile(orderHistory.getMobile());
                 //构造模板消息
                 WxMpTemplateMessage templateMessage = buildTemplateMsg(member.getOpenId(), member.getDisLevel().toString(),
                         level, member.getDisUserName());
@@ -357,7 +373,7 @@ public class ApiMemberController {
                 if ("0".equals(member.getDisUserType())) {
                     member.setDisUserType("1");
                 }
-                disMemberInfoService.update(member);
+                disMemberInfoService.updateDisLevel(member.getDisLevel(), member.getDisUserType(), member.getId());
                 //调用分润
                 Double money = 0.00;
                 switch (level) {
@@ -375,16 +391,17 @@ public class ApiMemberController {
                 profiParamService.doFeeSplitting(member, money, true);
                 //生级成功发送消息
                 weiXinService.sendTemplateMsg(templateMessage);
-                return Result.ok();
+                return "success";
             } else {
-                return Result.error("验签失败");
+                log.error("验签失败");
+                return "failure";
             }
         } catch (AlipayApiException e) {
             log.error("回调参数验签异常", e);
-            return Result.error("回调参数验签异常");
+            return "failure";
         } catch (Exception e) {
             log.error("会员升级异常", e);
-            return Result.error("会员升级异常");
+            return "failure";
         }
     }
 

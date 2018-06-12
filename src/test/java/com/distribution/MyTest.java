@@ -5,9 +5,11 @@ import com.distribution.common.utils.OkHttpUtil;
 import com.distribution.modules.card.entity.CardApiResponse;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -30,18 +32,21 @@ public class MyTest {
         map.put("level", 1);
         System.out.println(URLEncoder.encode(JSON.toJSONString(map)));
     }
+    @Test
+    public void test5() {
+//        System.out.println(new BigDecimal("568").setScale(2,BigDecimal.ROUND_HALF_EVEN).doubleValue());
+        System.out.println(NumberUtils.toLong("15657122353"));
+    }
 
     @Test
-    public void test2() {
+    public void test2() throws UnsupportedEncodingException {
         //当前时间
         LocalDateTime start = LocalDateTime.now();
         //第二天开始时间
         LocalDateTime end = LocalDateTime.now().plusDays(1).with(LocalTime.MIN);
-
+        //计算时间差
         Duration between = Duration.between(start, end);
-
-        long hours = between.toHours();
-        System.out.println(hours);
+        System.out.println(between.toNanos());
     }
 
     @Test

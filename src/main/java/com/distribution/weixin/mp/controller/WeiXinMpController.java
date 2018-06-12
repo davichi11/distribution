@@ -30,6 +30,7 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -66,6 +67,8 @@ public class WeiXinMpController {
     private UserService userService;
     @Autowired
     private LevelUpSender levelUpSender;
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
     @Value("${risk.url}")
     private String url;
     @Value("${risk.return-url}")
@@ -216,7 +219,8 @@ public class WeiXinMpController {
         disFans.setWechatId(user.getOpenId());
         disFans.setWechatImg(user.getHeadImgUrl());
         disFans.setWechatNickname(user.getNickname());
-        disFans.setWorkerId(1L);
+        Long workerId = redisTemplate.opsForValue().increment("worker_id", 1);
+        disFans.setWorkerId(workerId);
 
         //查询推荐人是否存在
         DisMemberInfoEntity disMemberInfo = disMemberInfoService.queryByMobile(mobile);

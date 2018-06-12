@@ -197,7 +197,7 @@ public class ApiAccountController {
      */
     @GetMapping("/withdrawals/{mobile}")
     @ApiOperation(value = "提现记录")
-    public Result memberWithdrawalList(@PathVariable String mobile, Map<String, Object> params) {
+    public Result memberWithdrawalList(@PathVariable String mobile,@RequestParam Map<String, Object> params) {
         Map<String, Object> param = new HashMap<>(2);
         param.put("withdrawMobile", mobile);
         PageInfo<WithdrawalInfo> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
@@ -215,7 +215,7 @@ public class ApiAccountController {
      */
     @GetMapping("/memberAccountHistory/{mobile}")
     @ApiOperation(value = "收益明细")
-    public Result memberReturns(@PathVariable String mobile, Map<String, Object> params) {
+    public Result memberReturns(@PathVariable String mobile,@RequestParam Map<String, Object> params) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("mobile", mobile);
         DisMemberInfoEntity member = disMemberInfoService.queryList(map).stream().findFirst().orElse(new DisMemberInfoEntity());

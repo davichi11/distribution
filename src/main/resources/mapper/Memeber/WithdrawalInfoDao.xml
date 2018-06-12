@@ -32,7 +32,7 @@
         <include refid="Base_Column_List"/>
         from withdrawal_info
         <where>
-            <if test="withdrawMobile != null">
+            <if test="withdrawMobile != null and withdrawMobile != ''">
                 withdraw_mobile = #{withdrawMobile}
             </if>
             <if test="withdrawType != null and withdrawType != ''">
@@ -44,7 +44,7 @@
                 order by ${sidx} ${order}
             </when>
             <otherwise>
-                order by id desc
+                order by add_time desc
             </otherwise>
         </choose>
         <if test="offset != null and limit != null">

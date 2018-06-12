@@ -70,6 +70,7 @@
             p.dis_user_type "p_dis_user_type",
             p.dis_model_id  "p_dis_model_id",
             p.open_id       "p_open_id",
+            p.dis_level     "p_dis_level",
             p.add_time      "p_add_time",
             c.id            "c_id",
             c.dis_user_id   "c_user_id",
@@ -109,6 +110,7 @@
         p.dis_user_name "p_name",
         p.dis_user_type "p_dis_user_type",
         p.open_id "p_open_id",
+        p.dis_level "p_dis_level",
         p.add_time "p_add_time",
         c.id "c_id",
         c.dis_user_id "c_user_id",
@@ -257,10 +259,6 @@
                 `dis_platform_id` = #{disPlatformId}
                 ,
             </if>
-            <if test="userEntity != null">
-                `dis_user_id` = #{userEntity.userId}
-                ,
-            </if>
             <if test="disMemberParent != null">
                 `dis_model_id` = #{disMemberParent.id}
                 ,
@@ -342,6 +340,7 @@
             p.dis_user_type "p_dis_user_type",
             p.dis_model_id  "p_dis_model_id",
             p.open_id       "p_open_id",
+            p.dis_level     "p_dis_level",
             p.add_time      "p_add_time",
             c.id            "c_id",
             c.dis_user_id   "c_user_id",
@@ -381,6 +380,7 @@
             p.dis_user_type "p_dis_user_type",
             p.dis_model_id  "p_dis_model_id",
             p.open_id       "p_open_id",
+            p.dis_level     "p_dis_level",
             p.add_time      "p_add_time",
             c.id            "c_id",
             c.dis_user_id   "c_user_id",
@@ -395,6 +395,11 @@
             left join dis_member_info c on c.dis_model_id = m.id
         where u.mobile = #{mobile}
     </select>
+    <update id="updateDisLevel">
+        update dis_member_info
+        set dis_level = #{level},dis_user_type = #{type}
+        where id = #{id}
+    </update>
 
 
 </mapper>

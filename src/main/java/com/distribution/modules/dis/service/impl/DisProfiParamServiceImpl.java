@@ -95,7 +95,7 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
             if ("0".equals(profiParam.getDisProMode())) {
                 //会员推荐奖励 推荐人拿全款
                 if (isReward) {
-                    profiParam.setDisProValue(100.00);
+                    profiParam.setDisProValue(1.00);
                 } else {
                     profiParam.setDisProValue(profiParam.getDisProValue() / 100);
                 }
@@ -107,8 +107,10 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
         //当前用户账户信息
         MemberAccount memberAccount = accountMapper.selectMemberAccountByUserId(member.getId());
         if ("1".equals(member.getDisUserType())) {
-            //当前用户分润
-            updateAccont(member, memberAccount, new BigDecimal(money * memberParam.getDisProValue()));
+            //当前用户分润,如果是购买会员则不分
+            if (!isReward) {
+                updateAccont(member, memberAccount, new BigDecimal(money * memberParam.getDisProValue()));
+            }
         }
         //当前会员的上两级
         DisMemberInfoEntity parent = memberInfoDao.queryObject(member.getDisMemberParent().getId());
@@ -125,10 +127,32 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
             grandParam = disProfiParams.stream().filter(p -> p.getDisProLevel()
                     .equals(grand.getDisLevel().toString())).findFirst().orElse(new DisProfiParam());
         }
-        //上两级会员分润
-        updateParentAndGrand(member, money, memberParam.getDisProValue(), parent, parentAccount, parentParam.getDisProValue(),
-                grand, grandAccount, grandParam.getDisProValue());
+        if (isReward) {
+            //上一级分润,用于直接购买会员
+            updateParent(member, money, parent, parentAccount);
+        } else {
+            //上两级会员分润
+            updateParentAndGrand(member, money, memberParam.getDisProValue(), parent, parentAccount, parentParam.getDisProValue(),
+                    grand, grandAccount, grandParam.getDisProValue());
 
+        }
+
+
+    }
+
+    /**
+     * 上一级分润,用于直接购买会员
+     *
+     * @param member
+     * @param money
+     * @param parent
+     * @param parentAccount
+     * @throws Exception
+     */
+    private void updateParent(DisMemberInfoEntity member, Double money, DisMemberInfoEntity parent, MemberAccount parentAccount) throws Exception {
+        if (isUpLevel(member, parent)) {
+            updateAccont(parent, parentAccount, new BigDecimal(money));
+        }
     }
 
     /**

@@ -23,6 +23,7 @@ public interface DisMemberInfoService {
 
     /**
      * 根据openID查询会员信息
+     *
      * @param openId
      * @return
      */
@@ -30,6 +31,7 @@ public interface DisMemberInfoService {
 
     /**
      * 根据手机号查询
+     *
      * @param mobile
      * @return
      */
@@ -56,6 +58,8 @@ public interface DisMemberInfoService {
      * @throws Exception
      */
     void update(DisMemberInfoEntity disMemberInfo) throws Exception;
+
+    void updateDisLevel(Integer level, String type, String id);
 
     /**
      * 删除

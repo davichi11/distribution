@@ -146,6 +146,7 @@ public final class AliPayUtils {
         payModel.setOutTradeNo(payParams.getOutTradeNo());
         payModel.setBody(payParams.getSubject());
         payModel.setTotalAmount(payParams.getTotalAmount().toString());
+//        payModel.setTotalAmount("0.01");
         payModel.setPassbackParams(payParams.getPassbackParams());
         payModel.setSubject(payParams.getSubject());
         payModel.setProductCode(payParams.getProductCode());
@@ -155,7 +156,7 @@ public final class AliPayUtils {
 //        request.setBizContent(JSON.toJSONString(payParams));
         request.setBizModel(payModel);
         request.setNotifyUrl("http://www.qiandaoshou.cn/dis/api/alipayCallback");
-        request.setReturnUrl("http://www.qdddds.com/");
+        request.setReturnUrl("http://www.qiandaoshou.cn/#/MyCenter");
         log.info("请求参数为{}", JSON.toJSON(request));
         FileUtils.writeByteArrayToFile(new File("/Users/huchunliang/Documents/form.txt"), alipayClient.pageExecute(request).getBody().getBytes());
         return alipayClient.pageExecute(request).getBody();
