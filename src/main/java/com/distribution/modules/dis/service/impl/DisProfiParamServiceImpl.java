@@ -150,7 +150,7 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
      * @throws Exception
      */
     private void updateParent(DisMemberInfoEntity member, Double money, DisMemberInfoEntity parent, MemberAccount parentAccount) throws Exception {
-        if (isUpLevel(member, parent)) {
+        if ("1".equals(parent.getDisUserType())) {
             updateAccont(parent, parentAccount, new BigDecimal(money));
         }
     }

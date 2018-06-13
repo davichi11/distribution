@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.distribution.ali.pay.AliPayParams;
 import com.distribution.ali.pay.AliPayUtils;
+import com.distribution.modules.account.entity.MemberAccount;
 import com.distribution.modules.account.service.MemberAccountService;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.entity.OrderHistory;
@@ -98,12 +99,16 @@ public class ApiAliPayController {
         OrderHistory orderHistory = new OrderHistory();
         orderHistory.setOrderId(orderNo);
         orderHistory.setMobile(mobile);
-        orderHistory.setAccount(accountService.selectMemberAccountByUserId(disMemberInfoEntity.getId()).getAliPayAccount());
         orderHistory.setAmount(NumberUtils.toDouble(amount));
         orderHistory.setOrderStatus(2);
         orderHistory.setAddTime(LocalDateTime.now());
         orderHistory.setFinishTime(LocalDateTime.now());
         try {
+            MemberAccount account = accountService.selectMemberAccountByUserId(disMemberInfoEntity.getId());
+            if (account != null) {
+                String aliPayAccount = account.getAliPayAccount();
+                orderHistory.setAccount(aliPayAccount);
+            }
             orderHistoryService.save(orderHistory);
             payParams.setPassbackParams(URLEncoder.encode(disLevel.toString(), "UTF-8"));
             modelAndView.addObject("form", AliPayUtils.tradeWapPay(payParams));

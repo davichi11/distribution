@@ -139,7 +139,7 @@ public class ApiMemberController {
         memberVO.setDisUserType(memberInfo.getDisUserType());
         memberVO.setDisLevel(memberInfo.getDisLevel());
         memberVO.setMobile(Optional.ofNullable(memberInfo.getUserEntity()).orElse(new UserEntity()).getMobile());
-        memberVO.setOpenId(memberInfo.getOpenId());
+        memberVO.setOpenId(disFans.getWechatId());
         memberVO.setAddTime(StringUtils.substring(memberInfo.getAddTime(), 0, 10));
         memberVO.setNickName(disFans.getWechatNickname());
         memberVO.setImgUrl(disFans.getWechatImg());
