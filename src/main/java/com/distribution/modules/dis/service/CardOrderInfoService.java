@@ -66,6 +66,14 @@ public interface CardOrderInfoService {
     Integer countOrder(Map<String, Object> param);
 
     /**
+     * 统计用户办理的某张卡片的数量
+     * @param memberId
+     * @param banNum
+     * @return
+     */
+    Integer countUserCard(String memberId, String banNum);
+
+    /**
      * 批量修改订单状态
      *
      * @Auther: liuxinxin

@@ -19,6 +19,7 @@ import com.google.common.collect.Lists;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.bean.result.WxMpUser;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.apache.commons.lang.StringUtils;
@@ -161,32 +162,55 @@ public class ApiCardController {
             DisMemberInfoEntity member = disMemberInfoService.queryByMobile(cardOrderInfoVO.getOrderMobile());
             //先调用第三方接口保存用户信息并返回url
             String url = cardInfoService.getProductUrl(member, cardOrderInfoVO.getBankNum());
-            if (StringUtils.isNotBlank(url)) {
-                CardOrderInfoEntity cardOrderInfoEntity = modelMapper.map(cardOrderInfoVO, CardOrderInfoEntity.class);
-                cardOrderInfoEntity.setId(CommonUtils.getUUID());
-                cardOrderInfoEntity.setOrderId(AliPayUtils.generateOrderId(cardOrderInfoVO.getOrderMobile(),
-                        Constant.PayType.applyCard.getValue()));
-                cardOrderInfoEntity.setMemberInfo(member);
-                cardOrderInfoEntity.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
-                cardOrderInfoEntity.setOrderStatus(CardOrderInfoVO.OrderStatus.APPLICATION);
-                cardOrderInfoEntity.setCardInfo(cardInfo);
-                cardOrderInfoEntity.setIsDelete("1");
-                cardOrderInfoService.save(cardOrderInfoEntity);
-                //发送订单信息提醒
-                WxMpTemplateMessage message = buildTemplateMsg(member.getOpenId(), member.getDisUserName(),
-                        cardInfo.getCardName(), "", "");
-                wxMpService.getTemplateMsgService().sendTemplateMsg(message);
-
-                //给上级发送消息
-                WxMpTemplateMessage parentMessage = buildTemplateMsg(member.getDisMemberParent().getOpenId(),
-                        member.getDisUserName(), cardInfo.getCardName(), "", "");
-                wxMpService.getTemplateMsgService().sendTemplateMsg(parentMessage);
+            if (StringUtils.isBlank(url)) {
+                return Result.error("申请异常");
             }
+            //查询改用户是否已办理过该银行的信用卡,如果有办过就不保存也不提醒
+            Integer countBankNum = cardOrderInfoService.countUserCard(member.getId(), cardOrderInfoVO.getBankNum());
+            if (countBankNum > 1) {
+                return Result.ok().put("url", url);
+            }
+            //订单数据保存
+            saveCardOrder(cardOrderInfoVO, cardInfo, member);
+            //发送消息前先查询是否已关注
+            WxMpUser wxMpUser = wxMpService.getUserService().userInfo(member.getOpenId(), "zh_CN");
+            if (wxMpUser == null) {
+                return Result.ok().put("url", url);
+            }
+            //发送订单信息提醒
+            WxMpTemplateMessage message = buildTemplateMsg(member.getOpenId(), member.getDisUserName(),
+                    cardInfo.getCardName(), "", "");
+            wxMpService.getTemplateMsgService().sendTemplateMsg(message);
+            //给上级发送消息
+            WxMpTemplateMessage parentMessage = buildTemplateMsg(member.getDisMemberParent().getOpenId(),
+                    member.getDisUserName(), cardInfo.getCardName(), "", "");
+            wxMpService.getTemplateMsgService().sendTemplateMsg(parentMessage);
             return Result.ok().put("url", url);
         } catch (Exception e) {
             log.error("申请异常", e);
             return Result.error("申请异常");
         }
+    }
+
+    /**
+     * 保存订单数据
+     *
+     * @param cardOrderInfoVO
+     * @param cardInfo
+     * @param member
+     * @throws Exception
+     */
+    private void saveCardOrder(CardOrderInfoVO cardOrderInfoVO, CardInfo cardInfo, DisMemberInfoEntity member) throws Exception {
+        CardOrderInfoEntity cardOrderInfoEntity = modelMapper.map(cardOrderInfoVO, CardOrderInfoEntity.class);
+        cardOrderInfoEntity.setId(CommonUtils.getUUID());
+        cardOrderInfoEntity.setOrderId(AliPayUtils.generateOrderId(cardOrderInfoVO.getOrderMobile(),
+                Constant.PayType.applyCard.getValue()));
+        cardOrderInfoEntity.setMemberInfo(member);
+        cardOrderInfoEntity.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
+        cardOrderInfoEntity.setOrderStatus(CardOrderInfoVO.OrderStatus.APPLICATION);
+        cardOrderInfoEntity.setCardInfo(cardInfo);
+        cardOrderInfoEntity.setIsDelete("1");
+        cardOrderInfoService.save(cardOrderInfoEntity);
     }
 
 

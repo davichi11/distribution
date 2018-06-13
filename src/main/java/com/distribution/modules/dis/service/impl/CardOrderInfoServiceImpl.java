@@ -7,6 +7,7 @@ import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.CardOrderInfoService;
 import com.distribution.modules.dis.service.DisProfiParamService;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,6 +69,22 @@ public class CardOrderInfoServiceImpl implements CardOrderInfoService {
             return 0;
         }
         return cardOrderInfoDao.countOrder(param);
+    }
+
+    /**
+     * 统计用户办理的某张卡片的数量
+     *
+     * @param memberId
+     * @param banNum
+     * @return
+     */
+    @Override
+    public Integer countUserCard(String memberId, String banNum) {
+        if (StringUtils.isBlank(memberId) && StringUtils.isBlank(banNum)) {
+            return null;
+        }
+
+        return cardOrderInfoDao.countUserCard(memberId, banNum);
     }
 
     /**

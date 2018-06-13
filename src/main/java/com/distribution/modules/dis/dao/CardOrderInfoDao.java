@@ -2,7 +2,7 @@ package com.distribution.modules.dis.dao;
 
 import com.distribution.modules.dis.entity.CardOrderInfoEntity;
 import com.distribution.modules.sys.dao.BaseDao;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Mapper;import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -25,6 +25,15 @@ public interface CardOrderInfoDao extends BaseDao<CardOrderInfoEntity> {
     Integer countOrder(Map<String, Object> param);
 
     /**
+     * 统计用户办理的该张卡片的数量
+     *
+     * @param memberId
+     * @param banNum
+     * @return
+     */
+    Integer countUserCard(@Param("memberId")String memberId, @Param("banNum")String banNum);
+
+    /**
      * 批量修改订单状态
      *
      * @param map
@@ -37,5 +46,6 @@ public interface CardOrderInfoDao extends BaseDao<CardOrderInfoEntity> {
      * @return
      */
     List<CardOrderInfoEntity> queryListByIds(List ids);
+
 
 }

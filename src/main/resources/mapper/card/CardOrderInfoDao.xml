@@ -293,10 +293,10 @@
         select count(1) from card_order_info o
         <where>
             <if test="member_id != null">
-               and o.member_id = #{member_id}
+                and o.member_id = #{member_id}
             </if>
             <if test="orderStatus != null and orderStatus != ''">
-               and o.order_status = #{orderStatus}
+                and o.order_status = #{orderStatus}
             </if>
         </where>
     </select>
@@ -344,4 +344,9 @@
             #{item}
         </foreach>
     </update>
+    <select id="countUserCard" resultType="java.lang.Integer">
+        select count(1)
+        from card_order_info o, card_info c
+        where member_id = #{memberId} and bank_num = #{bankNum} and c.id = o.card_id
+    </select>
 </mapper>
