@@ -25,13 +25,15 @@ public interface CardOrderInfoDao extends BaseDao<CardOrderInfoEntity> {
     Integer countOrder(Map<String, Object> param);
 
     /**
-     * 统计用户办理的该张卡片的数量
-     *
+     * 统计用户本月内办理某张银行信用卡数量
      * @param memberId
      * @param banNum
+     * @param startDate
+     * @param endDate
      * @return
      */
-    Integer countUserCard(@Param("memberId")String memberId, @Param("banNum")String banNum);
+    Integer countUserCard(@Param("memberId") String memberId, @Param("banNum") String banNum,
+                          @Param("startDate")String startDate, @Param("endDate")String endDate);
 
     /**
      * 批量修改订单状态

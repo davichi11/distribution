@@ -348,5 +348,6 @@
         select count(1)
         from card_order_info o, card_info c
         where member_id = #{memberId} and bank_num = #{bankNum} and c.id = o.card_id
+        and o.add_time between #{startDate} and #{endDate}
     </select>
 </mapper>

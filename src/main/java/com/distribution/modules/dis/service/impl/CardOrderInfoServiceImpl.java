@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Map;
 
+import static com.distribution.common.utils.DateUtils.*;
+
 
 @Service("cardOrderInfoService")
 public class CardOrderInfoServiceImpl implements CardOrderInfoService {
@@ -83,8 +85,9 @@ public class CardOrderInfoServiceImpl implements CardOrderInfoService {
         if (StringUtils.isBlank(memberId) && StringUtils.isBlank(banNum)) {
             return null;
         }
-
-        return cardOrderInfoDao.countUserCard(memberId, banNum);
+        String startDate = format(startDateOfMonth());
+        String endDate = format(endDateOfMonth());
+        return cardOrderInfoDao.countUserCard(memberId, banNum, startDate, endDate);
     }
 
     /**
