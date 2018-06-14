@@ -231,7 +231,8 @@ public class WeiXinMpController {
         //关联推荐人
         disFans.setDisMemberInfo(disMemberInfo);
         //发送新会员加入模板信息
-        WxMpTemplateMessage templateMessage = buildTemplateMsg(disMemberInfo.getOpenId(), disFans, disMemberInfo.getDisUserName());
+        WxMpTemplateMessage templateMessage = buildTemplateMsg(disMemberInfo.getOpenId(), disFans,
+                disMemberInfo.getDisUserName(), workerId.toString());
         try {
             disFansService.save(disFans);
             wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
@@ -251,13 +252,13 @@ public class WeiXinMpController {
      * @param name
      * @return
      */
-    private WxMpTemplateMessage buildTemplateMsg(String openId, DisFans disFans, String name) {
+    private WxMpTemplateMessage buildTemplateMsg(String openId, DisFans disFans, String name, String workerId) {
         WxMpTemplateMessage wxMpTemplateMessage = new WxMpTemplateMessage();
         wxMpTemplateMessage.setTemplateId("-IxOfOp7QmIBKcS2MZ8c9WT35bBT6HO4yKfcj3C3u0E");
         wxMpTemplateMessage.setToUser(openId);
         List<WxMpTemplateData> templateDataList = Lists.newArrayList(
                 new WxMpTemplateData("first", MessageFormat.format("尊敬的会员：{0}，恭喜您，有新会员加入！", name)),
-                new WxMpTemplateData("keyword1", disFans.getId()),
+                new WxMpTemplateData("keyword1", workerId),
                 new WxMpTemplateData("keyword2", DateUtils.formatDateTime(LocalDateTime.now())),
                 new WxMpTemplateData("remark", "感谢您的努力")
         );

@@ -143,6 +143,7 @@ public class ApiMemberController {
         memberVO.setAddTime(StringUtils.substring(memberInfo.getAddTime(), 0, 10));
         memberVO.setNickName(disFans.getWechatNickname());
         memberVO.setImgUrl(disFans.getWechatImg());
+        memberVO.setWorkerId(disFans.getWorkerId());
         return memberVO;
     }
 
@@ -211,6 +212,7 @@ public class ApiMemberController {
         if (fans != null) {
             disMemberVO.setNickName(fans.getWechatNickname());
             disMemberVO.setImgUrl(fans.getWechatImg());
+            disMemberVO.setWorkerId(fans.getWorkerId());
         }
         return disMemberVO;
     }
@@ -361,7 +363,7 @@ public class ApiMemberController {
                     return "failure";
                 }
                 String aliAccount = orderHistory.getAccount();
-                orderHistoryService.updateOrderStatus(2, orderNo);
+                orderHistoryService.updateOrderStatus(1, orderNo);
                 //根据支付宝账户查询对应的会员信息
                 DisMemberInfoEntity member = disMemberInfoService.queryByMobile(orderHistory.getMobile());
                 //构造模板消息

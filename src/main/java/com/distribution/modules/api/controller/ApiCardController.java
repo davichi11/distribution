@@ -167,7 +167,7 @@ public class ApiCardController {
             }
             //查询改用户是否已办理过该银行的信用卡,如果有办过就不保存也不提醒
             Integer countBankNum = cardOrderInfoService.countUserCard(member.getId(), cardOrderInfoVO.getBankNum());
-            if (countBankNum > 1) {
+            if (countBankNum >= 1) {
                 return Result.ok().put("url", url);
             }
             //订单数据保存

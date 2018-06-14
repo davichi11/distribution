@@ -23,7 +23,7 @@ $(function () {
                     }
                 }
             },
-            {label: '用户ID', name: 'memberId', index: 'member_id', width: 80},
+            {label: '办卡时间', name: 'addTime', index: 'add_time', width: 80},
             {label: '信用卡名称', name: 'cardInfo.cardName', index: 'card_id', width: 80},
         ],
         viewrecords: true,

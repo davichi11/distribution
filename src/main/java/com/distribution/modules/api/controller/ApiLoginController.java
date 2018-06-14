@@ -99,6 +99,7 @@ public class ApiLoginController {
         disMemberVO.setOpenId(memberInfo.getOpenId());
         disMemberVO.setAddTime(memberInfo.getAddTime());
         if (fans != null) {
+            disMemberVO.setWorkerId(fans.getWorkerId());
             disMemberVO.setNickName(fans.getWechatNickname());
             disMemberVO.setImgUrl(fans.getWechatImg());
         }

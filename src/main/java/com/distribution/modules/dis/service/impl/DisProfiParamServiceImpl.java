@@ -129,7 +129,7 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
         }
         if (isReward) {
             //上一级分润,用于直接购买会员
-            updateParent(member, money, parent, parentAccount);
+            updateParent(money, parent, parentAccount);
         } else {
             //上两级会员分润
             updateParentAndGrand(member, money, memberParam.getDisProValue(), parent, parentAccount, parentParam.getDisProValue(),
@@ -143,13 +143,12 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
     /**
      * 上一级分润,用于直接购买会员
      *
-     * @param member
      * @param money
      * @param parent
      * @param parentAccount
      * @throws Exception
      */
-    private void updateParent(DisMemberInfoEntity member, Double money, DisMemberInfoEntity parent, MemberAccount parentAccount) throws Exception {
+    private void updateParent(Double money, DisMemberInfoEntity parent, MemberAccount parentAccount) throws Exception {
         if ("1".equals(parent.getDisUserType())) {
             updateAccont(parent, parentAccount, new BigDecimal(money));
         }

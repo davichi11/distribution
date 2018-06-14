@@ -55,6 +55,8 @@ public class DisMemberVO {
      */
     private String addTime;
 
+    private Long workerId;
+
     private String token;
 
     private Long expire;
