@@ -266,6 +266,7 @@ public class ApiMemberController {
         }
         memberVO.setImgUrl(fans.getWechatImg());
         memberVO.setNickName(fans.getWechatNickname());
+        memberVO.setWorkerId(fans.getWorkerId());
         memberVO.setOpenId(openId);
         return Result.ok().put("weixinInfo", memberVO);
     }
