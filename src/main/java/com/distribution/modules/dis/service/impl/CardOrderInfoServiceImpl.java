@@ -1,11 +1,13 @@
 package com.distribution.modules.dis.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.distribution.modules.dis.dao.CardOrderInfoDao;
 import com.distribution.modules.dis.dao.DisMemberInfoDao;
 import com.distribution.modules.dis.entity.CardOrderInfoEntity;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.CardOrderInfoService;
 import com.distribution.modules.dis.service.DisProfiParamService;
+import com.distribution.queue.LevelUpSender;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ import static com.distribution.common.utils.DateUtils.*;
 
 @Service("cardOrderInfoService")
 public class CardOrderInfoServiceImpl implements CardOrderInfoService {
+    @Autowired
+    private LevelUpSender levelUpSender;
     @Autowired
     private CardOrderInfoDao cardOrderInfoDao;
 
@@ -113,6 +117,10 @@ public class CardOrderInfoServiceImpl implements CardOrderInfoService {
                 }
                 //调用分润
                 disProfiParamService.doFeeSplitting(member, cardOrderInfoEntity.getCardInfo().getRebate(), false);
+                if ("0".equals(member.getDisMemberParent().getDisUserType())) {
+                    //执行会员升级
+                    levelUpSender.send(JSON.toJSONString(member.getDisMemberParent()));
+                }
             }
         }
     }

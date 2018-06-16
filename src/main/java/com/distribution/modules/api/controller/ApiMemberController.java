@@ -348,61 +348,61 @@ public class ApiMemberController {
         log.info("接收支付宝支付回调,参数为{}", params);
         //判断支付结果
         if (!"TRADE_SUCCESS".equals(params.get("trade_status"))) {
-            log.info("支付失败,参数为{}",params);
+            log.info("支付失败,参数为{}", params);
             return "failure";
         }
         try {
-            if (AliPayUtils.signVerified(params)) {
-                //从回传参数中取出购买的会员等级
-                String level = params.get("passback_params");
-                if (StringUtils.isBlank(level)) {
-                    log.info("回传参数中没有会员等级");
-                    return "failure";
-                }
-                String orderNo = params.get("out_trade_no");
-
-                //更新订单状态
-                OrderHistory orderHistory = orderHistoryService.selectByOrderId(orderNo);
-                if (orderHistory == null) {
-                    log.error("没有{}该订单信息", orderNo);
-                    return "failure";
-                }
-                String aliAccount = orderHistory.getAccount();
-                orderHistoryService.updateOrderStatus(1, orderNo);
-                //根据支付宝账户查询对应的会员信息
-                DisMemberInfoEntity member = disMemberInfoService.queryByMobile(orderHistory.getMobile());
-                //构造模板消息
-                WxMpTemplateMessage templateMessage = buildTemplateMsg(member.getOpenId(), member.getDisLevel().toString(),
-                        level, member.getDisUserName());
-                //升级会员
-                member.setDisLevel(NumberUtils.toInt(level));
-                //用户类型升级为会员
-                if ("0".equals(member.getDisUserType())) {
-                    member.setDisUserType("1");
-                }
-                disMemberInfoService.updateDisLevel(member.getDisLevel(), member.getDisUserType(), member.getId());
-                //调用分润
-                Double money = 0.00;
-                switch (level) {
-                    case "1":
-                        money = 300.00;
-                        break;
-                    case "2":
-                        money = 200.00;
-                        break;
-                    case "3":
-                        money = 100.00;
-                        break;
-                    default:
-                }
-                profiParamService.doFeeSplitting(member, money, true);
-                //生级成功发送消息
-                weiXinService.sendTemplateMsg(templateMessage);
-                return "success";
-            } else {
+            if (!AliPayUtils.signVerified(params)) {
                 log.error("验签失败");
                 return "failure";
             }
+            //从回传参数中取出购买的会员等级
+            String level = params.get("passback_params");
+            if (StringUtils.isBlank(level)) {
+                log.info("回传参数中没有会员等级");
+                return "failure";
+            }
+            String orderNo = params.get("out_trade_no");
+
+            //更新订单状态
+            OrderHistory orderHistory = orderHistoryService.selectByOrderId(orderNo);
+            if (orderHistory == null) {
+                log.error("没有{}该订单信息", orderNo);
+                return "failure";
+            }
+            String aliAccount = orderHistory.getAccount();
+            orderHistoryService.updateOrderStatus(1, orderNo);
+            //根据支付宝账户查询对应的会员信息
+            DisMemberInfoEntity member = disMemberInfoService.queryByMobile(orderHistory.getMobile());
+            //构造模板消息
+            WxMpTemplateMessage templateMessage = buildTemplateMsg(member.getOpenId(), member.getDisLevel().toString(),
+                    level, member.getDisUserName());
+            //升级会员
+            member.setDisLevel(NumberUtils.toInt(level));
+            //用户类型升级为会员
+            if ("0".equals(member.getDisUserType())) {
+                member.setDisUserType("1");
+            }
+            disMemberInfoService.updateDisLevel(member.getDisLevel(), member.getDisUserType(), member.getId());
+            //调用分润
+            Double money = 0.00;
+            switch (level) {
+                case "1":
+                    money = 300.00;
+                    break;
+                case "2":
+                    money = 200.00;
+                    break;
+                case "3":
+                    money = 100.00;
+                    break;
+                default:
+            }
+            profiParamService.doFeeSplitting(member, money, true);
+            //生级成功发送消息
+            weiXinService.sendTemplateMsg(templateMessage);
+            return "success";
+
         } catch (AlipayApiException e) {
             log.error("回调参数验签异常", e);
             return "failure";

@@ -7,7 +7,7 @@ $(function () {
             {label: '提现订单号', name: 'withdrawNum', index: 'withdraw_num', width: 100},
             {
                 label: '提现状态', name: 'withdrawType', index: 'withdraw_type', width: 80,
-                formatter: (value, options, row) => value === 1 ?
+                formatter: (value, options, row) => value === "1" ?
                     '<span class="label label-success">成功</span>' :
                     '<span class="label label-danger">失败</span>'
             },

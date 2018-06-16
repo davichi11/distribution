@@ -106,6 +106,8 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
                     return parentLevelUp(memberInfo.getDisMemberParent());
                 }
             }
+        } else if ("1".equals(memberInfo.getDisUserType())) {
+            return parentLevelUp(memberInfo);
         }
 
         return false;
@@ -118,7 +120,7 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
      * @return
      */
     private boolean parentLevelUp(DisMemberInfoEntity member) throws Exception {
-        DisMemberInfoEntity parent = disMemberInfoDao.queryObject(member.getId()).getDisMemberParent();
+        DisMemberInfoEntity parent = disMemberInfoDao.queryObject(member.getId());
         if (member.getDisLevel() == 1 || parent == null) {
             return true;
         }
@@ -128,16 +130,14 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
         long children = disMemberInfoDao.queryList(param).stream().filter(m -> "1".equals(m.getDisUserType())).count();
         //三级升二级
         if (member.getDisLevel() == 3 && children >= 5) {
-            member.setDisLevel(2);
-            disMemberInfoDao.updateDisLevel(member.getDisLevel(), member.getDisUserType(), member.getId());
+            disMemberInfoDao.updateDisLevel(2, "1", member.getId());
 
         }
         //二级升一级
         if (member.getDisLevel() == 2 && children >= 15) {
-            member.setDisLevel(1);
-            disMemberInfoDao.updateDisLevel(member.getDisLevel(), member.getDisUserType(), member.getId());
+            disMemberInfoDao.updateDisLevel(1, "1", member.getId());
         }
-        return parentLevelUp(parent);
+        return parentLevelUp(parent.getDisMemberParent());
     }
 
 

@@ -235,11 +235,15 @@ public class WeiXinMpController {
                 disMemberInfo.getDisUserName(), workerId.toString());
         try {
             disFansService.save(disFans);
-            wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
             //异步执行会员升级逻辑
             levelUpSender.send(JSON.toJSONString(disMemberInfo));
         } catch (Exception e) {
             log.error("保存锁粉信息异常", e);
+        }
+        try {
+            wxMpService.getTemplateMsgService().sendTemplateMsg(templateMessage);
+        } catch (WxErrorException e) {
+            log.error("发送消息异常", e);
         }
         return "redirect:" + returnUrl;
     }
