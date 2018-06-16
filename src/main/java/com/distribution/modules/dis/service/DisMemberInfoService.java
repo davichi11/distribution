@@ -59,7 +59,7 @@ public interface DisMemberInfoService {
      */
     void update(DisMemberInfoEntity disMemberInfo) throws Exception;
 
-    void updateDisLevel(Integer level, String type, String id);
+    void updateDisLevel(Integer level, String type, String id) throws Exception;
 
     /**
      * 删除
@@ -81,6 +81,6 @@ public interface DisMemberInfoService {
      * @param memberInfo
      * @return
      */
-    boolean levelUp(DisMemberInfoEntity memberInfo);
+    boolean levelUp(DisMemberInfoEntity memberInfo) throws Exception;
 
 }

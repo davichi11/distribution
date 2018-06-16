@@ -241,7 +241,7 @@ public class ApiAccountController {
         //提现校验
         MemberAccount account = memberAccountService.selectMemberAccountByUserId(withdrawalVo.getWithdrawMobile());
         if (account == null) {
-            return Result.error("请先设置支付宝账户");
+            return Result.error("请先在账户管理--绑定支付宝账户");
         }
         if (account.getMemberAmount().compareTo(withdrawalVo.getWithdrawAmount()) < 0) {
             return Result.error("提现金额超出可用余额");

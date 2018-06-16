@@ -38,7 +38,11 @@ public class LevelUpReceiver {
         }
         JSONObject memberObject = JSON.parseObject(msg);
         DisMemberInfoEntity memberInfo = disMemberInfoService.queryObject(memberObject.getString("id"));
-        disMemberInfoService.levelUp(memberInfo);
+        try {
+            disMemberInfoService.levelUp(memberInfo);
+        } catch (Exception e) {
+            log.error("会员升级异常", e);
+        }
     }
 
 }

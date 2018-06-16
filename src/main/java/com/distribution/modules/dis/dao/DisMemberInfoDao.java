@@ -22,5 +22,5 @@ public interface DisMemberInfoDao extends BaseDao<DisMemberInfoEntity> {
 
     DisMemberInfoEntity queryByMobile(String mobile);
 
-    void updateDisLevel(@Param("level") Integer level, @Param("type")String type, @Param("id") String id);
+    void updateDisLevel(@Param("level") Integer level, @Param("type")String type, @Param("id") String id) throws Exception;
 }

@@ -346,6 +346,11 @@ public class ApiMemberController {
         Map<String, String> params = new HashMap<>(parameterMap.size());
         parameterMap.forEach((k, v) -> params.put(k, Arrays.stream(v).collect(Collectors.joining(","))));
         log.info("接收支付宝支付回调,参数为{}", params);
+        //判断支付结果
+        if (!"TRADE_SUCCESS".equals(params.get("trade_status"))) {
+            log.info("支付失败,参数为{}",params);
+            return "failure";
+        }
         try {
             if (AliPayUtils.signVerified(params)) {
                 //从回传参数中取出购买的会员等级
