@@ -105,7 +105,7 @@ public class CardOrderInfoServiceImpl implements CardOrderInfoService {
     @Transactional(rollbackFor = Exception.class)
     public void statusUpdate(Map<String, Object> map) throws Exception {
         cardOrderInfoDao.statusUpdate(map);
-        int status = (int) map.get("orderStatus");
+        int status = MapUtils.getIntValue(map, "orderStatus", 0);
         //订单成功后调用分润
         if (1 == status) {
             List<CardOrderInfoEntity> cardOrderInfoEntityList = cardOrderInfoDao.queryListByIds((List) map.get("ids"));

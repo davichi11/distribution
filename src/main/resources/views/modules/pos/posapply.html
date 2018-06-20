@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>可办信用卡信息表</title>
+    <title>POS机申请表</title>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -23,11 +23,11 @@
 <div id="rrapp" v-cloak>
     <div v-show="showList">
         <div class="grid-btn">
-            <a v-if="hasPermission('cardinfo:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
-            <a v-if="hasPermission('cardinfo:update')" class="btn btn-primary" @click="update"><i
+            <a v-if="hasPermission('posapply:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+            <a v-if="hasPermission('posapply:update')" class="btn btn-primary" @click="update"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-            <a v-if="hasPermission('cardinfo:delete')" class="btn btn-danger" @click="del"><i
-                    class="fa fa-trash-o"></i>&nbsp;禁用</a>
+            <a v-if="hasPermission('posapply:delete')" class="btn btn-primary" @click="del"><i
+                    class="fa fa-trash-o"></i>&nbsp;删除</a>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -37,52 +37,38 @@
         <div class="panel-heading">{{title}}</div>
         <form class="form-horizontal">
             <div class="form-group">
-                <div class="col-sm-2 control-label">银行代号</div>
+                <div class="col-sm-2 control-label"></div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardInfo.bankNum"
-                           placeholder="银行代号"/>
+                    <input type="text" class="form-control" v-model="posApply.name"
+                           placeholder=""/>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-2 control-label">信用卡代号</div>
+                <div class="col-sm-2 control-label"></div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardInfo.cardNum"
-                           placeholder="信用卡代号"/>
+                    <input type="text" class="form-control" v-model="posApply.mobile"
+                           placeholder=""/>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-2 control-label">信用卡名称</div>
+                <div class="col-sm-2 control-label">商户名称</div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardInfo.cardName"
-                           placeholder="信用卡名称"/>
+                    <input type="text" class="form-control" v-model="posApply.merchants"
+                           placeholder="商户名称"/>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-2 control-label">信用卡图片</div>
+                <div class="col-sm-2 control-label">区域编码</div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardInfo.cardImg"
-                           placeholder="信用卡图片"/>
+                    <input type="text" class="form-control" v-model="posApply.areaCode"
+                           placeholder="区域编码"/>
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-2 control-label">信用卡详情</div>
+                <div class="col-sm-2 control-label">连锁属性 0:非连锁,1:连锁</div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardInfo.cardInfo"
-                           placeholder="信用卡详情"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">信用卡办理链接</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="cardInfo.cardUrl"
-                           placeholder="信用卡办理链接"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">佣金返利</div>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control" v-model="cardInfo.rebate"
-                           oninput="this.value=this.value.replace(/[^\d.]/g,'')" placeholder="佣金返利"/>
+                    <input type="text" class="form-control" v-model="posApply.attribute"
+                           placeholder="连锁属性 0:非连锁,1:连锁"/>
                 </div>
             </div>
             <div class="form-group">
@@ -94,6 +80,6 @@
     </div>
 </div>
 
-<script src="../../js/modules/card/cardinfo.js"></script>
+<script src="../../js/modules/pos/posapply.js"></script>
 </body>
 </html>

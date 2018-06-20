@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alipay.api.AlipayApiException;
 import com.distribution.ali.pay.AliPayUtils;
+import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.account.entity.MemberAccount;
 import com.distribution.modules.account.service.MemberAccountService;
@@ -11,6 +12,7 @@ import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.api.config.JWTConfig;
 import com.distribution.modules.api.entity.UserEntity;
 import com.distribution.modules.api.pojo.vo.DisMemberVO;
+import com.distribution.modules.api.pojo.vo.POSVO;
 import com.distribution.modules.api.service.UserService;
 import com.distribution.modules.dis.entity.DisFans;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
@@ -20,6 +22,8 @@ import com.distribution.modules.dis.service.DisMemberInfoService;
 import com.distribution.modules.dis.service.DisProfiParamService;
 import com.distribution.modules.dis.service.OrderHistoryService;
 import com.distribution.modules.memeber.service.WithdrawalInfoService;
+import com.distribution.modules.pos.entity.PosApplyEntity;
+import com.distribution.modules.pos.service.PosApplyService;
 import com.distribution.modules.sys.service.SysConfigService;
 import com.distribution.queue.LevelUpSender;
 import com.distribution.weixin.service.WeiXinService;
@@ -82,6 +86,8 @@ public class ApiMemberController {
     private WeiXinService weiXinService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private PosApplyService posApplyService;
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
     @Autowired
@@ -294,6 +300,22 @@ public class ApiMemberController {
             return Result.error("更新用户手机号异常");
         }
         return Result.ok("更新用户手机号成功");
+    }
+
+    @AuthIgnore
+    @ApiOperation("添加POS机申请")
+    @ApiImplicitParam(paramType = "body",dataType = "POSVO", name = "posvo", value = "POS机申请", required = true)
+    @PostMapping("/pos")
+    public Result applyPOS(@RequestBody POSVO posvo) {
+        PosApplyEntity applyEntity = modelMapper.map(posvo, PosApplyEntity.class);
+        applyEntity.setId(CommonUtils.getUUID());
+        try {
+            posApplyService.save(applyEntity);
+            return Result.ok("添加POS机申请成功");
+        } catch (Exception e) {
+            log.error("添加POS机申请异常", e);
+            return Result.error("添加POS机申请异常");
+        }
     }
 
 

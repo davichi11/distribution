@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.distribution.modules.sys.dao.DistrictDao">
+    <select id="getByParentId" resultType="com.distribution.modules.sys.entity.District">
+        select
+            id,
+            name,
+            parent_id,
+            code,
+            `order`
+        from district
+        where parent_id = #{parentId}
+    </select>
+</mapper>

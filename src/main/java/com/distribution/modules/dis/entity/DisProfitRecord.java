@@ -16,7 +16,7 @@ public class DisProfitRecord {
     private String id;
 
     /** */
-    private String disPlatformId;
+    private String disPlatformId = "1";
 
     /** */
     private String disGetUserId;
@@ -38,7 +38,7 @@ public class DisProfitRecord {
     private String disNote;
 
     /** */
-    private String disUserType;
+    private String account;
 
     /**
      * 对应第三方订单编号
@@ -46,7 +46,7 @@ public class DisProfitRecord {
     private String disOrderId;
 
     /** */
-    private String isDelete;
+    private String isDelete = "1";
 
     /** */
     private String addTime;

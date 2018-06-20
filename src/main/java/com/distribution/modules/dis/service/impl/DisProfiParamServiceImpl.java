@@ -8,8 +8,10 @@ import com.distribution.modules.account.entity.MemberAccount;
 import com.distribution.modules.account.entity.MemberAccountHistory;
 import com.distribution.modules.dis.dao.DisMemberInfoDao;
 import com.distribution.modules.dis.dao.DisProfiParamMapper;
+import com.distribution.modules.dis.dao.DisProfitRecordMapper;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.entity.DisProfiParam;
+import com.distribution.modules.dis.entity.DisProfitRecord;
 import com.distribution.modules.dis.service.DisProfiParamService;
 import com.distribution.weixin.service.WeiXinService;
 import com.google.common.collect.Lists;
@@ -45,6 +47,8 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
     private DisMemberInfoDao memberInfoDao;
     @Autowired
     private MemberAccountHistoryMapper historyMapper;
+    @Autowired
+    private DisProfitRecordMapper disProfitRecordMapper;
     @Autowired
     private WeiXinService weiXinService;
 
@@ -239,6 +243,18 @@ public class DisProfiParamServiceImpl implements DisProfiParamService {
         history.setHisAmount(money);
         history.setHisType(MemberAccountHistory.HisType.INCOME);
         historyMapper.insert(history);
+        //保存分润记录
+        DisProfitRecord profitRecord = new DisProfitRecord();
+        profitRecord.setDisGetUserId(member.getId());
+        profitRecord.setDisSetUserId(member.getDisMemberParent() != null ? member.getDisMemberParent().getId() : "");
+        profitRecord.setDisAmount(money);
+        profitRecord.setDisProType("1");
+        profitRecord.setDisNote("");
+        profitRecord.setAccount(account.getAliPayAccount());
+        profitRecord.setDisOrderId("");
+        profitRecord.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
+        profitRecord.setId(CommonUtils.getUUID());
+        disProfitRecordMapper.insert(profitRecord);
         //公众号给用户发送消息
         WxMpTemplateMessage templateMessage = buildTemplateMsg(member.getOpenId(), money,
                 member.getDisUserName(), account.getMemberAmount());

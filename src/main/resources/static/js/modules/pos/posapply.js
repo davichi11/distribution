@@ -1,22 +1,24 @@
 $(function () {
     $("#jqGrid").jqGrid({
-        url: baseURL + 'cardinfo/list',
+        url: baseURL + 'posapply/list',
         datatype: "json",
         colModel: [
             {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
-            {label: '银行代号', name: 'bankNum', index: 'bank_num', width: 50},
-            {label: '信用卡代号', name: 'cardNum', index: 'card_num', width: 50},
-            {label: '信用卡名称', name: 'cardName', index: 'card_name', width: 80},
-            {label: '信用卡图片', name: 'cardImg', index: 'card_img', width: 80},
-            {label: '信用卡详情', name: 'cardInfo', index: 'card_info', width: 80},
+            {label: '申请人姓名', name: 'name', index: 'name', width: 80},
+            {label: '申请人手机号', name: 'mobile', index: 'mobile', width: 80},
+            {label: '商户名称', name: 'merchants', index: 'merchants', width: 80},
+            {label: '区域编码', name: 'areaCode', index: 'area_code', width: 80},
             {
-                label: '信用卡办理链接',
-                name: 'cardUrl',
-                index: 'card_url',
-                width: 180,
-                formatter: (value, options, row) => `<a href="#">${value}</a>`
-            },
-            {label: '佣金返利', name: 'rebate', index: 'rebate', width: 80}
+                label: '连锁属性', name: 'attribute', index: 'attribute', width: 80,
+                formatter: (value, options, row) => {
+                    if (value === 0) {
+                        return "非连锁";
+                    }
+                    if (value === 1) {
+                        return "连锁";
+                    }
+                }
+            }
         ],
         viewrecords: true,
         height: 385,
@@ -50,7 +52,7 @@ var vm = new Vue({
     data: {
         showList: true,
         title: null,
-        cardInfo: {}
+        posApply: {}
     },
     methods: {
         query: function () {
@@ -59,10 +61,10 @@ var vm = new Vue({
         add: function () {
             vm.showList = false;
             vm.title = "新增";
-            vm.cardInfo = {};
+            vm.posApply = {};
         },
         update: function (event) {
-            let id = getSelectedRow();
+            var id = getSelectedRow();
             if (id == null) {
                 return;
             }
@@ -72,12 +74,12 @@ var vm = new Vue({
             vm.getInfo(id)
         },
         saveOrUpdate: function (event) {
-            let url = vm.cardInfo.id == null ? "cardinfo/save" : "cardinfo/update";
+            var url = vm.posApply.id == null ? "posapply/save" : "posapply/update";
             $.ajax({
                 type: "POST",
                 url: baseURL + url,
                 contentType: "application/json",
-                data: JSON.stringify(vm.cardInfo),
+                data: JSON.stringify(vm.posApply),
                 success: function (r) {
                     if (r.code === 0) {
                         alert('操作成功', function (index) {
@@ -90,19 +92,19 @@ var vm = new Vue({
             });
         },
         del: function (event) {
-            let ids = getSelectedRows();
+            var ids = getSelectedRows();
             if (ids == null) {
                 return;
             }
 
-            confirm('确定要禁用选中的记录？', function () {
+            confirm('确定要删除选中的记录？', function () {
                 $.ajax({
                     type: "POST",
-                    url: baseURL + "cardinfo/delete",
+                    url: baseURL + "posapply/delete",
                     contentType: "application/json",
                     data: JSON.stringify(ids),
                     success: function (r) {
-                        if (r.code === 0) {
+                        if (r.code == 0) {
                             alert('操作成功', function (index) {
                                 $("#jqGrid").trigger("reloadGrid");
                             });
@@ -114,13 +116,13 @@ var vm = new Vue({
             });
         },
         getInfo: function (id) {
-            $.get(baseURL + "cardinfo/info/" + id, function (r) {
-                vm.cardInfo = r.cardInfo;
+            $.get(baseURL + "posapply/info/" + id, function (r) {
+                vm.posApply = r.posApply;
             });
         },
         reload: function (event) {
             vm.showList = true;
-            let page = $("#jqGrid").jqGrid('getGridParam', 'page');
+            var page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
                 page: page
             }).trigger("reloadGrid");

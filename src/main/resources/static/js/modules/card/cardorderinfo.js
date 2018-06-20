@@ -68,34 +68,40 @@ var vm = new Vue({
             this.reload();
         },
         reset: function () {
-            this.orderMobile="";
-            this.disUserName="";
-            this.cardName="";
+            this.orderMobile = "";
+            this.disUserName = "";
+            this.cardName = "";
         },
-        statusUpdate:function(status) {
-            var _self=this;
+        statusUpdate: function (status) {
+            let _self = this;
             let ids = getSelectedRows();
-            if(ids.length<1){
+            if (ids.length < 1) {
                 return;
             }
-            $.ajax({
-                type: "PUT",
-                url: baseURL + "/cardorderinfo/statusUpdate",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    ids:ids,
-                    orderStatus:status
-                }),
-                dataType: "json",
-                success: function (r) {
-                    if (r.code === 0) {
-                        layer.alert('修改成功');
-                        _self.reload();
-                    } else {
-                        layer.alert(r.msg);
+            let warning = status === 0 ? `<font color="red">失败</font>` : `<font color="blue">成功</font>`;
+            confirm(`确定要申请${warning}吗？`, () => {
+                $.ajax({
+                    type: "PUT",
+                    url: baseURL + "/cardorderinfo/statusUpdate",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        ids: ids,
+                        orderStatus: status
+                    }),
+                    dataType: "json",
+                    success: function (r) {
+                        if (r.code === 0) {
+                            alert('操作成功', () => {
+                                vm.reload();
+                            });
+                            _self.reload();
+                        } else {
+                            alert(r.msg);
+                        }
                     }
-                }
+                });
             });
+
         },
         reload: function (event) {
             var _self = this;

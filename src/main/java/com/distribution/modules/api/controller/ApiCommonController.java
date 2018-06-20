@@ -5,10 +5,13 @@ import com.distribution.common.utils.Result;
 import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.api.annotation.LoginUser;
 import com.distribution.modules.api.entity.UserEntity;
+import com.distribution.modules.sys.service.DistrictService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,9 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api")
-@Api("测试接口")
+@Api("通用接口")
 public class ApiCommonController {
 
+    @Autowired
+    private DistrictService districtService;
 
     /**
      * 获取用户信息
@@ -46,5 +51,10 @@ public class ApiCommonController {
         return Result.ok().put("msg", "无需token也能访问。。。");
     }
 
-
+    @AuthIgnore
+    @ApiOperation("根据上级code获取区域信息")
+    @GetMapping("/area/{code}")
+    public Result getAreaInfo(@PathVariable("code") String code) {
+        return Result.ok().put("area", districtService.getByParentId(code));
+    }
 }
