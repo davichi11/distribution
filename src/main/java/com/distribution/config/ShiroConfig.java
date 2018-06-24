@@ -60,6 +60,7 @@ public class ShiroConfig {
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/druid/**", "anon");
         filterMap.put("/api/**", "anon");
+        filterMap.put("/cardorderinfo/exportExcel", "anon");
 
         //swagger配置
         filterMap.put("/swagger**", "anon");

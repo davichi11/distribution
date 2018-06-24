@@ -104,9 +104,9 @@ var vm = new Vue({
 
         },
         reload: function (event) {
-            var _self = this;
+            let _self = this;
             _self.showList = true;
-            var page = $("#jqGrid").jqGrid('getGridParam', 'page');
+            let page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
                 postData: {
                     "orderMobile": _self.orderMobile,
@@ -115,6 +115,14 @@ var vm = new Vue({
                 },
                 page: page
             }).trigger("reloadGrid");
+        },
+        exportExcel: () => {
+            let page = $("#jqGrid").jqGrid('getGridParam', 'page');
+            let limit = $("#jqGrid").jqGrid('getGridParam', 'limit');
+            console.log(page)
+            let param =
+                `?orderMobile=${vm.orderMobile}&disUserName=${vm.disUserName}&cardName=${vm.cardName}&page=${page}&limit=${limit}`
+            window.location.href = baseURL + "cardorderinfo/exportExcel" + param;
         }
     }
 });

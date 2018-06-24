@@ -109,10 +109,10 @@
                 and o.order_status = #{orderStatus}
             </if>
             <if test="orderMobile != null and orderMobile != ''">
-                and o.order_mobile = #{orderMobile}
+                and o.order_mobile like concat('%',#{orderMobile},'%')
             </if>
             <if test="disUserName != null and disUserName != ''">
-                and m.dis_user_name = #{disUserName}
+                and m.dis_user_name like concat('%',#{disUserName},'%')
             </if>
             <if test="cardName != null and cardName != ''">
                 and c.card_name = #{cardName}
