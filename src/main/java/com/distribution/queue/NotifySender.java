@@ -5,6 +5,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
+ * 短信发送
+ *
  * @author ChunLiang Hu
  * @Company
  * @Project jsdemo
@@ -18,7 +20,6 @@ public class NotifySender {
     private RabbitTemplate rabbitTemplate;
 
     public void send(String context) {
-        System.out.println("Sender : " + context);
         rabbitTemplate.convertAndSend("notify", context);
     }
 }

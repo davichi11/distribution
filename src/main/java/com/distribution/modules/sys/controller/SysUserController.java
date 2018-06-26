@@ -1,7 +1,5 @@
 package com.distribution.modules.sys.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.distribution.common.annotation.SysLog;
 import com.distribution.common.exception.RRException;
 import com.distribution.common.utils.Constant;
@@ -12,6 +10,8 @@ import com.distribution.common.validator.group.UpdateGroup;
 import com.distribution.modules.sys.entity.SysUserEntity;
 import com.distribution.modules.sys.service.SysUserRoleService;
 import com.distribution.modules.sys.service.SysUserService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -50,8 +50,8 @@ public class SysUserController extends AbstractController {
         }
 
         //查询列表数据
-        PageInfo<SysUserEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
-                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> sysUserService.queryList(params));
+        PageInfo<SysUserEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
+                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> sysUserService.queryList(params));
         return Result.ok().put("page", pageInfo);
     }
 

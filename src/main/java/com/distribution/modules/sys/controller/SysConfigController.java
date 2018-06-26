@@ -1,12 +1,12 @@
 package com.distribution.modules.sys.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.distribution.common.annotation.SysLog;
 import com.distribution.common.utils.Result;
 import com.distribution.common.validator.ValidatorUtils;
 import com.distribution.modules.sys.entity.SysConfigEntity;
 import com.distribution.modules.sys.service.SysConfigService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +34,8 @@ public class SysConfigController extends AbstractController {
     @RequiresPermissions("sys:config:list")
     public Result list(@RequestParam Map<String, Object> params) {
         //查询列表数据
-        PageInfo<SysConfigEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
-                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> sysConfigService.queryList(params));
+        PageInfo<SysConfigEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
+                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> sysConfigService.queryList(params));
         return Result.ok().put("page", pageInfo);
     }
 

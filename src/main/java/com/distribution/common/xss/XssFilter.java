@@ -2,6 +2,7 @@ package com.distribution.common.xss;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
@@ -21,7 +22,13 @@ public class XssFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
         XssHttpServletRequestWrapper xssRequest = new XssHttpServletRequestWrapper((HttpServletRequest) request);
-        chain.doFilter(xssRequest, response);
+        HttpServletResponse httpServletResponse = (HttpServletResponse) response;
+        httpServletResponse.setHeader( "Pragma", "no-cache" );
+        httpServletResponse.addHeader( "Cache-Control", "must-revalidate" );
+        httpServletResponse.addHeader( "Cache-Control", "no-cache" );
+        httpServletResponse.addHeader( "Cache-Control", "no-store" );
+        httpServletResponse.setDateHeader("Expires", 0);
+        chain.doFilter(xssRequest, httpServletResponse);
     }
 
     @Override

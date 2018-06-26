@@ -66,7 +66,11 @@ public class CardOrderInfoEntity implements Serializable {
      */
     private String updateTime;
 
+<<<<<<< HEAD
     public static final class OrderStatus{
+=======
+    public static final class OrderStatus {
+>>>>>>> origin/develop
         public static final int LOSE = 0;//失败
         public static final int SUCCESS = 1;//成功
         public static final int APPLICATION = 2;//申请中

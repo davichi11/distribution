@@ -47,8 +47,8 @@ public class SysGeneratorController {
 
         PageInfo<Map<String, Object>> pageInfo;
         try {
-            pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
-                    MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> sysGeneratorService.queryList(params));
+            pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
+                    MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> sysGeneratorService.queryList(params));
         } catch (Exception e) {
             log.error("查询异常", e);
             return Result.error("查询异常");
@@ -74,8 +74,8 @@ public class SysGeneratorController {
             return Result.error("生成失败");
         }
         String fileName = "gender" + DateUtils.formatDateTime(LocalDateTime.now(), "yyyyMMddHHMMss") + ".zip";
-        //        File file = new File(GenUtils.getClasspath() + "code/" + fileName);
-        File file = new File("/Users/huchunliang/Documents/" + fileName);
+//                File file = new File(GenUtils.getClasspath() + "code/" + fileName);
+        File file = new File("F:/code/" + fileName);
         try {
             FileUtils.writeByteArrayToFile(file, data);
         } catch (IOException e) {

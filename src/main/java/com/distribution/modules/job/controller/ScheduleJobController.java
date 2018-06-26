@@ -1,12 +1,12 @@
 package com.distribution.modules.job.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.distribution.common.annotation.SysLog;
 import com.distribution.common.utils.Result;
 import com.distribution.common.validator.ValidatorUtils;
 import com.distribution.modules.job.entity.ScheduleJobEntity;
 import com.distribution.modules.job.service.ScheduleJobService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -37,8 +37,8 @@ public class ScheduleJobController {
     @RequiresPermissions("sys:schedule:list")
     public Result list(@RequestParam Map<String, Object> params) {
         //查询列表数据
-        PageInfo<ScheduleJobEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
-                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> scheduleJobService.queryList(params));
+        PageInfo<ScheduleJobEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
+                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> scheduleJobService.queryList(params));
         return Result.ok().put("page", pageInfo);
     }
 

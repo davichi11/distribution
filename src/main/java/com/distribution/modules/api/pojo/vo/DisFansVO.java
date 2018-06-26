@@ -27,7 +27,11 @@ public class DisFansVO {
      */
     private String wechatNickname;
     /**
-     *推荐人ID
+     * 推荐人ID
      */
     private String memberId;
+
+    private String mobile;
+
+    private String token;
 }

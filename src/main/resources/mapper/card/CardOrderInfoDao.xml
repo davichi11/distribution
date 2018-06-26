@@ -14,7 +14,8 @@
         <result property="orderStatus" column="order_status"/>
         <result property="addTime" column="add_time"/>
         <result property="updateTime" column="update_time"/>
-        <association property="memberInfo" column="member_id" javaType="com.distribution.modules.dis.entity.DisMemberInfoEntity">
+        <association property="memberInfo" column="member_id"
+                     javaType="com.distribution.modules.dis.entity.DisMemberInfoEntity">
             <id column="m_id" property="id"/>
             <result property="disPlatformId" column="dis_platform_id"/>
             <result property="disFullIndex" column="dis_full_index"/>
@@ -31,10 +32,11 @@
             <result column="card_img" jdbcType="VARCHAR" property="cardImg"/>
             <result column="card_info" jdbcType="VARCHAR" property="cardInfo"/>
             <result column="card_url" jdbcType="VARCHAR" property="cardUrl"/>
+            <result column="rebate" property="rebate"/>
         </association>
     </resultMap>
 
-    <select id="queryObject" resultType="com.distribution.modules.dis.entity.CardOrderInfoEntity">
+    <select id="queryObject" resultMap="CardOrderInfoMap">
         select
             o.id,
             order_name,
@@ -60,6 +62,7 @@
             card_name,
             card_img,
             card_info,
+            rebate,
             card_url
         from card_order_info o
             left join dis_member_info m on o.member_id = m.id
@@ -67,7 +70,7 @@
         where o.id = #{value}
     </select>
 
-    <select id="queryList" resultType="com.distribution.modules.dis.entity.CardOrderInfoEntity">
+    <select id="queryList" resultMap="CardOrderInfoMap">
         select
         o.id,
         order_name,
@@ -93,16 +96,36 @@
         card_name,
         card_img,
         card_info,
+        rebate,
         card_url
         from card_order_info o
         left join dis_member_info m on o.member_id = m.id
         left join card_info c on o.card_id = c.id
         <where>
             <if test="memberId != null">
+<<<<<<< HEAD
                 o.member_id = #{member_id}
+=======
+                and o.member_id = #{memberId}
+>>>>>>> origin/develop
             </if>
             <if test="orderStatus != null and orderStatus != ''">
-                o.order_status = #{orderStatus}
+                and o.order_status = #{orderStatus}
+            </if>
+            <if test="orderMobile != null and orderMobile != ''">
+                and o.order_mobile like concat('%',#{orderMobile},'%')
+            </if>
+            <if test="disUserName != null and disUserName != ''">
+                and m.dis_user_name like concat('%',#{disUserName},'%')
+            </if>
+            <if test="cardName != null and cardName != ''">
+                and c.card_name = #{cardName}
+            </if>
+            <if test="memberIds != null">
+                and o.member_id in
+                <foreach item="item" collection="memberIds" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
             </if>
         </where>
         <choose>
@@ -110,20 +133,18 @@
                 order by ${sidx} ${order}
             </when>
             <otherwise>
-                order by o.id desc
+                order by o.add_time desc
             </otherwise>
         </choose>
-        <if test="offset != null and limit != null">
-            limit #{offset}, #{limit}
-        </if>
     </select>
-
-
 
 
     <insert id="save" parameterType="com.distribution.modules.dis.entity.CardOrderInfoEntity">
         insert into card_order_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
             <if test="orderName != null">
                 `order_name`,
             </if>
@@ -142,10 +163,10 @@
             <if test="orderStatus != null">
                 `order_status`,
             </if>
-            <if test="memberId != null">
+            <if test="memberInfo != null">
                 `member_id`,
             </if>
-            <if test="cardId != null">
+            <if test="cardInfo != null">
                 `card_id`,
             </if>
             <if test="isDelete != null">
@@ -159,6 +180,9 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
             <if test="orderName != null">
                 #{orderName}
                 ,
@@ -183,12 +207,12 @@
                 #{orderStatus}
                 ,
             </if>
-            <if test="memberId != null">
-                #{memberId}
+            <if test="memberInfo != null">
+                #{memberInfo.id}
                 ,
             </if>
-            <if test="cardId != null">
-                #{cardId}
+            <if test="cardInfo != null">
+                #{cardInfo.id}
                 ,
             </if>
             <if test="isDelete != null">
@@ -232,12 +256,12 @@
                 `order_status` = #{orderStatus}
                 ,
             </if>
-            <if test="memberId != null">
-                `member_id` = #{memberId}
+            <if test="memberInfo != null">
+                `member_id` = #{memberInfo.id}
                 ,
             </if>
-            <if test="cardId != null">
-                `card_id` = #{cardId}
+            <if test="cardInfo != null">
+                `card_id` = #{cardInfo.id}
                 ,
             </if>
             <if test="isDelete != null">
@@ -270,12 +294,61 @@
         select count(1) from card_order_info o
         <where>
             <if test="member_id != null">
-                o.member_id = #{member_id}
+                and o.member_id = #{member_id}
             </if>
             <if test="orderStatus != null and orderStatus != ''">
-                o.order_status = #{orderStatus}
+                and o.order_status = #{orderStatus}
             </if>
         </where>
     </select>
 
+    <select id="queryListByIds" parameterType="java.util.List" resultMap="CardOrderInfoMap">
+        select
+        o.id,
+        order_name,
+        order_id,
+        order_mobile,
+        order_idcardno,
+        order_email,
+        order_status,
+        o.add_time,
+        o.update_time,
+        m.id as "m_id",
+        dis_platform_id,
+        dis_user_id,
+        dis_model_id,
+        dis_full_index,
+        dis_user_name,
+        dis_level,
+        dis_user_type,
+        dis_note,
+        c.id as "c_id",
+        bank_num,
+        card_num,
+        card_name,
+        card_img,
+        card_info,
+        rebate,
+        card_url
+        from card_order_info o
+        left join dis_member_info m on o.member_id = m.id
+        left join card_info c on o.card_id = c.id
+        where o.id in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <update id="statusUpdate" parameterType="com.distribution.modules.dis.entity.CardOrderInfoEntity">
+        update card_order_info set order_status=#{orderStatus} where id in
+        <foreach item="item" collection="ids" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+    <select id="countUserCard" resultType="java.lang.Integer">
+        select count(1)
+        from card_order_info o, card_info c
+        where member_id = #{memberId} and bank_num = #{bankNum} and c.id = o.card_id
+        and o.add_time between #{startDate} and #{endDate}
+    </select>
 </mapper>

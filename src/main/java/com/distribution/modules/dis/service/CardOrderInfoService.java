@@ -59,8 +59,26 @@ public interface CardOrderInfoService {
 
     /**
      * 根据查询条件统计订单数量
+     *
      * @param param
      * @return
      */
     Integer countOrder(Map<String, Object> param);
+
+    /**
+     * 统计用户办理的某张卡片的数量
+     * @param memberId
+     * @param banNum
+     * @return
+     */
+    Integer countUserCard(String memberId, String banNum);
+
+    /**
+     * 批量修改订单状态
+     *
+     * @Auther: liuxinxin
+     * @Date: 2018/5/27 15:22
+     * @Description:
+     */
+    void statusUpdate(Map<String, Object> map) throws Exception;
 }

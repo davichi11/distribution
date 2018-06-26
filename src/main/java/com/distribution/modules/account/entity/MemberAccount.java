@@ -27,6 +27,10 @@ public class MemberAccount {
      * 账户类型
      */
     private String memberType;
+    /**
+     * 支付宝账户
+     */
+    private String aliPayAccount;
 
     /** */
     private BigDecimal memberAmount;

@@ -10,7 +10,10 @@
         <result property="disFullIndex" column="dis_full_index"/>
         <result property="disUserName" column="dis_user_name"/>
         <result property="disLevel" column="dis_level"/>
+        <result property="parentId" column="dis_model_id"/>
         <result property="disUserType" column="dis_user_type"/>
+        <result property="idCode" column="dis_user_id_code"/>
+        <result property="openId" column="open_id"/>
         <result property="disNote" column="dis_note"/>
         <result property="addTime" column="add_time"/>
         <result property="updateTime" column="update_time"/>
@@ -26,7 +29,10 @@
             <id column="p_id" property="id"/>
             <result property="disUserName" column="p_name"/>
             <result property="disLevel" column="p_dis_level"/>
+            <result property="parentId" column="p_dis_model_id"/>
             <result property="disUserType" column="p_dis_user_type"/>
+            <result property="openId" column="p_open_id"/>
+            <result property="addTime" column="p_add_time"/>
         </association>
         <collection property="disMemberChildren" ofType="com.distribution.modules.dis.entity.DisMemberInfoEntity"
                     javaType="ArrayList">
@@ -34,6 +40,8 @@
             <result property="disUserName" column="c_name"/>
             <result property="disLevel" column="c_dis_level"/>
             <result property="disUserType" column="c_dis_user_type"/>
+            <result property="addTime" column="c_add_time"/>
+            <result property="openId" column="c_open_id"/>
         </collection>
     </resultMap>
 
@@ -47,7 +55,9 @@
             m.dis_user_name,
             m.dis_level,
             m.dis_user_type,
+            m.dis_user_id_code,
             m.dis_note,
+            m.open_id,
             m.add_time,
             m.update_time,
             m.is_delete,
@@ -58,9 +68,16 @@
             p.dis_user_id   "p_user_id",
             p.dis_user_name "p_name",
             p.dis_user_type "p_dis_user_type",
+            p.dis_model_id  "p_dis_model_id",
+            p.open_id       "p_open_id",
+            p.dis_level     "p_dis_level",
+            p.add_time      "p_add_time",
             c.id            "c_id",
             c.dis_user_id   "c_user_id",
             c.dis_user_type "c_dis_user_type",
+            c.dis_level     "c_dis_level",
+            c.open_id       "c_open_id",
+            c.add_time      "c_add_time",
             c.dis_user_name "c_name"
         from distribution.dis_member_info m
             left join distribution.tb_user u on u.user_id = m.dis_user_id
@@ -79,7 +96,9 @@
         m.dis_user_name,
         m.dis_level,
         m.dis_user_type,
+        m.dis_user_id_code,
         m.dis_note,
+        m.open_id,
         m.add_time,
         m.update_time,
         m.is_delete,
@@ -90,9 +109,15 @@
         p.dis_user_id "p_user_id",
         p.dis_user_name "p_name",
         p.dis_user_type "p_dis_user_type",
+        p.open_id "p_open_id",
+        p.dis_level "p_dis_level",
+        p.add_time "p_add_time",
         c.id "c_id",
         c.dis_user_id "c_user_id",
         c.dis_user_type "c_dis_user_type",
+        c.open_id "c_open_id",
+        c.dis_level "c_dis_level",
+        c.add_time "c_add_time",
         c.dis_user_name "c_name"
         from distribution.dis_member_info m
         left join distribution.tb_user u on u.user_id = m.dis_user_id
@@ -114,6 +139,15 @@
             <if test="parent_id !=null and parent_id != ''">
                 and m.dis_model_id = #{parent_id}
             </if>
+            <if test="mobile != null and mobile != ''">
+                and u.mobile = #{mobile}
+            </if>
+            <if test="openIds != null">
+                and m.open_id in
+                <foreach collection="openIds" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
         </where>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
@@ -129,6 +163,9 @@
     <insert id="save" parameterType="com.distribution.modules.dis.entity.DisMemberInfoEntity">
         insert into distribution.dis_member_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
             <if test="disPlatformId != null">
                 `dis_platform_id`,
             </if>
@@ -150,8 +187,14 @@
             <if test="disUserType != null">
                 `dis_user_type`,
             </if>
+            <if test="idCode != null">
+                `dis_user_id_code`,
+            </if>
             <if test="disNote != null">
                 `dis_note`,
+            </if>
+            <if test="openId != null">
+                `open_id`,
             </if>
             <if test="addTime != null">
                 `add_time`,
@@ -164,45 +207,44 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
             <if test="disPlatformId != null">
-                #{disPlatformId}
-                ,
+                #{disPlatformId},
             </if>
             <if test="userEntity != null">
-                #{userEntity.userId}
-                ,
+                #{userEntity.userId},
             </if>
             <if test="disMemberParent != null">
-                #{disMemberParent.id}
-                ,
+                #{disMemberParent.id},
             </if>
             <if test="disFullIndex != null">
-                #{disFullIndex}
-                ,
+                #{disFullIndex},
             </if>
             <if test="disUserName != null">
-                #{disUserName}
-                ,
+                #{disUserName},
             </if>
             <if test="disLevel != null">
-                #{disLevel}
-                ,
+                #{disLevel},
             </if>
             <if test="disUserType != null">
-                #{disUserType}
-                ,
+                #{disUserType},
+            </if>
+            <if test="idCode != null">
+                #{idCode},
             </if>
             <if test="disNote != null">
-                #{disNote}
-                ,
+                #{disNote},
+            </if>
+            <if test="openId!=null">
+                #{openId},
             </if>
             <if test="addTime != null">
-                #{addTime}
-                ,
+                #{addTime},
             </if>
             <if test="updateTime != null">
-                #{updateTime}
-                ,
+                #{updateTime},
             </if>
             <if test="isDelete != null">
                 #{isDelete}
@@ -215,10 +257,6 @@
         <set>
             <if test="disPlatformId != null">
                 `dis_platform_id` = #{disPlatformId}
-                ,
-            </if>
-            <if test="userEntity != null">
-                `dis_user_id` = #{userEntity.userId}
                 ,
             </if>
             <if test="disMemberParent != null">
@@ -241,9 +279,15 @@
                 `dis_user_type` = #{disUserType}
                 ,
             </if>
+            <if test="idCode != null">
+                `dis_user_id_code` = #{idCode},
+            </if>
             <if test="disNote != null">
                 `dis_note` = #{disNote}
                 ,
+            </if>
+            <if test="openId!=null">
+                `open_id` = #{openId},
             </if>
             <if test="addTime != null">
                 `add_time` = #{addTime}
@@ -271,5 +315,91 @@
             #{id}
         </foreach>
     </delete>
+    <select id="findByOpenId" resultMap="disMemberInfoMap">
+        select
+            m.id,
+            m.dis_platform_id,
+            m.dis_user_id,
+            m.dis_model_id,
+            m.dis_full_index,
+            m.dis_user_name,
+            m.dis_level,
+            m.dis_user_type,
+            m.dis_user_id_code,
+            m.dis_note,
+            m.open_id,
+            m.add_time,
+            m.update_time,
+            m.is_delete,
+            u.user_id,
+            u.username,
+            u.mobile,
+            p.id            "p_id",
+            p.dis_user_id   "p_user_id",
+            p.dis_user_name "p_name",
+            p.dis_user_type "p_dis_user_type",
+            p.dis_model_id  "p_dis_model_id",
+            p.open_id       "p_open_id",
+            p.dis_level     "p_dis_level",
+            p.add_time      "p_add_time",
+            c.id            "c_id",
+            c.dis_user_id   "c_user_id",
+            c.dis_user_type "c_dis_user_type",
+            c.open_id       "c_open_id",
+            c.dis_level     "c_dis_level",
+            c.add_time      "c_add_time",
+            c.dis_user_name "c_name"
+        from distribution.dis_member_info m
+            left join distribution.tb_user u on u.user_id = m.dis_user_id
+            left join dis_member_info p on m.dis_model_id = p.id
+            left join dis_member_info c on c.dis_model_id = m.id
+        where m.open_id = #{openId}
+    </select>
+    <select id="queryByMobile" resultMap="disMemberInfoMap">
+        select
+            m.id,
+            m.dis_platform_id,
+            m.dis_user_id,
+            m.dis_model_id,
+            m.dis_full_index,
+            m.dis_user_name,
+            m.dis_level,
+            m.dis_user_type,
+            m.dis_user_id_code,
+            m.dis_note,
+            m.open_id,
+            m.add_time,
+            m.update_time,
+            m.is_delete,
+            u.user_id,
+            u.username,
+            u.mobile,
+            p.id            "p_id",
+            p.dis_user_id   "p_user_id",
+            p.dis_user_name "p_name",
+            p.dis_user_type "p_dis_user_type",
+            p.dis_model_id  "p_dis_model_id",
+            p.open_id       "p_open_id",
+            p.dis_level     "p_dis_level",
+            p.add_time      "p_add_time",
+            c.id            "c_id",
+            c.dis_user_id   "c_user_id",
+            c.dis_user_type "c_dis_user_type",
+            c.open_id       "c_open_id",
+            c.dis_level     "c_dis_level",
+            c.add_time      "c_add_time",
+            c.dis_user_name "c_name"
+        from distribution.dis_member_info m
+            left join distribution.tb_user u on u.user_id = m.dis_user_id
+            left join dis_member_info p on m.dis_model_id = p.id
+            left join dis_member_info c on c.dis_model_id = m.id
+        where u.mobile = #{mobile}
+    </select>
+    <update id="updateDisLevel">
+        update dis_member_info
+        set dis_level = #{level},dis_user_type = #{type}
+        where id = #{id}
+    </update>
+
 
 </mapper>

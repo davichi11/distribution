@@ -32,5 +32,9 @@ public class DisFans {
      * 微信昵称
      */
     private String wechatNickname;
+    /**
+     * 工号
+     */
+    private Long workerId;
 
 }

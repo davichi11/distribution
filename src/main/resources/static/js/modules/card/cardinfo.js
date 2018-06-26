@@ -3,9 +3,9 @@ $(function () {
         url: baseURL + 'cardinfo/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', index: 'id', width: 50, key: true},
-            {label: '银行代号', name: 'bankNum', index: 'bank_num', width: 80},
-            {label: '信用卡代号', name: 'cardNum', index: 'card_num', width: 80},
+            {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
+            {label: '银行代号', name: 'bankNum', index: 'bank_num', width: 50},
+            {label: '信用卡代号', name: 'cardNum', index: 'card_num', width: 50},
             {label: '信用卡名称', name: 'cardName', index: 'card_name', width: 80},
             {label: '信用卡图片', name: 'cardImg', index: 'card_img', width: 80},
             {label: '信用卡详情', name: 'cardInfo', index: 'card_info', width: 80},
@@ -13,9 +13,10 @@ $(function () {
                 label: '信用卡办理链接',
                 name: 'cardUrl',
                 index: 'card_url',
-                width: 80,
+                width: 180,
                 formatter: (value, options, row) => `<a href="#">${value}</a>`
-            }
+            },
+            {label: '佣金返利', name: 'rebate', index: 'rebate', width: 80}
         ],
         viewrecords: true,
         height: 385,
@@ -28,9 +29,9 @@ $(function () {
         pager: "#jqGridPager",
         jsonReader: {
             root: "page.list",
-            page: "page.currPage",
-            total: "page.totalPage",
-            records: "page.totalCount"
+            page: "page.pageNum",
+            total: "page.pages",
+            records: "page.total"
         },
         prmNames: {
             page: "page",
@@ -94,7 +95,7 @@ var vm = new Vue({
                 return;
             }
 
-            confirm('确定要删除选中的记录？', function () {
+            confirm('确定要禁用选中的记录？', function () {
                 $.ajax({
                     type: "POST",
                     url: baseURL + "cardinfo/delete",

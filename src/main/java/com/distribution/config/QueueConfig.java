@@ -7,6 +7,9 @@ import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @author huchunliang
+ */
 @Configuration
 public class QueueConfig {
 
@@ -14,29 +17,29 @@ public class QueueConfig {
      * 发送到该队列的message会在一段时间后过期进入到delay_process_queue
      * 每个message可以控制自己的失效时间
      */
-    public final static String DELAY_QUEUE_PER_MESSAGE_TTL_NAME = "delay_queue_per_message_ttl";
+    private final static String DELAY_QUEUE_PER_MESSAGE_TTL_NAME = "delay_queue_per_message_ttl";
 
     /**
      * 发送到该队列的message会在一段时间后过期进入到delay_process_queue
      * 队列里所有的message都有统一的失效时间
      */
-    public final static String DELAY_QUEUE_PER_QUEUE_TTL_NAME = "delay_queue_per_queue_ttl";
-    public final static int QUEUE_EXPIRATION = 4000;
+    final static String DELAY_QUEUE_PER_QUEUE_TTL_NAME = "delay_queue_per_queue_ttl";
+    private final static int QUEUE_EXPIRATION = 60000;
 
     /**
      * message失效后进入的队列，也就是实际的消费队列
      */
-    public final static String DELAY_PROCESS_QUEUE_NAME = "delay_process_queue";
+    private final static String DELAY_PROCESS_QUEUE_NAME = "delay_process_queue";
 
     /**
      * DLX
      */
-    final static String DELAY_EXCHANGE_NAME = "delay_exchange";
+    private final static String DELAY_EXCHANGE_NAME = "delay_exchange";
 
     /**
      * 路由到delay_queue_per_queue_ttl的exchange
      */
-    public final static String PER_QUEUE_TTL_EXCHANGE_NAME = "per_queue_ttl_exchange";
+    final static String PER_QUEUE_TTL_EXCHANGE_NAME = "per_queue_ttl_exchange";
 
     /**
      * 创建DLX exchange
@@ -60,6 +63,7 @@ public class QueueConfig {
 
     /**
      * 短信发送队列
+     *
      * @return
      */
     @Bean
@@ -69,6 +73,7 @@ public class QueueConfig {
 
     /**
      * 会员自动升级队列
+     *
      * @return
      */
     @Bean

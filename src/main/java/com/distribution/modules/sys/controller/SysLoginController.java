@@ -1,13 +1,13 @@
 package com.distribution.modules.sys.controller;
 
-import com.google.code.kaptcha.Constants;
-import com.google.code.kaptcha.Producer;
 import com.distribution.common.utils.Result;
 import com.distribution.common.utils.ShiroUtils;
 import com.distribution.config.OpenCaptcha;
 import com.distribution.modules.sys.entity.SysUserEntity;
 import com.distribution.modules.sys.service.SysUserService;
 import com.distribution.modules.sys.service.SysUserTokenService;
+import com.google.code.kaptcha.Constants;
+import com.google.code.kaptcha.Producer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.BooleanUtils;

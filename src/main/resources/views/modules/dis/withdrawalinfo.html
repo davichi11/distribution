@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>提现信息表</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
+    <link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <script src="../../libs/jquery.min.js"></script>
+    <script src="../../plugins/layer/layer.js"></script>
+    <script src="../../libs/bootstrap.min.js"></script>
+    <script src="../../libs/vue.min.js"></script>
+    <script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
+    <script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
+    <script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
+    <script src="../../js/common.js"></script>
+</head>
+<body>
+<div id="rrapp" v-cloak>
+
+    <div class="grid-btn">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <label for="mobile" class="control-label">客户手机号:</label>
+                <input type="tel" id="mobile" class="form-control" v-model="withdrawMobile"
+                       @keyup.enter="query" placeholder="客户手机号" autocomplete="tel-national">
+            </div>
+            <div class="form-group">
+                <label for="name" class="control-label" style="margin-left: 10px">客户姓名:</label>
+                <input type="text" id="name" class="form-control" v-model="withdrawName"
+                       @keyup.enter="query" placeholder="客户姓名">
+            </div>
+            <div class="form-group">
+                <label for="withdrawNum" class="control-label" style="margin-left: 10px">订单号:</label>
+                <input type="text" id="withdrawNum" class="form-control" v-model="withdrawNum"
+                       @keyup.enter="query" placeholder="客户姓名">
+            </div>
+            <div style="margin-top: 10px;margin-bottom: 10px">
+                <a class="btn btn-default" @click="query">查询</a>
+                <a class="btn btn-info" @click="reset">重置</a>
+            </div>
+        </form>
+    </div>
+    <div v-show="showList">
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+</div>
+
+<script src="../../js/modules/dis/withdrawalinfo.js"></script>
+</body>
+</html>

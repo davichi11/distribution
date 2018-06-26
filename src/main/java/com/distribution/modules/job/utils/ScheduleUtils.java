@@ -1,9 +1,9 @@
 package com.distribution.modules.job.utils;
 
-import com.google.gson.Gson;
 import com.distribution.common.exception.RRException;
 import com.distribution.common.utils.Constant.ScheduleStatus;
 import com.distribution.modules.job.entity.ScheduleJobEntity;
+import com.google.gson.Gson;
 import org.quartz.*;
 
 /**
