@@ -11,9 +11,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 /**
@@ -39,10 +37,7 @@ public class DisMemberInfoController {
         //查询列表数据
         PageInfo<DisMemberInfoEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
                 MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> disMemberInfoService.queryList(params));
-        //用户类型转换
-        List<DisMemberInfoEntity> disMemberInfoList = pageInfo.getList().stream()
-                .peek(d -> d.setDisUserType("0".equals(d.getDisUserType()) ? "非会员" : "会员")).collect(Collectors.toList());
-        pageInfo.setList(disMemberInfoList);
+
         return Result.ok().put("page", pageInfo);
     }
 

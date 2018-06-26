@@ -50,7 +50,7 @@
                     class="fa fa-plus"></i>&nbsp;新增</a>
             <a v-if="hasPermission('dismemberinfo:update')" class="btn btn-primary" @click="update"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-            <a v-if="hasPermission('dismemberinfo:delete')" class="btn btn-primary" @click="del"><i
+            <a v-if="hasPermission('dismemberinfo:delete')" class="btn btn-danger" @click="del"><i
                     class="fa fa-trash-o"></i>&nbsp;删除</a>
         </div>
         <table id="jqGrid"></table>

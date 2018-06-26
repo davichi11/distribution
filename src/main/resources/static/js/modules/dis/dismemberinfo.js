@@ -4,12 +4,15 @@ $(function () {
         datatype: "json",
         colModel: [
             {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
-            {label: '用户名称', name: 'disUserName', index: 'dis_user_name', width: 80},
-            {label: '级别', name: 'disLevel', index: 'dis_level', width: 80},
-            {label: '身份类型', name: 'disUserType', index: 'dis_user_type', width: 80},
-            {label: '上级', name: 'disMemberParent.disUserName', index: 'dis_model_id', width: 80},
+            {label: '用户名称', name: 'disUserName', index: 'm.dis_user_name', width: 80},
+            {label: '级别', name: 'disLevel', index: 'm.dis_level', width: 80},
+            {label: '身份类型', name: 'disUserType', index: 'm.dis_user_type', width: 80,
+                formatter: (value, options, row) => value === '0' ?
+                    '<span class="label label-danger">非会员</span>' :
+                    '<span class="label label-success">会员</span>'},
+            {label: '上级', name: 'disMemberParent.disUserName', index: 'm.dis_model_id', width: 80},
             {label: '备注', name: 'disNote', index: 'dis_note', width: 80},
-            {label: '添加时间', name: 'addTime', index: 'add_time', width: 80}
+            {label: '添加时间', name: 'addTime', index: 'm.add_time', width: 80}
         ],
         viewrecords: true,
         height: 385,
