@@ -2,127 +2,126 @@ $(function () {
     $("#jqGrid").jqGrid({
         url: baseURL + 'cardorderinfo/list',
         datatype: "json",
-        colModel: [
-            {label: 'id', name: 'id', index: 'id', width: 50, key: true},
-            {label: '用户名', name: 'memberInfo.disUserName', index: 'order_name', width: 80},
-            {label: '办卡人手机号', name: 'orderMobile', index: 'order_mobile', width: 80},
-            {label: '办卡人身份证号码', name: 'orderIdcardno', index: 'order_idcardno', width: 80},
-            {
-                label: '订单状态',
-                name: 'orderStatus',
-                index: 'order_status',
-                width: 80,
-                formatter: (value, options, row) => {
-                    if (value === 0) {
-                        return "失败";
-                    } else if (value === 1) {
-                        return "成功";
-                    }
-                    else if (value === 2) {
-                        return "申请中";
-                    }
-                }
-            },
-            {label: '办卡时间', name: 'addTime', index: 'add_time', width: 80},
-            {label: '信用卡名称', name: 'cardInfo.cardName', index: 'card_id', width: 80},
+        colModel: [			
+			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
+			{ label: '', name: 'orderName', index: 'order_name', width: 80 }, 			
+			{ label: '', name: 'orderId', index: 'order_id', width: 80 }, 			
+			{ label: '', name: 'orderMobile', index: 'order_mobile', width: 80 }, 			
+			{ label: '', name: 'orderIdcardno', index: 'order_idcardno', width: 80 }, 			
+			{ label: '', name: 'orderEmail', index: 'order_email', width: 80 }, 			
+			{ label: '订单状态 0:失败,1:成功,2:申请中', name: 'orderStatus', index: 'order_status', width: 80 }, 			
+			{ label: '用户关联ID', name: 'memberId', index: 'member_id', width: 80 }, 			
+			{ label: '关联信用卡ID', name: 'cardId', index: 'card_id', width: 80 }, 			
+			{ label: '', name: 'isDelete', index: 'is_delete', width: 80 }, 			
+			{ label: '', name: 'addTime', index: 'add_time', width: 80 }, 			
+			{ label: '', name: 'updateTime', index: 'update_time', width: 80 }			
         ],
-        viewrecords: true,
+		viewrecords: true,
         height: 385,
         rowNum: 10,
-        rowList: [10, 30, 50],
-        rownumbers: true,
-        rownumWidth: 25,
-        autowidth: true,
+		rowList : [10,30,50],
+        rownumbers: true, 
+        rownumWidth: 25, 
+        autowidth:true,
         multiselect: true,
         pager: "#jqGridPager",
-        jsonReader: {
+        jsonReader : {
             root: "page.list",
-            page: "page.pageNum",
-            total: "page.pages",
-            records: "page.total"
+            page: "page.currPage",
+            total: "page.totalPage",
+            records: "page.totalCount"
         },
-        prmNames: {
-            page: "page",
-            rows: "limit",
+        prmNames : {
+            page:"page", 
+            rows:"limit", 
             order: "order"
         },
-        gridComplete: function () {
-            //隐藏grid底部滚动条
-            $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
+        gridComplete:function(){
+        	//隐藏grid底部滚动条
+        	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
         }
     });
 });
 
 var vm = new Vue({
-    el: '#rrapp',
-    data: {
-        showList: true,
-        title: null,
-        cardOrderInfo: {},
-        orderMobile: "",
-        disUserName: "",
-        cardName: ""
-    },
-    methods: {
-        query: function () {
-            this.reload();
-        },
-        reset: function () {
-            this.orderMobile = "";
-            this.disUserName = "";
-            this.cardName = "";
-        },
-        statusUpdate: function (status) {
-            let _self = this;
-            let ids = getSelectedRows();
-            if (ids.length < 1) {
-                return;
-            }
-            let warning = status === 0 ? `<font color="red">失败</font>` : `<font color="blue">成功</font>`;
-            confirm(`确定要申请${warning}吗？`, () => {
-                $.ajax({
-                    type: "PUT",
-                    url: baseURL + "/cardorderinfo/statusUpdate",
+	el:'#rrapp',
+	data:{
+		showList: true,
+		title: null,
+		cardOrderInfo: {}
+	},
+	methods: {
+		query: function () {
+			vm.reload();
+		},
+		add: function(){
+			vm.showList = false;
+			vm.title = "新增";
+			vm.cardOrderInfo = {};
+		},
+		update: function (event) {
+			var id = getSelectedRow();
+			if(id == null){
+				return ;
+			}
+			vm.showList = false;
+            vm.title = "修改";
+            
+            vm.getInfo(id)
+		},
+		saveOrUpdate: function (event) {
+			var url = vm.CardOrderInfo.id == null ? "cardorderinfo/save" : "cardorderinfo/update";
+			$.ajax({
+				type: "POST",
+			    url: baseURL + url,
+                contentType: "application/json",
+			    data: JSON.stringify(vm.cardOrderInfo),
+			    success: function(r){
+			    	if(r.code === 0){
+						alert('操作成功', function(index){
+							vm.reload();
+						});
+					}else{
+						alert(r.msg);
+					}
+				}
+			});
+		},
+		del: function (event) {
+			var ids = getSelectedRows();
+			if(ids == null){
+				return ;
+			}
+			
+			confirm('确定要删除选中的记录？', function(){
+				$.ajax({
+					type: "POST",
+				    url: baseURL + "cardorderinfo/delete",
                     contentType: "application/json",
-                    data: JSON.stringify({
-                        ids: ids,
-                        orderStatus: status
-                    }),
-                    dataType: "json",
-                    success: function (r) {
-                        if (r.code === 0) {
-                            alert('操作成功', () => {
-                                vm.reload();
-                            });
-                            _self.reload();
-                        } else {
-                            alert(r.msg);
-                        }
-                    }
-                });
+				    data: JSON.stringify(ids),
+				    success: function(r){
+						if(r.code == 0){
+							alert('操作成功', function(index){
+								$("#jqGrid").trigger("reloadGrid");
+							});
+						}else{
+							alert(r.msg);
+						}
+					}
+				});
+			});
+		},
+		getInfo: function(id){
+			$.get(baseURL + "cardorderinfo/info/"+id, function(r){
+                vm.cardOrderInfo = r.cardOrderInfo;
             });
-
-        },
-        reload: function (event) {
-            let _self = this;
-            _self.showList = true;
-            let page = $("#jqGrid").jqGrid('getGridParam', 'page');
-            $("#jqGrid").jqGrid('setGridParam', {
-                postData: {
-                    "orderMobile": _self.orderMobile,
-                    "disUserName": _self.disUserName,
-                    "cardName": _self.cardName
-                },
-                page: page
+		},
+		reload: function (event) {
+			vm.showList = true;
+			var page = $("#jqGrid").jqGrid('getGridParam','page');
+			$("#jqGrid").jqGrid('setGridParam',{ 
+                page:page
             }).trigger("reloadGrid");
-        },
-        exportExcel: () => {
-            let page = $("#jqGrid").jqGrid('getGridParam', 'page');
-            let limit = $("#jqGrid").jqGrid('getGridParam', 'limit');
-            console.log(page)
-            let param =
-                `?orderMobile=${vm.orderMobile}&disUserName=${vm.disUserName}&cardName=${vm.cardName}&page=${page}&limit=${limit}`
-            window.location.href = baseURL + "cardorderinfo/exportExcel" + param;
-        }
-    }
+		}
+	}
 });

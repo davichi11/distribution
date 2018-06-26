@@ -1,6 +1,5 @@
 package com.distribution.modules.api.entity;
 
-import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -38,7 +37,5 @@ public class UserEntity implements Serializable {
      * 创建时间
      */
     private LocalDateTime createTime;
-
-    private DisMemberInfoEntity memberInfo;
 
 }

@@ -1,5 +1,6 @@
 package com.distribution.modules.sys.controller;
 
+import com.google.common.collect.Maps;
 import com.distribution.common.annotation.SysLog;
 import com.distribution.common.exception.RRException;
 import com.distribution.common.utils.Constant;
@@ -8,7 +9,6 @@ import com.distribution.common.utils.Result;
 import com.distribution.modules.sys.entity.SysMenuEntity;
 import com.distribution.modules.sys.service.ShiroService;
 import com.distribution.modules.sys.service.SysMenuService;
-import com.google.common.collect.Maps;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;

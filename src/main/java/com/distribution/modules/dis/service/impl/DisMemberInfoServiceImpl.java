@@ -1,7 +1,5 @@
 package com.distribution.modules.dis.service.impl;
 
-import com.distribution.modules.api.dao.UserDao;
-import com.distribution.modules.api.entity.UserEntity;
 import com.distribution.modules.dis.dao.CardOrderInfoDao;
 import com.distribution.modules.dis.dao.DisFansMapper;
 import com.distribution.modules.dis.dao.DisMemberInfoDao;
@@ -9,15 +7,12 @@ import com.distribution.modules.dis.entity.DisFans;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.DisMemberInfoService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service()
@@ -28,22 +23,10 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
     private CardOrderInfoDao cardOrderInfoDao;
     @Autowired
     private DisFansMapper disFansMapper;
-    @Autowired
-    private UserDao userDao;
 
     @Override
     public DisMemberInfoEntity queryObject(String id) {
         return disMemberInfoDao.queryObject(id);
-    }
-
-    @Override
-    public DisMemberInfoEntity queryByOpenId(String openId) {
-        return disMemberInfoDao.findByOpenId(openId);
-    }
-
-    @Override
-    public DisMemberInfoEntity queryByMobile(String mobile) {
-        return disMemberInfoDao.queryByMobile(mobile);
     }
 
     @Override
@@ -62,11 +45,6 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
     }
 
     @Override
-    public void updateDisLevel(Integer level, String type, String id) throws Exception {
-        disMemberInfoDao.updateDisLevel(level, type, id);
-    }
-
-    @Override
     public void delete(String id) throws Exception {
         disMemberInfoDao.delete(id);
     }
@@ -77,37 +55,29 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public boolean levelUp(DisMemberInfoEntity memberInfo) throws Exception {
-        //如果是非会员升级,查询其下线完成的订单和锁粉信息,大于三个并且锁粉达到10个可以升级为三级会员
+    public boolean levelUp(DisMemberInfoEntity memberInfo) {
+        //如果是非会员升级,查询其完成的订单和锁粉信息,大于三个并且锁粉达到10个可以升级为三级会员
         if ("0".equals(memberInfo.getDisUserType())) {
             //查询锁粉数据
             Map<String, Object> param = new HashMap<>(2);
             param.put("memberId", memberInfo.getId());
             List<DisFans> disFansList = disFansMapper.selectList(param);
 
-            if (disFansList.size() >= 10) {
-                Map<String, Object> memberParam = new HashMap<>();
-                memberParam.put("openIds", disFansList.stream().map(DisFans::getWechatId).collect(Collectors.toList()));
-                List<String> fansMemberIds = disMemberInfoDao.queryList(memberParam).stream().map(DisMemberInfoEntity::getId)
-                        .collect(Collectors.toList());
-                if (CollectionUtils.isNotEmpty(fansMemberIds)) {
-                    memberParam.put("memberIds", fansMemberIds);
-                }
-                long count = cardOrderInfoDao.queryList(memberParam).stream()
-                        .filter(order -> order.getOrderStatus().equals(1)).count();
-                //
-                if (count >= 3) {
-                    memberInfo.setDisUserType("1");
-                    memberInfo.setDisLevel(3);
-                    UserEntity userEntity = userDao.queryByMemberId(memberInfo.getId());
-                    memberInfo.setUserEntity(userEntity);
+            Map<String, Object> orderParam = new HashMap<>(2);
+            orderParam.put("member_id", memberInfo.getId());
+            orderParam.put("orderStatus", "1");
+            Integer count = cardOrderInfoDao.countOrder(orderParam);
+            if (count >= 3 && disFansList.size() >= 10) {
+                memberInfo.setDisUserType("1");
+                memberInfo.setDisLevel(3);
+                try {
                     update(memberInfo);
                     return parentLevelUp(memberInfo.getDisMemberParent());
+                } catch (Exception e) {
+                    log.error(memberInfo.getDisUserName() + "升级异常", e);
+                    return false;
                 }
             }
-        } else if ("1".equals(memberInfo.getDisUserType())) {
-            return parentLevelUp(memberInfo);
         }
 
         return false;
@@ -119,8 +89,8 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
      * @param member
      * @return
      */
-    private boolean parentLevelUp(DisMemberInfoEntity member) throws Exception {
-        DisMemberInfoEntity parent = disMemberInfoDao.queryObject(member.getId());
+    private boolean parentLevelUp(DisMemberInfoEntity member) {
+        DisMemberInfoEntity parent = disMemberInfoDao.queryObject(member.getId()).getDisMemberParent();
         if (member.getDisLevel() == 1 || parent == null) {
             return true;
         }
@@ -130,14 +100,25 @@ public class DisMemberInfoServiceImpl implements DisMemberInfoService {
         long children = disMemberInfoDao.queryList(param).stream().filter(m -> "1".equals(m.getDisUserType())).count();
         //三级升二级
         if (member.getDisLevel() == 3 && children >= 5) {
-            disMemberInfoDao.updateDisLevel(2, "1", member.getId());
-
+            member.setDisLevel(2);
+            try {
+                disMemberInfoDao.update(member);
+            } catch (Exception e) {
+                log.error(String.format("会员%s升级异常", member.getDisUserName()), e);
+                return false;
+            }
         }
         //二级升一级
         if (member.getDisLevel() == 2 && children >= 15) {
-            disMemberInfoDao.updateDisLevel(1, "1", member.getId());
+            member.setDisLevel(1);
+            try {
+                disMemberInfoDao.update(member);
+            } catch (Exception e) {
+                log.error(String.format("会员%s升级异常", member.getDisUserName()), e);
+                return false;
+            }
         }
-        return parentLevelUp(parent.getDisMemberParent());
+        return parentLevelUp(parent);
     }
 
 

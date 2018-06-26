@@ -101,32 +101,4 @@ public class Constant {
         }
     }
 
-    /**
-     * 业务类型
-     */
-    public enum PayType {
-        /**
-         * 提现
-         */
-        WITHDRAWAL("0"),
-        /**
-         * 购买
-         */
-        BUY("1"),
-        /**
-         * 申请信用卡
-         */
-        applyCard("2");
-
-        private String value;
-
-        PayType(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-    }
-
 }

@@ -22,22 +22,6 @@ public interface DisMemberInfoService {
     DisMemberInfoEntity queryObject(String id);
 
     /**
-     * 根据openID查询会员信息
-     *
-     * @param openId
-     * @return
-     */
-    DisMemberInfoEntity queryByOpenId(String openId);
-
-    /**
-     * 根据手机号查询
-     *
-     * @param mobile
-     * @return
-     */
-    DisMemberInfoEntity queryByMobile(String mobile);
-
-    /**
      * 查询列表
      *
      * @param map
@@ -59,8 +43,6 @@ public interface DisMemberInfoService {
      */
     void update(DisMemberInfoEntity disMemberInfo) throws Exception;
 
-    void updateDisLevel(Integer level, String type, String id) throws Exception;
-
     /**
      * 删除
      *
@@ -77,14 +59,9 @@ public interface DisMemberInfoService {
 
     /**
      * 会员升级逻辑
-     *
      * @param memberInfo
      * @return
      */
-<<<<<<< HEAD
     boolean levelUp(DisMemberInfoEntity memberInfo);
-=======
-    boolean levelUp(DisMemberInfoEntity memberInfo) throws Exception;
->>>>>>> origin/develop
 
 }

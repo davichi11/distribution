@@ -9,7 +9,6 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * activiti配置
- *
  * @author ChunLiang Hu
  * @Company
  * @Project renren-fast
@@ -23,7 +22,6 @@ public class ActivitiConfig {
     private PlatformTransactionManager platformTransactionManager;
     @Autowired
     private DynamicDataSourceConfig dynamicDataSourceConfig;
-
     @Bean
     public SpringProcessEngineConfiguration getProcessEngineConfiguration() {
         SpringProcessEngineConfiguration config = new SpringProcessEngineConfiguration();

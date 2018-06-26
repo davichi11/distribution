@@ -1,5 +1,7 @@
 package com.distribution.modules.sys.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.distribution.common.annotation.SysLog;
 import com.distribution.common.utils.Constant;
 import com.distribution.common.utils.Result;
@@ -7,8 +9,6 @@ import com.distribution.common.validator.ValidatorUtils;
 import com.distribution.modules.sys.entity.SysRoleEntity;
 import com.distribution.modules.sys.service.SysRoleMenuService;
 import com.distribution.modules.sys.service.SysRoleService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,8 +44,8 @@ public class SysRoleController extends AbstractController {
             params.put("createUserId", getUserId());
         }
         //查询列表数据
-        PageInfo<SysRoleEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
-                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> sysRoleService.queryList(params));
+        PageInfo<SysRoleEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
+                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> sysRoleService.queryList(params));
         return Result.ok().put("page", pageInfo);
     }
 

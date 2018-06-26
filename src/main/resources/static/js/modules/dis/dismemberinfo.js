@@ -3,7 +3,8 @@ $(function () {
         url: baseURL + 'dismemberinfo/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
+            {label: 'id', name: 'id', index: 'id', width: 50, key: true},
+            {label: '全路径', name: 'disFullIndex', index: 'dis_full_index', width: 80},
             {label: '用户名称', name: 'disUserName', index: 'dis_user_name', width: 80},
             {label: '级别', name: 'disLevel', index: 'dis_level', width: 80},
             {label: '身份类型', name: 'disUserType', index: 'dis_user_type', width: 80},
@@ -22,9 +23,9 @@ $(function () {
         pager: "#jqGridPager",
         jsonReader: {
             root: "page.list",
-            page: "page.pageNum",
-            total: "page.pages",
-            records: "page.total"
+            page: "page.currPage",
+            total: "page.totalPage",
+            records: "page.totalCount"
         },
         prmNames: {
             page: "page",

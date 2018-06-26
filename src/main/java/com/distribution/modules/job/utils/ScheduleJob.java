@@ -1,10 +1,10 @@
 package com.distribution.modules.job.utils;
 
+import com.google.gson.Gson;
 import com.distribution.common.utils.ApplicationContextHolder;
 import com.distribution.modules.job.entity.ScheduleJobEntity;
 import com.distribution.modules.job.entity.ScheduleJobLogEntity;
 import com.distribution.modules.job.service.ScheduleJobLogService;
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.quartz.JobExecutionContext;

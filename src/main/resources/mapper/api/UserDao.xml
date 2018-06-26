@@ -8,7 +8,8 @@
         <result property="username" column="username"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
-    <insert id="save" parameterType="com.distribution.modules.api.entity.UserEntity">
+    <insert id="save" parameterType="com.distribution.modules.api.entity.UserEntity" useGeneratedKeys="true"
+            keyProperty="userId">
         INSERT INTO tb_user
         (
             user_id,
@@ -26,21 +27,6 @@
                 #{createTime}
             )
     </insert>
-    <update id="update" parameterType="com.distribution.modules.api.entity.UserEntity">
-        update tb_user
-        <set>
-            <if test="username != null">
-                username = #{username,jdbcType=VARCHAR},
-            </if>
-            <if test="mobile != null">
-                mobile = #{mobile,jdbcType=VARCHAR},
-            </if>
-            <if test="password != null">
-                password = #{password,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where user_id = #{userId,jdbcType=VARCHAR}
-    </update>
 
     <select id="queryObject" resultType="com.distribution.modules.api.entity.UserEntity">
         SELECT *
@@ -52,18 +38,6 @@
         SELECT *
         FROM tb_user
         WHERE mobile = #{value}
-    </select>
-
-    <select id="queryByMemberId" resultMap="user_map">
-        SELECT
-            user_id,
-            username,
-            mobile,
-            password,
-            create_time
-        FROM tb_user u
-            left join dis_member_info m on m.dis_user_id = u.user_id
-        WHERE m.id = #{memberId}
     </select>
 
     <select id="queryList" resultType="com.distribution.modules.api.entity.UserEntity">

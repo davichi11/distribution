@@ -21,7 +21,8 @@ public class ProcessReceiver implements ChannelAwareMessageListener {
     public void onMessage(Message message, Channel channel) throws Exception {
         try {
             processMessage(message);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             // 如果发生了异常，则将该消息重定向到缓冲队列，会在一定延迟之后自动重做
             channel.basicPublish(QueueConfig.PER_QUEUE_TTL_EXCHANGE_NAME, QueueConfig.DELAY_QUEUE_PER_QUEUE_TTL_NAME, null,
                     "The failed message will auto retry after a certain delay".getBytes());

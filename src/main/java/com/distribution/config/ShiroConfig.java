@@ -60,7 +60,6 @@ public class ShiroConfig {
         filterMap.put("/webjars/**", "anon");
         filterMap.put("/druid/**", "anon");
         filterMap.put("/api/**", "anon");
-        filterMap.put("/cardorderinfo/exportExcel", "anon");
 
         //swagger配置
         filterMap.put("/swagger**", "anon");
@@ -68,11 +67,9 @@ public class ShiroConfig {
         filterMap.put("/swagger-resources/configuration/ui", "anon");
 
         filterMap.put("/sys/login", "anon");
-        filterMap.put("/pay", "anon");
         filterMap.put("/**/*.css", "anon");
         filterMap.put("/**/*.js", "anon");
         filterMap.put("/**/*.html", "anon");
-        filterMap.put("/**/*.txt", "anon");
         filterMap.put("/fonts/**", "anon");
         filterMap.put("/plugins/**", "anon");
         filterMap.put("/favicon.ico", "anon");

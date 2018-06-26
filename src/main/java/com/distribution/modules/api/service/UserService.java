@@ -23,13 +23,6 @@ public interface UserService {
     UserEntity queryObject(String userId);
 
     /**
-     * 根据会员ID查询
-     * @param memberId
-     * @return
-     */
-    UserEntity queryByMemberId(String memberId);
-
-    /**
      * 查询用户列表
      *
      * @param map
@@ -50,12 +43,9 @@ public interface UserService {
      *
      * @param mobile
      * @param password
-     * @param openId   微信openID
-     * @param name
-     * @param idCode
      * @throws Exception
      */
-    UserEntity save(String mobile, String password,String name, String idCode, String openId) throws Exception;
+    void save(String mobile, String password) throws Exception;
 
     /**
      * 更新
@@ -97,6 +87,5 @@ public interface UserService {
      * @return 返回用户ID
      */
     String login(String mobile, String password);
-
 
 }

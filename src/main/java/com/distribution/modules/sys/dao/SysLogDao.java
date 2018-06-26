@@ -16,7 +16,6 @@ import java.util.Map;
 public interface SysLogDao extends BaseDao<SysLogEntity> {
     /**
      * 根据参数删除
-     *
      * @param param
      * @throws Exception
      */

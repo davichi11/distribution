@@ -16,7 +16,6 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 /**
  * 权限(Token)验证
@@ -57,8 +56,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         }
 
         Claims claims = jwtConfig.getClaimByToken(token);
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(claims.getExpiration().toInstant(), ZoneId.systemDefault());
-        if (jwtConfig.isTokenExpired(localDateTime)) {
+        if (claims == null || jwtConfig.isTokenExpired(LocalDateTime.from(claims.getExpiration().toInstant()))) {
             throw new RRException(jwtConfig.getHeader() + "失效，请重新登录", HttpStatus.UNAUTHORIZED.value());
         }
 

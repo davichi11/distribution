@@ -1,10 +1,10 @@
 package com.distribution.modules.job.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.job.entity.ScheduleJobLogEntity;
 import com.distribution.modules.job.service.ScheduleJobLogService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,8 +35,8 @@ public class ScheduleJobLogController {
     @RequiresPermissions("sys:schedule:log")
     public Result list(@RequestParam Map<String, Object> params) {
         //查询列表数据
-        PageInfo<ScheduleJobLogEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
-                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> scheduleJobLogService.queryList(params));
+        PageInfo<ScheduleJobLogEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
+                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> scheduleJobLogService.queryList(params));
         return Result.ok().put("page", pageInfo);
     }
 

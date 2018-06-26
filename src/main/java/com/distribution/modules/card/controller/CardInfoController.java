@@ -38,8 +38,8 @@ public class CardInfoController {
     @RequiresPermissions("cardinfo:list")
     public Result list(@RequestParam Map<String, Object> params) {
         //查询列表数据
-        PageInfo<CardInfo> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
-                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> cardInfoService.queryList(params));
+        PageInfo<CardInfo> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
+                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> cardInfoService.queryList(params));
         return Result.ok().put("page", pageInfo);
     }
 
@@ -67,7 +67,7 @@ public class CardInfoController {
             cardInfoService.save(cardInfo);
         } catch (Exception e) {
             log.error("保存异常", e);
-           return Result.error("保存异常");
+            Result.error("保存异常");
         }
 
         return Result.ok();
@@ -84,7 +84,7 @@ public class CardInfoController {
             cardInfoService.update(cardInfo);
         } catch (Exception e) {
             log.error("修改异常", e);
-           return Result.error("修改异常");
+            Result.error("修改异常");
         }
         return Result.ok();
     }
@@ -102,8 +102,8 @@ public class CardInfoController {
                 cardInfoService.deleteBatch(ids);
             }
         } catch (Exception e) {
-            log.error("删除信用卡信息异常", e);
-           return Result.error("删除信用卡信息异常");
+            log.error("删除异常", e);
+            Result.error("删除异常");
         }
         return Result.ok();
     }

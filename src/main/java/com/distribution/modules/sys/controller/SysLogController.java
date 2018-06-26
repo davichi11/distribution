@@ -1,10 +1,10 @@
 package com.distribution.modules.sys.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.sys.entity.SysLogEntity;
 import com.distribution.modules.sys.service.SysLogService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +37,8 @@ public class SysLogController {
     @RequiresPermissions("sys:log:list")
     public Result list(@RequestParam Map<String, Object> params) {
         //查询列表数据
-        PageInfo<SysLogEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
-                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> sysLogService.queryList(params));
+        PageInfo<SysLogEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
+                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> sysLogService.queryList(params));
         return Result.ok().put("page", pageInfo);
     }
 

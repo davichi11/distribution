@@ -14,10 +14,6 @@
         <result property="withdrawAmount" column="withdraw_amount"/>
         <result property="withdrawPoundage" column="withdraw_poundage"/>
         <result property="realAmount" column="real_amount"/>
-<<<<<<< HEAD
-=======
-        <result property="aliPayAccount" column="alipay_account"/>
->>>>>>> origin/develop
         <result property="isDelete" column="is_delete"/>
         <result property="addTime" column="add_time"/>
         <result property="updateTime" column="update_time"/>
@@ -25,12 +21,7 @@
 
     <sql id="Base_Column_List">
 
-<<<<<<< HEAD
         id,withdraw_num,withdraw_type,withdraw_name,withdraw_mobile,withdraw_card,withdraw_amount,withdraw_poundage,real_amount,is_delete,add_time,update_time
-=======
-        id,withdraw_num,withdraw_type,withdraw_name,withdraw_mobile,withdraw_card,withdraw_amount,withdraw_poundage,
-        alipay_account,real_amount,is_delete,add_time,update_time
->>>>>>> origin/develop
     </sql>
 
 
@@ -39,11 +30,7 @@
         <include refid="Base_Column_List"/>
         from withdrawal_info
         <where>
-<<<<<<< HEAD
             <if test="withdrawMobile != null">
-=======
-            <if test="withdrawMobile != null and withdrawMobile != ''">
->>>>>>> origin/develop
                 withdraw_mobile = #{withdrawMobile}
             </if>
             <if test="withdrawType != null and withdrawType != ''">
@@ -55,11 +42,7 @@
                 order by ${sidx} ${order}
             </when>
             <otherwise>
-<<<<<<< HEAD
                 order by id desc
-=======
-                order by add_time desc
->>>>>>> origin/develop
             </otherwise>
         </choose>
         <if test="offset != null and limit != null">
@@ -97,12 +80,6 @@
             <if test="realAmount != null">
               real_amount,
             </if>
-<<<<<<< HEAD
-=======
-            <if test="aliPayAccount != null">
-                alipay_account,
-            </if>
->>>>>>> origin/develop
             <if test="isDelete != null">
                 is_delete,
             </if>
@@ -141,12 +118,6 @@
             <if test="realAmount != null">
                 #{realAmount},
             </if>
-<<<<<<< HEAD
-=======
-            <if test="aliPayAccount != null">
-                #{aliPayAccount},
-            </if>
->>>>>>> origin/develop
             <if test="isDelete != null">
                 #{isDelete},
             </if>
@@ -158,24 +129,5 @@
             </if>
         </trim>
     </insert>
-<<<<<<< HEAD
-=======
-    <select id="findByAliPayAccount" resultType="com.distribution.modules.memeber.entity.WithdrawalInfo">
-        select
-        <include refid="Base_Column_List"/>
-        from withdrawal_info
-        <where>
-            <if test="aliPayAccount != null">
-                and alipay_account = #{aliPayAccount}
-            </if>
-            <if test="startTime != null and startTime != ''">
-                and addTime >= #{startTime}
-            </if>
-            <if test="endTime != null and endTime !=''">
-                and addTime &lt;=#{endTIme}
-            </if>
-        </where>
-    </select>
->>>>>>> origin/develop
 
 </mapper>

@@ -11,8 +11,7 @@
     </resultMap>
 
     <select id="queryObject" resultMap="${lowClassName}Map">
-        select *
-        from ${tableName} where ${pk.columnName} = #{value}
+        select * from ${tableName} where ${pk.columnName} = #{value}
     </select>
 
     <select id="queryList" resultMap="${lowClassName}Map">
@@ -35,15 +34,26 @@
         insert into ${tableName}
         <trim prefix="(" suffix=")" suffixOverrides=",">
             #foreach($column in $columns)
-                <if test="$column.lowAttrName != null">
-                    `$column.columnName`,
-                </if>
+                #if($column.columnName != $pk.columnName)
+                    <if test="$column.lowAttrName != null">
+                        #if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')
+                            `$column.columnName`#if($velocityCount != $columns.size()), #end
+
+                        #end
+                    </if>
+                #end
             #end
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="$column.lowAttrName != null">
-                #{$column.lowAttrName},
-            </if>
+            #foreach($column in $columns)
+                #if($column.columnName != $pk.columnName)
+                    <if test="$column.lowAttrName != null">
+                        #{$column.lowAttrName}
+                        #if($velocityCount != $columns.size()),
+                        #end
+                    </if>
+                #end
+            #end
         </trim>
     </insert>
 
@@ -53,9 +63,9 @@
             #foreach($column in $columns)
                 #if($column.columnName != $pk.columnName)
                     <if test="$column.lowAttrName != null">
-                        `$column.columnName` = #{$column.lowAttrName}
-                        #if($velocityCount != $columns.size()),
-                        #end
+                    `$column.columnName` = #{$column.lowAttrName}
+                    #if($velocityCount != $columns.size()),
+                    #end
                     </if>
                 #end
             #end

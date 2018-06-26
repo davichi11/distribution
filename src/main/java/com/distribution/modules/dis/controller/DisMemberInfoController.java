@@ -37,8 +37,8 @@ public class DisMemberInfoController {
     @RequiresPermissions("dismemberinfo:list")
     public Result list(@RequestParam Map<String, Object> params) {
         //查询列表数据
-        PageInfo<DisMemberInfoEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
-                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> disMemberInfoService.queryList(params));
+        PageInfo<DisMemberInfoEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
+                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> disMemberInfoService.queryList(params));
         //用户类型转换
         List<DisMemberInfoEntity> disMemberInfoList = pageInfo.getList().stream()
                 .peek(d -> d.setDisUserType("0".equals(d.getDisUserType()) ? "非会员" : "会员")).collect(Collectors.toList());

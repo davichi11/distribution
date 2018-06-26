@@ -22,7 +22,6 @@ import java.util.Map;
 public class DisFansServiceImpl implements DisFansService {
     @Autowired
     private DisFansMapper disFansMapper;
-
     /**
      * 根据ID查询
      *
@@ -32,11 +31,6 @@ public class DisFansServiceImpl implements DisFansService {
     @Override
     public DisFans queryObject(String id) {
         return disFansMapper.selectByPrimaryKey(id);
-    }
-
-    @Override
-    public DisFans queryByOpenId(String openId) {
-        return disFansMapper.findWechatId(openId);
     }
 
     /**

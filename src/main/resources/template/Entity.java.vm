@@ -1,6 +1,11 @@
+
 import lombok.Data;
 
 import java.io.Serializable;
+
+${package}.entity;
+#if(${hasBigDecimal})
+#end
 
 
 /**
@@ -16,8 +21,8 @@ public class ${className}Entity implements Serializable {
 
     #foreach ($column in $columns)
         /**
-         * $column.comments
-         */
+        * $column.comments
+        */
         private $column.attrType $column.lowAttrName;
     #end
 }

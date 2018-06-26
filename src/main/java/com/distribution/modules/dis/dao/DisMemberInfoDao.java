@@ -2,7 +2,7 @@ package com.distribution.modules.dis.dao;
 
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.sys.dao.BaseDao;
-import org.apache.ibatis.annotations.Mapper;import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 用户表
@@ -13,14 +13,5 @@ import org.apache.ibatis.annotations.Mapper;import org.apache.ibatis.annotations
  */
 @Mapper
 public interface DisMemberInfoDao extends BaseDao<DisMemberInfoEntity> {
-    /**
-     * 根据open的ID查询
-     * @param openId
-     * @return
-     */
-    DisMemberInfoEntity findByOpenId(String openId);
 
-    DisMemberInfoEntity queryByMobile(String mobile);
-
-    void updateDisLevel(@Param("level") Integer level, @Param("type")String type, @Param("id") String id) throws Exception;
 }

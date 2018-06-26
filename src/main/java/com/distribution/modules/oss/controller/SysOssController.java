@@ -1,5 +1,8 @@
 package com.distribution.modules.oss.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 import com.distribution.common.exception.RRException;
 import com.distribution.common.utils.ConfigConstant;
 import com.distribution.common.utils.Constant;
@@ -13,9 +16,6 @@ import com.distribution.modules.oss.cloud.OSSFactory;
 import com.distribution.modules.oss.entity.SysOssEntity;
 import com.distribution.modules.oss.service.SysOssService;
 import com.distribution.modules.sys.service.SysConfigService;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-import com.google.gson.Gson;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -55,8 +55,8 @@ public class SysOssController {
     @RequiresPermissions("sys:oss:all")
     public Result list(@RequestParam Map<String, Object> params) {
         //查询列表数据
-        PageInfo<SysOssEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
-                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo(() -> sysOssService.queryList(params));
+        PageInfo<SysOssEntity> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page"),
+                MapUtils.getInteger(params, "limit")).doSelectPageInfo(() -> sysOssService.queryList(params));
         return Result.ok().put("page", pageInfo);
     }
 
