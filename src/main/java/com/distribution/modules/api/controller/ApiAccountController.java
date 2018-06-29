@@ -166,7 +166,7 @@ public class ApiAccountController {
         //账户信息
         MemberAccount memberAccount = memberAccountService.selectMemberAccountByUserId(mobile);
         if (memberAccount == null) {
-            return Result.error("请先设置账户信息");
+            return Result.error("请先在账户管理中绑定支付宝");
         }
         //提现金额
         BigDecimal withdrawalAmount = withdrawalInfoService.withdrawalAmounts(mobile);
