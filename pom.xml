@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.10.RELEASE</version>
+        <version>2.0.3.RELEASE</version>
     </parent>
 
     <properties>
@@ -23,7 +23,7 @@
         <java.version>1.8</java.version>
         <mybatis.spring.boot.version>1.3.0</mybatis.spring.boot.version>
         <mysql.version>5.1.38</mysql.version>
-        <druid.version>1.1.3</druid.version>
+        <druid.version>1.1.8</druid.version>
         <quartz.version>2.3.0</quartz.version>
         <commons.lang.version>2.6</commons.lang.version>
         <commons.fileupload.version>1.3.1</commons.fileupload.version>
@@ -35,9 +35,9 @@
         <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
         <aliyun.oss.version>2.5.0</aliyun.oss.version>
         <qcloud.cos.version>4.4</qcloud.cos.version>
-        <activiti.version>6.0.0</activiti.version>
-        <drools.version>7.5.0.Final</drools.version>
-        <kotlin.version>1.2.31</kotlin.version>
+        <!--<activiti.version>6.0.0</activiti.version>-->
+        <!--<drools.version>7.5.0.Final</drools.version>-->
+        <kotlin.version>1.2.50</kotlin.version>
     </properties>
 
     <dependencies>
@@ -84,6 +84,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
+        <!--jooq-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jooq</artifactId>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
         <dependency>
@@ -107,17 +112,12 @@
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.1.0</version>
+            <version>1.2.5</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-typehandlers-jsr310</artifactId>
             <version>1.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${druid.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -277,12 +277,14 @@
             <version>3.17</version>
         </dependency>
 
+
+
         <!-- activiti -->
-        <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-spring-boot-starter-basic</artifactId>
-            <version>${activiti.version}</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.activiti</groupId>-->
+            <!--<artifactId>activiti-spring-boot-starter-basic</artifactId>-->
+            <!--<version>${activiti.version}</version>-->
+        <!--</dependency>-->
         <!-- modelmapper -->
         <!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
         <dependency>
@@ -395,6 +397,8 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <fork>true</fork>
+                    <executable>true</executable>
+                    <classifier>exec</classifier>
                 </configuration>
             </plugin>
             <plugin>
@@ -446,6 +450,68 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <!--jooq 构建构建工具-->
+            <plugin>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <version>${jooq.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>${mysql.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <!-- JDBC connection parameters -->
+                    <jdbc>
+                        <driver>com.mysql.jdbc.Driver</driver>
+                        <url>jdbc:mysql://47.105.53.69:3306</url>
+                        <user>root</user>
+                        <password>root</password>
+                    </jdbc>
+                    <generator>
+                        <database>
+                            <name>org.jooq.util.mysql.MySQLDatabase</name>
+                            <includes>.*</includes>
+                            <excludes>
+                                ACT_.* | QRTZ_.*
+                            </excludes>
+                            <!--数据库名-->
+                            <!--inputSchema 输入模式-->
+                            <schemata>
+                                <schema>
+                                    <inputSchema>distribution</inputSchema>
+                                </schema>
+                            </schemata>
+                            <!--强制类型-->
+                            <forcedTypes>
+                                <forcedType>
+                                    <name>BOOLEAN</name>
+                                    <types>(?i:TINYINT(\s*\(\d+\))?(\s*UNSIGNED)?)</types>
+                                </forcedType>
+                            </forcedTypes>
+                        </database>
+                        <generate>
+                            <pojos>true</pojos>
+                            <!--<daos>true</daos>-->
+                            <deprecated>true</deprecated>
+                        </generate>
+                        <target>
+                            <packageName>com.distribution.pojo</packageName>
+                            <directory>src/main/java</directory>
+                        </target>
+                    </generator>
                 </configuration>
             </plugin>
         </plugins>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.distribution.modules.integral.dao.IntegralOrderDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.distribution.modules.integral.entity.IntegralOrderEntity" id="integralOrderMap">
+        <result property="id" column="id"/>
+        <result property="mobile" column="mobile"/>
+        <result property="detailId" column="detail_id"/>
+        <result property="img" column="img"/>
+        <result property="addTime" column="add_time"/>
+    </resultMap>
+
+    <select id="queryObject" resultMap="integralOrderMap">
+        select *
+        from integral_order
+        where id = #{value}
+    </select>
+
+    <select id="queryList" resultMap="integralOrderMap">
+        select * from integral_order
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.distribution.modules.integral.entity.IntegralOrderEntity">
+        insert into integral_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
+            <if test="mobile != null">
+                `mobile`,
+            </if>
+            <if test="detailId != null">
+                `detail_id`,
+            </if>
+            <if test="img != null">
+                `img`,
+            </if>
+            <if test="addTime != null">
+                `add_time`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="$column.lowAttrName != null">
+                #{$column.lowAttrName},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.distribution.modules.integral.entity.IntegralOrderEntity">
+        update integral_order
+        <set>
+            <if test="mobile != null">
+                `mobile` = #{mobile}
+                ,
+            </if>
+            <if test="detailId != null">
+                `detail_id` = #{detailId}
+                ,
+            </if>
+            <if test="img != null">
+                `img` = #{img}
+                ,
+            </if>
+            <if test="addTime != null">
+                `add_time` = #{addTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from integral_order
+        where id = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from integral_order where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

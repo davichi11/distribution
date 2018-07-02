@@ -9,11 +9,20 @@ import com.distribution.modules.sys.service.DistrictService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * API测试接口
@@ -24,11 +33,17 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api")
+@Slf4j
 @Api("通用接口")
 public class ApiCommonController {
 
     @Autowired
     private DistrictService districtService;
+
+    @Value("${risk.file-server}")
+    private String fileServer;
+    @Value("${risk.file-path}")
+    private String filePath;
 
     /**
      * 获取用户信息
@@ -56,5 +71,31 @@ public class ApiCommonController {
     @GetMapping("/area/{code}")
     public Result getAreaInfo(@PathVariable("code") String code) {
         return Result.ok().put("area", districtService.getByParentId(code));
+    }
+
+    /**
+     * 文件上传接口
+     *
+     * @param file
+     * @return
+     */
+    @AuthIgnore
+    @ApiOperation("文件上传接口")
+    @PostMapping("/upload")
+    public Result upload(@ApiParam("文件") MultipartFile file) {
+        if (file == null) {
+            return Result.error("上传文件为空");
+        }
+        try {
+            //获取跟目录
+            String fileName = Instant.now().toEpochMilli() + ".jpg";
+            Files.copy(file.getInputStream(), Paths.get(filePath, fileName));
+            Map<String, Object> url = new HashMap<>(2);
+            url.put("url", (StringUtils.isNoneBlank(fileServer) ? fileServer : "") + "/" + fileName);
+            return Result.ok().put("url", url);
+        } catch (IOException e) {
+            log.error("上传文件异常", e);
+            return Result.error("上传文件异常");
+        }
     }
 }

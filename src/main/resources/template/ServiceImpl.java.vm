@@ -29,14 +29,14 @@ public class ${className}ServiceImpl implements ${className}Service {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(${className}Entity ${className}) throws Exception{
-            ${lowClassName}Dao.save(${className});
+    public void save(${className}Entity ${lowClassName}) throws Exception{
+            ${lowClassName}Dao.save(${lowClassName});
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(${className}Entity ${className}) throws Exception{
-            ${lowClassName}Dao.update(${className});
+    public void update(${className}Entity ${lowClassName}) throws Exception{
+            ${lowClassName}Dao.update(${lowClassName});
     }
 
     @Override

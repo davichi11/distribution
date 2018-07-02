@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.distribution.modules.integral.dao.ProductDetailDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.distribution.modules.integral.entity.ProductDetailEntity" id="productDetailMap">
+        <result property="id" column="id"/>
+        <result property="prodDetailName" column="prod_detail_name"/>
+        <result property="prodDetailBuyBack" column="prod_detail_buy_back"/>
+        <result property="prodTypeId" column="prod_type_id"/>
+        <result property="prodDetailValue" column="prod_detail_value"/>
+        <result property="prodDetailCount" column="prod_detail_count"/>
+    </resultMap>
+
+    <select id="queryObject" resultMap="productDetailMap">
+        select *
+        from product_detail
+        where id = #{value}
+    </select>
+
+    <select id="queryList" resultMap="productDetailMap">
+        select * from product_detail
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.distribution.modules.integral.entity.ProductDetailEntity">
+        insert into product_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
+            <if test="prodDetailName != null">
+                `prod_detail_name`,
+            </if>
+            <if test="prodDetailBuyBack != null">
+                `prod_detail_buy_back`,
+            </if>
+            <if test="prodTypeId != null">
+                `prod_type_id`,
+            </if>
+            <if test="prodDetailValue != null">
+                `prod_detail_value`,
+            </if>
+            <if test="prodDetailCount != null">
+                `prod_detail_count`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="$column.lowAttrName != null">
+                #{$column.lowAttrName},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.distribution.modules.integral.entity.ProductDetailEntity">
+        update product_detail
+        <set>
+            <if test="prodDetailName != null">
+                `prod_detail_name` = #{prodDetailName}
+                ,
+            </if>
+            <if test="prodDetailBuyBack != null">
+                `prod_detail_buy_back` = #{prodDetailBuyBack}
+                ,
+            </if>
+            <if test="prodTypeId != null">
+                `prod_type_id` = #{prodTypeId}
+                ,
+            </if>
+            <if test="prodDetailValue != null">
+                `prod_detail_value` = #{prodDetailValue}
+                ,
+            </if>
+            <if test="prodDetailCount != null">
+                `prod_detail_count` = #{prodDetailCount}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from product_detail
+        where id = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from product_detail where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -27,13 +27,13 @@ public interface ${className}Service {
     * 保存
     * @throws Exception
     */
-    void save(${className}Entity ${className}) throws Exception;
+    void save(${className}Entity ${lowClassName}) throws Exception;
 
     /**
     * 更新
 * @throws Exception
 */
-    void update(${className}Entity ${className}) throws Exception;
+    void update(${className}Entity ${lowClassName}) throws Exception;
 
     /**
     * 删除
