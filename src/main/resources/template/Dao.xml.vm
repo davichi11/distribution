@@ -41,9 +41,11 @@
             #end
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="$column.lowAttrName != null">
-                #{$column.lowAttrName},
-            </if>
+            #foreach($column in $columns)
+                <if test="$column.lowAttrName != null">
+                    #{$column.lowAttrName},
+                </if>
+            #end
         </trim>
     </insert>
 

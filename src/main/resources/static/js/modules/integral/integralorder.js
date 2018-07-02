@@ -3,9 +3,9 @@ $(function () {
         url: baseURL + 'integralorder/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', index: 'id', width: 50, key: true},
+            {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
             {label: '兑换人手机号', name: 'mobile', index: 'mobile', width: 80},
-            {label: '兑换产品ID', name: 'detailId', index: 'detail_id', width: 80},
+            {label: '兑换产品', name: 'prodName', index: 'd.prod_detail_name', width: 80},
             {label: '卷码图片,可以逗号分隔', name: 'img', index: 'img', width: 80},
             {label: '申请时间', name: 'addTime', index: 'add_time', width: 80}
         ],
@@ -39,6 +39,10 @@ $(function () {
 var vm = new Vue({
     el: '#rrapp',
     data: {
+        q: {
+            mobile: '',
+            prodName: ''
+        },
         showList: true,
         title: null,
         integralOrder: {}
@@ -47,41 +51,12 @@ var vm = new Vue({
         query: function () {
             vm.reload();
         },
-        add: function () {
-            vm.showList = false;
-            vm.title = "新增";
-            vm.integralOrder = {};
-        },
-        update: function (event) {
-            var id = getSelectedRow();
-            if (id == null) {
-                return;
-            }
-            vm.showList = false;
-            vm.title = "修改";
-
-            vm.getInfo(id)
-        },
-        saveOrUpdate: function (event) {
-            var url = vm.integralOrder.id == null ? "integralorder/save" : "integralorder/update";
-            $.ajax({
-                type: "POST",
-                url: baseURL + url,
-                contentType: "application/json",
-                data: JSON.stringify(vm.integralOrder),
-                success: function (r) {
-                    if (r.code === 0) {
-                        alert('操作成功', function (index) {
-                            vm.reload();
-                        });
-                    } else {
-                        alert(r.msg);
-                    }
-                }
-            });
+        reset: () => {
+            vm.q.mobile = ""
+            vm.q.prodName = ""
         },
         del: function (event) {
-            var ids = getSelectedRows();
+            let ids = getSelectedRows();
             if (ids == null) {
                 return;
             }
@@ -93,7 +68,7 @@ var vm = new Vue({
                     contentType: "application/json",
                     data: JSON.stringify(ids),
                     success: function (r) {
-                        if (r.code == 0) {
+                        if (r.code === 0) {
                             alert('操作成功', function (index) {
                                 $("#jqGrid").trigger("reloadGrid");
                             });
@@ -111,10 +86,55 @@ var vm = new Vue({
         },
         reload: function (event) {
             vm.showList = true;
-            var page = $("#jqGrid").jqGrid('getGridParam', 'page');
+            let page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
+                postData: {'mobile': vm.q.mobile, 'prodName': vm.q.prodName},
                 page: page
             }).trigger("reloadGrid");
+        },
+        approveSuccess: () => {
+            let id = getSelectedRows();
+            console.log("id=" + id);
+            if (isNull(id)) {
+                alert("请选择一个记录");
+                return;
+            }
+            let status = 1;
+            axios.patch(`${baseURL}integralorder/${id}/${status}`, {},{
+                headers: {token: token}
+            }).then(response => {
+                console.log(response)
+                if (response.data.code === 0) {
+                    alert('审核成功', () => {
+                        vm.reload();
+                    });
+                } else {
+                    alert(response.data.msg);
+                }
+            }).catch(error => {
+                console.log(error)
+            });
+        },
+        approveFailure: () => {
+            let id = getSelectedRows();
+            if (isNull(id)) {
+                alert("请选择一个记录");
+                return;
+            }
+            let status = 0;
+            axios.patch(`${baseURL}integralorder/${id}/${status}`, {},{
+                headers: {token: token}
+            }).then(response => {
+                if (response.data.code === 0) {
+                    alert('审核成功', () => {
+                        vm.reload();
+                    });
+                } else {
+                    alert(response.data.msg);
+                }
+            }).catch(error => {
+                console.log(error)
+            });
         }
     }
 });

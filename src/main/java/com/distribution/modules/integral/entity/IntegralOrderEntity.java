@@ -28,6 +28,8 @@ public class IntegralOrderEntity implements Serializable {
      * 兑换产品ID
      */
     private String detailId;
+
+    private String prodName;
     /**
      * 卷码图片,可以逗号分隔
      */
@@ -36,4 +38,8 @@ public class IntegralOrderEntity implements Serializable {
      * 申请时间
      */
     private String addTime;
+    /**
+     * 审核状态
+     */
+    private int status;
 }

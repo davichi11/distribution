@@ -10,6 +10,7 @@
         <result property="detailId" column="detail_id"/>
         <result property="img" column="img"/>
         <result property="addTime" column="add_time"/>
+        <result property="prodName" column="prod_name"/>
     </resultMap>
 
     <select id="queryObject" resultMap="integralOrderMap">
@@ -19,13 +20,23 @@
     </select>
 
     <select id="queryList" resultMap="integralOrderMap">
-        select * from integral_order
+        select o.id, mobile, detail_id, img, add_time,d.prod_detail_name as 'prod_name'
+        from integral_order o
+        left join product_detail d on o.detail_id=d.id
+        <where>
+            <if test="prodName != null and prodName!= ''">
+                and d.prod_detail_name like concat('%',#{prodName},'%')
+            </if>
+            <if test="mobile != null and mobile !=''">
+                and o.mobile like concat('%',#{mobile},'%')
+            </if>
+        </where>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
             </when>
             <otherwise>
-                order by id desc
+                order by o.id desc
             </otherwise>
         </choose>
         <if test="offset != null and limit != null">
@@ -53,8 +64,20 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="$column.lowAttrName != null">
-                #{$column.lowAttrName},
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="mobile != null">
+                #{mobile},
+            </if>
+            <if test="detailId != null">
+                #{detailId},
+            </if>
+            <if test="img != null">
+                #{img},
+            </if>
+            <if test="addTime != null">
+                #{addTime},
             </if>
         </trim>
     </insert>

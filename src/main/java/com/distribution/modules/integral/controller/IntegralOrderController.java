@@ -1,12 +1,16 @@
 package com.distribution.modules.integral.controller;
 
+import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.integral.entity.IntegralOrderEntity;
+import com.distribution.modules.integral.entity.ProductDetailEntity;
 import com.distribution.modules.integral.service.IntegralOrderService;
+import com.distribution.modules.integral.service.ProductDetailService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +31,8 @@ import java.util.Map;
 public class IntegralOrderController {
     @Autowired
     private IntegralOrderService integralOrderService;
+    @Autowired
+    private ProductDetailService productDetailService;
 
     /**
      * 列表
@@ -47,7 +53,7 @@ public class IntegralOrderController {
     @RequestMapping("/info/{id}")
     @RequiresPermissions("integralorder:info")
     public Result info(@PathVariable("id") String id) {
-            IntegralOrderEntity integralOrder = integralOrderService.queryObject(id);
+        IntegralOrderEntity integralOrder = integralOrderService.queryObject(id);
 
         return Result.ok().put("integralOrder", integralOrder);
     }
@@ -59,7 +65,8 @@ public class IntegralOrderController {
     @RequiresPermissions("integralorder:save")
     public Result save(@RequestBody IntegralOrderEntity integralOrder) {
         try {
-                integralOrderService.save(integralOrder);
+            integralOrder.setId(CommonUtils.getUUID());
+            integralOrderService.save(integralOrder);
         } catch (Exception e) {
             log.error("保存异常", e);
             return Result.error("保存异常");
@@ -75,7 +82,7 @@ public class IntegralOrderController {
     @RequiresPermissions("integralorder:update")
     public Result update(@RequestBody IntegralOrderEntity integralOrder) {
         try {
-                integralOrderService.update(integralOrder);
+            integralOrderService.update(integralOrder);
         } catch (Exception e) {
             log.error("修改异常", e);
             return Result.error("修改异常");
@@ -88,18 +95,37 @@ public class IntegralOrderController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("integralorder:delete")
-    public Result delete(@RequestBody String[]ids) {
+    public Result delete(@RequestBody String[] ids) {
         try {
             if (ids.length == 1) {
-                    integralOrderService.delete(ids[0]);
+                integralOrderService.delete(ids[0]);
             } else {
-                    integralOrderService.deleteBatch(ids);
+                integralOrderService.deleteBatch(ids);
             }
         } catch (Exception e) {
             log.error("删除积分兑换订单异常", e);
             return Result.error("删除积分兑换订单异常");
         }
         return Result.ok();
+    }
+
+    @PatchMapping("/{id}/{status}")
+    public Result approve(@PathVariable("id") String id, @PathVariable("status") String status) {
+        IntegralOrderEntity entity = integralOrderService.queryObject(id);
+        entity.setStatus(NumberUtils.toInt(status));
+        try {
+            integralOrderService.update(entity);
+            //申请成功,兑换次数加一
+            if ("1".equals(status)) {
+                ProductDetailEntity productDetail = productDetailService.queryObject(entity.getDetailId());
+                productDetail.setProdDetailCount(productDetail.getProdDetailCount() + 1);
+                productDetailService.update(productDetail);
+            }
+            return Result.ok("审核成功");
+        } catch (Exception e) {
+            log.error("审核异常", e);
+            return Result.error("审核异常");
+        }
     }
 
 }

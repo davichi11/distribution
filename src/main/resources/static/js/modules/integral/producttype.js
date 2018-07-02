@@ -3,7 +3,7 @@ $(function () {
         url: baseURL + 'producttype/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', index: 'id', width: 50, key: true},
+            {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
             {label: '产品类型名称', name: 'prodName', index: 'prod_name', width: 80},
             {label: '结算周期', name: 'prodRate', index: 'prod_rate', width: 80},
             {label: '产品描述', name: 'prodRemark', index: 'prod_remark', width: 80},
@@ -39,6 +39,7 @@ $(function () {
 var vm = new Vue({
     el: '#rrapp',
     data: {
+        q: {prodName: ""},
         showList: true,
         title: null,
         productType: {}
@@ -47,13 +48,14 @@ var vm = new Vue({
         query: function () {
             vm.reload();
         },
+        reset: () => vm.q.prodName = "",
         add: function () {
             vm.showList = false;
             vm.title = "新增";
             vm.productType = {};
         },
         update: function (event) {
-            var id = getSelectedRow();
+            let id = getSelectedRow();
             if (id == null) {
                 return;
             }
@@ -63,7 +65,7 @@ var vm = new Vue({
             vm.getInfo(id)
         },
         saveOrUpdate: function (event) {
-            var url = vm.productType.id == null ? "producttype/save" : "producttype/update";
+            let url = vm.productType.id == null ? "producttype/save" : "producttype/update";
             $.ajax({
                 type: "POST",
                 url: baseURL + url,
@@ -81,7 +83,7 @@ var vm = new Vue({
             });
         },
         del: function (event) {
-            var ids = getSelectedRows();
+            let ids = getSelectedRows();
             if (ids == null) {
                 return;
             }
@@ -111,10 +113,23 @@ var vm = new Vue({
         },
         reload: function (event) {
             vm.showList = true;
-            var page = $("#jqGrid").jqGrid('getGridParam', 'page');
+            let page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
+                postData: {'prodName': vm.q.prodName},
                 page: page
             }).trigger("reloadGrid");
+        },
+        triggerFile(event) {
+            let file = event.target.files[0]; // (利用console.log输出看结构就知道如何处理档案资料)
+            console.log(file)
+            // do something...
+            let formData = new FormData();
+            formData.append("file", file);
+            this.$http.upload(this.$http.adornUrl("/api/upload"), formData).then(({data}) => {
+                if (data.code === 0) {
+                    this.productType.prodImg = data.results.url
+                }
+            })
         }
     }
 });

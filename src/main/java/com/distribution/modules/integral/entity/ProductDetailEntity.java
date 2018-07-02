@@ -32,6 +32,8 @@ public class ProductDetailEntity implements Serializable {
      * 产品类型关联ID
      */
     private String prodTypeId;
+
+    private String typeName;
     /**
      * 产品积分数
      */

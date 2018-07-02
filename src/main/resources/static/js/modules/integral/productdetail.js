@@ -3,10 +3,10 @@ $(function () {
         url: baseURL + 'productdetail/list',
         datatype: "json",
         colModel: [
-            {label: 'id', name: 'id', index: 'id', width: 50, key: true},
+            {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
             {label: '产品名称', name: 'prodDetailName', index: 'prod_detail_name', width: 80},
             {label: '回购价', name: 'prodDetailBuyBack', index: 'prod_detail_buy_back', width: 80},
-            {label: '产品类型关联ID', name: 'prodTypeId', index: 'prod_type_id', width: 80},
+            {label: '产品类型', name: 'typeName', index: 't.prod_name', width: 80},
             {label: '产品积分数', name: 'prodDetailValue', index: 'prod_detail_value', width: 80},
             {label: '兑换次数', name: 'prodDetailCount', index: 'prod_detail_count', width: 80}
         ],
@@ -40,21 +40,29 @@ $(function () {
 var vm = new Vue({
     el: '#rrapp',
     data: {
+        q: {
+            prodDetailName: ""
+        },
         showList: true,
         title: null,
-        productDetail: {}
+        productDetail: {},
+        productType: []
+    },
+    created() {
+        this.getProdType()
     },
     methods: {
         query: function () {
             vm.reload();
         },
+        reset: () => vm.q.prodDetailName = "",
         add: function () {
             vm.showList = false;
             vm.title = "新增";
             vm.productDetail = {};
         },
         update: function (event) {
-            var id = getSelectedRow();
+            let id = getSelectedRow();
             if (id == null) {
                 return;
             }
@@ -64,7 +72,7 @@ var vm = new Vue({
             vm.getInfo(id)
         },
         saveOrUpdate: function (event) {
-            var url = vm.productDetail.id == null ? "productdetail/save" : "productdetail/update";
+            let url = vm.productDetail.id == null ? "productdetail/save" : "productdetail/update";
             $.ajax({
                 type: "POST",
                 url: baseURL + url,
@@ -82,7 +90,7 @@ var vm = new Vue({
             });
         },
         del: function (event) {
-            var ids = getSelectedRows();
+            let ids = getSelectedRows();
             if (ids == null) {
                 return;
             }
@@ -112,10 +120,18 @@ var vm = new Vue({
         },
         reload: function (event) {
             vm.showList = true;
-            var page = $("#jqGrid").jqGrid('getGridParam', 'page');
+            let page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
+                postData: {'prodDetailName': vm.q.prodDetailName},
                 page: page
             }).trigger("reloadGrid");
+        },
+        getProdType: function () {
+            $.get(baseURL + "api/productType/", r => {
+                console.log(r)
+                vm.productType = r.productTypes
+            })
+            console.log(vm.productType)
         }
     }
 });

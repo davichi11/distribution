@@ -14,6 +14,7 @@
     <script src="../../plugins/layer/layer.js"></script>
     <script src="../../libs/bootstrap.min.js"></script>
     <script src="../../libs/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
     <script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
     <script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
     <script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
@@ -22,55 +23,30 @@
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
-        <div class="grid-btn">
-            <a v-if="hasPermission('integralorder:save')" class="btn btn-primary" @click="add"><i
-                    class="fa fa-plus"></i>&nbsp;新增</a>
-            <a v-if="hasPermission('integralorder:update')" class="btn btn-primary" @click="update"><i
-                    class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-            <a v-if="hasPermission('integralorder:delete')" class="btn btn-primary" @click="del"><i
-                    class="fa fa-trash-o"></i>&nbsp;删除</a>
-        </div>
-        <table id="jqGrid"></table>
-        <div id="jqGridPager"></div>
-    </div>
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <label for="prodName" class="control-label">产品名称:</label>
+                <input type="tel" id="prodName" class="form-control" v-model="q.prodName"
+                       @keyup.enter="query" placeholder="产品名称" autocomplete="tel-national">
+            </div>
+            <div class="form-group">
+                <label for="mobile" class="control-label">手机号:</label>
+                <input type="tel" id="mobile" class="form-control" v-model="q.mobile"
+                       @keyup.enter="query" placeholder="手机号" autocomplete="tel-national">
+            </div>
+            <br>
+            <div style="margin-top: 10px;margin-bottom: 10px">
 
-    <div v-show="!showList" class="panel panel-default">
-        <div class="panel-heading">{{title}}</div>
-        <form class="form-horizontal">
-            <div class="form-group">
-                <div class="col-sm-2 control-label">兑换人手机号</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="integralOrder.mobile"
-                           placeholder="兑换人手机号"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">兑换产品ID</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="integralOrder.detailId"
-                           placeholder="兑换产品ID"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">卷码图片,可以逗号分隔</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="integralOrder.img"
-                           placeholder="卷码图片,可以逗号分隔"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label">申请时间</div>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="integralOrder.addTime"
-                           placeholder="申请时间"/>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-2 control-label"></div>
-                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
-                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+                <a class="btn btn-default" @click="query">查询</a>
+                <a class="btn btn-info" @click="reset">重置</a>
+                <a v-if="hasPermission('producttype:delete')" class="btn btn-danger" @click="del">
+                    <i class="fa fa-trash-o"></i>&nbsp;删除</a>
+                <a class="btn btn-success" @click="approveSuccess">审核成功</a>
+                <a class="btn btn-danger" @click="approveFailure">审核失败</a>
             </div>
         </form>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
     </div>
 </div>
 

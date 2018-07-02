@@ -1,5 +1,6 @@
 package com.distribution.modules.integral.controller;
 
+import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.integral.entity.ProductDetailEntity;
 import com.distribution.modules.integral.service.ProductDetailService;
@@ -59,6 +60,7 @@ public class ProductDetailController {
     @RequiresPermissions("productdetail:save")
     public Result save(@RequestBody ProductDetailEntity productDetail) {
         try {
+            productDetail.setId(CommonUtils.getUUID());
             productDetailService.save(productDetail);
         } catch (Exception e) {
             log.error("保存异常", e);

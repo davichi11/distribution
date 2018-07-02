@@ -19,7 +19,12 @@
     </select>
 
     <select id="queryList" resultMap="productTypeMap">
-        select * from product_type
+        select id, prod_name, prod_rate, prod_remark, prod_img from product_type t
+        <where>
+            <if test="prodName != null">
+                and t.prod_name like concat('%',#{prodName},'%')
+            </if>
+        </where>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
@@ -53,8 +58,20 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="$column.lowAttrName != null">
-                #{$column.lowAttrName},
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="prodName != null">
+                #{prodName},
+            </if>
+            <if test="prodRate != null">
+                #{prodRate},
+            </if>
+            <if test="prodRemark != null">
+                #{prodRemark},
+            </if>
+            <if test="prodImg != null">
+                #{prodImg},
             </if>
         </trim>
     </insert>

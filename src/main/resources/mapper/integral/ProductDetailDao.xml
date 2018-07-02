@@ -11,6 +11,7 @@
         <result property="prodTypeId" column="prod_type_id"/>
         <result property="prodDetailValue" column="prod_detail_value"/>
         <result property="prodDetailCount" column="prod_detail_count"/>
+        <result property="typeName" column="type_name"/>
     </resultMap>
 
     <select id="queryObject" resultMap="productDetailMap">
@@ -20,13 +21,21 @@
     </select>
 
     <select id="queryList" resultMap="productDetailMap">
-        select * from product_detail
+        select d.id, prod_detail_name, prod_detail_buy_back, prod_type_id, prod_detail_value, prod_detail_count,
+        t.prod_name as 'type_name'
+        from product_detail d
+        left join product_type t on d.prod_type_id=t.id
+        <where>
+            <if test="prodDetailName != null">
+                and d.prod_detail_name like concat('%',#{prodDetailName},'%')
+            </if>
+        </where>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
             </when>
             <otherwise>
-                order by id desc
+                order by d.id desc
             </otherwise>
         </choose>
         <if test="offset != null and limit != null">
@@ -57,8 +66,23 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="$column.lowAttrName != null">
-                #{$column.lowAttrName},
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="prodDetailName != null">
+                #{prodDetailName},
+            </if>
+            <if test="prodDetailBuyBack != null">
+                #{prodDetailBuyBack},
+            </if>
+            <if test="prodTypeId != null">
+                #{prodTypeId},
+            </if>
+            <if test="prodDetailValue != null">
+                #{prodDetailValue},
+            </if>
+            <if test="prodDetailCount != null">
+                #{prodDetailCount},
             </if>
         </trim>
     </insert>

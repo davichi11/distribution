@@ -53,7 +53,7 @@ public class ApiIntegralController {
     @GetMapping("/productType")
     @ApiOperation("查询所有产品类型")
     public Result getAllProductType() {
-        return Result.ok().put("productTypes", productDetailService.queryList(Maps.newHashMap()));
+        return Result.ok().put("productTypes", productTypeService.queryList(Maps.newHashMap()));
     }
 
     @AuthIgnore

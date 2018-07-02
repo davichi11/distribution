@@ -22,14 +22,25 @@
 <body>
 <div id="rrapp" v-cloak>
     <div v-show="showList">
-        <div class="grid-btn">
-            <a v-if="hasPermission('productdetail:save')" class="btn btn-primary" @click="add"><i
-                    class="fa fa-plus"></i>&nbsp;新增</a>
-            <a v-if="hasPermission('productdetail:update')" class="btn btn-primary" @click="update"><i
-                    class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-            <a v-if="hasPermission('productdetail:delete')" class="btn btn-primary" @click="del"><i
-                    class="fa fa-trash-o"></i>&nbsp;删除</a>
-        </div>
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <label for="prodName" class="control-label">产品名称:</label>
+                <input type="tel" id="prodName" class="form-control" v-model="q.prodDetailName"
+                       @keyup.enter="query" placeholder="产品名称" autocomplete="tel-national">
+            </div>
+            <br>
+            <div style="margin-top: 10px;margin-bottom: 10px">
+
+                <a class="btn btn-default" @click="query">查询</a>
+                <a class="btn btn-info" @click="reset">重置</a>
+                <a v-if="hasPermission('producttype:save')" class="btn btn-primary" @click="add">
+                    <i class="fa fa-plus"></i>&nbsp;新增</a>
+                <a v-if="hasPermission('producttype:update')" class="btn btn-primary" @click="update">
+                    <i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+                <a v-if="hasPermission('producttype:delete')" class="btn btn-danger" @click="del">
+                    <i class="fa fa-trash-o"></i>&nbsp;删除</a>
+            </div>
+        </form>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
     </div>
@@ -52,10 +63,14 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-2 control-label">产品类型关联ID</div>
+                <div class="col-sm-2 control-label">产品类型</div>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" v-model="productDetail.prodTypeId"
-                           placeholder="产品类型关联ID"/>
+                    <select class="form-control" v-model="productDetail.prodTypeId" >
+                        <option value="" disabled>请选择</option>
+                        <option v-for="option in productType" :value="option.id">
+                            {{option.prodName}}
+                        </option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">
