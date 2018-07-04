@@ -33,7 +33,6 @@ import com.distribution.pojo.tables.SysUserRole;
 import com.distribution.pojo.tables.SysUserToken;
 import com.distribution.pojo.tables.TbToken;
 import com.distribution.pojo.tables.TbUser;
-import com.distribution.pojo.tables.Test;
 import com.distribution.pojo.tables.WithdrawalInfo;
 
 import javax.annotation.Generated;
@@ -120,7 +119,6 @@ public class Indexes {
     public static final Index TB_TOKEN_PRIMARY = Indexes0.TB_TOKEN_PRIMARY;
     public static final Index TB_TOKEN_TOKEN = Indexes0.TB_TOKEN_TOKEN;
     public static final Index TB_USER_PRIMARY = Indexes0.TB_USER_PRIMARY;
-    public static final Index TEST_TEST_ID_UINDEX = Indexes0.TEST_TEST_ID_UINDEX;
     public static final Index WITHDRAWAL_INFO_PRIMARY = Indexes0.WITHDRAWAL_INFO_PRIMARY;
 
     // -------------------------------------------------------------------------
@@ -188,7 +186,6 @@ public class Indexes {
         public static Index TB_TOKEN_PRIMARY = Internal.createIndex("PRIMARY", TbToken.TB_TOKEN, new OrderField[] { TbToken.TB_TOKEN.USER_ID }, true);
         public static Index TB_TOKEN_TOKEN = Internal.createIndex("token", TbToken.TB_TOKEN, new OrderField[] { TbToken.TB_TOKEN.TOKEN }, true);
         public static Index TB_USER_PRIMARY = Internal.createIndex("PRIMARY", TbUser.TB_USER, new OrderField[] { TbUser.TB_USER.USER_ID }, true);
-        public static Index TEST_TEST_ID_UINDEX = Internal.createIndex("test_id_uindex", Test.TEST, new OrderField[] { Test.TEST.ID }, true);
         public static Index WITHDRAWAL_INFO_PRIMARY = Internal.createIndex("PRIMARY", WithdrawalInfo.WITHDRAWAL_INFO, new OrderField[] { WithdrawalInfo.WITHDRAWAL_INFO.ID }, true);
     }
 }

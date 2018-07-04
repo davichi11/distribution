@@ -4,49 +4,15 @@
 package com.distribution.pojo;
 
 
-import com.distribution.pojo.tables.CardInfo;
-import com.distribution.pojo.tables.CardOrderInfo;
-import com.distribution.pojo.tables.DisDictionary;
-import com.distribution.pojo.tables.DisFans;
-import com.distribution.pojo.tables.DisMemberInfo;
-import com.distribution.pojo.tables.DisProfiParam;
-import com.distribution.pojo.tables.DisProfitRecord;
-import com.distribution.pojo.tables.District;
-import com.distribution.pojo.tables.IntegralOrder;
-import com.distribution.pojo.tables.MemberAccount;
-import com.distribution.pojo.tables.MemberAccountHistory;
-import com.distribution.pojo.tables.MemeberInfo;
-import com.distribution.pojo.tables.MobileMessage;
-import com.distribution.pojo.tables.OrderHistory;
-import com.distribution.pojo.tables.PosApply;
-import com.distribution.pojo.tables.PosOrderInfo;
-import com.distribution.pojo.tables.ProductDetail;
-import com.distribution.pojo.tables.ProductType;
-import com.distribution.pojo.tables.ScheduleJob;
-import com.distribution.pojo.tables.ScheduleJobLog;
-import com.distribution.pojo.tables.SysConfig;
-import com.distribution.pojo.tables.SysLog;
-import com.distribution.pojo.tables.SysMenu;
-import com.distribution.pojo.tables.SysOss;
-import com.distribution.pojo.tables.SysRole;
-import com.distribution.pojo.tables.SysRoleMenu;
-import com.distribution.pojo.tables.SysUser;
-import com.distribution.pojo.tables.SysUserRole;
-import com.distribution.pojo.tables.SysUserToken;
-import com.distribution.pojo.tables.TbToken;
-import com.distribution.pojo.tables.TbUser;
-import com.distribution.pojo.tables.Test;
-import com.distribution.pojo.tables.WithdrawalInfo;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.Generated;
-
+import com.distribution.pojo.tables.*;
 import org.jooq.Catalog;
 import org.jooq.Table;
 import org.jooq.impl.SchemaImpl;
+
+import javax.annotation.Generated;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -62,7 +28,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Distribution extends SchemaImpl {
 
-    private static final long serialVersionUID = -1020192307;
+    private static final long serialVersionUID = -1813854934;
 
     /**
      * The reference instance of <code>distribution</code>
@@ -225,11 +191,6 @@ public class Distribution extends SchemaImpl {
     public final TbUser TB_USER = com.distribution.pojo.tables.TbUser.TB_USER;
 
     /**
-     * The table <code>distribution.test</code>.
-     */
-    public final Test TEST = com.distribution.pojo.tables.Test.TEST;
-
-    /**
      * 提现信息表
      */
     public final WithdrawalInfo WITHDRAWAL_INFO = com.distribution.pojo.tables.WithdrawalInfo.WITHDRAWAL_INFO;
@@ -290,7 +251,6 @@ public class Distribution extends SchemaImpl {
             SysUserToken.SYS_USER_TOKEN,
             TbToken.TB_TOKEN,
             TbUser.TB_USER,
-            Test.TEST,
             WithdrawalInfo.WITHDRAWAL_INFO);
     }
 }

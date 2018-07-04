@@ -33,7 +33,6 @@ import com.distribution.pojo.tables.SysUserRole;
 import com.distribution.pojo.tables.SysUserToken;
 import com.distribution.pojo.tables.TbToken;
 import com.distribution.pojo.tables.TbUser;
-import com.distribution.pojo.tables.Test;
 import com.distribution.pojo.tables.WithdrawalInfo;
 import com.distribution.pojo.tables.records.CardInfoRecord;
 import com.distribution.pojo.tables.records.CardOrderInfoRecord;
@@ -64,7 +63,6 @@ import com.distribution.pojo.tables.records.SysUserRoleRecord;
 import com.distribution.pojo.tables.records.SysUserTokenRecord;
 import com.distribution.pojo.tables.records.TbTokenRecord;
 import com.distribution.pojo.tables.records.TbUserRecord;
-import com.distribution.pojo.tables.records.TestRecord;
 import com.distribution.pojo.tables.records.WithdrawalInfoRecord;
 
 import javax.annotation.Generated;
@@ -154,7 +152,6 @@ public class Keys {
     public static final UniqueKey<TbTokenRecord> KEY_TB_TOKEN_PRIMARY = UniqueKeys0.KEY_TB_TOKEN_PRIMARY;
     public static final UniqueKey<TbTokenRecord> KEY_TB_TOKEN_TOKEN = UniqueKeys0.KEY_TB_TOKEN_TOKEN;
     public static final UniqueKey<TbUserRecord> KEY_TB_USER_PRIMARY = UniqueKeys0.KEY_TB_USER_PRIMARY;
-    public static final UniqueKey<TestRecord> KEY_TEST_TEST_ID_UINDEX = UniqueKeys0.KEY_TEST_TEST_ID_UINDEX;
     public static final UniqueKey<WithdrawalInfoRecord> KEY_WITHDRAWAL_INFO_PRIMARY = UniqueKeys0.KEY_WITHDRAWAL_INFO_PRIMARY;
 
     // -------------------------------------------------------------------------
@@ -227,7 +224,6 @@ public class Keys {
         public static final UniqueKey<TbTokenRecord> KEY_TB_TOKEN_PRIMARY = Internal.createUniqueKey(TbToken.TB_TOKEN, "KEY_tb_token_PRIMARY", TbToken.TB_TOKEN.USER_ID);
         public static final UniqueKey<TbTokenRecord> KEY_TB_TOKEN_TOKEN = Internal.createUniqueKey(TbToken.TB_TOKEN, "KEY_tb_token_token", TbToken.TB_TOKEN.TOKEN);
         public static final UniqueKey<TbUserRecord> KEY_TB_USER_PRIMARY = Internal.createUniqueKey(TbUser.TB_USER, "KEY_tb_user_PRIMARY", TbUser.TB_USER.USER_ID);
-        public static final UniqueKey<TestRecord> KEY_TEST_TEST_ID_UINDEX = Internal.createUniqueKey(Test.TEST, "KEY_test_test_id_uindex", Test.TEST.ID);
         public static final UniqueKey<WithdrawalInfoRecord> KEY_WITHDRAWAL_INFO_PRIMARY = Internal.createUniqueKey(WithdrawalInfo.WITHDRAWAL_INFO, "KEY_withdrawal_info_PRIMARY", WithdrawalInfo.WITHDRAWAL_INFO.ID);
     }
 }

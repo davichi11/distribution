@@ -28,7 +28,7 @@ public final class CommonUtils {
     }
 
     /**
-     * 获取6位随机验证码
+     * 获取4位随机验证码
      *
      * @return
      */
