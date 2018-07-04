@@ -8,21 +8,13 @@ import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.IntegralOrderRecord;
-
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.Generated;
-
-import org.jooq.Field;
-import org.jooq.Index;
-import org.jooq.Name;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
+
+import javax.annotation.Generated;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -38,7 +30,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
 
-    private static final long serialVersionUID = 1789474419;
+    private static final long serialVersionUID = 1470511365;
 
     /**
      * The reference instance of <code>distribution.integral_order</code>
@@ -77,6 +69,11 @@ public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
      * The column <code>distribution.integral_order.add_time</code>. 申请时间
      */
     public final TableField<IntegralOrderRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(50).nullable(false), this, "申请时间");
+
+    /**
+     * The column <code>distribution.integral_order.status</code>. 审核状态:0失败,1成功,2审核中
+     */
+    public final TableField<IntegralOrderRecord, Boolean> STATUS = createField("status", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("2", org.jooq.impl.SQLDataType.BOOLEAN)), this, "审核状态:0失败,1成功,2审核中");
 
     /**
      * Create a <code>distribution.integral_order</code> table reference

@@ -8,21 +8,13 @@ import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.ProductDetailRecord;
-
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.Generated;
-
-import org.jooq.Field;
-import org.jooq.Index;
-import org.jooq.Name;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
+
+import javax.annotation.Generated;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -38,7 +30,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductDetail extends TableImpl<ProductDetailRecord> {
 
-    private static final long serialVersionUID = -215421648;
+    private static final long serialVersionUID = 274615624;
 
     /**
      * The reference instance of <code>distribution.product_detail</code>
@@ -81,7 +73,7 @@ public class ProductDetail extends TableImpl<ProductDetailRecord> {
     /**
      * The column <code>distribution.product_detail.prod_detail_count</code>. 兑换次数
      */
-    public final TableField<ProductDetailRecord, Integer> PROD_DETAIL_COUNT = createField("prod_detail_count", org.jooq.impl.SQLDataType.INTEGER, this, "兑换次数");
+    public final TableField<ProductDetailRecord, Integer> PROD_DETAIL_COUNT = createField("prod_detail_count", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "兑换次数");
 
     /**
      * Create a <code>distribution.product_detail</code> table reference

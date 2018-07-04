@@ -4,9 +4,8 @@
 package com.distribution.pojo.tables.pojos;
 
 
-import java.io.Serializable;
-
 import javax.annotation.Generated;
+import java.io.Serializable;
 
 
 /**
@@ -22,13 +21,14 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IntegralOrder implements Serializable {
 
-    private static final long serialVersionUID = -1320252686;
+    private static final long serialVersionUID = 336785870;
 
-    private String id;
-    private Long   mobile;
-    private String detailId;
-    private String img;
-    private String addTime;
+    private String  id;
+    private Long    mobile;
+    private String  detailId;
+    private String  img;
+    private String  addTime;
+    private Boolean status;
 
     public IntegralOrder() {}
 
@@ -38,20 +38,23 @@ public class IntegralOrder implements Serializable {
         this.detailId = value.detailId;
         this.img = value.img;
         this.addTime = value.addTime;
+        this.status = value.status;
     }
 
     public IntegralOrder(
-        String id,
-        Long   mobile,
-        String detailId,
-        String img,
-        String addTime
+        String  id,
+        Long    mobile,
+        String  detailId,
+        String  img,
+        String  addTime,
+        Boolean status
     ) {
         this.id = id;
         this.mobile = mobile;
         this.detailId = detailId;
         this.img = img;
         this.addTime = addTime;
+        this.status = status;
     }
 
     public String getId() {
@@ -94,6 +97,14 @@ public class IntegralOrder implements Serializable {
         this.addTime = addTime;
     }
 
+    public Boolean getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("IntegralOrder (");
@@ -103,6 +114,7 @@ public class IntegralOrder implements Serializable {
         sb.append(", ").append(detailId);
         sb.append(", ").append(img);
         sb.append(", ").append(addTime);
+        sb.append(", ").append(status);
 
         sb.append(")");
         return sb.toString();
