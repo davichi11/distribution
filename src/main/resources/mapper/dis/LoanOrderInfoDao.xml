@@ -129,7 +129,9 @@
                                             </if>
                                                                 <if test="orderStatus != null">
                         `order_status` = #{orderStatus}
-                        ,
+                                                                    ,</if><if test="loanMoney != null">
+            `loan_money` = #{loanMoney}
+            ,
                                             </if>
                                                                 <if test="memberId != null">
                         `member_id` = #{memberId}

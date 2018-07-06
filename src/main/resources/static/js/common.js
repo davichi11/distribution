@@ -97,7 +97,11 @@ function getSelectedRow() {
 
     return selectedIDs[0];
 }
-
+//获取选中的一条记录的数据对象
+function getSelectedRowData() {
+    var rowDataId = getSelectedRow();
+    return $("#jqGrid").jqGrid('getRowData', rowDataId);
+}
 //选择多条记录
 function getSelectedRows() {
     let grid = $("#jqGrid");

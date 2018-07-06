@@ -1,5 +1,9 @@
 package com.distribution.modules.dis.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.distribution.modules.dis.dao.DisMemberInfoDao;
+import com.distribution.modules.dis.entity.DisMemberInfoEntity;
+import com.distribution.modules.dis.service.DisProfiParamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +20,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class LoanOrderInfoServiceImpl implements LoanOrderInfoService {
     @Autowired
     private LoanOrderInfoDao loanOrderInfoDao;
-
+    @Autowired
+    private DisMemberInfoDao disMemberInfoDao;
+    @Autowired
+    private DisProfiParamService disProfiParamService;
     @Override
     public LoanOrderInfoEntity queryObject(String id) {
         return loanOrderInfoDao.queryObject(id);
@@ -37,7 +44,8 @@ public class LoanOrderInfoServiceImpl implements LoanOrderInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(LoanOrderInfoEntity loanOrderInfo) throws Exception{
-            loanOrderInfoDao.update(loanOrderInfo);
+        //这里要调取分润
+        loanOrderInfoDao.update(loanOrderInfo);
     }
 
     @Override

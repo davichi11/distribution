@@ -60,4 +60,7 @@ public class LoanOrderInfoEntity implements Serializable {
          * 
          */
         private String updateTime;
+
+
+        private Double loanMoney;
     }

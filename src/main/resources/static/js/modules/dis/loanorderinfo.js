@@ -3,17 +3,35 @@ $(function () {
         url: baseURL + 'loanorderinfo/list',
         datatype: "json",
         colModel: [			
-			{ label: 'id', name: 'id', index: 'id', width: 50, key: true },
+			// { label: 'id', name: 'id', index: 'id', width: 50, key: true },
 			{ label: '订单编号', name: 'orderId', index: 'order_id', width: 80 }, 			
 			{ label: '下单手机号', name: 'orderMobile', index: 'order_mobile', width: 80 },
-			{ label: '身份证号', name: 'orderIdcardno', index: 'order_idcardno', width: 80 },
-			{ label: '订单状态 0失败 1成功 2申请中', name: 'orderStatus', index: 'order_status', width: 80 }, 			
+			{ label: '身份证号', name: 'orderIdcardno', index: 'order_idcardno', width: 160 },
+			{ label: '订单状态', name: 'orderStatus', index: 'order_status', width: 80 , formatter: function (value, options, row){
+                    if (value === 0 ){
+                        return  '<span class="label label-danger">失败</span>'
+                    }
+                    if (value === 1 ) {
+                        return   '<span class="label label-success">成功</span>'
+                    }
+                    if (value === 2 ) {
+                        return  '<span class="label label-success">申请中</span>'
+                    }
+                }},
+            { label: '订单状态', name: 'orderStatus', index: 'order_statusnum', width: 80 ,hidden:true},
 			{ label: '用户', name: 'memberId', index: 'member_id', width: 80 },
 			{ label: '贷款产品', name: 'loanId', index: 'loan_id', width: 80 },
 			{ label: '本金', name: 'loanAmount', index: 'loan_amount', width: 80 },
 			{ label: '数据状态', name: 'isDelete', index: 'is_delete', width: 80 },
-			{ label: '下单时间', name: 'addTime', index: 'add_time', width: 80 },
-			{ label: '更新时间', name: 'updateTime', index: 'update_time', width: 80 }
+			 { label: '下单时间', name: 'addTime', index: 'add_time', width: 160 },
+            {label: '分润金额', name: 'loanMoney',index:'loan_money',width:80, formatter: function (value, options, row){
+                    debugger
+                    if (value === 0 ){
+                        return  '<span class="label label-danger">暂无分润</span>'
+                    }
+
+                        return   value
+                }}
         ],
 		viewrecords: true,
         height: 385,
@@ -59,14 +77,57 @@ var vm = new Vue({
 			vm.loanOrderInfo = {};
 		},
 		update: function (event) {
-			var id = getSelectedRow();
-			if(id == null){
-				return ;
+            //页面层-自定义
+            var id = getSelectedRow();
+            var applydata = getSelectedRowData();
+            debugger
+
+            debugger
+            if(id == undefined){
+            	return
 			}
-			vm.showList = false;
-            vm.title = "修改";
-            
-            vm.getInfo(id)
+            if(applydata.orderStatus != 2 ){
+                layer.msg('请选择可以分润的订单');
+                return
+            }
+            layer.open({
+                type: 1,
+                title: '设置分润金额',
+                skin: 'layui-layer-rim',
+                area: ['450px', 'auto'],
+                content: ' <div class="row" style="width: 420px;  margin-left:7px; margin-top:10px;">'
+                + '<div class="col-sm-12">'
+                + '<div class="input-group">'
+                + '<span class="input-group-addon"> 金 额 为 :</span>'
+                + '<input type="text" id="fenrunmoney" placeholder="分润金额" class="form-control"/>'
+                + '</div>'
+                + '</div>'
+                + '</div>'
+                ,
+                btn: ['保存', '取消'],
+                btn1: function (index, layero) {
+                    $.ajax({
+                        type: "POST",
+                        url: baseURL + "loanorderinfo/fenrunmoney",
+                        data: {applyforid: id,fenrunmoney: $('#fenrunmoney').val()},
+                        contentType: 'application/x-www-form-urlencoded',
+                        success: function (r) {
+                            if (r.code == 0) {
+                                layer.close(index);
+                                alert('操作成功', function (index) {
+                                    $("#jqGrid").trigger("reloadGrid");
+                                });
+                            } else {
+                                alert(r.msg);
+                            }
+                        }
+                    });
+                },
+                btn2: function (index, layero) {
+                    layer.close(index);
+                }
+
+            });
 		},
 		saveOrUpdate: function (event) {
 			var url = vm.loanOrderInfo.id == null ? "loanorderinfo/save" : "loanorderinfo/update";

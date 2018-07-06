@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -54,7 +55,21 @@ public class LoanOrderInfoController {
 
         return Result.ok().put("loanOrderInfo", loanOrderInfo);
     }
-
+    @RequestMapping("/fenrunmoney")
+    @RequiresPermissions("loanorderinfo:update")
+    public Result huikuan(String applyforid, Double fenrunmoney) {
+        LoanOrderInfoEntity loanOrderInfo = loanOrderInfoService.queryObject(applyforid);
+        try {
+            loanOrderInfo.setOrderStatus(1);
+            loanOrderInfo.setLoanMoney(fenrunmoney);
+            loanOrderInfo.setUpdateTime(DateUtils.formatDateTime(LocalDateTime.now()));
+            loanOrderInfoService.update(loanOrderInfo);
+        } catch (Exception e) {
+            log.error("分润异常", e);
+            return Result.error("分润异常");
+        }
+        return Result.ok();
+    }
     /**
      * 保存
      */
