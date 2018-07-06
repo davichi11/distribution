@@ -12,6 +12,7 @@ import com.alipay.api.request.AlipayTradeAppPayRequest;
 import com.alipay.api.request.AlipayTradeWapPayRequest;
 import com.alipay.api.response.AlipayFundTransToaccountTransferResponse;
 import com.alipay.api.response.AlipayTradeAppPayResponse;
+import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -68,7 +69,7 @@ public final class AliPayUtils {
      * 支付平台1位 0:支付宝,1:微信 (暂时使用支付宝)
      * 业务类型一位 0:提现,1:充值,2:申请信用卡
      * 时间戳14位
-     * 用户手机号后四位
+     * 用户手机号后四位+4位随机数
      *
      * @param mobile
      * @param payType 业务类型 0:提现,1:充值,2申请信用卡
@@ -78,7 +79,7 @@ public final class AliPayUtils {
         String payPlatform = "0";
         String time = DateUtils.formatDateTime(LocalDateTime.now(), "yyyyMMddHHmmss");
         String last = StringUtils.substring(mobile, 7, 11);
-        return payPlatform + payType + time + last;
+        return payPlatform + payType + time + last + CommonUtils.getRandom();
     }
 
     /**

@@ -35,7 +35,6 @@ import com.distribution.pojo.tables.SysUserRole;
 import com.distribution.pojo.tables.SysUserToken;
 import com.distribution.pojo.tables.TbToken;
 import com.distribution.pojo.tables.TbUser;
-import com.distribution.pojo.tables.Test;
 import com.distribution.pojo.tables.WithdrawalInfo;
 
 import javax.annotation.Generated;
@@ -208,11 +207,6 @@ public class Tables {
      * ??
      */
     public static final TbUser TB_USER = com.distribution.pojo.tables.TbUser.TB_USER;
-
-    /**
-     * The table <code>distribution.test</code>.
-     */
-    public static final Test TEST = com.distribution.pojo.tables.Test.TEST;
 
     /**
      * 提现信息表
