@@ -39,6 +39,7 @@ import static com.distribution.pojo.Tables.PRODUCT_DETAIL;
 @RestController
 @RequestMapping("/api")
 @Api("积分兑换接口")
+@CrossOrigin
 public class ApiIntegralController {
     @Autowired
     private ProductDetailService productDetailService;

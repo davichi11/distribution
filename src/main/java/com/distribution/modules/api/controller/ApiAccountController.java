@@ -59,6 +59,7 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class ApiAccountController {
     @Autowired
     private DisMemberInfoService disMemberInfoService;

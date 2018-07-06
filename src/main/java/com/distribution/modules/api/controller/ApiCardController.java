@@ -40,6 +40,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class ApiCardController {
     @Autowired
     private CardInfoService cardInfoService;

@@ -35,6 +35,7 @@ import java.util.Map;
 @RequestMapping("/api")
 @Slf4j
 @Api("通用接口")
+@CrossOrigin
 public class ApiCommonController {
 
     @Autowired

@@ -46,7 +46,8 @@ let vm = new Vue({
     data: {
         q: {
             disLevel: null,
-            disUserType: null
+            disUserType: null,
+            disUserName:""
         },
         showList: true,
         title: null,
@@ -59,6 +60,7 @@ let vm = new Vue({
         reset: () => {
             vm.q.disLevel = null;
             vm.q.disUserType = null;
+            vm.q.disUserName = "";
         },
         add: () => {
             vm.showList = false;
@@ -126,7 +128,7 @@ let vm = new Vue({
             vm.showList = true;
             let page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
-                postData: {'disLevel': vm.q.disLevel, 'disUserType': vm.q.disUserType},
+                postData: {'disLevel': vm.q.disLevel, 'disUserType': vm.q.disUserType,'disUserName':vm.q.disUserName },
                 page: page
             }).trigger("reloadGrid");
         }

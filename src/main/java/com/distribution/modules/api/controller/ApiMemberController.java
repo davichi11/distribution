@@ -65,6 +65,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class ApiMemberController {
     @Autowired
     private DisFansService disFansService;
@@ -291,6 +292,10 @@ public class ApiMemberController {
         UserEntity userEntity = userService.queryByMobile(oldMobile);
         if (userEntity == null) {
             return Result.error("用户不存在");
+        }
+        UserEntity userEntityt = userService.queryByMobile(mobile);
+        if (userEntityt != null) {
+            return Result.error("该手机号己被注册");
         }
         userEntity.setMobile(mobile);
         try {
