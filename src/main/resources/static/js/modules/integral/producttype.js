@@ -126,15 +126,23 @@ var vm = new Vue({
         },
         triggerFile(event) {
             let file = event.target.files[0]; // (利用console.log输出看结构就知道如何处理档案资料)
-            console.log(file)
             // do something...
+            console.log(file)
             let formData = new FormData();
             formData.append("file", file);
-            this.$http.upload(this.$http.adornUrl("/api/upload"), formData).then(({data}) => {
-                if (data.code === 0) {
-                    this.productType.prodImg = data.results.url
+            $.ajax({
+                type: "POST",
+                url: baseURL + "api/upload",
+                dataType : "json",
+                processData: false,  // 注意：让jQuery不要处理数据
+                contentType: false,
+                data: formData,
+                success: r => {
+                    if (r.code === 0) {
+                        vm.productType.prodRemark = r.results.url
+                    }
                 }
-            })
+            });
         },
         addIndex() {
             this.productType.params.push(new Params())

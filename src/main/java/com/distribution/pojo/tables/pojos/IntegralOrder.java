@@ -4,9 +4,8 @@
 package com.distribution.pojo.tables.pojos;
 
 
-import java.io.Serializable;
-
 import javax.annotation.Generated;
+import java.io.Serializable;
 
 
 /**
@@ -22,7 +21,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IntegralOrder implements Serializable {
 
-    private static final long serialVersionUID = 336785870;
+    private static final long serialVersionUID = -1274487559;
 
     private String  id;
     private Long    mobile;
@@ -30,6 +29,7 @@ public class IntegralOrder implements Serializable {
     private String  img;
     private String  addTime;
     private Boolean status;
+    private String  record;
 
     public IntegralOrder() {}
 
@@ -40,6 +40,7 @@ public class IntegralOrder implements Serializable {
         this.img = value.img;
         this.addTime = value.addTime;
         this.status = value.status;
+        this.record = value.record;
     }
 
     public IntegralOrder(
@@ -48,7 +49,8 @@ public class IntegralOrder implements Serializable {
         String  detailId,
         String  img,
         String  addTime,
-        Boolean status
+        Boolean status,
+        String  record
     ) {
         this.id = id;
         this.mobile = mobile;
@@ -56,6 +58,7 @@ public class IntegralOrder implements Serializable {
         this.img = img;
         this.addTime = addTime;
         this.status = status;
+        this.record = record;
     }
 
     public String getId() {
@@ -106,6 +109,14 @@ public class IntegralOrder implements Serializable {
         this.status = status;
     }
 
+    public String getRecord() {
+        return this.record;
+    }
+
+    public void setRecord(String record) {
+        this.record = record;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("IntegralOrder (");
@@ -116,6 +127,7 @@ public class IntegralOrder implements Serializable {
         sb.append(", ").append(img);
         sb.append(", ").append(addTime);
         sb.append(", ").append(status);
+        sb.append(", ").append(record);
 
         sb.append(")");
         return sb.toString();

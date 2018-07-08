@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
 
-    private static final long serialVersionUID = 1470511365;
+    private static final long serialVersionUID = 354344172;
 
     /**
      * The reference instance of <code>distribution.integral_order</code>
@@ -71,7 +71,7 @@ public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
     /**
      * The column <code>distribution.integral_order.img</code>. 卷码图片,可以逗号分隔
      */
-    public final TableField<IntegralOrderRecord, String> IMG = createField("img", org.jooq.impl.SQLDataType.VARCHAR(2000).nullable(false), this, "卷码图片,可以逗号分隔");
+    public final TableField<IntegralOrderRecord, String> IMG = createField("img", org.jooq.impl.SQLDataType.VARCHAR(2000), this, "卷码图片,可以逗号分隔");
 
     /**
      * The column <code>distribution.integral_order.add_time</code>. 申请时间
@@ -82,6 +82,11 @@ public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
      * The column <code>distribution.integral_order.status</code>. 审核状态:0失败,1成功,2审核中
      */
     public final TableField<IntegralOrderRecord, Boolean> STATUS = createField("status", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("2", org.jooq.impl.SQLDataType.BOOLEAN)), this, "审核状态:0失败,1成功,2审核中");
+
+    /**
+     * The column <code>distribution.integral_order.record</code>. 上传短信记录
+     */
+    public final TableField<IntegralOrderRecord, String> RECORD = createField("record", org.jooq.impl.SQLDataType.VARCHAR(500), this, "上传短信记录");
 
     /**
      * Create a <code>distribution.integral_order</code> table reference

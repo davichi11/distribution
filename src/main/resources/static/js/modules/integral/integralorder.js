@@ -6,7 +6,7 @@ $(function () {
             {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
             {label: '兑换人手机号', name: 'mobile', index: 'mobile', width: 80},
             {label: '兑换产品', name: 'prodName', index: 'd.prod_detail_name', width: 80},
-            {label: '卷码图片,可以逗号分隔', name: 'img', index: 'img', width: 80},
+            {label: '卷码图片', name: 'img', index: 'img', width: 80},
             {label: '申请时间', name: 'addTime', index: 'add_time', width: 80}
         ],
         viewrecords: true,

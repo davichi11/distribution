@@ -56,7 +56,7 @@ risk:
     file-path: /home/distribution/upload
 swagger:
   base-package: com.distribution.modules.api.controller
-  enabled: false
+  enabled: true
   title: API接口文档
   description: API接口文档
 

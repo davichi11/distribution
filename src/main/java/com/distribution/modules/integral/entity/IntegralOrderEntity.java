@@ -31,6 +31,10 @@ public class IntegralOrderEntity implements Serializable {
 
     private String prodName;
     /**
+     * 上传短信记录
+     */
+    private String record;
+    /**
      * 卷码图片,可以逗号分隔
      */
     private String img;

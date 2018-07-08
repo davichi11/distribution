@@ -11,6 +11,7 @@
         <result property="img" column="img"/>
         <result property="addTime" column="add_time"/>
         <result property="prodName" column="prod_name"/>
+        <result property="record" column="record"/>
     </resultMap>
 
     <select id="queryObject" resultMap="integralOrderMap">
@@ -20,7 +21,7 @@
     </select>
 
     <select id="queryList" resultMap="integralOrderMap">
-        select o.id, mobile, detail_id, img, add_time,d.prod_detail_name as 'prod_name'
+        select o.id, mobile, detail_id, img, add_time,record,d.prod_detail_name as 'prod_name'
         from integral_order o
         left join product_detail d on o.detail_id=d.id
         <where>

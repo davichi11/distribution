@@ -228,7 +228,7 @@ public class ApiCardController {
         wxMpTemplateMessage.setTemplateId("GB5gLcSDAjHtSxnZxmkcSMd4yU_WEnt2KHhpAZF3_fw");
         wxMpTemplateMessage.setToUser(openId);
         List<WxMpTemplateData> templateDataList = Lists.newArrayList(
-                new WxMpTemplateData("first", "您收到了一条新的订单"),
+                new WxMpTemplateData("first", "您收到了一条新的信用卡订单"),
                 new WxMpTemplateData("tradeDateTime", DateUtils.formatDateTime(LocalDateTime.now())),
                 new WxMpTemplateData("orderType", bankName),
                 new WxMpTemplateData("customerInfo", name),
