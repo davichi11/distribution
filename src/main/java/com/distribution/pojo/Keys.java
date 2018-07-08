@@ -12,6 +12,8 @@ import com.distribution.pojo.tables.DisMemberInfo;
 import com.distribution.pojo.tables.DisProfiParam;
 import com.distribution.pojo.tables.DisProfitRecord;
 import com.distribution.pojo.tables.IntegralOrder;
+import com.distribution.pojo.tables.LoanInfo;
+import com.distribution.pojo.tables.LoanOrderInfo;
 import com.distribution.pojo.tables.MemberAccount;
 import com.distribution.pojo.tables.MemberAccountHistory;
 import com.distribution.pojo.tables.MemeberInfo;
@@ -19,7 +21,9 @@ import com.distribution.pojo.tables.MobileMessage;
 import com.distribution.pojo.tables.PosApply;
 import com.distribution.pojo.tables.PosOrderInfo;
 import com.distribution.pojo.tables.ProductDetail;
+import com.distribution.pojo.tables.ProductDetailParams;
 import com.distribution.pojo.tables.ProductType;
+import com.distribution.pojo.tables.ProductTypeParams;
 import com.distribution.pojo.tables.ScheduleJob;
 import com.distribution.pojo.tables.ScheduleJobLog;
 import com.distribution.pojo.tables.SysConfig;
@@ -42,13 +46,17 @@ import com.distribution.pojo.tables.records.DisMemberInfoRecord;
 import com.distribution.pojo.tables.records.DisProfiParamRecord;
 import com.distribution.pojo.tables.records.DisProfitRecordRecord;
 import com.distribution.pojo.tables.records.IntegralOrderRecord;
+import com.distribution.pojo.tables.records.LoanInfoRecord;
+import com.distribution.pojo.tables.records.LoanOrderInfoRecord;
 import com.distribution.pojo.tables.records.MemberAccountHistoryRecord;
 import com.distribution.pojo.tables.records.MemberAccountRecord;
 import com.distribution.pojo.tables.records.MemeberInfoRecord;
 import com.distribution.pojo.tables.records.MobileMessageRecord;
 import com.distribution.pojo.tables.records.PosApplyRecord;
 import com.distribution.pojo.tables.records.PosOrderInfoRecord;
+import com.distribution.pojo.tables.records.ProductDetailParamsRecord;
 import com.distribution.pojo.tables.records.ProductDetailRecord;
+import com.distribution.pojo.tables.records.ProductTypeParamsRecord;
 import com.distribution.pojo.tables.records.ProductTypeRecord;
 import com.distribution.pojo.tables.records.ScheduleJobLogRecord;
 import com.distribution.pojo.tables.records.ScheduleJobRecord;
@@ -91,6 +99,8 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final Identity<DisDictionaryRecord, Integer> IDENTITY_DIS_DICTIONARY = Identities0.IDENTITY_DIS_DICTIONARY;
+    public static final Identity<ProductDetailParamsRecord, Integer> IDENTITY_PRODUCT_DETAIL_PARAMS = Identities0.IDENTITY_PRODUCT_DETAIL_PARAMS;
+    public static final Identity<ProductTypeParamsRecord, Integer> IDENTITY_PRODUCT_TYPE_PARAMS = Identities0.IDENTITY_PRODUCT_TYPE_PARAMS;
     public static final Identity<ScheduleJobRecord, Long> IDENTITY_SCHEDULE_JOB = Identities0.IDENTITY_SCHEDULE_JOB;
     public static final Identity<ScheduleJobLogRecord, Long> IDENTITY_SCHEDULE_JOB_LOG = Identities0.IDENTITY_SCHEDULE_JOB_LOG;
     public static final Identity<SysConfigRecord, Long> IDENTITY_SYS_CONFIG = Identities0.IDENTITY_SYS_CONFIG;
@@ -121,6 +131,10 @@ public class Keys {
     public static final UniqueKey<DisProfiParamRecord> KEY_DIS_PROFI_PARAM_DIS_PROFI_PARAM_ID_UINDEX = UniqueKeys0.KEY_DIS_PROFI_PARAM_DIS_PROFI_PARAM_ID_UINDEX;
     public static final UniqueKey<IntegralOrderRecord> KEY_INTEGRAL_ORDER_PRIMARY = UniqueKeys0.KEY_INTEGRAL_ORDER_PRIMARY;
     public static final UniqueKey<IntegralOrderRecord> KEY_INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX = UniqueKeys0.KEY_INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX;
+    public static final UniqueKey<LoanInfoRecord> KEY_LOAN_INFO_PRIMARY = UniqueKeys0.KEY_LOAN_INFO_PRIMARY;
+    public static final UniqueKey<LoanInfoRecord> KEY_LOAN_INFO_LOAN_INFO_ID_UINDEX = UniqueKeys0.KEY_LOAN_INFO_LOAN_INFO_ID_UINDEX;
+    public static final UniqueKey<LoanOrderInfoRecord> KEY_LOAN_ORDER_INFO_PRIMARY = UniqueKeys0.KEY_LOAN_ORDER_INFO_PRIMARY;
+    public static final UniqueKey<LoanOrderInfoRecord> KEY_LOAN_ORDER_INFO_LOAN_ORDER_INFO_ID_UINDEX = UniqueKeys0.KEY_LOAN_ORDER_INFO_LOAN_ORDER_INFO_ID_UINDEX;
     public static final UniqueKey<MemberAccountRecord> KEY_MEMBER_ACCOUNT_PRIMARY = UniqueKeys0.KEY_MEMBER_ACCOUNT_PRIMARY;
     public static final UniqueKey<MemberAccountRecord> KEY_MEMBER_ACCOUNT_MEMBER_AMOUNT_ID_UINDEX = UniqueKeys0.KEY_MEMBER_ACCOUNT_MEMBER_AMOUNT_ID_UINDEX;
     public static final UniqueKey<MemberAccountHistoryRecord> KEY_MEMBER_ACCOUNT_HISTORY_PRIMARY = UniqueKeys0.KEY_MEMBER_ACCOUNT_HISTORY_PRIMARY;
@@ -133,8 +147,10 @@ public class Keys {
     public static final UniqueKey<PosOrderInfoRecord> KEY_POS_ORDER_INFO_PRIMARY = UniqueKeys0.KEY_POS_ORDER_INFO_PRIMARY;
     public static final UniqueKey<ProductDetailRecord> KEY_PRODUCT_DETAIL_PRIMARY = UniqueKeys0.KEY_PRODUCT_DETAIL_PRIMARY;
     public static final UniqueKey<ProductDetailRecord> KEY_PRODUCT_DETAIL_PRODUCT_DETAIL_ID_UINDEX = UniqueKeys0.KEY_PRODUCT_DETAIL_PRODUCT_DETAIL_ID_UINDEX;
+    public static final UniqueKey<ProductDetailParamsRecord> KEY_PRODUCT_DETAIL_PARAMS_PRIMARY = UniqueKeys0.KEY_PRODUCT_DETAIL_PARAMS_PRIMARY;
     public static final UniqueKey<ProductTypeRecord> KEY_PRODUCT_TYPE_PRIMARY = UniqueKeys0.KEY_PRODUCT_TYPE_PRIMARY;
     public static final UniqueKey<ProductTypeRecord> KEY_PRODUCT_TYPE_PRODUCT_TYPE_ID_UINDEX = UniqueKeys0.KEY_PRODUCT_TYPE_PRODUCT_TYPE_ID_UINDEX;
+    public static final UniqueKey<ProductTypeParamsRecord> KEY_PRODUCT_TYPE_PARAMS_PRIMARY = UniqueKeys0.KEY_PRODUCT_TYPE_PARAMS_PRIMARY;
     public static final UniqueKey<ScheduleJobRecord> KEY_SCHEDULE_JOB_PRIMARY = UniqueKeys0.KEY_SCHEDULE_JOB_PRIMARY;
     public static final UniqueKey<ScheduleJobLogRecord> KEY_SCHEDULE_JOB_LOG_PRIMARY = UniqueKeys0.KEY_SCHEDULE_JOB_LOG_PRIMARY;
     public static final UniqueKey<SysConfigRecord> KEY_SYS_CONFIG_PRIMARY = UniqueKeys0.KEY_SYS_CONFIG_PRIMARY;
@@ -165,6 +181,8 @@ public class Keys {
 
     private static class Identities0 {
         public static Identity<DisDictionaryRecord, Integer> IDENTITY_DIS_DICTIONARY = Internal.createIdentity(DisDictionary.DIS_DICTIONARY, DisDictionary.DIS_DICTIONARY.ID);
+        public static Identity<ProductDetailParamsRecord, Integer> IDENTITY_PRODUCT_DETAIL_PARAMS = Internal.createIdentity(ProductDetailParams.PRODUCT_DETAIL_PARAMS, ProductDetailParams.PRODUCT_DETAIL_PARAMS.ID);
+        public static Identity<ProductTypeParamsRecord, Integer> IDENTITY_PRODUCT_TYPE_PARAMS = Internal.createIdentity(ProductTypeParams.PRODUCT_TYPE_PARAMS, ProductTypeParams.PRODUCT_TYPE_PARAMS.ID);
         public static Identity<ScheduleJobRecord, Long> IDENTITY_SCHEDULE_JOB = Internal.createIdentity(ScheduleJob.SCHEDULE_JOB, ScheduleJob.SCHEDULE_JOB.JOB_ID);
         public static Identity<ScheduleJobLogRecord, Long> IDENTITY_SCHEDULE_JOB_LOG = Internal.createIdentity(ScheduleJobLog.SCHEDULE_JOB_LOG, ScheduleJobLog.SCHEDULE_JOB_LOG.LOG_ID);
         public static Identity<SysConfigRecord, Long> IDENTITY_SYS_CONFIG = Internal.createIdentity(SysConfig.SYS_CONFIG, SysConfig.SYS_CONFIG.ID);
@@ -193,6 +211,10 @@ public class Keys {
         public static final UniqueKey<DisProfiParamRecord> KEY_DIS_PROFI_PARAM_DIS_PROFI_PARAM_ID_UINDEX = Internal.createUniqueKey(DisProfiParam.DIS_PROFI_PARAM, "KEY_dis_profi_param_dis_profi_param_id_uindex", DisProfiParam.DIS_PROFI_PARAM.ID);
         public static final UniqueKey<IntegralOrderRecord> KEY_INTEGRAL_ORDER_PRIMARY = Internal.createUniqueKey(IntegralOrder.INTEGRAL_ORDER, "KEY_integral_order_PRIMARY", IntegralOrder.INTEGRAL_ORDER.ID);
         public static final UniqueKey<IntegralOrderRecord> KEY_INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX = Internal.createUniqueKey(IntegralOrder.INTEGRAL_ORDER, "KEY_integral_order_integral_order_id_uindex", IntegralOrder.INTEGRAL_ORDER.ID);
+        public static final UniqueKey<LoanInfoRecord> KEY_LOAN_INFO_PRIMARY = Internal.createUniqueKey(LoanInfo.LOAN_INFO, "KEY_loan_info_PRIMARY", LoanInfo.LOAN_INFO.ID);
+        public static final UniqueKey<LoanInfoRecord> KEY_LOAN_INFO_LOAN_INFO_ID_UINDEX = Internal.createUniqueKey(LoanInfo.LOAN_INFO, "KEY_loan_info_loan_info_id_uindex", LoanInfo.LOAN_INFO.ID);
+        public static final UniqueKey<LoanOrderInfoRecord> KEY_LOAN_ORDER_INFO_PRIMARY = Internal.createUniqueKey(LoanOrderInfo.LOAN_ORDER_INFO, "KEY_loan_order_info_PRIMARY", LoanOrderInfo.LOAN_ORDER_INFO.ID);
+        public static final UniqueKey<LoanOrderInfoRecord> KEY_LOAN_ORDER_INFO_LOAN_ORDER_INFO_ID_UINDEX = Internal.createUniqueKey(LoanOrderInfo.LOAN_ORDER_INFO, "KEY_loan_order_info_loan_order_info_id_uindex", LoanOrderInfo.LOAN_ORDER_INFO.ID);
         public static final UniqueKey<MemberAccountRecord> KEY_MEMBER_ACCOUNT_PRIMARY = Internal.createUniqueKey(MemberAccount.MEMBER_ACCOUNT, "KEY_member_account_PRIMARY", MemberAccount.MEMBER_ACCOUNT.ACCOUNT_ID);
         public static final UniqueKey<MemberAccountRecord> KEY_MEMBER_ACCOUNT_MEMBER_AMOUNT_ID_UINDEX = Internal.createUniqueKey(MemberAccount.MEMBER_ACCOUNT, "KEY_member_account_member_amount_id_uindex", MemberAccount.MEMBER_ACCOUNT.ACCOUNT_ID);
         public static final UniqueKey<MemberAccountHistoryRecord> KEY_MEMBER_ACCOUNT_HISTORY_PRIMARY = Internal.createUniqueKey(MemberAccountHistory.MEMBER_ACCOUNT_HISTORY, "KEY_member_account_history_PRIMARY", MemberAccountHistory.MEMBER_ACCOUNT_HISTORY.ID);
@@ -205,8 +227,10 @@ public class Keys {
         public static final UniqueKey<PosOrderInfoRecord> KEY_POS_ORDER_INFO_PRIMARY = Internal.createUniqueKey(PosOrderInfo.POS_ORDER_INFO, "KEY_pos_order_info_PRIMARY", PosOrderInfo.POS_ORDER_INFO.ID);
         public static final UniqueKey<ProductDetailRecord> KEY_PRODUCT_DETAIL_PRIMARY = Internal.createUniqueKey(ProductDetail.PRODUCT_DETAIL, "KEY_product_detail_PRIMARY", ProductDetail.PRODUCT_DETAIL.ID);
         public static final UniqueKey<ProductDetailRecord> KEY_PRODUCT_DETAIL_PRODUCT_DETAIL_ID_UINDEX = Internal.createUniqueKey(ProductDetail.PRODUCT_DETAIL, "KEY_product_detail_product_detail_id_uindex", ProductDetail.PRODUCT_DETAIL.ID);
+        public static final UniqueKey<ProductDetailParamsRecord> KEY_PRODUCT_DETAIL_PARAMS_PRIMARY = Internal.createUniqueKey(ProductDetailParams.PRODUCT_DETAIL_PARAMS, "KEY_product_detail_params_PRIMARY", ProductDetailParams.PRODUCT_DETAIL_PARAMS.ID);
         public static final UniqueKey<ProductTypeRecord> KEY_PRODUCT_TYPE_PRIMARY = Internal.createUniqueKey(ProductType.PRODUCT_TYPE, "KEY_product_type_PRIMARY", ProductType.PRODUCT_TYPE.ID);
         public static final UniqueKey<ProductTypeRecord> KEY_PRODUCT_TYPE_PRODUCT_TYPE_ID_UINDEX = Internal.createUniqueKey(ProductType.PRODUCT_TYPE, "KEY_product_type_product_type_id_uindex", ProductType.PRODUCT_TYPE.ID);
+        public static final UniqueKey<ProductTypeParamsRecord> KEY_PRODUCT_TYPE_PARAMS_PRIMARY = Internal.createUniqueKey(ProductTypeParams.PRODUCT_TYPE_PARAMS, "KEY_product_type_params_PRIMARY", ProductTypeParams.PRODUCT_TYPE_PARAMS.ID);
         public static final UniqueKey<ScheduleJobRecord> KEY_SCHEDULE_JOB_PRIMARY = Internal.createUniqueKey(ScheduleJob.SCHEDULE_JOB, "KEY_schedule_job_PRIMARY", ScheduleJob.SCHEDULE_JOB.JOB_ID);
         public static final UniqueKey<ScheduleJobLogRecord> KEY_SCHEDULE_JOB_LOG_PRIMARY = Internal.createUniqueKey(ScheduleJobLog.SCHEDULE_JOB_LOG, "KEY_schedule_job_log_PRIMARY", ScheduleJobLog.SCHEDULE_JOB_LOG.LOG_ID);
         public static final UniqueKey<SysConfigRecord> KEY_SYS_CONFIG_PRIMARY = Internal.createUniqueKey(SysConfig.SYS_CONFIG, "KEY_sys_config_PRIMARY", SysConfig.SYS_CONFIG.ID);

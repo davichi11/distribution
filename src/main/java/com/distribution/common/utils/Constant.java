@@ -116,7 +116,12 @@ public class Constant {
         /**
          * 申请信用卡
          */
-        applyCard("2");
+        applyCard("2"),
+        /**
+         * 申请借款
+         */
+        applyLoan("3");
+
 
         private String value;
 

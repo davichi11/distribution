@@ -32,6 +32,7 @@ public class ProductTypeEntity implements Serializable {
      * 产品描述
      */
     private String prodRemark;
+
     /**
      * 图标
      */

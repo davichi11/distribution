@@ -51,7 +51,7 @@ public class LoanOrderInfoController {
     @RequestMapping("/info/{id}")
     @RequiresPermissions("loanorderinfo:info")
     public Result info(@PathVariable("id") String id) {
-            LoanOrderInfoEntity loanOrderInfo = loanOrderInfoService.queryObject(id);
+        LoanOrderInfoEntity loanOrderInfo = loanOrderInfoService.queryObject(id);
 
         return Result.ok().put("loanOrderInfo", loanOrderInfo);
     }
@@ -79,10 +79,10 @@ public class LoanOrderInfoController {
         try {
             loanOrderInfo.setId(CommonUtils.getUUID());
             loanOrderInfo.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
-                loanOrderInfoService.save(loanOrderInfo);
+            loanOrderInfoService.save(loanOrderInfo);
         } catch (Exception e) {
-            log.error("保存异常", e);
-            return Result.error("保存异常");
+            log.error("保存贷款订单信息异常", e);
+            return Result.error("保存贷款订单信息异常");
         }
 
         return Result.ok();
@@ -96,10 +96,10 @@ public class LoanOrderInfoController {
     public Result update(@RequestBody LoanOrderInfoEntity loanOrderInfo) {
         try {
             loanOrderInfo.setUpdateTime(DateUtils.formatDateTime(LocalDateTime.now()));
-                loanOrderInfoService.update(loanOrderInfo);
+            loanOrderInfoService.update(loanOrderInfo);
         } catch (Exception e) {
-            log.error("修改异常", e);
-            return Result.error("修改异常");
+            log.error("修改贷款订单信息异常", e);
+            return Result.error("修改贷款订单信息异常");
         }
         return Result.ok();
     }
@@ -109,16 +109,16 @@ public class LoanOrderInfoController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("loanorderinfo:delete")
-    public Result delete(@RequestBody String[]ids) {
+    public Result delete(@RequestBody String[] ids) {
         try {
             if (ids.length == 1) {
-                    loanOrderInfoService.delete(ids[0]);
+                loanOrderInfoService.delete(ids[0]);
             } else {
-                    loanOrderInfoService.deleteBatch(ids);
+                loanOrderInfoService.deleteBatch(ids);
             }
         } catch (Exception e) {
-            log.error("删除异常", e);
-            return Result.error("删除异常");
+            log.error("删除贷款订单信息异常", e);
+            return Result.error("删除贷款订单信息异常");
         }
         return Result.ok();
     }

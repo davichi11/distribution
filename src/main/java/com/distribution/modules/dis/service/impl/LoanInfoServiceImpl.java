@@ -1,15 +1,14 @@
 package com.distribution.modules.dis.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Map;
-
 import com.distribution.modules.dis.dao.LoanInfoDao;
 import com.distribution.modules.dis.entity.LoanInfoEntity;
 import com.distribution.modules.dis.service.LoanInfoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
 
 
 @Service("loanInfoService")
@@ -30,26 +29,26 @@ public class LoanInfoServiceImpl implements LoanInfoService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(LoanInfoEntity loanInfo) throws Exception{
-            loanInfoDao.save(loanInfo);
+    public void save(LoanInfoEntity loanInfo) throws Exception {
+        loanInfoDao.save(loanInfo);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(LoanInfoEntity loanInfo) throws Exception{
-            loanInfoDao.update(loanInfo);
+    public void update(LoanInfoEntity loanInfo) throws Exception {
+        loanInfoDao.update(loanInfo);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void delete(String id) throws Exception{
-            loanInfoDao.delete(id);
+    public void delete(String id) throws Exception {
+        loanInfoDao.delete(id);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void deleteBatch(String[]ids) throws Exception{
-            loanInfoDao.deleteBatch(ids);
+    public void deleteBatch(String[] ids) throws Exception {
+        loanInfoDao.deleteBatch(ids);
     }
 
 }

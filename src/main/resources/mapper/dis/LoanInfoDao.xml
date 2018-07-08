@@ -5,19 +5,20 @@
 
     <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="com.distribution.modules.dis.entity.LoanInfoEntity" id="loanInfoMap">
-                    <result property="id" column="id"/>
-                    <result property="loanName" column="loan_name"/>
-                    <result property="loanUrl" column="loan_url"/>
-                    <result property="loanImg" column="loan_img"/>
-                    <result property="addTime" column="add_time"/>
-                    <result property="updateTime" column="update_time"/>
-                    <result property="isDelete" column="is_delete"/>
-                    <result property="remark" column="remark"/>
-            </resultMap>
+        <result property="id" column="id"/>
+        <result property="loanName" column="loan_name"/>
+        <result property="loanUrl" column="loan_url"/>
+        <result property="loanImg" column="loan_img"/>
+        <result property="addTime" column="add_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
 
     <select id="queryObject" resultMap="loanInfoMap">
         select *
-        from loan_info where id = #{value}
+        from loan_info
+        where id = #{value}
     </select>
 
     <select id="queryList" resultMap="loanInfoMap">
@@ -38,95 +39,96 @@
     <insert id="save" parameterType="com.distribution.modules.dis.entity.LoanInfoEntity">
         insert into loan_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
-                            <if test="id != null">
-                    `id`,
-                </if>
-                            <if test="loanName != null">
-                    `loan_name`,
-                </if>
-                            <if test="loanUrl != null">
-                    `loan_url`,
-                </if>
-                            <if test="loanImg != null">
-                    `loan_img`,
-                </if>
-                            <if test="addTime != null">
-                    `add_time`,
-                </if>
-                            <if test="updateTime != null">
-                    `update_time`,
-                </if>
-                            <if test="isDelete != null">
-                    `is_delete`,
-                </if>
-                            <if test="remark != null">
-                    `remark`,
-                </if>
-                    </trim>
+            <if test="id != null">
+                `id`,
+            </if>
+            <if test="loanName != null">
+                `loan_name`,
+            </if>
+            <if test="loanUrl != null">
+                `loan_url`,
+            </if>
+            <if test="loanImg != null">
+                `loan_img`,
+            </if>
+            <if test="addTime != null">
+                `add_time`,
+            </if>
+            <if test="updateTime != null">
+                `update_time`,
+            </if>
+            <if test="isDelete != null">
+                `is_delete`,
+            </if>
+            <if test="remark != null">
+                `remark`,
+            </if>
+        </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-                            <if test="id != null">
-                    #{id},
-                </if>
-                            <if test="loanName != null">
-                    #{loanName},
-                </if>
-                            <if test="loanUrl != null">
-                    #{loanUrl},
-                </if>
-                            <if test="loanImg != null">
-                    #{loanImg},
-                </if>
-                            <if test="addTime != null">
-                    #{addTime},
-                </if>
-                            <if test="updateTime != null">
-                    #{updateTime},
-                </if>
-                            <if test="isDelete != null">
-                    #{isDelete},
-                </if>
-                            <if test="remark != null">
-                    #{remark},
-                </if>
-                    </trim>
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="loanName != null">
+                #{loanName},
+            </if>
+            <if test="loanUrl != null">
+                #{loanUrl},
+            </if>
+            <if test="loanImg != null">
+                #{loanImg},
+            </if>
+            <if test="addTime != null">
+                #{addTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+            <if test="remark != null">
+                #{remark},
+            </if>
+        </trim>
     </insert>
 
     <update id="update" parameterType="com.distribution.modules.dis.entity.LoanInfoEntity">
         update loan_info
         <set>
-                                                                            <if test="loanName != null">
-                        `loan_name` = #{loanName}
-                        ,
-                                            </if>
-                                                                <if test="loanUrl != null">
-                        `loan_url` = #{loanUrl}
-                        ,
-                                            </if>
-                                                                <if test="loanImg != null">
-                        `loan_img` = #{loanImg}
-                        ,
-                                            </if>
-                                                                <if test="addTime != null">
-                        `add_time` = #{addTime}
-                        ,
-                                            </if>
-                                                                <if test="updateTime != null">
-                        `update_time` = #{updateTime}
-                        ,
-                                            </if>
-                                                                <if test="isDelete != null">
-                        `is_delete` = #{isDelete}
-                        ,
-                                            </if>
-                                                                <if test="remark != null">
-                        `remark` = #{remark}
-                                            </if>
-                                    </set>
+            <if test="loanName != null">
+                `loan_name` = #{loanName}
+                ,
+            </if>
+            <if test="loanUrl != null">
+                `loan_url` = #{loanUrl}
+                ,
+            </if>
+            <if test="loanImg != null">
+                `loan_img` = #{loanImg}
+                ,
+            </if>
+            <if test="addTime != null">
+                `add_time` = #{addTime}
+                ,
+            </if>
+            <if test="updateTime != null">
+                `update_time` = #{updateTime}
+                ,
+            </if>
+            <if test="isDelete != null">
+                `is_delete` = #{isDelete}
+                ,
+            </if>
+            <if test="remark != null">
+                `remark` = #{remark}
+            </if>
+        </set>
         where id = #{id}
     </update>
 
     <delete id="delete">
-        delete from loan_info where id = #{value}
+        delete from loan_info
+        where id = #{value}
     </delete>
 
     <delete id="deleteBatch">

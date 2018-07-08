@@ -2,16 +2,25 @@ package com.distribution.modules.integral.controller;
 
 import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.Result;
+import com.distribution.modules.api.pojo.vo.ProductDetailVO;
 import com.distribution.modules.integral.entity.ProductDetailEntity;
 import com.distribution.modules.integral.service.ProductDetailService;
+import com.distribution.pojo.Tables;
+import com.distribution.pojo.tables.records.ProductDetailParamsRecord;
+import com.distribution.pojo.tables.records.ProductDetailRecord;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.jooq.DSLContext;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -28,6 +37,8 @@ import java.util.Map;
 public class ProductDetailController {
     @Autowired
     private ProductDetailService productDetailService;
+    @Autowired
+    private DSLContext create;
 
     /**
      * 列表
@@ -58,13 +69,26 @@ public class ProductDetailController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("productdetail:save")
-    public Result save(@RequestBody ProductDetailEntity productDetail) {
+    public Result save(@RequestBody ProductDetailVO detailVO) {
         try {
-            productDetail.setId(CommonUtils.getUUID());
-            productDetailService.save(productDetail);
+            ProductDetailRecord productDetail = create.newRecord(Tables.PRODUCT_DETAIL);
+            String id = CommonUtils.getUUID();
+            productDetail.setId(id);
+            BeanUtils.copyProperties(detailVO,productDetail);
+            productDetail.insert();
+            if (CollectionUtils.isNotEmpty(detailVO.getParams())) {
+                List<ProductDetailParamsRecord> paramsRecords = new ArrayList<>();
+                detailVO.getParams().forEach(params->{
+                    ProductDetailParamsRecord paramsRecord = create.newRecord(Tables.PRODUCT_DETAIL_PARAMS);
+                    BeanUtils.copyProperties(params,paramsRecord);
+                    paramsRecord.setDetailId(id);
+                    paramsRecords.add(paramsRecord);
+                });
+                create.batchInsert(paramsRecords).execute();
+            }
         } catch (Exception e) {
-            log.error("保存异常", e);
-            return Result.error("保存异常");
+            log.error("保存积分兑换产品列表异常", e);
+            return Result.error("保存积分兑换产品列表异常");
         }
 
         return Result.ok();
@@ -79,8 +103,8 @@ public class ProductDetailController {
         try {
             productDetailService.update(productDetail);
         } catch (Exception e) {
-            log.error("修改异常", e);
-            return Result.error("修改异常");
+            log.error("修改积分兑换产品列表异常", e);
+            return Result.error("修改积分兑换产品列表异常");
         }
         return Result.ok();
     }
@@ -98,8 +122,8 @@ public class ProductDetailController {
                 productDetailService.deleteBatch(ids);
             }
         } catch (Exception e) {
-            log.error("删除产品详情异常", e);
-            return Result.error("删除产品详情异常");
+            log.error("删除积分兑换产品列表异常", e);
+            return Result.error("删除积分兑换产品列表异常");
         }
         return Result.ok();
     }

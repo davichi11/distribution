@@ -15,39 +15,45 @@ import java.util.Map;
  */
 public interface LoanOrderInfoService {
     /**
-    * 根据ID查询
-* @return
-*/
-        LoanOrderInfoEntity queryObject(String id);
+     * 根据ID查询
+     *
+     * @return
+     */
+    LoanOrderInfoEntity queryObject(String id);
 
     /**
-    * 查询列表
-* @param map
-* @return
-*/
+     * 查询列表
+     *
+     * @param map
+     * @return
+     */
     List<LoanOrderInfoEntity> queryList(Map<String, Object> map);
 
     /**
-    * 保存
-    * @throws Exception
-    */
+     * 保存
+     *
+     * @throws Exception
+     */
     void save(LoanOrderInfoEntity loanOrderInfo) throws Exception;
 
     /**
-    * 更新
-* @throws Exception
-*/
+     * 更新
+     *
+     * @throws Exception
+     */
     void update(LoanOrderInfoEntity loanOrderInfo) throws Exception;
 
     /**
-    * 删除
-    * @throws Exception
-    */
+     * 删除
+     *
+     * @throws Exception
+     */
     void delete(String id) throws Exception;
 
     /**
-    * 批量删除
-* @throws Exception
-*/
+     * 批量删除
+     *
+     * @throws Exception
+     */
     void deleteBatch(String[] ids) throws Exception;
 }

@@ -13,6 +13,8 @@ import com.distribution.pojo.tables.DisProfiParam;
 import com.distribution.pojo.tables.DisProfitRecord;
 import com.distribution.pojo.tables.District;
 import com.distribution.pojo.tables.IntegralOrder;
+import com.distribution.pojo.tables.LoanInfo;
+import com.distribution.pojo.tables.LoanOrderInfo;
 import com.distribution.pojo.tables.MemberAccount;
 import com.distribution.pojo.tables.MemberAccountHistory;
 import com.distribution.pojo.tables.MemeberInfo;
@@ -21,7 +23,9 @@ import com.distribution.pojo.tables.OrderHistory;
 import com.distribution.pojo.tables.PosApply;
 import com.distribution.pojo.tables.PosOrderInfo;
 import com.distribution.pojo.tables.ProductDetail;
+import com.distribution.pojo.tables.ProductDetailParams;
 import com.distribution.pojo.tables.ProductType;
+import com.distribution.pojo.tables.ProductTypeParams;
 import com.distribution.pojo.tables.ScheduleJob;
 import com.distribution.pojo.tables.ScheduleJobLog;
 import com.distribution.pojo.tables.SysConfig;
@@ -99,6 +103,16 @@ public class Tables {
     public static final IntegralOrder INTEGRAL_ORDER = com.distribution.pojo.tables.IntegralOrder.INTEGRAL_ORDER;
 
     /**
+     * The table <code>distribution.loan_info</code>.
+     */
+    public static final LoanInfo LOAN_INFO = com.distribution.pojo.tables.LoanInfo.LOAN_INFO;
+
+    /**
+     * 贷款订单
+     */
+    public static final LoanOrderInfo LOAN_ORDER_INFO = com.distribution.pojo.tables.LoanOrderInfo.LOAN_ORDER_INFO;
+
+    /**
      * 会员账户表
      */
     public static final MemberAccount MEMBER_ACCOUNT = com.distribution.pojo.tables.MemberAccount.MEMBER_ACCOUNT;
@@ -139,9 +153,19 @@ public class Tables {
     public static final ProductDetail PRODUCT_DETAIL = com.distribution.pojo.tables.ProductDetail.PRODUCT_DETAIL;
 
     /**
+     * The table <code>distribution.product_detail_params</code>.
+     */
+    public static final ProductDetailParams PRODUCT_DETAIL_PARAMS = com.distribution.pojo.tables.ProductDetailParams.PRODUCT_DETAIL_PARAMS;
+
+    /**
      * 积分兑换产品类型表
      */
     public static final ProductType PRODUCT_TYPE = com.distribution.pojo.tables.ProductType.PRODUCT_TYPE;
+
+    /**
+     * The table <code>distribution.product_type_params</code>.
+     */
+    public static final ProductTypeParams PRODUCT_TYPE_PARAMS = com.distribution.pojo.tables.ProductTypeParams.PRODUCT_TYPE_PARAMS;
 
     /**
      * ????

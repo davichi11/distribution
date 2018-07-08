@@ -14,13 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.Map;
 
 
 /**
- * 
- *
  * @author huchunliang
  * @email davichi2009@gmail.com
  * @date 2018-07-06
@@ -51,7 +48,7 @@ public class LoanInfoController {
     @RequestMapping("/info/{id}")
     @RequiresPermissions("loaninfo:info")
     public Result info(@PathVariable("id") String id) {
-            LoanInfoEntity loanInfo = loanInfoService.queryObject(id);
+        LoanInfoEntity loanInfo = loanInfoService.queryObject(id);
 
         return Result.ok().put("loanInfo", loanInfo);
     }
@@ -64,11 +61,11 @@ public class LoanInfoController {
     public Result save(@RequestBody LoanInfoEntity loanInfo) {
         try {
             loanInfo.setId(CommonUtils.getUUID());
-            loanInfo.setAddTime(DateUtils.formatDateTime(LocalDateTime.now() ));
-                loanInfoService.save(loanInfo);
+            loanInfo.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
+            loanInfoService.save(loanInfo);
         } catch (Exception e) {
-            log.error("保存异常", e);
-            return Result.error("保存异常");
+            log.error("保存贷款产品信息异常", e);
+            return Result.error("保存贷款产品信息异常");
         }
 
         return Result.ok();
@@ -81,11 +78,11 @@ public class LoanInfoController {
     @RequiresPermissions("loaninfo:update")
     public Result update(@RequestBody LoanInfoEntity loanInfo) {
         try {
-                loanInfo.setUpdateTime(DateUtils.formatDateTime(LocalDateTime.now() ));
-                loanInfoService.update(loanInfo);
+            loanInfo.setUpdateTime(DateUtils.formatDateTime(LocalDateTime.now()));
+            loanInfoService.update(loanInfo);
         } catch (Exception e) {
-            log.error("修改异常", e);
-            return Result.error("修改异常");
+            log.error("修改贷款产品信息异常", e);
+            return Result.error("修改贷款产品信息异常");
         }
         return Result.ok();
     }
@@ -95,16 +92,16 @@ public class LoanInfoController {
      */
     @RequestMapping("/delete")
     @RequiresPermissions("loaninfo:delete")
-    public Result delete(@RequestBody String[]ids) {
+    public Result delete(@RequestBody String[] ids) {
         try {
             if (ids.length == 1) {
-                    loanInfoService.delete(ids[0]);
+                loanInfoService.delete(ids[0]);
             } else {
-                    loanInfoService.deleteBatch(ids);
+                loanInfoService.deleteBatch(ids);
             }
         } catch (Exception e) {
-            log.error("删除异常", e);
-            return Result.error("删除异常");
+            log.error("删除贷款产品信息异常", e);
+            return Result.error("删除贷款产品信息异常");
         }
         return Result.ok();
     }

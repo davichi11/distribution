@@ -4,11 +4,16 @@ import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.DateUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.api.annotation.AuthIgnore;
+import com.distribution.modules.api.pojo.vo.ProductDetailVO;
+import com.distribution.modules.api.pojo.vo.ProductTypeVO;
 import com.distribution.modules.integral.service.IntegralOrderService;
 import com.distribution.modules.integral.service.ProductDetailService;
 import com.distribution.modules.integral.service.ProductTypeService;
+import com.distribution.pojo.Tables;
 import com.distribution.pojo.tables.pojos.IntegralOrder;
 import com.distribution.pojo.tables.pojos.ProductDetail;
+import com.distribution.pojo.tables.pojos.ProductDetailParams;
+import com.distribution.pojo.tables.pojos.ProductTypeParams;
 import com.distribution.pojo.tables.records.IntegralOrderRecord;
 import com.google.common.collect.Maps;
 import io.swagger.annotations.Api;
@@ -23,9 +28,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static com.distribution.pojo.Tables.INTEGRAL_ORDER;
-import static com.distribution.pojo.Tables.PRODUCT_DETAIL;
+import static com.distribution.pojo.Tables.*;
 
 /**
  * @author ChunLiang Hu
@@ -54,7 +59,14 @@ public class ApiIntegralController {
     @GetMapping("/productType")
     @ApiOperation("查询所有产品类型")
     public Result getAllProductType() {
-        return Result.ok().put("productTypes", productTypeService.queryList(Maps.newHashMap()));
+        List<ProductTypeVO> productTypeVOS = productTypeService.queryList(Maps.newHashMap()).stream().map(type -> {
+            ProductTypeVO typeVO = new ProductTypeVO();
+            BeanUtils.copyProperties(type, typeVO);
+            typeVO.setParams(create.selectFrom(Tables.PRODUCT_TYPE_PARAMS)
+                    .where(Tables.PRODUCT_TYPE_PARAMS.TYPE_ID.eq(type.getId())).fetchInto(ProductTypeParams.class));
+            return typeVO;
+        }).collect(Collectors.toList());
+        return Result.ok().put("productTypes", productTypeVOS);
     }
 
     @AuthIgnore
@@ -63,7 +75,14 @@ public class ApiIntegralController {
     public Result getProductDetailByType(@PathVariable("type") String type) {
         List<ProductDetail> productDetails = create.selectFrom(PRODUCT_DETAIL)
                 .where(PRODUCT_DETAIL.PROD_TYPE_ID.eq(type)).fetchInto(ProductDetail.class);
-        return Result.ok().put("productDetails", productDetails);
+        List<ProductDetailVO> detailVOS = productDetails.stream().map(productDetail -> {
+            ProductDetailVO detailVO = new ProductDetailVO();
+            BeanUtils.copyProperties(productDetail, detailVO);
+            detailVO.setParams(create.selectFrom(PRODUCT_DETAIL_PARAMS)
+                    .where(PRODUCT_DETAIL_PARAMS.DETAIL_ID.eq(productDetail.getId())).fetchInto(ProductDetailParams.class));
+            return detailVO;
+        }).collect(Collectors.toList());
+        return Result.ok().put("productDetails", detailVOS);
     }
 
 
@@ -77,7 +96,7 @@ public class ApiIntegralController {
 
     @PostMapping("/integralOrder")
     @ApiOperation("提交用户积分兑换申请")
-    @ApiImplicitParam(paramType = "body",dataType = "IntegralOrder", name = "integralOrder", value = "积分兑换申请", required = true)
+    @ApiImplicitParam(paramType = "body", dataType = "IntegralOrder", name = "integralOrder", value = "积分兑换申请", required = true)
     public Result subimtIntegralOrder(@RequestBody IntegralOrder integralOrder) {
         IntegralOrderRecord record = create.newRecord(INTEGRAL_ORDER);
         BeanUtils.copyProperties(integralOrder, record);

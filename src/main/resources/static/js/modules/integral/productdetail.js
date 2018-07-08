@@ -5,7 +5,7 @@ $(function () {
         colModel: [
             {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
             {label: '产品名称', name: 'prodDetailName', index: 'prod_detail_name', width: 80},
-            {label: '回购价', name: 'prodDetailBuyBack', index: 'prod_detail_buy_back', width: 80},
+            // {label: '回购价', name: 'prodDetailBuyBack', index: 'prod_detail_buy_back', width: 80},
             {label: '产品类型', name: 'typeName', index: 't.prod_name', width: 80},
             {label: '产品积分数', name: 'prodDetailValue', index: 'prod_detail_value', width: 80},
             {label: '兑换次数', name: 'prodDetailCount', index: 'prod_detail_count', width: 80}
@@ -37,6 +37,13 @@ $(function () {
     });
 });
 
+class Params {
+    constructor(level, buyBackPrice) {
+        this.level = level
+        this.buyBackPrice = buyBackPrice
+    }
+}
+
 var vm = new Vue({
     el: '#rrapp',
     data: {
@@ -45,8 +52,9 @@ var vm = new Vue({
         },
         showList: true,
         title: null,
-        productDetail: {},
-        productType: []
+        productDetail: {params: []},
+        productType: [],
+
     },
     created() {
         this.getProdType()
@@ -59,7 +67,9 @@ var vm = new Vue({
         add: function () {
             vm.showList = false;
             vm.title = "新增";
-            vm.productDetail = {};
+            vm.productDetail = {
+                params: []
+            };
         },
         update: function (event) {
             let id = getSelectedRow();
@@ -132,6 +142,9 @@ var vm = new Vue({
                 vm.productType = r.productTypes
             })
             console.log(vm.productType)
+        },
+        addIndex() {
+            this.productDetail.params.push(new Params())
         }
     }
 });

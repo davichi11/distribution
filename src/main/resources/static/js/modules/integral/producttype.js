@@ -35,14 +35,19 @@ $(function () {
         }
     });
 });
-
+class Params {
+    constructor(level, exchangePercent) {
+        this.level = level
+        this.exchangePercent = exchangePercent
+    }
+}
 var vm = new Vue({
     el: '#rrapp',
     data: {
         q: {prodName: ""},
         showList: true,
         title: null,
-        productType: {}
+        productType: {params: []}
     },
     methods: {
         query: function () {
@@ -52,7 +57,7 @@ var vm = new Vue({
         add: function () {
             vm.showList = false;
             vm.title = "新增";
-            vm.productType = {};
+            vm.productType = {params: []};
         },
         update: function (event) {
             let id = getSelectedRow();
@@ -130,6 +135,9 @@ var vm = new Vue({
                     this.productType.prodImg = data.results.url
                 }
             })
+        },
+        addIndex() {
+            this.productType.params.push(new Params())
         }
     }
 });

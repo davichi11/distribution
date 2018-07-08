@@ -2,16 +2,25 @@ package com.distribution.modules.integral.controller;
 
 import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.Result;
+import com.distribution.modules.api.pojo.vo.ProductTypeVO;
 import com.distribution.modules.integral.entity.ProductTypeEntity;
 import com.distribution.modules.integral.service.ProductTypeService;
+import com.distribution.pojo.Tables;
+import com.distribution.pojo.tables.records.ProductTypeParamsRecord;
+import com.distribution.pojo.tables.records.ProductTypeRecord;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.jooq.DSLContext;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -28,6 +37,8 @@ import java.util.Map;
 public class ProductTypeController {
     @Autowired
     private ProductTypeService productTypeService;
+    @Autowired
+    private DSLContext create;
 
     /**
      * 列表
@@ -58,10 +69,24 @@ public class ProductTypeController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("producttype:save")
-    public Result save(@RequestBody ProductTypeEntity productType) {
+    public Result save(@RequestBody ProductTypeVO productType) {
         try {
-            productType.setId(CommonUtils.getUUID());
-            productTypeService.save(productType);
+            String uuid = CommonUtils.getUUID();
+            ProductTypeRecord typeRecord = create.newRecord(Tables.PRODUCT_TYPE);
+            BeanUtils.copyProperties(productType, typeRecord);
+            typeRecord.setId(uuid);
+            typeRecord.insert();
+            if (CollectionUtils.isNotEmpty(productType.getParams())) {
+                List<ProductTypeParamsRecord> paramsRecords = new ArrayList<>();
+                productType.getParams().forEach(param -> {
+                    ProductTypeParamsRecord paramsRecord = create.newRecord(Tables.PRODUCT_TYPE_PARAMS);
+                    paramsRecord.setTypeId(uuid);
+                    paramsRecord.setExchangePercent(param.getExchangePercent() / 100);
+                    paramsRecord.setLevel(param.getLevel());
+                    paramsRecords.add(paramsRecord);
+                });
+                create.batchInsert(paramsRecords).execute();
+            }
         } catch (Exception e) {
             log.error("保存异常", e);
             return Result.error("保存异常");

@@ -4,15 +4,52 @@
 package com.distribution.pojo;
 
 
-import com.distribution.pojo.tables.*;
-import org.jooq.Catalog;
-import org.jooq.Table;
-import org.jooq.impl.SchemaImpl;
+import com.distribution.pojo.tables.CardInfo;
+import com.distribution.pojo.tables.CardOrderInfo;
+import com.distribution.pojo.tables.DisDictionary;
+import com.distribution.pojo.tables.DisFans;
+import com.distribution.pojo.tables.DisMemberInfo;
+import com.distribution.pojo.tables.DisProfiParam;
+import com.distribution.pojo.tables.DisProfitRecord;
+import com.distribution.pojo.tables.District;
+import com.distribution.pojo.tables.IntegralOrder;
+import com.distribution.pojo.tables.LoanInfo;
+import com.distribution.pojo.tables.LoanOrderInfo;
+import com.distribution.pojo.tables.MemberAccount;
+import com.distribution.pojo.tables.MemberAccountHistory;
+import com.distribution.pojo.tables.MemeberInfo;
+import com.distribution.pojo.tables.MobileMessage;
+import com.distribution.pojo.tables.OrderHistory;
+import com.distribution.pojo.tables.PosApply;
+import com.distribution.pojo.tables.PosOrderInfo;
+import com.distribution.pojo.tables.ProductDetail;
+import com.distribution.pojo.tables.ProductDetailParams;
+import com.distribution.pojo.tables.ProductType;
+import com.distribution.pojo.tables.ProductTypeParams;
+import com.distribution.pojo.tables.ScheduleJob;
+import com.distribution.pojo.tables.ScheduleJobLog;
+import com.distribution.pojo.tables.SysConfig;
+import com.distribution.pojo.tables.SysLog;
+import com.distribution.pojo.tables.SysMenu;
+import com.distribution.pojo.tables.SysOss;
+import com.distribution.pojo.tables.SysRole;
+import com.distribution.pojo.tables.SysRoleMenu;
+import com.distribution.pojo.tables.SysUser;
+import com.distribution.pojo.tables.SysUserRole;
+import com.distribution.pojo.tables.SysUserToken;
+import com.distribution.pojo.tables.TbToken;
+import com.distribution.pojo.tables.TbUser;
+import com.distribution.pojo.tables.WithdrawalInfo;
 
-import javax.annotation.Generated;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.annotation.Generated;
+
+import org.jooq.Catalog;
+import org.jooq.Table;
+import org.jooq.impl.SchemaImpl;
 
 
 /**
@@ -28,7 +65,7 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Distribution extends SchemaImpl {
 
-    private static final long serialVersionUID = -1813854934;
+    private static final long serialVersionUID = -416823790;
 
     /**
      * The reference instance of <code>distribution</code>
@@ -81,6 +118,16 @@ public class Distribution extends SchemaImpl {
     public final IntegralOrder INTEGRAL_ORDER = com.distribution.pojo.tables.IntegralOrder.INTEGRAL_ORDER;
 
     /**
+     * The table <code>distribution.loan_info</code>.
+     */
+    public final LoanInfo LOAN_INFO = com.distribution.pojo.tables.LoanInfo.LOAN_INFO;
+
+    /**
+     * 贷款订单
+     */
+    public final LoanOrderInfo LOAN_ORDER_INFO = com.distribution.pojo.tables.LoanOrderInfo.LOAN_ORDER_INFO;
+
+    /**
      * 会员账户表
      */
     public final MemberAccount MEMBER_ACCOUNT = com.distribution.pojo.tables.MemberAccount.MEMBER_ACCOUNT;
@@ -121,9 +168,19 @@ public class Distribution extends SchemaImpl {
     public final ProductDetail PRODUCT_DETAIL = com.distribution.pojo.tables.ProductDetail.PRODUCT_DETAIL;
 
     /**
+     * The table <code>distribution.product_detail_params</code>.
+     */
+    public final ProductDetailParams PRODUCT_DETAIL_PARAMS = com.distribution.pojo.tables.ProductDetailParams.PRODUCT_DETAIL_PARAMS;
+
+    /**
      * 积分兑换产品类型表
      */
     public final ProductType PRODUCT_TYPE = com.distribution.pojo.tables.ProductType.PRODUCT_TYPE;
+
+    /**
+     * The table <code>distribution.product_type_params</code>.
+     */
+    public final ProductTypeParams PRODUCT_TYPE_PARAMS = com.distribution.pojo.tables.ProductTypeParams.PRODUCT_TYPE_PARAMS;
 
     /**
      * ????
@@ -229,6 +286,8 @@ public class Distribution extends SchemaImpl {
             DisProfitRecord.DIS_PROFIT_RECORD,
             DisProfiParam.DIS_PROFI_PARAM,
             IntegralOrder.INTEGRAL_ORDER,
+            LoanInfo.LOAN_INFO,
+            LoanOrderInfo.LOAN_ORDER_INFO,
             MemberAccount.MEMBER_ACCOUNT,
             MemberAccountHistory.MEMBER_ACCOUNT_HISTORY,
             MemeberInfo.MEMEBER_INFO,
@@ -237,7 +296,9 @@ public class Distribution extends SchemaImpl {
             PosApply.POS_APPLY,
             PosOrderInfo.POS_ORDER_INFO,
             ProductDetail.PRODUCT_DETAIL,
+            ProductDetailParams.PRODUCT_DETAIL_PARAMS,
             ProductType.PRODUCT_TYPE,
+            ProductTypeParams.PRODUCT_TYPE_PARAMS,
             ScheduleJob.SCHEDULE_JOB,
             ScheduleJobLog.SCHEDULE_JOB_LOG,
             SysConfig.SYS_CONFIG,
