@@ -31,7 +31,7 @@ public final class OSSFactory {
             return new QcloudAbstractCloudStorageService(config);
         }
 
-        return null;
+        return new AliyunAbstractCloudStorageService(config);
     }
 
 }

@@ -13,6 +13,7 @@ import com.distribution.pojo.tables.DisProfiParam;
 import com.distribution.pojo.tables.DisProfitRecord;
 import com.distribution.pojo.tables.District;
 import com.distribution.pojo.tables.IntegralOrder;
+import com.distribution.pojo.tables.IntegralTutorial;
 import com.distribution.pojo.tables.LoanInfo;
 import com.distribution.pojo.tables.LoanOrderInfo;
 import com.distribution.pojo.tables.MemberAccount;
@@ -65,7 +66,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Distribution extends SchemaImpl {
 
-    private static final long serialVersionUID = -416823790;
+    private static final long serialVersionUID = -1185982045;
 
     /**
      * The reference instance of <code>distribution</code>
@@ -116,6 +117,11 @@ public class Distribution extends SchemaImpl {
      * 积分兑换申请表
      */
     public final IntegralOrder INTEGRAL_ORDER = com.distribution.pojo.tables.IntegralOrder.INTEGRAL_ORDER;
+
+    /**
+     * The table <code>distribution.integral_tutorial</code>.
+     */
+    public final IntegralTutorial INTEGRAL_TUTORIAL = com.distribution.pojo.tables.IntegralTutorial.INTEGRAL_TUTORIAL;
 
     /**
      * The table <code>distribution.loan_info</code>.
@@ -286,6 +292,7 @@ public class Distribution extends SchemaImpl {
             DisProfitRecord.DIS_PROFIT_RECORD,
             DisProfiParam.DIS_PROFI_PARAM,
             IntegralOrder.INTEGRAL_ORDER,
+            IntegralTutorial.INTEGRAL_TUTORIAL,
             LoanInfo.LOAN_INFO,
             LoanOrderInfo.LOAN_ORDER_INFO,
             MemberAccount.MEMBER_ACCOUNT,

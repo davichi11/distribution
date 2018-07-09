@@ -22,13 +22,14 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductType implements Serializable {
 
-    private static final long serialVersionUID = -1585019971;
+    private static final long serialVersionUID = 2034371746;
 
     private String id;
     private String prodName;
     private String prodRate;
     private String prodRemark;
     private String prodImg;
+    private String prodType;
 
     public ProductType() {}
 
@@ -38,6 +39,7 @@ public class ProductType implements Serializable {
         this.prodRate = value.prodRate;
         this.prodRemark = value.prodRemark;
         this.prodImg = value.prodImg;
+        this.prodType = value.prodType;
     }
 
     public ProductType(
@@ -45,13 +47,15 @@ public class ProductType implements Serializable {
         String prodName,
         String prodRate,
         String prodRemark,
-        String prodImg
+        String prodImg,
+        String prodType
     ) {
         this.id = id;
         this.prodName = prodName;
         this.prodRate = prodRate;
         this.prodRemark = prodRemark;
         this.prodImg = prodImg;
+        this.prodType = prodType;
     }
 
     public String getId() {
@@ -94,6 +98,14 @@ public class ProductType implements Serializable {
         this.prodImg = prodImg;
     }
 
+    public String getProdType() {
+        return this.prodType;
+    }
+
+    public void setProdType(String prodType) {
+        this.prodType = prodType;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ProductType (");
@@ -103,6 +115,7 @@ public class ProductType implements Serializable {
         sb.append(", ").append(prodRate);
         sb.append(", ").append(prodRemark);
         sb.append(", ").append(prodImg);
+        sb.append(", ").append(prodType);
 
         sb.append(")");
         return sb.toString();

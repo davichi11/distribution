@@ -15,10 +15,11 @@ import java.util.List;
  */
 @Data
 public class ProductDetailVO {
-    private String  prodDetailName;
+    private String id;
+    private String prodDetailName;
     private Integer prodDetailBuyBack;
-    private String  prodTypeId;
-    private Long    prodDetailValue;
+    private String prodTypeId;
+    private Long prodDetailValue;
     private Integer prodDetailCount;
     List<ProductDetailParams> params;
 }

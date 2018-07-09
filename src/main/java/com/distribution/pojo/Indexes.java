@@ -12,6 +12,7 @@ import com.distribution.pojo.tables.DisMemberInfo;
 import com.distribution.pojo.tables.DisProfiParam;
 import com.distribution.pojo.tables.DisProfitRecord;
 import com.distribution.pojo.tables.IntegralOrder;
+import com.distribution.pojo.tables.IntegralTutorial;
 import com.distribution.pojo.tables.LoanInfo;
 import com.distribution.pojo.tables.LoanOrderInfo;
 import com.distribution.pojo.tables.MemberAccount;
@@ -88,6 +89,7 @@ public class Indexes {
     public static final Index DIS_PROFI_PARAM_PRIMARY = Indexes0.DIS_PROFI_PARAM_PRIMARY;
     public static final Index INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX = Indexes0.INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX;
     public static final Index INTEGRAL_ORDER_PRIMARY = Indexes0.INTEGRAL_ORDER_PRIMARY;
+    public static final Index INTEGRAL_TUTORIAL_PRIMARY = Indexes0.INTEGRAL_TUTORIAL_PRIMARY;
     public static final Index LOAN_INFO_LOAN_INFO_ID_UINDEX = Indexes0.LOAN_INFO_LOAN_INFO_ID_UINDEX;
     public static final Index LOAN_INFO_PRIMARY = Indexes0.LOAN_INFO_PRIMARY;
     public static final Index LOAN_ORDER_INFO_LOAN_ORDER_INFO_ID_UINDEX = Indexes0.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ID_UINDEX;
@@ -161,6 +163,7 @@ public class Indexes {
         public static Index DIS_PROFI_PARAM_PRIMARY = Internal.createIndex("PRIMARY", DisProfiParam.DIS_PROFI_PARAM, new OrderField[] { DisProfiParam.DIS_PROFI_PARAM.ID }, true);
         public static Index INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX = Internal.createIndex("integral_order_id_uindex", IntegralOrder.INTEGRAL_ORDER, new OrderField[] { IntegralOrder.INTEGRAL_ORDER.ID }, true);
         public static Index INTEGRAL_ORDER_PRIMARY = Internal.createIndex("PRIMARY", IntegralOrder.INTEGRAL_ORDER, new OrderField[] { IntegralOrder.INTEGRAL_ORDER.ID }, true);
+        public static Index INTEGRAL_TUTORIAL_PRIMARY = Internal.createIndex("PRIMARY", IntegralTutorial.INTEGRAL_TUTORIAL, new OrderField[] { IntegralTutorial.INTEGRAL_TUTORIAL.ID }, true);
         public static Index LOAN_INFO_LOAN_INFO_ID_UINDEX = Internal.createIndex("loan_info_id_uindex", LoanInfo.LOAN_INFO, new OrderField[] { LoanInfo.LOAN_INFO.ID }, true);
         public static Index LOAN_INFO_PRIMARY = Internal.createIndex("PRIMARY", LoanInfo.LOAN_INFO, new OrderField[] { LoanInfo.LOAN_INFO.ID }, true);
         public static Index LOAN_ORDER_INFO_LOAN_ORDER_INFO_ID_UINDEX = Internal.createIndex("loan_order_info_id_uindex", LoanOrderInfo.LOAN_ORDER_INFO, new OrderField[] { LoanOrderInfo.LOAN_ORDER_INFO.ID }, true);

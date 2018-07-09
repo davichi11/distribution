@@ -13,6 +13,7 @@ import com.distribution.pojo.tables.DisProfiParam;
 import com.distribution.pojo.tables.DisProfitRecord;
 import com.distribution.pojo.tables.District;
 import com.distribution.pojo.tables.IntegralOrder;
+import com.distribution.pojo.tables.IntegralTutorial;
 import com.distribution.pojo.tables.LoanInfo;
 import com.distribution.pojo.tables.LoanOrderInfo;
 import com.distribution.pojo.tables.MemberAccount;
@@ -101,6 +102,11 @@ public class Tables {
      * 积分兑换申请表
      */
     public static final IntegralOrder INTEGRAL_ORDER = com.distribution.pojo.tables.IntegralOrder.INTEGRAL_ORDER;
+
+    /**
+     * The table <code>distribution.integral_tutorial</code>.
+     */
+    public static final IntegralTutorial INTEGRAL_TUTORIAL = com.distribution.pojo.tables.IntegralTutorial.INTEGRAL_TUTORIAL;
 
     /**
      * The table <code>distribution.loan_info</code>.

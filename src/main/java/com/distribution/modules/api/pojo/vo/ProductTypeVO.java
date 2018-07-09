@@ -1,5 +1,6 @@
 package com.distribution.modules.api.pojo.vo;
 
+import com.distribution.pojo.tables.pojos.IntegralTutorial;
 import com.distribution.pojo.tables.pojos.ProductTypeParams;
 import lombok.Data;
 
@@ -15,9 +16,12 @@ import java.util.List;
  */
 @Data
 public class ProductTypeVO {
+    private String id;
     private String prodName;
     private String prodRate;
     private String prodRemark;
     private String prodImg;
+    private String prodType;
     private List<ProductTypeParams> params;
+    private List<IntegralTutorial> tutorials;
 }

@@ -12,6 +12,7 @@ import com.distribution.pojo.tables.DisMemberInfo;
 import com.distribution.pojo.tables.DisProfiParam;
 import com.distribution.pojo.tables.DisProfitRecord;
 import com.distribution.pojo.tables.IntegralOrder;
+import com.distribution.pojo.tables.IntegralTutorial;
 import com.distribution.pojo.tables.LoanInfo;
 import com.distribution.pojo.tables.LoanOrderInfo;
 import com.distribution.pojo.tables.MemberAccount;
@@ -46,6 +47,7 @@ import com.distribution.pojo.tables.records.DisMemberInfoRecord;
 import com.distribution.pojo.tables.records.DisProfiParamRecord;
 import com.distribution.pojo.tables.records.DisProfitRecordRecord;
 import com.distribution.pojo.tables.records.IntegralOrderRecord;
+import com.distribution.pojo.tables.records.IntegralTutorialRecord;
 import com.distribution.pojo.tables.records.LoanInfoRecord;
 import com.distribution.pojo.tables.records.LoanOrderInfoRecord;
 import com.distribution.pojo.tables.records.MemberAccountHistoryRecord;
@@ -99,6 +101,7 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final Identity<DisDictionaryRecord, Integer> IDENTITY_DIS_DICTIONARY = Identities0.IDENTITY_DIS_DICTIONARY;
+    public static final Identity<IntegralTutorialRecord, Integer> IDENTITY_INTEGRAL_TUTORIAL = Identities0.IDENTITY_INTEGRAL_TUTORIAL;
     public static final Identity<ProductDetailParamsRecord, Integer> IDENTITY_PRODUCT_DETAIL_PARAMS = Identities0.IDENTITY_PRODUCT_DETAIL_PARAMS;
     public static final Identity<ProductTypeParamsRecord, Integer> IDENTITY_PRODUCT_TYPE_PARAMS = Identities0.IDENTITY_PRODUCT_TYPE_PARAMS;
     public static final Identity<ScheduleJobRecord, Long> IDENTITY_SCHEDULE_JOB = Identities0.IDENTITY_SCHEDULE_JOB;
@@ -131,6 +134,7 @@ public class Keys {
     public static final UniqueKey<DisProfiParamRecord> KEY_DIS_PROFI_PARAM_DIS_PROFI_PARAM_ID_UINDEX = UniqueKeys0.KEY_DIS_PROFI_PARAM_DIS_PROFI_PARAM_ID_UINDEX;
     public static final UniqueKey<IntegralOrderRecord> KEY_INTEGRAL_ORDER_PRIMARY = UniqueKeys0.KEY_INTEGRAL_ORDER_PRIMARY;
     public static final UniqueKey<IntegralOrderRecord> KEY_INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX = UniqueKeys0.KEY_INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX;
+    public static final UniqueKey<IntegralTutorialRecord> KEY_INTEGRAL_TUTORIAL_PRIMARY = UniqueKeys0.KEY_INTEGRAL_TUTORIAL_PRIMARY;
     public static final UniqueKey<LoanInfoRecord> KEY_LOAN_INFO_PRIMARY = UniqueKeys0.KEY_LOAN_INFO_PRIMARY;
     public static final UniqueKey<LoanInfoRecord> KEY_LOAN_INFO_LOAN_INFO_ID_UINDEX = UniqueKeys0.KEY_LOAN_INFO_LOAN_INFO_ID_UINDEX;
     public static final UniqueKey<LoanOrderInfoRecord> KEY_LOAN_ORDER_INFO_PRIMARY = UniqueKeys0.KEY_LOAN_ORDER_INFO_PRIMARY;
@@ -181,6 +185,7 @@ public class Keys {
 
     private static class Identities0 {
         public static Identity<DisDictionaryRecord, Integer> IDENTITY_DIS_DICTIONARY = Internal.createIdentity(DisDictionary.DIS_DICTIONARY, DisDictionary.DIS_DICTIONARY.ID);
+        public static Identity<IntegralTutorialRecord, Integer> IDENTITY_INTEGRAL_TUTORIAL = Internal.createIdentity(IntegralTutorial.INTEGRAL_TUTORIAL, IntegralTutorial.INTEGRAL_TUTORIAL.ID);
         public static Identity<ProductDetailParamsRecord, Integer> IDENTITY_PRODUCT_DETAIL_PARAMS = Internal.createIdentity(ProductDetailParams.PRODUCT_DETAIL_PARAMS, ProductDetailParams.PRODUCT_DETAIL_PARAMS.ID);
         public static Identity<ProductTypeParamsRecord, Integer> IDENTITY_PRODUCT_TYPE_PARAMS = Internal.createIdentity(ProductTypeParams.PRODUCT_TYPE_PARAMS, ProductTypeParams.PRODUCT_TYPE_PARAMS.ID);
         public static Identity<ScheduleJobRecord, Long> IDENTITY_SCHEDULE_JOB = Internal.createIdentity(ScheduleJob.SCHEDULE_JOB, ScheduleJob.SCHEDULE_JOB.JOB_ID);
@@ -211,6 +216,7 @@ public class Keys {
         public static final UniqueKey<DisProfiParamRecord> KEY_DIS_PROFI_PARAM_DIS_PROFI_PARAM_ID_UINDEX = Internal.createUniqueKey(DisProfiParam.DIS_PROFI_PARAM, "KEY_dis_profi_param_dis_profi_param_id_uindex", DisProfiParam.DIS_PROFI_PARAM.ID);
         public static final UniqueKey<IntegralOrderRecord> KEY_INTEGRAL_ORDER_PRIMARY = Internal.createUniqueKey(IntegralOrder.INTEGRAL_ORDER, "KEY_integral_order_PRIMARY", IntegralOrder.INTEGRAL_ORDER.ID);
         public static final UniqueKey<IntegralOrderRecord> KEY_INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX = Internal.createUniqueKey(IntegralOrder.INTEGRAL_ORDER, "KEY_integral_order_integral_order_id_uindex", IntegralOrder.INTEGRAL_ORDER.ID);
+        public static final UniqueKey<IntegralTutorialRecord> KEY_INTEGRAL_TUTORIAL_PRIMARY = Internal.createUniqueKey(IntegralTutorial.INTEGRAL_TUTORIAL, "KEY_integral_tutorial_PRIMARY", IntegralTutorial.INTEGRAL_TUTORIAL.ID);
         public static final UniqueKey<LoanInfoRecord> KEY_LOAN_INFO_PRIMARY = Internal.createUniqueKey(LoanInfo.LOAN_INFO, "KEY_loan_info_PRIMARY", LoanInfo.LOAN_INFO.ID);
         public static final UniqueKey<LoanInfoRecord> KEY_LOAN_INFO_LOAN_INFO_ID_UINDEX = Internal.createUniqueKey(LoanInfo.LOAN_INFO, "KEY_loan_info_loan_info_id_uindex", LoanInfo.LOAN_INFO.ID);
         public static final UniqueKey<LoanOrderInfoRecord> KEY_LOAN_ORDER_INFO_PRIMARY = Internal.createUniqueKey(LoanOrderInfo.LOAN_ORDER_INFO, "KEY_loan_order_info_PRIMARY", LoanOrderInfo.LOAN_ORDER_INFO.ID);

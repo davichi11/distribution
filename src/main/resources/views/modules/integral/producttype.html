@@ -63,6 +63,17 @@
                 </div>
             </div>
             <div class="form-group">
+                <div class="col-sm-2 control-label">提单类型</div>
+                <div class="col-sm-10">
+                    <select class="form-control" v-model="productType.prodType">
+                        <option value="" disabled>请选择</option>
+                        <option v-for="option in type" :value="option.value">
+                            {{option.name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
                 <div class="col-sm-2 control-label">产品描述</div>
                 <div class="col-sm-10">
                     <textarea class="form-control" v-model="productType.prodRemark" title="产品描述"></textarea>
@@ -71,7 +82,10 @@
             <div class="form-group">
                 <div class="col-sm-2 control-label">图标</div>
                 <div class="col-sm-10">
-                    <input type="file" class="form-control" v-model="productType.prodImg"
+                    <div v-if="productType.id">
+                        <img :src="productType.prodImg">
+                    </div>
+                    <input type="file" class="form-control"
                            placeholder="图标" @change="triggerFile($event)"/>
                 </div>
             </div>
@@ -102,6 +116,46 @@
                                         <input type="number" id="exchangePercent" class="form-control"
                                                v-model="productType.params[index].exchangePercent"
                                                placeholder="百分比"/>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">图文教程</div>
+                <div class="col-sm-10">
+                    <span style="margin-left: 10px">添加图文教程</span>
+                    <input type="button" class="btn btn-default" @click="addTutorials"
+                           value="+"/>
+                    <table class="table table-striped">
+                        <tr v-for="(item,index) in productType.tutorials">
+                            <td style="width: 20%">
+                                <div class="form-group">
+                                    <label class="control-label">步骤{{index+1}}</label>
+                                </div>
+                            </td>
+                            <td style="width: 40%">
+                                <div class="form-group">
+                                    <label for="textDescribe" class="col-sm-2 control-label"
+                                           style="width: 100px">文字描述:</label>
+                                    <div class="col-sm-10">
+                                        <textarea name="文字描述" id="textDescribe" cols="30" rows="10"
+                                                  v-model="productType.tutorials[index].textDescribe"></textarea>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="width: 40%">
+                                <div class="form-group">
+                                    <label for="imgDescribe" class="col-sm-2 control-label"
+                                           style="width: 100px">图片描述:</label>
+                                    <div class="col-sm-10">
+                                        <div v-if="productType.tutorials[index].id">
+                                            <img :src="productType.tutorials[index].imgDescribe">
+                                        </div>
+                                        <input type="file" class="form-control" id="imgDescribe"
+                                               @change="addFile($event,index)"/>
                                     </div>
                                 </div>
                             </td>

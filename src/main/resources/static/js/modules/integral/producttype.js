@@ -5,7 +5,16 @@ $(function () {
         colModel: [
             {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
             {label: '产品类型名称', name: 'prodName', index: 'prod_name', width: 80},
-            {label: '结算周期', name: 'prodRate', index: 'prod_rate', width: 80},
+            {label: '结算周期', name: 'prodRate', index: 'prod_rate', width: 30},
+            {
+                label: '提单类型',
+                name: 'prodType',
+                index: 'prod_type',
+                width: 30,
+                formatter: (value, options, row) => value === 0 ?
+                    '<span class="label label-info">短信</span>' :
+                    '<span class="label label-success">图片</span>'
+            },
             {label: '产品描述', name: 'prodRemark', index: 'prod_remark', width: 80},
             {label: '图标', name: 'prodImg', index: 'prod_img', width: 80}
         ],
@@ -35,19 +44,39 @@ $(function () {
         }
     });
 });
+
 class Params {
     constructor(level, exchangePercent) {
         this.level = level
         this.exchangePercent = exchangePercent
     }
 }
+
+class Tutorial {
+    constructor(step, textDescribe, imgDescribe) {
+        this.step = step
+        this.imgDescribe = imgDescribe
+        this.textDescribe = textDescribe
+    }
+}
+
 var vm = new Vue({
     el: '#rrapp',
     data: {
         q: {prodName: ""},
         showList: true,
         title: null,
-        productType: {params: []}
+        productType: {
+            prodImg: '',
+            prodName: '',
+            prodRate: 0,
+            prodRemark: '',
+            prodType: '',
+            params: [],
+            tutorials: []
+        },
+        type: [{value: 0, name: '短信'}, {value: 1, name: '图片'}]
+
     },
     methods: {
         query: function () {
@@ -57,7 +86,15 @@ var vm = new Vue({
         add: function () {
             vm.showList = false;
             vm.title = "新增";
-            vm.productType = {params: []};
+            vm.productType = {
+                prodImg: '',
+                prodName: '',
+                prodRate: 0,
+                prodRemark: '',
+                prodType: '',
+                params: [new Params()],
+                tutorials: [new Tutorial()]
+            };
         },
         update: function (event) {
             let id = getSelectedRow();
@@ -124,7 +161,7 @@ var vm = new Vue({
                 page: page
             }).trigger("reloadGrid");
         },
-        triggerFile(event) {
+        triggerFile: function (event) {
             let file = event.target.files[0]; // (利用console.log输出看结构就知道如何处理档案资料)
             // do something...
             console.log(file)
@@ -133,19 +170,45 @@ var vm = new Vue({
             $.ajax({
                 type: "POST",
                 url: baseURL + "api/upload",
-                dataType : "json",
+                dataType: "json",
                 processData: false,  // 注意：让jQuery不要处理数据
                 contentType: false,
                 data: formData,
                 success: r => {
                     if (r.code === 0) {
-                        vm.productType.prodRemark = r.results.url
+                        vm.productType.prodImg = r.url
+                        console.log(vm.productType)
                     }
                 }
             });
         },
-        addIndex() {
-            this.productType.params.push(new Params())
+        addFile: function (event, index) {
+            // console.log(index)
+            let file = event.target.files[0]; // (利用console.log输出看结构就知道如何处理档案资料)
+            // do something...
+            // console.log(file)
+            let formData = new FormData();
+            formData.append("file", file);
+            $.ajax({
+                type: "POST",
+                url: baseURL + "api/upload",
+                dataType: "json",
+                processData: false,  // 注意：让jQuery不要处理数据
+                contentType: false,
+                data: formData,
+                success: r => {
+                    if (r.code === 0) {
+                        vm.productType.tutorials[index].imgDescribe = r.url
+                        vm.productType.tutorials[index].step = index + 1
+                    }
+                }
+            });
+        },
+        addIndex: function () {
+            vm.productType.params.push(new Params())
+        },
+        addTutorials: function () {
+            vm.productType.tutorials.push(new Tutorial())
         }
     }
 });

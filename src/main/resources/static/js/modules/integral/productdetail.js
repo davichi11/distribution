@@ -53,8 +53,7 @@ var vm = new Vue({
         showList: true,
         title: null,
         productDetail: {params: []},
-        productType: [],
-
+        productType: []
     },
     created() {
         this.getProdType()
@@ -82,6 +81,7 @@ var vm = new Vue({
             vm.getInfo(id)
         },
         saveOrUpdate: function (event) {
+            console.log(vm.productDetail)
             let url = vm.productDetail.id == null ? "productdetail/save" : "productdetail/update";
             $.ajax({
                 type: "POST",
@@ -137,11 +137,11 @@ var vm = new Vue({
             }).trigger("reloadGrid");
         },
         getProdType: function () {
-            $.get(baseURL + "api/productType/", r => {
+            $.get(baseURL + "producttype/productType/", r => {
                 console.log(r)
                 vm.productType = r.productTypes
             })
-            console.log(vm.productType)
+            console.log(this.productType)
         },
         addIndex() {
             this.productDetail.params.push(new Params())

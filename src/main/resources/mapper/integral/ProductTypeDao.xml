@@ -10,6 +10,7 @@
         <result property="prodRate" column="prod_rate"/>
         <result property="prodRemark" column="prod_remark"/>
         <result property="prodImg" column="prod_img"/>
+        <result property="prodType" column="prod_type"/>
     </resultMap>
 
     <select id="queryObject" resultMap="productTypeMap">

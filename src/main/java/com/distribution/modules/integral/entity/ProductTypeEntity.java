@@ -37,4 +37,6 @@ public class ProductTypeEntity implements Serializable {
      * 图标
      */
     private String prodImg;
+
+    private String prodType;
 }

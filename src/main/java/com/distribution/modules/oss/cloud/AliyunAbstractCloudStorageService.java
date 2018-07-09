@@ -2,6 +2,7 @@ package com.distribution.modules.oss.cloud;
 
 import com.aliyun.oss.OSSClient;
 import com.distribution.common.exception.RRException;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -13,6 +14,7 @@ import java.io.InputStream;
  * @email davichi2009@gmail.com
  * @date 2017-03-26 16:22
  */
+@Slf4j
 public class AliyunAbstractCloudStorageService extends AbstractCloudStorageService {
     private OSSClient client;
 
@@ -38,6 +40,7 @@ public class AliyunAbstractCloudStorageService extends AbstractCloudStorageServi
         try {
             client.putObject(config.getAliyunBucketName(), path, inputStream);
         } catch (Exception e) {
+            log.error("上传异常", e);
             throw new RRException("上传文件失败，请检查配置信息", e);
         }
 

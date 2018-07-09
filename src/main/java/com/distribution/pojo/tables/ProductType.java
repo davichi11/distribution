@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductType extends TableImpl<ProductTypeRecord> {
 
-    private static final long serialVersionUID = -1778156131;
+    private static final long serialVersionUID = 2124865518;
 
     /**
      * The reference instance of <code>distribution.product_type</code>
@@ -77,6 +77,11 @@ public class ProductType extends TableImpl<ProductTypeRecord> {
      * The column <code>distribution.product_type.prod_img</code>. 图标
      */
     public final TableField<ProductTypeRecord, String> PROD_IMG = createField("prod_img", org.jooq.impl.SQLDataType.VARCHAR(1000), this, "图标");
+
+    /**
+     * The column <code>distribution.product_type.prod_type</code>. 提单类型 0:短信,1:图片
+     */
+    public final TableField<ProductTypeRecord, String> PROD_TYPE = createField("prod_type", org.jooq.impl.SQLDataType.CHAR(1).nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.CHAR)), this, "提单类型 0:短信,1:图片");
 
     /**
      * Create a <code>distribution.product_type</code> table reference

@@ -6,10 +6,15 @@ import com.distribution.modules.api.pojo.vo.ProductTypeVO;
 import com.distribution.modules.integral.entity.ProductTypeEntity;
 import com.distribution.modules.integral.service.ProductTypeService;
 import com.distribution.pojo.Tables;
+import com.distribution.pojo.tables.pojos.IntegralTutorial;
+import com.distribution.pojo.tables.pojos.ProductType;
+import com.distribution.pojo.tables.pojos.ProductTypeParams;
+import com.distribution.pojo.tables.records.IntegralTutorialRecord;
 import com.distribution.pojo.tables.records.ProductTypeParamsRecord;
 import com.distribution.pojo.tables.records.ProductTypeRecord;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
@@ -17,11 +22,13 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.jooq.DSLContext;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -52,6 +59,11 @@ public class ProductTypeController {
         return Result.ok().put("page", pageInfo);
     }
 
+    @GetMapping("/productType")
+    public Result getAll() {
+        return Result.ok().put("productTypes", productTypeService.queryList(Maps.newHashMap()));
+    }
+
 
     /**
      * 信息
@@ -59,9 +71,17 @@ public class ProductTypeController {
     @RequestMapping("/info/{id}")
     @RequiresPermissions("producttype:info")
     public Result info(@PathVariable("id") String id) {
-        ProductTypeEntity productType = productTypeService.queryObject(id);
-
-        return Result.ok().put("productType", productType);
+        ProductType type = create.selectFrom(Tables.PRODUCT_TYPE).where(Tables.PRODUCT_TYPE.ID.eq(id))
+                .fetchOneInto(ProductType.class);
+        ProductTypeVO typeVO = new ProductTypeVO();
+        BeanUtils.copyProperties(type, typeVO);
+        typeVO.setParams(create.selectFrom(Tables.PRODUCT_TYPE_PARAMS).where(Tables.PRODUCT_TYPE_PARAMS.TYPE_ID.eq(id))
+                .fetchInto(ProductTypeParams.class));
+        typeVO.setTutorials(create.selectFrom(Tables.INTEGRAL_TUTORIAL)
+                .where(Tables.INTEGRAL_TUTORIAL.TYPE_ID.eq(type.getId()))
+                .orderBy(Tables.INTEGRAL_TUTORIAL.STEP.asc())
+                .fetchInto(IntegralTutorial.class));
+        return Result.ok().put("productType", typeVO);
     }
 
     /**
@@ -69,29 +89,36 @@ public class ProductTypeController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("producttype:save")
-    public Result save(@RequestBody ProductTypeVO productType) {
-        try {
-            String uuid = CommonUtils.getUUID();
-            ProductTypeRecord typeRecord = create.newRecord(Tables.PRODUCT_TYPE);
-            BeanUtils.copyProperties(productType, typeRecord);
-            typeRecord.setId(uuid);
-            typeRecord.insert();
-            if (CollectionUtils.isNotEmpty(productType.getParams())) {
-                List<ProductTypeParamsRecord> paramsRecords = new ArrayList<>();
-                productType.getParams().forEach(param -> {
-                    ProductTypeParamsRecord paramsRecord = create.newRecord(Tables.PRODUCT_TYPE_PARAMS);
-                    paramsRecord.setTypeId(uuid);
-                    paramsRecord.setExchangePercent(param.getExchangePercent() / 100);
-                    paramsRecord.setLevel(param.getLevel());
-                    paramsRecords.add(paramsRecord);
-                });
-                create.batchInsert(paramsRecords).execute();
-            }
-        } catch (Exception e) {
-            log.error("保存异常", e);
-            return Result.error("保存异常");
+    @Transactional(rollbackFor = Exception.class)
+    public Result save(@RequestBody ProductTypeVO productType) throws Exception {
+        String uuid = CommonUtils.getUUID();
+        ProductTypeRecord typeRecord = create.newRecord(Tables.PRODUCT_TYPE);
+        BeanUtils.copyProperties(productType, typeRecord);
+        typeRecord.setId(uuid);
+        typeRecord.insert();
+        if (CollectionUtils.isNotEmpty(productType.getParams())) {
+            List<ProductTypeParamsRecord> paramsRecords = new ArrayList<>();
+            productType.getParams().stream().filter(Objects::nonNull).forEach(param -> {
+                ProductTypeParamsRecord paramsRecord = create.newRecord(Tables.PRODUCT_TYPE_PARAMS);
+                paramsRecord.setTypeId(uuid);
+                paramsRecord.setExchangePercent(param.getExchangePercent() / 100);
+                paramsRecord.setLevel(param.getLevel());
+                paramsRecords.add(paramsRecord);
+            });
+            create.batchInsert(paramsRecords).execute();
         }
-
+        if (CollectionUtils.isNotEmpty(productType.getTutorials())) {
+            List<IntegralTutorialRecord> tutorialRecords = new ArrayList<>();
+            productType.getTutorials().stream().filter(Objects::nonNull).forEach(tutorial -> {
+                IntegralTutorialRecord record = create.newRecord(Tables.INTEGRAL_TUTORIAL);
+                record.setStep(tutorial.getStep());
+                record.setTextDescribe(tutorial.getTextDescribe());
+                record.setImgDescribe(tutorial.getImgDescribe());
+                record.setTypeId(uuid);
+                tutorialRecords.add(record);
+            });
+            create.batchInsert(tutorialRecords).execute();
+        }
         return Result.ok();
     }
 
