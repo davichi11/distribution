@@ -22,15 +22,15 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IntegralOrder implements Serializable {
 
-    private static final long serialVersionUID = -1274487559;
+    private static final long serialVersionUID = 1166017911;
 
-    private String  id;
-    private Long    mobile;
-    private String  detailId;
-    private String  img;
-    private String  addTime;
-    private Boolean status;
-    private String  record;
+    private String id;
+    private Long   mobile;
+    private String detailId;
+    private String img;
+    private String addTime;
+    private String status;
+    private String record;
 
     public IntegralOrder() {}
 
@@ -45,13 +45,13 @@ public class IntegralOrder implements Serializable {
     }
 
     public IntegralOrder(
-        String  id,
-        Long    mobile,
-        String  detailId,
-        String  img,
-        String  addTime,
-        Boolean status,
-        String  record
+        String id,
+        Long   mobile,
+        String detailId,
+        String img,
+        String addTime,
+        String status,
+        String record
     ) {
         this.id = id;
         this.mobile = mobile;
@@ -102,11 +102,11 @@ public class IntegralOrder implements Serializable {
         this.addTime = addTime;
     }
 
-    public Boolean getStatus() {
+    public String getStatus() {
         return this.status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

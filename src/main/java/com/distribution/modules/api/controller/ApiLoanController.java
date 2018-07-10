@@ -168,6 +168,7 @@ public class ApiLoanController {
         orderInfoRecord.setOrderId(AliPayUtils.generateOrderId(loanOrderVO.getOrderMobile(),
                 Constant.PayType.applyLoan.getValue()));
         orderInfoRecord.setMemberId(member.getId());
+        orderInfoRecord.setOrderStatus("2");
         orderInfoRecord.setIsDelete(false);
         orderInfoRecord.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
         orderInfoRecord.insert();

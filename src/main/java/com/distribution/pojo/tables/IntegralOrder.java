@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
 
-    private static final long serialVersionUID = 354344172;
+    private static final long serialVersionUID = -126668379;
 
     /**
      * The reference instance of <code>distribution.integral_order</code>
@@ -81,7 +81,7 @@ public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
     /**
      * The column <code>distribution.integral_order.status</code>. 审核状态:0失败,1成功,2审核中
      */
-    public final TableField<IntegralOrderRecord, Boolean> STATUS = createField("status", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("2", org.jooq.impl.SQLDataType.BOOLEAN)), this, "审核状态:0失败,1成功,2审核中");
+    public final TableField<IntegralOrderRecord, String> STATUS = createField("status", org.jooq.impl.SQLDataType.CHAR(1).nullable(false).defaultValue(org.jooq.impl.DSL.inline("2", org.jooq.impl.SQLDataType.CHAR)), this, "审核状态:0失败,1成功,2审核中");
 
     /**
      * The column <code>distribution.integral_order.record</code>. 上传短信记录

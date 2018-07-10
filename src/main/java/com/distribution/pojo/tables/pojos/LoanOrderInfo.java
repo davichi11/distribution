@@ -22,13 +22,13 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LoanOrderInfo implements Serializable {
 
-    private static final long serialVersionUID = 503976007;
+    private static final long serialVersionUID = 313024241;
 
     private String  id;
     private String  orderId;
     private String  orderMobile;
     private String  orderIdcardno;
-    private Boolean orderStatus;
+    private String  orderStatus;
     private String  memberId;
     private String  loanId;
     private Double  loanAmount;
@@ -59,7 +59,7 @@ public class LoanOrderInfo implements Serializable {
         String  orderId,
         String  orderMobile,
         String  orderIdcardno,
-        Boolean orderStatus,
+        String  orderStatus,
         String  memberId,
         String  loanId,
         Double  loanAmount,
@@ -114,11 +114,11 @@ public class LoanOrderInfo implements Serializable {
         this.orderIdcardno = orderIdcardno;
     }
 
-    public Boolean getOrderStatus() {
+    public String getOrderStatus() {
         return this.orderStatus;
     }
 
-    public void setOrderStatus(Boolean orderStatus) {
+    public void setOrderStatus(String orderStatus) {
         this.orderStatus = orderStatus;
     }
 

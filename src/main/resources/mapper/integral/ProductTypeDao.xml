@@ -20,7 +20,7 @@
     </select>
 
     <select id="queryList" resultMap="productTypeMap">
-        select id, prod_name, prod_rate, prod_remark, prod_img from product_type t
+        select id, prod_name, prod_rate, prod_remark, prod_img,prod_type from product_type t
         <where>
             <if test="prodName != null">
                 and t.prod_name like concat('%',#{prodName},'%')

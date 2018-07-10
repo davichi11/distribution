@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LoanOrderInfo extends TableImpl<LoanOrderInfoRecord> {
 
-    private static final long serialVersionUID = 797156977;
+    private static final long serialVersionUID = -1343936804;
 
     /**
      * The reference instance of <code>distribution.loan_order_info</code>
@@ -76,7 +76,7 @@ public class LoanOrderInfo extends TableImpl<LoanOrderInfoRecord> {
     /**
      * The column <code>distribution.loan_order_info.order_status</code>. 订单状态 0失败 1成功 2申请中
      */
-    public final TableField<LoanOrderInfoRecord, Boolean> ORDER_STATUS = createField("order_status", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("2", org.jooq.impl.SQLDataType.BOOLEAN)), this, "订单状态 0失败 1成功 2申请中");
+    public final TableField<LoanOrderInfoRecord, String> ORDER_STATUS = createField("order_status", org.jooq.impl.SQLDataType.CHAR(1).nullable(false).defaultValue(org.jooq.impl.DSL.inline("2", org.jooq.impl.SQLDataType.CHAR)), this, "订单状态 0失败 1成功 2申请中");
 
     /**
      * The column <code>distribution.loan_order_info.member_id</code>.

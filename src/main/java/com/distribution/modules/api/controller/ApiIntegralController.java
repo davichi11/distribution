@@ -4,6 +4,7 @@ import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.DateUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.api.annotation.AuthIgnore;
+import com.distribution.modules.api.pojo.vo.IntegralOrderVO;
 import com.distribution.modules.api.pojo.vo.ProductDetailVO;
 import com.distribution.modules.api.pojo.vo.ProductTypeVO;
 import com.distribution.modules.integral.service.IntegralOrderService;
@@ -102,13 +103,35 @@ public class ApiIntegralController {
         return Result.ok().put("productType", type);
     }
 
+    @AuthIgnore
+    @GetMapping("/tutorial/{type}")
+    @ApiOperation("根据产品类型查询图文教程")
+    public Result getIntegralTutorials(@PathVariable("type") String type) {
+        List<IntegralTutorial> integralTutorials = create.selectFrom(Tables.INTEGRAL_TUTORIAL)
+                .where(Tables.INTEGRAL_TUTORIAL.TYPE_ID.eq(type))
+                .orderBy(Tables.INTEGRAL_TUTORIAL.STEP.asc())
+                .fetchInto(IntegralTutorial.class);
+        return Result.ok().put("tutorials", integralTutorials);
+    }
+
 
     @GetMapping("/integralOrder/{mobile}")
     @ApiOperation("查询用户的兑换记录")
     public Result getIntegralOrders(@PathVariable("mobile") String mobile) {
         List<IntegralOrder> integralOrders = create.selectFrom(INTEGRAL_ORDER)
                 .where(INTEGRAL_ORDER.MOBILE.eq(NumberUtils.toLong(mobile))).fetchInto(IntegralOrder.class);
-        return Result.ok().put("integralOrders", integralOrders);
+        DisMemberInfo memberInfo = create.selectFrom(DIS_MEMBER_INFO.join(TB_USER).on(DIS_MEMBER_INFO.DIS_USER_ID.eq(TB_USER.USER_ID)))
+                .where(TB_USER.MOBILE.eq(mobile)).fetchOneInto(DisMemberInfo.class);
+        List<IntegralOrderVO> orderVOS = integralOrders.stream().map(order -> {
+            IntegralOrderVO vo = new IntegralOrderVO();
+            BeanUtils.copyProperties(order, vo);
+            vo.setName(memberInfo.getDisUserName());
+            vo.setIdCard(memberInfo.getDisUserIdCode());
+            vo.setDetail(create.selectFrom(PRODUCT_DETAIL).where(PRODUCT_DETAIL.ID.eq(order.getDetailId()))
+            .fetchOne().getProdDetailName());
+            return vo;
+        }).collect(Collectors.toList());
+        return Result.ok().put("integralOrders", orderVOS);
     }
 
     @PostMapping("/integralOrder")
@@ -118,6 +141,7 @@ public class ApiIntegralController {
         IntegralOrderRecord record = create.newRecord(INTEGRAL_ORDER);
         BeanUtils.copyProperties(integralOrder, record);
         record.setId(CommonUtils.getUUID());
+        record.setStatus("2");
         record.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
         int i;
         try {
