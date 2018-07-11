@@ -1,6 +1,5 @@
 package com.distribution.modules.dis.controller;
 
-import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.DateUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.dis.entity.LoanInfoEntity;
@@ -60,7 +59,6 @@ public class LoanInfoController {
     @RequiresPermissions("loaninfo:save")
     public Result save(@RequestBody LoanInfoEntity loanInfo) {
         try {
-            loanInfo.setId(CommonUtils.getUUID());
             loanInfo.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
             loanInfoService.save(loanInfo);
         } catch (Exception e) {
@@ -78,8 +76,13 @@ public class LoanInfoController {
     @RequiresPermissions("loaninfo:update")
     public Result update(@RequestBody LoanInfoEntity loanInfo) {
         try {
-            loanInfo.setUpdateTime(DateUtils.formatDateTime(LocalDateTime.now()));
-            loanInfoService.update(loanInfo);
+            if (loanInfoService.queryObject(loanInfo.getId()) != null) {
+                loanInfo.setUpdateTime(DateUtils.formatDateTime(LocalDateTime.now()));
+                loanInfoService.update(loanInfo);
+            } else {
+                loanInfo.setAddTime(DateUtils.formatDateTime(LocalDateTime.now()));
+                loanInfoService.save(loanInfo);
+            }
         } catch (Exception e) {
             log.error("修改贷款产品信息异常", e);
             return Result.error("修改贷款产品信息异常");

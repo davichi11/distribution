@@ -6,17 +6,24 @@ $(function () {
             {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
             {label: '产品类型名称', name: 'prodName', index: 'prod_name', width: 80},
             {label: '结算周期', name: 'prodRate', index: 'prod_rate', width: 30},
+            {label: '兑换比率', name: 'exchangePercent', index: 'exchange_percent', width: 30},
             {
                 label: '提单类型',
                 name: 'prodType',
                 index: 'prod_type',
                 width: 30,
-                formatter: (value, options, row) => value === 0 ?
+                formatter: (value, options, row) => value === '0' ?
                     '<span class="label label-info">短信</span>' :
                     '<span class="label label-success">图片</span>'
             },
             {label: '产品描述', name: 'prodRemark', index: 'prod_remark', width: 80},
-            {label: '图标', name: 'prodImg', index: 'prod_img', width: 80}
+            {
+                label: '图标',
+                name: 'prodImg',
+                index: 'prod_img',
+                width: 80,
+                formatter: (value, options, row) => `<a href="#" onclick="showImg('${value}')">点击查看图标</a>`
+            }
         ],
         viewrecords: true,
         height: 385,
@@ -45,13 +52,6 @@ $(function () {
     });
 });
 
-class Params {
-    constructor(level, exchangePercent) {
-        this.level = level
-        this.exchangePercent = exchangePercent
-    }
-}
-
 class Tutorial {
     constructor(step, textDescribe, imgDescribe) {
         this.step = step
@@ -72,7 +72,7 @@ var vm = new Vue({
             prodRate: 0,
             prodRemark: '',
             prodType: '',
-            params: [],
+            exchangePercent: 0.00,
             tutorials: []
         },
         type: [{value: 0, name: '短信'}, {value: 1, name: '图片'}]
@@ -92,7 +92,7 @@ var vm = new Vue({
                 prodRate: 0,
                 prodRemark: '',
                 prodType: '',
-                params: [new Params()],
+                exchangePercent: 0.00,
                 tutorials: [new Tutorial()]
             };
         },
@@ -204,11 +204,9 @@ var vm = new Vue({
                 }
             });
         },
-        addIndex: function () {
-            vm.productType.params.push(new Params())
-        },
         addTutorials: function () {
             vm.productType.tutorials.push(new Tutorial())
         }
     }
 });
+

@@ -18,6 +18,13 @@
     <script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
     <script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
     <script src="../../js/common.js"></script>
+    <style>
+        .ui-jqgrid-btable tr.jqgrow td {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow : ellipsis;
+        }
+    </style>
 </head>
 <body>
 <div id="rrapp" v-cloak>
@@ -73,13 +80,13 @@
                            placeholder="产品积分数"/>
                 </div>
             </div>
-            <!--<div class="form-group">-->
-                <!--<div class="col-sm-2 control-label">兑换次数</div>-->
-                <!--<div class="col-sm-10">-->
-                    <!--<input type="text" class="form-control" v-model="productDetail.prodDetailCount"-->
-                           <!--placeholder="兑换次数"/>-->
-                <!--</div>-->
-            <!--</div>-->
+            <div class="form-group">
+                <div class="col-sm-2 control-label">兑换次数</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="productDetail.prodDetailCount"
+                           placeholder="兑换次数"/>
+                </div>
+            </div>
             <div class="form-group">
                 <div class="col-sm-2 control-label">回购价</div>
                 <div class="col-sm-10">
@@ -98,6 +105,7 @@
                                         <input type="text" class="form-control" id="level"
                                                v-model="productDetail.params[index].level"
                                                placeholder="级别"/>
+                                        <input type="hidden" name="" v-model="productDetail.params[index].id" >
                                     </div>
                                 </div>
                             </td>

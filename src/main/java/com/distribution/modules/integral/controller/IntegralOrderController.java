@@ -1,9 +1,7 @@
 package com.distribution.modules.integral.controller;
 
-import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.integral.entity.IntegralOrderEntity;
-import com.distribution.modules.integral.entity.ProductDetailEntity;
 import com.distribution.modules.integral.service.IntegralOrderService;
 import com.distribution.modules.integral.service.ProductDetailService;
 import com.github.pagehelper.PageHelper;
@@ -59,38 +57,6 @@ public class IntegralOrderController {
     }
 
     /**
-     * 保存
-     */
-    @RequestMapping("/save")
-    @RequiresPermissions("integralorder:save")
-    public Result save(@RequestBody IntegralOrderEntity integralOrder) {
-        try {
-            integralOrder.setId(CommonUtils.getUUID());
-            integralOrderService.save(integralOrder);
-        } catch (Exception e) {
-            log.error("保存异常", e);
-            return Result.error("保存异常");
-        }
-
-        return Result.ok();
-    }
-
-    /**
-     * 修改
-     */
-    @RequestMapping("/update")
-    @RequiresPermissions("integralorder:update")
-    public Result update(@RequestBody IntegralOrderEntity integralOrder) {
-        try {
-            integralOrderService.update(integralOrder);
-        } catch (Exception e) {
-            log.error("修改异常", e);
-            return Result.error("修改异常");
-        }
-        return Result.ok();
-    }
-
-    /**
      * 删除
      */
     @RequestMapping("/delete")
@@ -109,18 +75,20 @@ public class IntegralOrderController {
         return Result.ok();
     }
 
-    @PatchMapping("/{id}/{status}")
-    public Result approve(@PathVariable("id") String id, @PathVariable("status") String status) {
+    /**
+     * 审核
+     *
+     * @param id
+     * @param status
+     * @return
+     */
+    @PatchMapping("/{id}/{status}/{money}")
+    public Result approve(@PathVariable("id") String id, @PathVariable("status") String status,
+                          @PathVariable("money") Double money) {
         IntegralOrderEntity entity = integralOrderService.queryObject(id);
         entity.setStatus(NumberUtils.toInt(status));
         try {
-            integralOrderService.update(entity);
-            //申请成功,兑换次数加一
-            if ("1".equals(status)) {
-                ProductDetailEntity productDetail = productDetailService.queryObject(entity.getDetailId());
-                productDetail.setProdDetailCount(productDetail.getProdDetailCount() + 1);
-                productDetailService.update(productDetail);
-            }
+            integralOrderService.update(entity, money);
             return Result.ok("审核成功");
         } catch (Exception e) {
             log.error("审核异常", e);

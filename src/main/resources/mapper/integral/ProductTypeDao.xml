@@ -11,6 +11,7 @@
         <result property="prodRemark" column="prod_remark"/>
         <result property="prodImg" column="prod_img"/>
         <result property="prodType" column="prod_type"/>
+        <result property="exchangePercent" column="exchange_percent"/>
     </resultMap>
 
     <select id="queryObject" resultMap="productTypeMap">
@@ -20,7 +21,7 @@
     </select>
 
     <select id="queryList" resultMap="productTypeMap">
-        select id, prod_name, prod_rate, prod_remark, prod_img,prod_type from product_type t
+        select id, prod_name, prod_rate, prod_remark, prod_img, prod_type, exchange_percent from product_type t
         <where>
             <if test="prodName != null">
                 and t.prod_name like concat('%',#{prodName},'%')
@@ -57,6 +58,13 @@
             <if test="prodImg != null">
                 `prod_img`,
             </if>
+            <if test="prodType != null">
+                `prod_type`
+            </if>
+            <if test="exchangePercent != null">
+                `exchange_percent`
+            </if>
+
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -73,6 +81,12 @@
             </if>
             <if test="prodImg != null">
                 #{prodImg},
+            </if>
+            <if test="prodType != null">
+                #{prodType}
+            </if>
+            <if test="exchangePercent != null">
+                #{exchangePercent}
             </if>
         </trim>
     </insert>
@@ -93,7 +107,13 @@
                 ,
             </if>
             <if test="prodImg != null">
-                `prod_img` = #{prodImg}
+                `prod_img` = #{prodImg},
+            </if>
+            <if test="prodType != null">
+                `prod_type` = #{prodType},
+            </if>
+            <if test="exchangePercent != null">
+                exchange_percent=#{exchangePercent},
             </if>
         </set>
         where id = #{id}

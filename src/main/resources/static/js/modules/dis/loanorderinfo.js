@@ -92,9 +92,6 @@ var vm = new Vue({
             //页面层-自定义
             var id = getSelectedRow();
             var applydata = getSelectedRowData();
-            debugger
-
-            debugger
             if (id == undefined) {
                 return
             }
@@ -107,14 +104,16 @@ var vm = new Vue({
                 title: '设置分润金额',
                 skin: 'layui-layer-rim',
                 area: ['450px', 'auto'],
-                content: ' <div class="row" style="width: 420px;  margin-left:7px; margin-top:10px;">'
-                + '<div class="col-sm-12">'
-                + '<div class="input-group">'
-                + '<span class="input-group-addon"> 金 额 为 :</span>'
-                + '<input type="text" id="fenrunmoney" placeholder="分润金额" class="form-control"/>'
-                + '</div>'
-                + '</div>'
-                + '</div>'
+                content: ` 
+                     <div class="row" style="width: 420px;  margin-left:7px; margin-top:10px;">
+                         <div class="col-sm-12">
+                             <div class="input-group">
+                                 <span class="input-group-addon"> 金 额 为 :</span>
+                                 <input type="text" id="fenrunmoney" placeholder="分润金额" class="form-control"/>
+                             </div>
+                         </div>
+                     </div>
+                     `
                 ,
                 btn: ['保存', '取消'],
                 btn1: function (index, layero) {
@@ -131,6 +130,7 @@ var vm = new Vue({
                                 });
                             } else {
                                 alert(r.msg);
+                                layer.close(index);
                             }
                         }
                     });

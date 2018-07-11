@@ -52,6 +52,14 @@ public class LoanInfoServiceImpl implements LoanInfoService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(LoanInfoEntity loanInfo) throws Exception {
+        CardApiResponse apiResponse = cardInfoService.getProductInfo(loanInfo.getId());
+        if (apiResponse.isSuccess()) {
+            loanInfo.setLoanImg(apiResponse.getResults().getIcon());
+            loanInfo.setLoanUrl(apiResponse.getResults().getLink());
+            loanInfo.setRemark(apiResponse.getResults().getContent());
+            loanInfoDao.update(loanInfo);
+            return;
+        }
         loanInfoDao.update(loanInfo);
     }
 

@@ -12,6 +12,7 @@
         <result property="addTime" column="add_time"/>
         <result property="prodName" column="prod_name"/>
         <result property="record" column="record"/>
+        <result property="status" column="status"/>
     </resultMap>
 
     <select id="queryObject" resultMap="integralOrderMap">
@@ -21,15 +22,29 @@
     </select>
 
     <select id="queryList" resultMap="integralOrderMap">
-        select o.id, mobile, detail_id, img, add_time,record,d.prod_detail_name as 'prod_name'
+        select o.id,
+        o.mobile,
+        detail_id,
+        img,
+        o.add_time,
+        record,
+        status,
+        d.prod_detail_name as 'prod_name',
+        m.dis_user_name as 'user_name',
+        m.dis_user_id_code as 'id_code'
         from integral_order o
         left join product_detail d on o.detail_id=d.id
+        left join tb_user u on o.mobile = u.mobile
+        left join dis_member_info m on u.user_id=m.dis_user_id
         <where>
             <if test="prodName != null and prodName!= ''">
                 and d.prod_detail_name like concat('%',#{prodName},'%')
             </if>
             <if test="mobile != null and mobile !=''">
                 and o.mobile like concat('%',#{mobile},'%')
+            </if>
+            <if test="status != null">
+                and o.status = #{status}
             </if>
         </where>
         <choose>
@@ -63,6 +78,12 @@
             <if test="addTime != null">
                 `add_time`,
             </if>
+            <if test="record != null">
+                `record`
+            </if>
+            <if test="status != null">
+                `status`
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -79,6 +100,12 @@
             </if>
             <if test="addTime != null">
                 #{addTime},
+            </if>
+            <if test="record != null">
+                #{record}
+            </if>
+            <if test="status != null">
+                #{status}
             </if>
         </trim>
     </insert>
@@ -99,7 +126,13 @@
                 ,
             </if>
             <if test="addTime != null">
-                `add_time` = #{addTime}
+                `add_time` = #{addTime},
+            </if>
+            <if test="record != null">
+                record = #{record},
+            </if>
+            <if test="status != null">
+                status = #{status},
             </if>
         </set>
         where id = #{id}

@@ -39,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductTypeParams extends TableImpl<ProductTypeParamsRecord> {
 
-    private static final long serialVersionUID = -82850448;
+    private static final long serialVersionUID = -600947089;
 
     /**
      * The reference instance of <code>distribution.product_type_params</code>
@@ -62,7 +62,7 @@ public class ProductTypeParams extends TableImpl<ProductTypeParamsRecord> {
     /**
      * The column <code>distribution.product_type_params.level</code>. 会员等级
      */
-    public final TableField<ProductTypeParamsRecord, Integer> LEVEL = createField("level", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "会员等级");
+    public final TableField<ProductTypeParamsRecord, Integer> LEVEL = createField("level", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "会员等级");
 
     /**
      * The column <code>distribution.product_type_params.exchange_percent</code>. 积分兑换百分比

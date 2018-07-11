@@ -7,7 +7,7 @@
     <!--生产配置-->
     <!--<property name="log.path" value="/home/distribution/logs" />-->
     <!--开发配置-->
-    <property name="log.path" value="/Users/huchunliang/Documents/logs/dis" />
+    <!--<property name="log.path" value="/Users/huchunliang/Documents/logs/dis" />-->
     <!--输出到控制台-->
     <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
         <!-- <filter class="ch.qos.logback.classic.filter.ThresholdFilter">

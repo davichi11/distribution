@@ -6,6 +6,7 @@ import com.distribution.modules.api.pojo.vo.ProductDetailVO;
 import com.distribution.modules.integral.entity.ProductDetailEntity;
 import com.distribution.modules.integral.service.ProductDetailService;
 import com.distribution.pojo.Tables;
+import com.distribution.pojo.tables.pojos.ProductDetailParams;
 import com.distribution.pojo.tables.records.ProductDetailParamsRecord;
 import com.distribution.pojo.tables.records.ProductDetailRecord;
 import com.github.pagehelper.PageHelper;
@@ -60,8 +61,12 @@ public class ProductDetailController {
     @RequiresPermissions("productdetail:info")
     public Result info(@PathVariable("id") String id) {
         ProductDetailEntity productDetail = productDetailService.queryObject(id);
-
-        return Result.ok().put("productDetail", productDetail);
+        ProductDetailVO productDetailVO = new ProductDetailVO();
+        BeanUtils.copyProperties(productDetail, productDetailVO);
+        productDetailVO.setParams(create.selectFrom(Tables.PRODUCT_DETAIL_PARAMS)
+                .where(Tables.PRODUCT_DETAIL_PARAMS.DETAIL_ID.eq(id))
+                .fetchInto(ProductDetailParams.class));
+        return Result.ok().put("productDetail", productDetailVO);
     }
 
     /**
@@ -73,14 +78,15 @@ public class ProductDetailController {
         try {
             ProductDetailRecord productDetail = create.newRecord(Tables.PRODUCT_DETAIL);
             String id = CommonUtils.getUUID();
+            BeanUtils.copyProperties(detailVO, productDetail);
             productDetail.setId(id);
-            BeanUtils.copyProperties(detailVO,productDetail);
+            productDetail.setProdDetailCount(0);
             productDetail.insert();
             if (CollectionUtils.isNotEmpty(detailVO.getParams())) {
                 List<ProductDetailParamsRecord> paramsRecords = new ArrayList<>();
-                detailVO.getParams().forEach(params->{
+                detailVO.getParams().forEach(params -> {
                     ProductDetailParamsRecord paramsRecord = create.newRecord(Tables.PRODUCT_DETAIL_PARAMS);
-                    BeanUtils.copyProperties(params,paramsRecord);
+                    BeanUtils.copyProperties(params, paramsRecord);
                     paramsRecord.setDetailId(id);
                     paramsRecords.add(paramsRecord);
                 });
@@ -99,9 +105,17 @@ public class ProductDetailController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("productdetail:update")
-    public Result update(@RequestBody ProductDetailEntity productDetail) {
+    public Result update(@RequestBody ProductDetailVO productDetail) {
         try {
-            productDetailService.update(productDetail);
+            ProductDetailRecord detail = create.newRecord(Tables.PRODUCT_DETAIL);
+            BeanUtils.copyProperties(productDetail, detail);
+            if (CollectionUtils.isNotEmpty(productDetail.getParams())) {
+                productDetail.getParams().forEach(param -> {
+                    ProductDetailParamsRecord paramsRecord = create.newRecord(Tables.PRODUCT_DETAIL_PARAMS);
+                    BeanUtils.copyProperties(param, paramsRecord);
+                    paramsRecord.update();
+                });
+            }
         } catch (Exception e) {
             log.error("修改积分兑换产品列表异常", e);
             return Result.error("修改积分兑换产品列表异常");

@@ -5,12 +5,11 @@ $(function () {
         colModel: [
             {label: 'id', name: 'id', index: 'id', width: 50, key: true},
             {label: '贷款产品名称', name: 'loanName', index: 'loan_name', width: 80},
-            {label: '产品链接', name: 'loanUrl', index: 'loan_url', width: 80},
-            {label: '产品图片', name: 'loanImg', index: 'loan_img', width: 80},
-            {label: '添加时间', name: 'addTime', index: 'add_time', width: 80},
-            {label: '最后修改时间', name: 'updateTime', index: 'update_time', width: 80},
-            {label: '启用状态 0否 1是', name: 'isDelete', index: 'is_delete', width: 80},
-            {label: '返回值', name: 'remark', index: 'remark', width: 80}
+            {label: '产品链接', name: 'loanUrl', index: 'loan_url', width: 180},
+            {label: '产品图片', name: 'loanImg', index: 'loan_img', width: 180},
+            {label: '启用状态', name: 'isDelete', index: 'is_delete', width: 80,formatter: (value, options, row) => value === 0 ?
+                    '<span class="label label-danger">禁用</span>' :
+                    '<span class="label label-success">启用</span>'},
         ],
         viewrecords: true,
         height: 385,
@@ -66,7 +65,7 @@ var vm = new Vue({
             vm.getInfo(id)
         },
         saveOrUpdate: function (event) {
-            var url = vm.loanInfo.id == null ? "loaninfo/save" : "loaninfo/update";
+            var url =  isNull(vm.loanInfo.id) ? "loaninfo/save" : "loaninfo/update";
             $.ajax({
                 type: "POST",
                 url: baseURL + url,

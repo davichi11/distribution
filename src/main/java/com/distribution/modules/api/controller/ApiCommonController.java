@@ -23,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * API测试接口
@@ -81,6 +83,17 @@ public class ApiCommonController {
     public Result getAreaInfo(@PathVariable("code") String code) {
         return Result.ok().put("area", districtService.getByParentId(code));
     }
+
+    @AuthIgnore
+    @GetMapping("/ios")
+    public Map<String, String> ios() {
+        //苹果上架前为0；上架中为0； 上架审核通过后为1；  建议此值从数据库获取，或者从配置文件中获取，方便审核通过后进行修改；
+        String ios = sysConfigService.getValue("ios", "0");
+        Map<String, String> map = new HashMap<>(2);
+        map.put("ios", ios);
+        return map;
+    }
+
 
     /**
      * 文件上传接口

@@ -4,9 +4,9 @@ import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.DateUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.api.annotation.AuthIgnore;
-import com.distribution.modules.api.pojo.vo.IntegralOrderVO;
 import com.distribution.modules.api.pojo.vo.ProductDetailVO;
 import com.distribution.modules.api.pojo.vo.ProductTypeVO;
+import com.distribution.modules.integral.entity.IntegralOrderEntity;
 import com.distribution.modules.integral.service.IntegralOrderService;
 import com.distribution.modules.integral.service.ProductDetailService;
 import com.distribution.modules.integral.service.ProductTypeService;
@@ -14,19 +14,22 @@ import com.distribution.pojo.Tables;
 import com.distribution.pojo.tables.pojos.*;
 import com.distribution.pojo.tables.records.IntegralOrderRecord;
 import com.distribution.pojo.tables.records.ProductDetailRecord;
-import com.google.common.collect.Maps;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.math.NumberUtils;
+import org.eclipse.collections.impl.factory.Maps;
 import org.jooq.DSLContext;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.distribution.pojo.Tables.*;
@@ -58,13 +61,9 @@ public class ApiIntegralController {
     @GetMapping("/productType")
     @ApiOperation("查询所有产品类型")
     public Result getAllProductType() {
-        List<ProductTypeVO> productTypeVOS = productTypeService.queryList(Maps.newHashMap()).stream().map(type -> {
+        List<ProductTypeVO> productTypeVOS = productTypeService.queryList(Maps.mutable.empty()).stream().map(type -> {
             ProductTypeVO typeVO = new ProductTypeVO();
             BeanUtils.copyProperties(type, typeVO);
-            typeVO.setParams(create.selectFrom(Tables.PRODUCT_TYPE_PARAMS)
-                    .where(Tables.PRODUCT_TYPE_PARAMS.TYPE_ID.eq(type.getId()))
-                    .orderBy(Tables.PRODUCT_TYPE_PARAMS.ID.asc())
-                    .fetchInto(ProductTypeParams.class));
             typeVO.setTutorials(create.selectFrom(Tables.INTEGRAL_TUTORIAL)
                     .where(Tables.INTEGRAL_TUTORIAL.TYPE_ID.eq(type.getId()))
                     .orderBy(Tables.INTEGRAL_TUTORIAL.STEP.asc())
@@ -79,7 +78,9 @@ public class ApiIntegralController {
     @ApiOperation("根据产品类型查询产品")
     public Result getProductDetailByType(@PathVariable("type") String type) {
         List<ProductDetail> productDetails = create.selectFrom(PRODUCT_DETAIL)
-                .where(PRODUCT_DETAIL.PROD_TYPE_ID.eq(type)).fetchInto(ProductDetail.class);
+                .where(PRODUCT_DETAIL.PROD_TYPE_ID.eq(type))
+                .orderBy(PRODUCT_DETAIL.PROD_DETAIL_VALUE.asc())
+                .fetchInto(ProductDetail.class);
         List<ProductDetailVO> detailVOS = productDetails.stream().map(productDetail -> {
             ProductDetailVO detailVO = new ProductDetailVO();
             BeanUtils.copyProperties(productDetail, detailVO);
@@ -117,21 +118,14 @@ public class ApiIntegralController {
 
     @GetMapping("/integralOrder/{mobile}")
     @ApiOperation("查询用户的兑换记录")
-    public Result getIntegralOrders(@PathVariable("mobile") String mobile) {
-        List<IntegralOrder> integralOrders = create.selectFrom(INTEGRAL_ORDER)
-                .where(INTEGRAL_ORDER.MOBILE.eq(NumberUtils.toLong(mobile))).fetchInto(IntegralOrder.class);
-        DisMemberInfo memberInfo = create.selectFrom(DIS_MEMBER_INFO.join(TB_USER).on(DIS_MEMBER_INFO.DIS_USER_ID.eq(TB_USER.USER_ID)))
-                .where(TB_USER.MOBILE.eq(mobile)).fetchOneInto(DisMemberInfo.class);
-        List<IntegralOrderVO> orderVOS = integralOrders.stream().map(order -> {
-            IntegralOrderVO vo = new IntegralOrderVO();
-            BeanUtils.copyProperties(order, vo);
-            vo.setName(memberInfo.getDisUserName());
-            vo.setIdCard(memberInfo.getDisUserIdCode());
-            vo.setDetail(create.selectFrom(PRODUCT_DETAIL).where(PRODUCT_DETAIL.ID.eq(order.getDetailId()))
-            .fetchOne().getProdDetailName());
-            return vo;
-        }).collect(Collectors.toList());
-        return Result.ok().put("integralOrders", orderVOS);
+    public Result getIntegralOrders(@PathVariable("mobile") String mobile, Integer page, Integer limit, Integer status) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("mobile", mobile);
+        param.put("status", status);
+        //查询列表数据
+        PageInfo<IntegralOrderEntity> pageInfo = PageHelper.startPage(page, limit)
+                .doSelectPageInfo(() -> integralOrderService.queryList(param));
+        return Result.ok().put("integralOrders", pageInfo);
     }
 
     @PostMapping("/integralOrder")

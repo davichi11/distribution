@@ -1,8 +1,13 @@
 package com.distribution.modules.integral.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.distribution.modules.dis.dao.DisMemberInfoDao;
+import com.distribution.modules.dis.entity.DisMemberInfoEntity;
+import com.distribution.modules.dis.service.DisProfiParamService;
 import com.distribution.modules.integral.dao.IntegralOrderDao;
 import com.distribution.modules.integral.entity.IntegralOrderEntity;
 import com.distribution.modules.integral.service.IntegralOrderService;
+import com.distribution.queue.LevelUpSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +20,12 @@ import java.util.Map;
 public class IntegralOrderServiceImpl implements IntegralOrderService {
     @Autowired
     private IntegralOrderDao integralOrderDao;
+    @Autowired
+    private DisProfiParamService disProfiParamService;
+    @Autowired
+    private DisMemberInfoDao disMemberInfoDao;
+    @Autowired
+    private LevelUpSender levelUpSender;
 
     @Override
     public IntegralOrderEntity queryObject(String id) {
@@ -35,8 +46,22 @@ public class IntegralOrderServiceImpl implements IntegralOrderService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(IntegralOrderEntity integralOrder) throws Exception {
+    public void update(IntegralOrderEntity integralOrder, Double money) throws Exception {
         integralOrderDao.update(integralOrder);
+        //申请成功,执行分润
+        if (integralOrder.getStatus() == 1) {
+            DisMemberInfoEntity member = disMemberInfoDao.queryByMobile(integralOrder.getMobile().toString());
+            //如果当前办卡人和其上级都是非会员,则跳过分润
+            if ("0".equals(member.getDisUserType()) && "0".equals(member.getDisMemberParent().getDisUserType())) {
+                return;
+            }
+            //调用分润
+            disProfiParamService.doFeeSplitting(member, money, false);
+            if ("0".equals(member.getDisMemberParent().getDisUserType())) {
+                //执行会员升级
+                levelUpSender.send(JSON.toJSONString(member.getDisMemberParent()));
+            }
+        }
     }
 
     @Override

@@ -6,8 +6,26 @@ $(function () {
             {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
             {label: '兑换人手机号', name: 'mobile', index: 'mobile', width: 80},
             {label: '兑换产品', name: 'prodName', index: 'd.prod_detail_name', width: 80},
-            {label: '卷码图片', name: 'img', index: 'img', width: 80},
-            {label: '申请时间', name: 'addTime', index: 'add_time', width: 80}
+            {
+                label: '卷码图片', name: 'img', index: 'img', width: 80,
+                formatter: (value, options, row) => value ? `<a href="#" onclick="showImg('${value}')">点击查看图标</a>`
+                    : '无图片'
+            },
+            {label: '短信', name: 'record', index: 'record', width: 180},
+            {label: '申请时间', name: 'addTime', index: 'add_time', width: 80},
+            {
+                label: '审核状态', name: 'status', index: 'status', width: 80,
+                formatter: (value, options, row) => {
+                    if (value === 0) {
+                        return '<span class="label label-danger">失败</span>'
+                    } else if (value === 1) {
+                        return '<span class="label label-success">成功</span>'
+                    } else {
+                        return '<span class="label label-info">申请中</span>'
+                    }
+
+                }
+            }
         ],
         viewrecords: true,
         height: 385,
@@ -95,25 +113,54 @@ var vm = new Vue({
         approveSuccess: () => {
             let id = getSelectedRows();
             console.log("id=" + id);
+            let status = 1;
             if (isNull(id)) {
                 alert("请选择一个记录");
                 return;
             }
-            let status = 1;
-            axios.patch(`${baseURL}integralorder/${id}/${status}`, {},{
-                headers: {token: token}
-            }).then(response => {
-                console.log(response)
-                if (response.data.code === 0) {
-                    alert('审核成功', () => {
-                        vm.reload();
+            layer.open({
+                type: 1,
+                title: '设置分润金额',
+                skin: 'layui-layer-rim',
+                area: ['450px', 'auto'],
+                content: ` 
+                     <div class="row" style="width: 420px;  margin-left:7px; margin-top:10px;">
+                         <div class="col-sm-12">
+                             <div class="input-group">
+                                 <span class="input-group-addon"> 金 额 为 :</span>
+                                 <input type="text" id="fenrunmoney" placeholder="分润金额" class="form-control"/>
+                             </div>
+                         </div>
+                     </div>
+                     `
+                ,
+                btn: ['保存', '取消'],
+                btn1: function (index, layero) {
+                    let money = $('#fenrunmoney').val()
+                    axios.patch(`${baseURL}integralorder/${id}/${status}/${money}`, {}, {
+                        headers: {token: token}
+                    }).then(response => {
+                        console.log(response)
+                        if (response.data.code === 0) {
+                            alert('审核成功', () => {
+                                layer.closeAll();
+                                vm.reload();
+                            });
+                        } else {
+                            alert(response.data.msg);
+                            layer.close(index);
+                        }
+                    }).catch(error => {
+                        console.log(error)
+                        layer.close(index);
                     });
-                } else {
-                    alert(response.data.msg);
+                },
+                btn2: function (index, layero) {
+                    layer.close(index);
                 }
-            }).catch(error => {
-                console.log(error)
+
             });
+
         },
         approveFailure: () => {
             let id = getSelectedRows();
@@ -122,7 +169,7 @@ var vm = new Vue({
                 return;
             }
             let status = 0;
-            axios.patch(`${baseURL}integralorder/${id}/${status}`, {},{
+            axios.patch(`${baseURL}integralorder/${id}/${status}/0`, {}, {
                 headers: {token: token}
             }).then(response => {
                 if (response.data.code === 0) {

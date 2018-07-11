@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductType extends TableImpl<ProductTypeRecord> {
 
-    private static final long serialVersionUID = 2124865518;
+    private static final long serialVersionUID = 930382113;
 
     /**
      * The reference instance of <code>distribution.product_type</code>
@@ -82,6 +82,11 @@ public class ProductType extends TableImpl<ProductTypeRecord> {
      * The column <code>distribution.product_type.prod_type</code>. 提单类型 0:短信,1:图片
      */
     public final TableField<ProductTypeRecord, String> PROD_TYPE = createField("prod_type", org.jooq.impl.SQLDataType.CHAR(1).nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.CHAR)), this, "提单类型 0:短信,1:图片");
+
+    /**
+     * The column <code>distribution.product_type.exchange_percent</code>. 积分兑换比率
+     */
+    public final TableField<ProductTypeRecord, Double> EXCHANGE_PERCENT = createField("exchange_percent", org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "积分兑换比率");
 
     /**
      * Create a <code>distribution.product_type</code> table reference

@@ -8,9 +8,7 @@ import com.distribution.modules.integral.service.ProductTypeService;
 import com.distribution.pojo.Tables;
 import com.distribution.pojo.tables.pojos.IntegralTutorial;
 import com.distribution.pojo.tables.pojos.ProductType;
-import com.distribution.pojo.tables.pojos.ProductTypeParams;
 import com.distribution.pojo.tables.records.IntegralTutorialRecord;
-import com.distribution.pojo.tables.records.ProductTypeParamsRecord;
 import com.distribution.pojo.tables.records.ProductTypeRecord;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -75,8 +73,6 @@ public class ProductTypeController {
                 .fetchOneInto(ProductType.class);
         ProductTypeVO typeVO = new ProductTypeVO();
         BeanUtils.copyProperties(type, typeVO);
-        typeVO.setParams(create.selectFrom(Tables.PRODUCT_TYPE_PARAMS).where(Tables.PRODUCT_TYPE_PARAMS.TYPE_ID.eq(id))
-                .fetchInto(ProductTypeParams.class));
         typeVO.setTutorials(create.selectFrom(Tables.INTEGRAL_TUTORIAL)
                 .where(Tables.INTEGRAL_TUTORIAL.TYPE_ID.eq(type.getId()))
                 .orderBy(Tables.INTEGRAL_TUTORIAL.STEP.asc())
@@ -96,17 +92,6 @@ public class ProductTypeController {
         BeanUtils.copyProperties(productType, typeRecord);
         typeRecord.setId(uuid);
         typeRecord.insert();
-        if (CollectionUtils.isNotEmpty(productType.getParams())) {
-            List<ProductTypeParamsRecord> paramsRecords = new ArrayList<>();
-            productType.getParams().stream().filter(Objects::nonNull).forEach(param -> {
-                ProductTypeParamsRecord paramsRecord = create.newRecord(Tables.PRODUCT_TYPE_PARAMS);
-                paramsRecord.setTypeId(uuid);
-                paramsRecord.setExchangePercent(param.getExchangePercent() / 100);
-                paramsRecord.setLevel(param.getLevel());
-                paramsRecords.add(paramsRecord);
-            });
-            create.batchInsert(paramsRecords).execute();
-        }
         if (CollectionUtils.isNotEmpty(productType.getTutorials())) {
             List<IntegralTutorialRecord> tutorialRecords = new ArrayList<>();
             productType.getTutorials().stream().filter(Objects::nonNull).forEach(tutorial -> {
@@ -127,9 +112,16 @@ public class ProductTypeController {
      */
     @RequestMapping("/update")
     @RequiresPermissions("producttype:update")
-    public Result update(@RequestBody ProductTypeEntity productType) {
+    public Result update(@RequestBody ProductTypeVO productType) {
         try {
-            productTypeService.update(productType);
+            ProductTypeRecord typeRecord = create.newRecord(Tables.PRODUCT_TYPE);
+            BeanUtils.copyProperties(productType, typeRecord);
+            typeRecord.update();
+            productType.getTutorials().forEach(t -> {
+                IntegralTutorialRecord tutorialRecord = create.newRecord(Tables.INTEGRAL_TUTORIAL);
+                BeanUtils.copyProperties(t, tutorialRecord);
+                tutorialRecord.update();
+            });
         } catch (Exception e) {
             log.error("修改异常", e);
             return Result.error("修改异常");

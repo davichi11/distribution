@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductType implements Serializable {
 
-    private static final long serialVersionUID = 2034371746;
+    private static final long serialVersionUID = -1864265918;
 
     private String id;
     private String prodName;
@@ -30,6 +30,7 @@ public class ProductType implements Serializable {
     private String prodRemark;
     private String prodImg;
     private String prodType;
+    private Double exchangePercent;
 
     public ProductType() {}
 
@@ -40,6 +41,7 @@ public class ProductType implements Serializable {
         this.prodRemark = value.prodRemark;
         this.prodImg = value.prodImg;
         this.prodType = value.prodType;
+        this.exchangePercent = value.exchangePercent;
     }
 
     public ProductType(
@@ -48,7 +50,8 @@ public class ProductType implements Serializable {
         String prodRate,
         String prodRemark,
         String prodImg,
-        String prodType
+        String prodType,
+        Double exchangePercent
     ) {
         this.id = id;
         this.prodName = prodName;
@@ -56,6 +59,7 @@ public class ProductType implements Serializable {
         this.prodRemark = prodRemark;
         this.prodImg = prodImg;
         this.prodType = prodType;
+        this.exchangePercent = exchangePercent;
     }
 
     public String getId() {
@@ -106,6 +110,14 @@ public class ProductType implements Serializable {
         this.prodType = prodType;
     }
 
+    public Double getExchangePercent() {
+        return this.exchangePercent;
+    }
+
+    public void setExchangePercent(Double exchangePercent) {
+        this.exchangePercent = exchangePercent;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ProductType (");
@@ -116,6 +128,7 @@ public class ProductType implements Serializable {
         sb.append(", ").append(prodRemark);
         sb.append(", ").append(prodImg);
         sb.append(", ").append(prodType);
+        sb.append(", ").append(exchangePercent);
 
         sb.append(")");
         return sb.toString();
