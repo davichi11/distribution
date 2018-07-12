@@ -5,6 +5,7 @@ $(function () {
         colModel: [
             {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
             {label: '兑换人手机号', name: 'mobile', index: 'mobile', width: 80},
+            {label: '兑换人会员等级', name: 'disLevel', index: 'dis_level', width: 80},
             {label: '兑换产品', name: 'prodName', index: 'd.prod_detail_name', width: 80},
             {
                 label: '卷码图片', name: 'img', index: 'img', width: 80,
@@ -25,7 +26,8 @@ $(function () {
                     }
 
                 }
-            }
+            },
+            {label: '分润金额', name: 'profiMoney', index: 'profi_money', width: 80}
         ],
         viewrecords: true,
         height: 385,
@@ -134,7 +136,7 @@ var vm = new Vue({
                      </div>
                      `
                 ,
-                btn: ['保存', '取消'],
+                btn: ['确定', '取消'],
                 btn1: function (index, layero) {
                     let money = $('#fenrunmoney').val()
                     axios.patch(`${baseURL}integralorder/${id}/${status}/${money}`, {}, {

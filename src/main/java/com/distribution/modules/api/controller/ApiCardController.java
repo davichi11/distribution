@@ -24,6 +24,7 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateData;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.math.NumberUtils;
+import org.jooq.DSLContext;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -36,6 +37,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import static com.distribution.pojo.Tables.INTEGRAL_ORDER;
+import static com.distribution.pojo.Tables.LOAN_ORDER_INFO;
 
 @Slf4j
 @RestController
@@ -56,6 +60,8 @@ public class ApiCardController {
 
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private DSLContext create;
 
     /**
      * 手机号正则
@@ -130,7 +136,17 @@ public class ApiCardController {
             Map<String, Object> param = new HashMap<>(4);
             param.put("memberIds", memberIds);
             param.put("orderStatus", "1");
-            allCount = cardCount = cardOrderInfoService.queryList(param).size();
+            cardCount = cardOrderInfoService.queryList(param).size();
+            loanCount = create.selectCount().from(LOAN_ORDER_INFO)
+                    .where(LOAN_ORDER_INFO.ORDER_MOBILE.eq(mobile))
+                    .and(LOAN_ORDER_INFO.ORDER_STATUS.eq("1"))
+                    .fetchOneInto(int.class);
+            inteCount = create.selectCount().from(INTEGRAL_ORDER)
+                    .where(INTEGRAL_ORDER.MOBILE.eq(NumberUtils.toLong(mobile)))
+                    .and(INTEGRAL_ORDER.STATUS.eq("1"))
+                    .fetchOneInto(int.class);
+            allCount = cardCount + loanCount + inteCount;
+
         }
         return Result.ok().put("allCount", allCount).put("cardCount", cardCount).put("loanCount", loanCount)
                 .put("inteCount", inteCount);

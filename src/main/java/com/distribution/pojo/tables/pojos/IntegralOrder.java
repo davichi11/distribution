@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IntegralOrder implements Serializable {
 
-    private static final long serialVersionUID = 1166017911;
+    private static final long serialVersionUID = 1518996103;
 
     private String id;
     private Long   mobile;
@@ -31,6 +31,7 @@ public class IntegralOrder implements Serializable {
     private String addTime;
     private String status;
     private String record;
+    private Double profiMoney;
 
     public IntegralOrder() {}
 
@@ -42,6 +43,7 @@ public class IntegralOrder implements Serializable {
         this.addTime = value.addTime;
         this.status = value.status;
         this.record = value.record;
+        this.profiMoney = value.profiMoney;
     }
 
     public IntegralOrder(
@@ -51,7 +53,8 @@ public class IntegralOrder implements Serializable {
         String img,
         String addTime,
         String status,
-        String record
+        String record,
+        Double profiMoney
     ) {
         this.id = id;
         this.mobile = mobile;
@@ -60,6 +63,7 @@ public class IntegralOrder implements Serializable {
         this.addTime = addTime;
         this.status = status;
         this.record = record;
+        this.profiMoney = profiMoney;
     }
 
     public String getId() {
@@ -118,6 +122,14 @@ public class IntegralOrder implements Serializable {
         this.record = record;
     }
 
+    public Double getProfiMoney() {
+        return this.profiMoney;
+    }
+
+    public void setProfiMoney(Double profiMoney) {
+        this.profiMoney = profiMoney;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("IntegralOrder (");
@@ -129,6 +141,7 @@ public class IntegralOrder implements Serializable {
         sb.append(", ").append(addTime);
         sb.append(", ").append(status);
         sb.append(", ").append(record);
+        sb.append(", ").append(profiMoney);
 
         sb.append(")");
         return sb.toString();

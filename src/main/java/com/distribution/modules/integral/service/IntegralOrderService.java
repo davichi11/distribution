@@ -41,7 +41,7 @@ public interface IntegralOrderService {
      *
      * @throws Exception
      */
-    void update(IntegralOrderEntity integralOrder,Double money) throws Exception;
+    void update(IntegralOrderEntity integralOrder) throws Exception;
 
     /**
      * 删除

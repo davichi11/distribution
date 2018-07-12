@@ -46,7 +46,7 @@ public class IntegralOrderServiceImpl implements IntegralOrderService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(IntegralOrderEntity integralOrder, Double money) throws Exception {
+    public void update(IntegralOrderEntity integralOrder) throws Exception {
         integralOrderDao.update(integralOrder);
         //申请成功,执行分润
         if (integralOrder.getStatus() == 1) {
@@ -56,7 +56,7 @@ public class IntegralOrderServiceImpl implements IntegralOrderService {
                 return;
             }
             //调用分润
-            disProfiParamService.doFeeSplitting(member, money, false);
+            disProfiParamService.doFeeSplitting(member, integralOrder.getProfiMoney(), false);
             if ("0".equals(member.getDisMemberParent().getDisUserType())) {
                 //执行会员升级
                 levelUpSender.send(JSON.toJSONString(member.getDisMemberParent()));

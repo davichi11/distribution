@@ -32,6 +32,7 @@ public class IntegralOrderEntity implements Serializable {
     private String prodName;
     private String userName;
     private String idCode;
+    private Integer disLevel;
     /**
      * 上传短信记录
      */
@@ -48,4 +49,8 @@ public class IntegralOrderEntity implements Serializable {
      * 审核状态
      */
     private int status;
+    /**
+     * 分润金额
+     */
+    private Double profiMoney;
 }

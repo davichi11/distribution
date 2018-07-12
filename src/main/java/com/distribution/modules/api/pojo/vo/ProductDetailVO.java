@@ -17,9 +17,10 @@ import java.util.List;
 public class ProductDetailVO {
     private String id;
     private String prodDetailName;
+    private String prodDetailUrl;
     private Integer prodDetailBuyBack;
     private String prodTypeId;
     private Long prodDetailValue;
-    private Integer prodDetailCount;
+    private String prodDetailCount;
     List<ProductDetailParams> params;
 }

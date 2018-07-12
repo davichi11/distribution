@@ -87,8 +87,9 @@ public class IntegralOrderController {
                           @PathVariable("money") Double money) {
         IntegralOrderEntity entity = integralOrderService.queryObject(id);
         entity.setStatus(NumberUtils.toInt(status));
+        entity.setProfiMoney(money);
         try {
-            integralOrderService.update(entity, money);
+            integralOrderService.update(entity);
             return Result.ok("审核成功");
         } catch (Exception e) {
             log.error("审核异常", e);

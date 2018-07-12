@@ -13,6 +13,8 @@
         <result property="prodName" column="prod_name"/>
         <result property="record" column="record"/>
         <result property="status" column="status"/>
+        <result property="disLevel" column="dis_level"/>
+        <result property="profiMoney" column="profi_money"/>
     </resultMap>
 
     <select id="queryObject" resultMap="integralOrderMap">
@@ -29,9 +31,11 @@
         o.add_time,
         record,
         status,
+        profi_money,
         d.prod_detail_name as 'prod_name',
         m.dis_user_name as 'user_name',
-        m.dis_user_id_code as 'id_code'
+        m.dis_user_id_code as 'id_code',
+        m.dis_level
         from integral_order o
         left join product_detail d on o.detail_id=d.id
         left join tb_user u on o.mobile = u.mobile

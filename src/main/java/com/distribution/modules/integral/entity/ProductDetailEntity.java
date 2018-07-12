@@ -24,6 +24,7 @@ public class ProductDetailEntity implements Serializable {
      * 产品名称
      */
     private String prodDetailName;
+    private String prodDetailUrl;
     /**
      * 回购价
      */
@@ -41,5 +42,5 @@ public class ProductDetailEntity implements Serializable {
     /**
      * 兑换次数
      */
-    private Integer prodDetailCount;
+    private String prodDetailCount;
 }

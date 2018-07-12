@@ -80,7 +80,7 @@ public class ProductDetailController {
             String id = CommonUtils.getUUID();
             BeanUtils.copyProperties(detailVO, productDetail);
             productDetail.setId(id);
-            productDetail.setProdDetailCount(0);
+            productDetail.setProdDetailCount("0");
             productDetail.insert();
             if (CollectionUtils.isNotEmpty(detailVO.getParams())) {
                 List<ProductDetailParamsRecord> paramsRecords = new ArrayList<>();
@@ -109,6 +109,7 @@ public class ProductDetailController {
         try {
             ProductDetailRecord detail = create.newRecord(Tables.PRODUCT_DETAIL);
             BeanUtils.copyProperties(productDetail, detail);
+            detail.update();
             if (CollectionUtils.isNotEmpty(productDetail.getParams())) {
                 productDetail.getParams().forEach(param -> {
                     ProductDetailParamsRecord paramsRecord = create.newRecord(Tables.PRODUCT_DETAIL_PARAMS);

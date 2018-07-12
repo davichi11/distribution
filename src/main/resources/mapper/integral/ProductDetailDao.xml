@@ -10,6 +10,7 @@
         <result property="prodDetailBuyBack" column="prod_detail_buy_back"/>
         <result property="prodTypeId" column="prod_type_id"/>
         <result property="prodDetailValue" column="prod_detail_value"/>
+        <result property="prodDetailUrl" column="prod_detail_url"/>
         <result property="prodDetailCount" column="prod_detail_count"/>
         <result property="typeName" column="type_name"/>
     </resultMap>
@@ -22,6 +23,7 @@
 
     <select id="queryList" resultMap="productDetailMap">
         select d.id, prod_detail_name, prod_detail_buy_back, prod_type_id, prod_detail_value, prod_detail_count,
+        prod_detail_url,
         t.prod_name as 'type_name'
         from product_detail d
         left join product_type t on d.prod_type_id=t.id

@@ -22,14 +22,15 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductDetail implements Serializable {
 
-    private static final long serialVersionUID = -1057440422;
+    private static final long serialVersionUID = 1455354853;
 
     private String  id;
     private String  prodDetailName;
     private Integer prodDetailBuyBack;
     private String  prodTypeId;
     private Long    prodDetailValue;
-    private Integer prodDetailCount;
+    private String  prodDetailCount;
+    private String  prodDetailUrl;
 
     public ProductDetail() {}
 
@@ -40,6 +41,7 @@ public class ProductDetail implements Serializable {
         this.prodTypeId = value.prodTypeId;
         this.prodDetailValue = value.prodDetailValue;
         this.prodDetailCount = value.prodDetailCount;
+        this.prodDetailUrl = value.prodDetailUrl;
     }
 
     public ProductDetail(
@@ -48,7 +50,8 @@ public class ProductDetail implements Serializable {
         Integer prodDetailBuyBack,
         String  prodTypeId,
         Long    prodDetailValue,
-        Integer prodDetailCount
+        String  prodDetailCount,
+        String  prodDetailUrl
     ) {
         this.id = id;
         this.prodDetailName = prodDetailName;
@@ -56,6 +59,7 @@ public class ProductDetail implements Serializable {
         this.prodTypeId = prodTypeId;
         this.prodDetailValue = prodDetailValue;
         this.prodDetailCount = prodDetailCount;
+        this.prodDetailUrl = prodDetailUrl;
     }
 
     public String getId() {
@@ -98,12 +102,20 @@ public class ProductDetail implements Serializable {
         this.prodDetailValue = prodDetailValue;
     }
 
-    public Integer getProdDetailCount() {
+    public String getProdDetailCount() {
         return this.prodDetailCount;
     }
 
-    public void setProdDetailCount(Integer prodDetailCount) {
+    public void setProdDetailCount(String prodDetailCount) {
         this.prodDetailCount = prodDetailCount;
+    }
+
+    public String getProdDetailUrl() {
+        return this.prodDetailUrl;
+    }
+
+    public void setProdDetailUrl(String prodDetailUrl) {
+        this.prodDetailUrl = prodDetailUrl;
     }
 
     @Override
@@ -116,6 +128,7 @@ public class ProductDetail implements Serializable {
         sb.append(", ").append(prodTypeId);
         sb.append(", ").append(prodDetailValue);
         sb.append(", ").append(prodDetailCount);
+        sb.append(", ").append(prodDetailUrl);
 
         sb.append(")");
         return sb.toString();

@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
 
-    private static final long serialVersionUID = -126668379;
+    private static final long serialVersionUID = -568111188;
 
     /**
      * The reference instance of <code>distribution.integral_order</code>
@@ -87,6 +87,11 @@ public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
      * The column <code>distribution.integral_order.record</code>. 上传短信记录
      */
     public final TableField<IntegralOrderRecord, String> RECORD = createField("record", org.jooq.impl.SQLDataType.VARCHAR(500), this, "上传短信记录");
+
+    /**
+     * The column <code>distribution.integral_order.profi_money</code>. 分润金额
+     */
+    public final TableField<IntegralOrderRecord, Double> PROFI_MONEY = createField("profi_money", org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "分润金额");
 
     /**
      * Create a <code>distribution.integral_order</code> table reference

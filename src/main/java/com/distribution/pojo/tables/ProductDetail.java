@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductDetail extends TableImpl<ProductDetailRecord> {
 
-    private static final long serialVersionUID = 274615624;
+    private static final long serialVersionUID = 1381838830;
 
     /**
      * The reference instance of <code>distribution.product_detail</code>
@@ -81,7 +81,12 @@ public class ProductDetail extends TableImpl<ProductDetailRecord> {
     /**
      * The column <code>distribution.product_detail.prod_detail_count</code>. 兑换次数
      */
-    public final TableField<ProductDetailRecord, Integer> PROD_DETAIL_COUNT = createField("prod_detail_count", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "兑换次数");
+    public final TableField<ProductDetailRecord, String> PROD_DETAIL_COUNT = createField("prod_detail_count", org.jooq.impl.SQLDataType.VARCHAR(11).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.VARCHAR)), this, "兑换次数");
+
+    /**
+     * The column <code>distribution.product_detail.prod_detail_url</code>. 快捷入口
+     */
+    public final TableField<ProductDetailRecord, String> PROD_DETAIL_URL = createField("prod_detail_url", org.jooq.impl.SQLDataType.VARCHAR(500), this, "快捷入口");
 
     /**
      * Create a <code>distribution.product_detail</code> table reference
