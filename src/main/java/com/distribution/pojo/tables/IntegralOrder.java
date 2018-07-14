@@ -8,21 +8,13 @@ import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.IntegralOrderRecord;
-
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.Generated;
-
-import org.jooq.Field;
-import org.jooq.Index;
-import org.jooq.Name;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
+
+import javax.annotation.Generated;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -38,7 +30,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
 
-    private static final long serialVersionUID = -568111188;
+    private static final long serialVersionUID = -1420510928;
 
     /**
      * The reference instance of <code>distribution.integral_order</code>
@@ -91,7 +83,7 @@ public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
     /**
      * The column <code>distribution.integral_order.profi_money</code>. 分润金额
      */
-    public final TableField<IntegralOrderRecord, Double> PROFI_MONEY = createField("profi_money", org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "分润金额");
+    public final TableField<IntegralOrderRecord, Double> PROFI_MONEY = createField("profi_money", org.jooq.impl.SQLDataType.DOUBLE.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.DOUBLE)), this, "分润金额");
 
     /**
      * Create a <code>distribution.integral_order</code> table reference

@@ -135,10 +135,25 @@ function isNotNull(param) {
 }
 
 function showImg(url) {
+    let arr = url.split(",")
+    let content = ""
+    arr.forEach(img => {
+        content += `<img src="${img}" class="img-responsive"/>`
+    })
     layer.open({
         title: '查看图片',
         shadeClose: true,
         area: ['500px', '500px'],
-        content: `<img src="${url}" class="img-responsive"/>`
+        content: content
+    });
+}
+
+
+function showImgByHTML(content) {
+    layer.open({
+        title: '查看图片',
+        shadeClose: true,
+        area: ['500px', '500px'],
+        content: content
     });
 }

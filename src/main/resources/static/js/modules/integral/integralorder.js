@@ -65,7 +65,8 @@ var vm = new Vue({
         },
         showList: true,
         title: null,
-        integralOrder: {}
+        integralOrder: {},
+        imgs: []
     },
     methods: {
         query: function () {
@@ -74,6 +75,16 @@ var vm = new Vue({
         reset: () => {
             vm.q.mobile = ""
             vm.q.prodName = ""
+        },
+        detail: () => {
+            let id = getSelectedRow();
+            if (id == null) {
+                return;
+            }
+            vm.showList = false;
+            vm.title = "修改";
+
+            vm.getInfo(id)
         },
         del: function (event) {
             let ids = getSelectedRows();
@@ -102,6 +113,7 @@ var vm = new Vue({
         getInfo: function (id) {
             $.get(baseURL + "integralorder/info/" + id, function (r) {
                 vm.integralOrder = r.integralOrder;
+                imgs = vm.integralOrder.img.split(",")
             });
         },
         reload: function (event) {

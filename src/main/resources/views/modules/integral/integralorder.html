@@ -46,6 +46,7 @@
 
                 <a class="btn btn-default" @click="query">查询</a>
                 <a class="btn btn-info" @click="reset">重置</a>
+                <a class="btn btn-info" @click="detail">查看详情</a>
                 <a v-if="hasPermission('producttype:delete')" class="btn btn-danger" @click="del">
                     <i class="fa fa-trash-o"></i>&nbsp;删除</a>
                 <a class="btn btn-success" @click="approveSuccess">审核成功</a>
@@ -54,6 +55,63 @@
         </form>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
+    </div>
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-2 control-label">用户手机号</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="integralOrder.mobile"
+                           placeholder=""/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">用户身份证号</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="integralOrder.idCode"
+                           placeholder=""/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">分润金额</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="integralOrder.profiMoney"
+                           placeholder=""/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">用户会员等级</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="integralOrder.disLevel"
+                           placeholder=""/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">兑换产品名称</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="integralOrder.prodName"
+                           placeholder=""/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">短信内容</div>
+                <div class="col-sm-10">
+                    <textarea v-model="integralOrder.record" title="短信内容" id="" cols="30" rows="10"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">图片内容</div>
+                <div class="col-sm-10" v-for="(item,index) in imgs">
+                    <img :src="item" class="img-responsive"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <!--<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>-->
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
     </div>
 </div>
 
