@@ -6,7 +6,9 @@ $(function () {
             {label: 'id', name: 'id', index: 'id', width: 50, key: true},
             {label: '贷款产品名称', name: 'loanName', index: 'loan_name', width: 80},
             {label: '产品链接', name: 'loanUrl', index: 'loan_url', width: 180},
-            {label: '产品图片', name: 'loanImg', index: 'loan_img', width: 180},
+            {label: '产品图片', name: 'loanImg', index: 'loan_img', width: 180,
+                formatter: (value, options, row) => value ? `<a href="#" onclick="showImg('${value}')">点击查看图标</a>`
+                    : '无图片'},
             {label: '启用状态', name: 'isDelete', index: 'is_delete', width: 80,formatter: (value, options, row) => value === 0 ?
                     '<span class="label label-danger">禁用</span>' :
                     '<span class="label label-success">启用</span>'},

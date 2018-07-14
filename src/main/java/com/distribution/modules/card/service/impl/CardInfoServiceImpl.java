@@ -10,6 +10,7 @@ import com.distribution.modules.card.service.CardInfoService;
 import com.distribution.modules.dis.entity.DisFans;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.service.DisFansService;
+import lombok.extern.slf4j.Slf4j;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +29,7 @@ import java.util.Map;
  * @Description TODO(描述)
  * @create 2018/5/8-20:23
  */
+@Slf4j
 @Service
 public class CardInfoServiceImpl implements CardInfoService {
     @Autowired
@@ -155,7 +157,7 @@ public class CardInfoServiceImpl implements CardInfoService {
 //                .post(formBody).build();
         Request request = new Request.Builder().url(url).get().build();
         try (Response response = OkHttpUtil.execute(request)) {
-            System.out.println(response.body().string());
+            log.info(response.body().string());
             return response.isSuccessful() ? cardInfo.getCardUrl() : null;
         }
     }

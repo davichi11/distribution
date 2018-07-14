@@ -1,8 +1,8 @@
 package com.distribution.modules.job.entity;
 
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 

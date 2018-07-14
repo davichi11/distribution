@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LoanOrderInfo extends TableImpl<LoanOrderInfoRecord> {
 
-    private static final long serialVersionUID = -1343936804;
+    private static final long serialVersionUID = -441011907;
 
     /**
      * The reference instance of <code>distribution.loan_order_info</code>
@@ -111,7 +111,7 @@ public class LoanOrderInfo extends TableImpl<LoanOrderInfoRecord> {
     /**
      * The column <code>distribution.loan_order_info.loan_money</code>. 分润金额
      */
-    public final TableField<LoanOrderInfoRecord, Double> LOAN_MONEY = createField("loan_money", org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "分润金额");
+    public final TableField<LoanOrderInfoRecord, Double> LOAN_MONEY = createField("loan_money", org.jooq.impl.SQLDataType.DOUBLE, this, "分润金额");
 
     /**
      * Create a <code>distribution.loan_order_info</code> table reference

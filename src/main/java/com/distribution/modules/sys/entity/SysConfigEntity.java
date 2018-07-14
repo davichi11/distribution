@@ -2,7 +2,8 @@ package com.distribution.modules.sys.entity;
 
 
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * 系统配置信息

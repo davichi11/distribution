@@ -1,5 +1,6 @@
 package com.distribution.modules.dis.service;
 
+import com.distribution.modules.dis.entity.DisMemberInfoEntity;
 import com.distribution.modules.dis.entity.LoanInfoEntity;
 
 import java.util.List;
@@ -54,4 +55,13 @@ public interface LoanInfoService {
      * @throws Exception
      */
     void deleteBatch(String[] ids) throws Exception;
+
+    /**
+     * 提交用户信息并返回办卡链接,失败返回空
+     * @param member
+     * @param prodId
+     * @return
+     * @throws Exception
+     */
+    String getProductUrl(DisMemberInfoEntity member, String prodId) throws Exception;
 }

@@ -2,9 +2,9 @@ package com.distribution.modules.sys.entity;
 
 
 import lombok.Data;
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;

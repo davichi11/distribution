@@ -34,14 +34,14 @@ public interface CardOrderInfoService {
      *
      * @throws Exception
      */
-    void save(CardOrderInfoEntity CardOrderInfo) throws Exception;
+    void save(CardOrderInfoEntity cardOrderInfo) throws Exception;
 
     /**
      * 更新
      *
      * @throws Exception
      */
-    void update(CardOrderInfoEntity CardOrderInfo) throws Exception;
+    void update(CardOrderInfoEntity cardOrderInfo) throws Exception;
 
     /**
      * 删除

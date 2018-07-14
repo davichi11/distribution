@@ -3,6 +3,7 @@ package com.distribution;
 import com.alibaba.fastjson.JSON;
 import com.distribution.common.utils.OkHttpUtil;
 import com.distribution.modules.card.entity.CardApiResponse;
+import com.distribution.modules.dis.entity.DisFans;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.apache.commons.lang3.math.NumberUtils;
@@ -58,6 +59,25 @@ public class MyTest {
         if (response.isSuccessful()) {
             CardApiResponse cardApiResponse = JSON.parseObject(response.body().string(), CardApiResponse.class);
             System.out.println(cardApiResponse);
+        }
+    }
+    @Test
+    public void test4() throws IOException {
+        Map<String, String> params = new HashMap<>();
+        params.put("name", "刘辉");
+        params.put("phone", "18635136850");
+        params.put("type", "1");
+        params.put("goodsId", "18");
+        params.put("idCard", "14052219860503301X");
+        params.put("fatherId", "5710");
+        params.put("otherUserId", "10904");
+        String url = OkHttpUtil.attachHttpGetParams("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do", params);
+//        RequestBody formBody = RequestBody.create(MediaType.parse("text/json; charset=utf-8"), JSON.toJSONString(params));
+//        Request request = new Request.Builder().url("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do")
+//                .post(formBody).build();
+        Request request = new Request.Builder().url(url).get().build();
+        try (Response response = OkHttpUtil.execute(request)) {
+            System.out.println(response.isSuccessful());
         }
     }
 }

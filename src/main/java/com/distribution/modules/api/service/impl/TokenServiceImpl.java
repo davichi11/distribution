@@ -24,7 +24,7 @@ public class TokenServiceImpl implements TokenService {
     private TokenDao tokenDao;
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
     /**
      * 12小时后过期
      */
@@ -76,7 +76,7 @@ public class TokenServiceImpl implements TokenService {
 
             //保存token
             //向Redis中存入token,12小时后过期
-            ValueOperations operations = redisTemplate.opsForValue();
+            ValueOperations<String, Object> operations = redisTemplate.opsForValue();
             operations.set(token, String.valueOf(userId), EXPIRE, TimeUnit.SECONDS);
             save(tokenEntity);
 //        } else {

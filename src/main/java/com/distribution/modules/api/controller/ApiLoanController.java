@@ -7,10 +7,9 @@ import com.distribution.common.utils.DateUtils;
 import com.distribution.common.utils.Result;
 import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.api.pojo.vo.LoanOrderVO;
-import com.distribution.modules.card.service.CardInfoService;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
-import com.distribution.modules.dis.service.CardOrderInfoService;
 import com.distribution.modules.dis.service.DisMemberInfoService;
+import com.distribution.modules.dis.service.LoanInfoService;
 import com.distribution.pojo.Tables;
 import com.distribution.pojo.tables.pojos.LoanInfo;
 import com.distribution.pojo.tables.pojos.LoanOrderInfo;
@@ -54,9 +53,7 @@ public class ApiLoanController {
     @Autowired
     private DSLContext create;
     @Autowired
-    private CardOrderInfoService cardOrderInfoService;
-    @Autowired
-    private CardInfoService cardInfoService;
+    private LoanInfoService loanInfoService;
     @Autowired
     private DisMemberInfoService disMemberInfoService;
     @Autowired
@@ -106,8 +103,9 @@ public class ApiLoanController {
         //先调用第三方接口保存用户信息并返回url
         String url;
         try {
-            url = cardInfoService.getProductUrl(member, loanOrder.getLoanId());
+            url = loanInfoService.getProductUrl(member, loanOrder.getLoanId());
         } catch (Exception e) {
+            log.error("申请异常",e);
             return Result.error("申请异常");
         }
         if (StringUtils.isBlank(url)) {

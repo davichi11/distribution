@@ -44,8 +44,8 @@ public class CardOrderInfoServiceImpl implements CardOrderInfoService {
 
 
     @Override
-    public void save(CardOrderInfoEntity CardOrderInfo) throws Exception {
-        cardOrderInfoDao.save(CardOrderInfo);
+    public void save(CardOrderInfoEntity cardOrderInfo) throws Exception {
+        cardOrderInfoDao.save(cardOrderInfo);
     }
 
     @Override
