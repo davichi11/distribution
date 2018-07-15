@@ -51,9 +51,9 @@ risk:
         header: token
     open-kaptcha:
         is-open: false
-    url: http://www.qiandaoshou.cn/wx/#/auth
-    return-url: http://www.qiandaoshou.cn/dis/api/getUserInfo
-    file-server: http://47.105.53.69:8088
+    url: https://www.qiandaoshou.cn/wx/#/auth
+    return-url: https://www.qiandaoshou.cn/dis/api/getUserInfo
+    file-server: https://47.105.53.69:8088
     file-path: /Users/huchunliang/Downloads
 swagger:
   enabled: true

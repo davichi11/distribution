@@ -15,10 +15,8 @@ import com.alipay.api.response.AlipayTradeAppPayResponse;
 import com.distribution.common.utils.CommonUtils;
 import com.distribution.common.utils.DateUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -156,10 +154,10 @@ public final class AliPayUtils {
 //        request.setNeedEncrypt(true);
 //        request.setBizContent(JSON.toJSONString(payParams));
         request.setBizModel(payModel);
-        request.setNotifyUrl("http://www.qiandaoshou.cn/dis/api/alipayCallback");
-        request.setReturnUrl("http://www.qiandaoshou.cn/#/MyCenter");
+        request.setNotifyUrl("https://www.qiandaoshou.cn/dis/api/alipayCallback");
+        request.setReturnUrl("https://www.qiandaoshou.cn/#/MyCenter");
         log.info("请求参数为{}", JSON.toJSON(request));
-        FileUtils.writeByteArrayToFile(new File("/Users/huchunliang/Documents/form.txt"), alipayClient.pageExecute(request).getBody().getBytes());
+//        FileUtils.writeByteArrayToFile(new File("/Users/huchunliang/Documents/form.txt"), alipayClient.pageExecute(request).getBody().getBytes());
         return alipayClient.pageExecute(request).getBody();
     }
 }

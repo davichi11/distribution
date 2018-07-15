@@ -8,13 +8,16 @@ import com.distribution.common.utils.Result;
 import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.api.pojo.vo.LoanOrderVO;
 import com.distribution.modules.dis.entity.DisMemberInfoEntity;
+import com.distribution.modules.dis.entity.LoanOrderInfoEntity;
 import com.distribution.modules.dis.service.DisMemberInfoService;
 import com.distribution.modules.dis.service.LoanInfoService;
+import com.distribution.modules.dis.service.LoanOrderInfoService;
 import com.distribution.pojo.Tables;
 import com.distribution.pojo.tables.pojos.LoanInfo;
-import com.distribution.pojo.tables.pojos.LoanOrderInfo;
 import com.distribution.pojo.tables.records.LoanInfoRecord;
 import com.distribution.pojo.tables.records.LoanOrderInfoRecord;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,7 +35,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import static com.distribution.pojo.Tables.LOAN_ORDER_INFO;
@@ -54,6 +59,8 @@ public class ApiLoanController {
     private DSLContext create;
     @Autowired
     private LoanInfoService loanInfoService;
+    @Autowired
+    private LoanOrderInfoService loanOrderInfoService;
     @Autowired
     private DisMemberInfoService disMemberInfoService;
     @Autowired
@@ -78,9 +85,14 @@ public class ApiLoanController {
     @GetMapping("/loanOrder/{mobile}")
     @ApiOperation("查询用户贷款订单记录")
     @ApiImplicitParam(paramType = "patch", dataType = "string", name = "用户手机号", value = "mobile")
-    public Result getLoanOrderInfo(@PathVariable("mobile") String mobile) {
-        return Result.ok().put("loanOrder", create.selectFrom(LOAN_ORDER_INFO)
-                .where(LOAN_ORDER_INFO.ORDER_MOBILE.eq(mobile)).fetchInto(LoanOrderInfo.class));
+    public Result getLoanOrderInfo(@PathVariable("mobile") String mobile,Integer page, Integer limit, Integer status) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("mobile", mobile);
+        param.put("status", status);
+        //查询列表数据
+        PageInfo<LoanOrderInfoEntity> pageInfo = PageHelper.startPage(page, limit)
+                .doSelectPageInfo(() -> loanOrderInfoService.queryList(param));
+        return Result.ok().put("loanOrder", pageInfo);
     }
 
     @PostMapping("/loan")
@@ -111,7 +123,8 @@ public class ApiLoanController {
         if (StringUtils.isBlank(url)) {
             return Result.error("申请异常");
         }
-        Integer count = create.selectCount().from(LOAN_ORDER_INFO).where(LOAN_ORDER_INFO.ID.eq(loanOrder.getLoanId()))
+        //查看是否已办过该贷款产品
+        Integer count = create.selectCount().from(LOAN_ORDER_INFO).where(LOAN_ORDER_INFO.ORDER_MOBILE.eq(loanOrder.getOrderMobile()))
                 .fetchOneInto(int.class);
         if (count >= 1) {
             return Result.ok().put("url", url);
