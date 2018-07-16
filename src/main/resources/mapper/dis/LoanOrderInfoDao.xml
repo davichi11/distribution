@@ -24,7 +24,16 @@
     </select>
 
     <select id="queryList" resultMap="loanOrderInfoMap">
-        select * from loan_order_info
+        select id, order_id, order_mobile, order_idcardno, order_status, member_id, loan_id, loan_amount, is_delete,
+        add_time, update_time, loan_money from loan_order_info
+        <where>
+            <if test="mobile != null and mobile != ''">
+                and order_mobile  = #{mobile}
+            </if>
+            <if test="status != null and status != ''">
+                and order_status = #{status}
+            </if>
+        </where>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}

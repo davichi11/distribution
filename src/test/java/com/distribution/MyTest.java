@@ -53,9 +53,9 @@ public class MyTest {
     @Test
     public void test3() throws IOException {
         //先获取
-        String url = OkHttpUtil.attachHttpGetParam("http://www.qichangkeji.vip/qckjgzhManager/DownSingleLoan/selectById.do", "id", "30");
+        String url = OkHttpUtil.INSTANCE.attachHttpGetParam("http://www.qichangkeji.vip/qckjgzhManager/DownSingleLoan/selectById.do", "id", "30");
         Request request = new Request.Builder().url(url).get().build();
-        Response response = OkHttpUtil.execute(request);
+        Response response = OkHttpUtil.INSTANCE.execute(request);
         if (response.isSuccessful()) {
             CardApiResponse cardApiResponse = JSON.parseObject(response.body().string(), CardApiResponse.class);
             System.out.println(cardApiResponse);
@@ -71,12 +71,12 @@ public class MyTest {
         params.put("idCard", "14052219860503301X");
         params.put("fatherId", "5710");
         params.put("otherUserId", "10904");
-        String url = OkHttpUtil.attachHttpGetParams("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do", params);
+        String url = OkHttpUtil.INSTANCE.attachHttpGetParams("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do", params);
 //        RequestBody formBody = RequestBody.create(MediaType.parse("text/json; charset=utf-8"), JSON.toJSONString(params));
 //        Request request = new Request.Builder().url("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do")
 //                .post(formBody).build();
         Request request = new Request.Builder().url(url).get().build();
-        try (Response response = OkHttpUtil.execute(request)) {
+        try (Response response = OkHttpUtil.INSTANCE.execute(request)) {
             System.out.println(response.isSuccessful());
         }
     }
