@@ -22,7 +22,7 @@
     </select>
 
     <select id="queryList" resultMap="loanInfoMap">
-        select * from loan_info
+        select id, loan_name, loan_url, loan_img, add_time, update_time, is_delete, remark from loan_info
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}

@@ -16,51 +16,55 @@ import java.io.Serializable;
 public class LoanOrderInfoEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
-            /**
-         * 
-         */
-        private String id;
-            /**
-         * 订单编号
-         */
-        private String orderId;
-            /**
-         * 
-         */
-        private String orderMobile;
-            /**
-         * 
-         */
-        private String orderIdcardno;
-            /**
-         * 订单状态 0失败 1成功 2申请中
-         */
-        private Integer orderStatus;
-            /**
-         * 
-         */
-        private String memberId;
-            /**
-         * 
-         */
-        private String loanId;
-            /**
-         * 
-         */
-        private Double loanAmount;
-            /**
-         * 
-         */
-        private Integer isDelete;
-            /**
-         * 
-         */
-        private String addTime;
-            /**
-         * 
-         */
-        private String updateTime;
+    /**
+     *
+     */
+    private String id;
+    /**
+     * 订单编号
+     */
+    private String orderId;
+    /**
+     *
+     */
+    private String orderMobile;
+    /**
+     *
+     */
+    private String orderIdcardno;
+    /**
+     * 订单状态 0失败 1成功 2申请中
+     */
+    private Integer orderStatus;
+    /**
+     *
+     */
+    private String memberId;
+    /**
+     *
+     */
+    private String loanId;
+
+    private String loanName;
+
+    private String userName;
+    /**
+     *
+     */
+    private Double loanAmount;
+    /**
+     *
+     */
+    private Integer isDelete;
+    /**
+     *
+     */
+    private String addTime;
+    /**
+     *
+     */
+    private String updateTime;
 
 
-        private Double loanMoney;
-    }
+    private Double loanMoney;
+}
