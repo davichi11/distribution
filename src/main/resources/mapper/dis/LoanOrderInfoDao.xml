@@ -65,7 +65,7 @@
             <if test="mobile != null and mobile != ''">
                 and o.order_mobile = #{mobile}
             </if>
-            <if test="status != null and status != ''">
+            <if test="status != null">
                 and o.order_status = #{status}
             </if>
         </where>
