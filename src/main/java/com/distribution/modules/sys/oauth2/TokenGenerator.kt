@@ -17,13 +17,13 @@ object TokenGenerator {
     private val HEX_CODE = "0123456789abcdef".toCharArray()
 
     @Throws(RRException::class)
-    fun generateValue(): String? {
+    fun generateValue(): String {
         return generateValue(UUID.randomUUID().toString())
     }
 
-    private fun toHexString(data: ByteArray?): String? {
+    private fun toHexString(data: ByteArray?): String {
         if (data == null) {
-            return null
+            return ""
         }
         val r = StringBuilder(data.size * 2)
         for (b in data) {
@@ -33,7 +33,7 @@ object TokenGenerator {
         return r.toString()
     }
 
-    private fun generateValue(param: String): String? {
+    private fun generateValue(param: String): String {
         try {
             val algorithm = MessageDigest.getInstance("MD5")
             algorithm.reset()

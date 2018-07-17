@@ -58,7 +58,13 @@ class ApiRegisterController {
     @AuthIgnore
     @PostMapping("register")
     @ApiOperation(value = "注册")
-    @ApiImplicitParams(ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "手机号", required = true), ApiImplicitParam(paramType = "query", dataType = "string", name = "password", value = "密码", required = true), ApiImplicitParam(paramType = "query", dataType = "string", name = "captcha", value = "验证码", required = true), ApiImplicitParam(paramType = "query", dataType = "string", name = "name", value = "真实姓名", required = true), ApiImplicitParam(paramType = "query", dataType = "string", name = "idCode", value = "身份证号", required = true), ApiImplicitParam(paramType = "query", dataType = "string", name = "openId", value = "微信open_id"))
+    @ApiImplicitParams(
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "手机号", required = true),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "password", value = "密码", required = true),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "captcha", value = "验证码", required = true),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "name", value = "真实姓名", required = true),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "idCode", value = "身份证号", required = true),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "openId", value = "微信open_id"))
     fun register(mobile: String, password: String, name: String, idCode: String, captcha: String, openId: String): Result {
         var pwd = password
         if (StringUtils.isBlank(mobile)) {
@@ -127,7 +133,7 @@ class ApiRegisterController {
     @PostMapping("/sendCaptcha")
     @ApiOperation(value = "发送验证码")
     @ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "手机号", required = true)
-    fun sendCaptcha(mobile: String): Result? {
+    fun sendCaptcha(mobile: String): Result {
         if (StringUtils.isBlank(mobile)) {
             return Result().error( msg ="手机号不正确")
         }

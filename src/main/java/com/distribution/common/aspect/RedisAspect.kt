@@ -28,7 +28,7 @@ class RedisAspect {
     @Value("\${spring.redis.open: true}")
     private var open: Boolean = false
 
-    @Around("execution(* io.renren.common.cache.RedisCache.*(..))")
+    @Around("execution(* com.distribution.common.cache.RedisCache.*(..))")
     @Throws(Throwable::class)
     fun around(point: ProceedingJoinPoint): Any? {
         var result: Any? = null

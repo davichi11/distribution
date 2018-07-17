@@ -1,9 +1,7 @@
 package com.distribution.modules.dis.entity
 
-import com.distribution.common.utils.DateUtils
 import com.distribution.modules.api.entity.UserEntity
 import java.io.Serializable
-import java.time.LocalDateTime
 
 
 /**
@@ -14,22 +12,23 @@ import java.time.LocalDateTime
  * @date 2018-05-03
  */
 data class DisMemberInfoEntity(
-        var id: String = "",
-        var disPlatformId: Long = 1L,
-        var openId: String = "",
+        private val serialVersionUID: Long = 1L,
+        var id: String? = null,
+        var disPlatformId: Long? = null,
+        var openId: String? = null,
         /**
          * 用户id
          */
-        var userEntity: UserEntity = UserEntity(),
+        var userEntity: UserEntity? = null,
         /**
          * 上级会员ID
          */
-        var parentId: String = "",
+        var parentId: String? = null,
 
         /**
          * 上级会员
          */
-        var disMemberParent: DisMemberInfoEntity = DisMemberInfoEntity(),
+        var disMemberParent: DisMemberInfoEntity? = null,
         /**
          * 下级集合
          */
@@ -38,33 +37,33 @@ data class DisMemberInfoEntity(
         /**
          * 全路径
          */
-        var disFullIndex: String = "",
+        var disFullIndex: String? = null,
 
         /**
          * 真实姓名
          */
-        var disUserName: String = "",
+        var disUserName: String? = null,
         /**
          * 身份证号码
          */
-        var idCode: String = "",
+        var idCode: String? = null,
         /**
          * 级别
          */
-        var disLevel: Int = 0,
+        var disLevel: Int? = null,
 
         /**
          * 身份类型(0 非会员 1会员)
          */
-        var disUserType: String = "0",
+        var disUserType: String? = null,
         /**
          * 备注
          */
-        var disNote: String = "",
+        var disNote: String? = null,
         /**
          * 添加时间
          */
-        var addTime: String = DateUtils.formatDateTime(LocalDateTime.now()),
-        var updateTime: String = DateUtils.formatDateTime(LocalDateTime.now()),
-        var isDelete: String = "1"
+        var addTime: String? = null,
+        var updateTime: String? = null,
+        var isDelete: String? = null
 ) : Serializable

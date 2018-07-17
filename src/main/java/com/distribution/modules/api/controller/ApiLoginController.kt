@@ -52,8 +52,11 @@ class ApiLoginController {
     @AuthIgnore
     @PostMapping("/login")
     @ApiOperation(value = "登录", notes = "登录,注册过校验验证码,成功登陆")
-    @ApiImplicitParams(ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "手机号", required = true), ApiImplicitParam(paramType = "query", dataType = "string", name = "captcha", value = "验证码", required = true), ApiImplicitParam(paramType = "query", dataType = "string", name = "openId", value = "微信open_id"))
-    fun login(mobile: String, captcha: String, openId: String): Result {
+    @ApiImplicitParams(
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "手机号", required = true),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "captcha", value = "验证码", required = true),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "openId", value = "微信open_id"))
+    fun login(mobile: String, captcha: String, openId: String?): Result {
         if (StringUtils.isBlank(mobile) || StringUtils.isBlank(captcha)) {
             return Result().error( msg ="手机号或验证码不能为空")
         }
@@ -67,10 +70,10 @@ class ApiLoginController {
 
         //用户登录
         val userEntity = userService.queryByMobile(mobile) ?: return Result().error( msg ="请先注册")
-        val memberInfo = memberInfoService.queryByMobile(userEntity.mobile)
+        val memberInfo = memberInfoService.queryByMobile(userEntity.mobile!!)
         buildMemberVO(mobile, disMemberVO, memberInfo!!)
         //生成token
-        val token = jwtConfig.generateToken(userEntity.userId)
+        val token = jwtConfig.generateToken(userEntity.userId!!)
         val map = HashMap<String, Any>(16)
         map["token"] = token
         map["expire"] = jwtConfig.expire
@@ -80,14 +83,14 @@ class ApiLoginController {
     }
 
     private fun buildMemberVO(mobile: String, disMemberVO: DisMemberVO, memberInfo: DisMemberInfoEntity) {
-        val fans = fansService.queryByOpenId(memberInfo.openId)
-        disMemberVO.disUserName = memberInfo.disUserName
-        disMemberVO.disUserType = memberInfo.disUserType
-        disMemberVO.disLevel = memberInfo.disLevel
+        val fans = fansService.queryByOpenId(memberInfo.openId!!)
+        disMemberVO.disUserName = memberInfo.disUserName!!
+        disMemberVO.disUserType = memberInfo.disUserType!!
+        disMemberVO.disLevel = memberInfo.disLevel!!
         disMemberVO.mobile = mobile
-        disMemberVO.idCode = memberInfo.idCode
-        disMemberVO.openId = memberInfo.openId
-        disMemberVO.addTime = memberInfo.addTime
+        disMemberVO.idCode = memberInfo.idCode!!
+        disMemberVO.openId = memberInfo.openId!!
+        disMemberVO.addTime = memberInfo.addTime!!
         if (fans != null) {
             disMemberVO.workerId = fans.workerId
             disMemberVO.nickName = fans.wechatNickname

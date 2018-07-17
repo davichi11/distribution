@@ -205,7 +205,7 @@ class ApiAccountController {
         val map = HashMap<String, Any>(2)
         map["mobile"] = mobile
         val member = disMemberInfoService.queryByMobile(mobile)
-        map["userId"] = member!!.id
+        map["userId"] = member!!.id!!
         map["hisType"] = MemberAccountHistory.HisType.INCOME
         map.putAll(params)
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(map, "page", 0),

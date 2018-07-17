@@ -12,6 +12,7 @@ import org.apache.shiro.subject.PrincipalCollection
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Component
+import java.lang.Exception
 
 /**
  * 认证
@@ -56,7 +57,7 @@ class OAuth2Realm : AuthorizingRealm() {
 
         //根据accessToken，查询用户信息
         //token失效
-        val userId = redisTemplate!!.opsForValue().get(accessToken) as String
+        val userId = redisTemplate!!.opsForValue().get(accessToken) as String?
         if (StringUtils.isBlank(userId)) {
             throw IncorrectCredentialsException("token失效，请重新登录")
         }
@@ -65,7 +66,7 @@ class OAuth2Realm : AuthorizingRealm() {
         val user = shiroService!!.queryUser(NumberUtils.toLong(userId))
         //账号锁定
         if (user.status == 0) {
-            throw LockedAccountException("账号已被锁定,请联系管理员")
+            throw Exception("账号已被锁定,请联系管理员")
         }
 
         return SimpleAuthenticationInfo(user, accessToken, name)

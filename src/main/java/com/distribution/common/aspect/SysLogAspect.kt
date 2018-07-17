@@ -33,7 +33,7 @@ class SysLogAspect {
     @Autowired
     private val sysLogService: SysLogService? = null
 
-    @Pointcut("@annotation(io.renren.common.annotation.SysLog)")
+    @Pointcut("@annotation(com.distribution.common.annotation.SysLog)")
     fun logPointCut() {
 
     }

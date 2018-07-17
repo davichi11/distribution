@@ -96,7 +96,7 @@ class ApiAliPayController {
         orderHistory.addTime = LocalDateTime.now()
         orderHistory.finishTime = LocalDateTime.now()
         return try {
-            val account = accountService.selectMemberAccountByUserId(disMemberInfoEntity.id)
+            val account = accountService.selectMemberAccountByUserId(disMemberInfoEntity.id!!)
             if (account != null) {
                 val aliPayAccount = account.aliPayAccount
                 orderHistory.account = aliPayAccount

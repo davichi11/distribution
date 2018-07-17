@@ -17,32 +17,28 @@ data class UserEntity(
         /**
          * 用户ID uuid
          */
-        var userId: String = "",
+        var userId: String? = null,
 
         /**
          * 用户名
          */
-        var username: String = "",
+        var username: String? = null,
 
         /**
          * 手机号
          */
-        var mobile: String = "",
+        var mobile: String? = null,
 
         /**
          * 密码
          */
         @Transient
-        var password: String = "",
+        var password: String? = null,
         /**
          * 创建时间
          */
-        var createTime: LocalDateTime = LocalDateTime.now(),
+        var createTime: LocalDateTime? = null,
 
-        var memberInfo: DisMemberInfoEntity = DisMemberInfoEntity()
-) : Serializable {
-    companion object {
-        private const val serialVersionUID = 1L
-    }
-
-}
+        var memberInfo: DisMemberInfoEntity? = null,
+        private val serialVersionUID: Long = 1L
+) : Serializable

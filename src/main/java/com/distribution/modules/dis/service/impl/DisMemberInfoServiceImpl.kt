@@ -72,7 +72,7 @@ class DisMemberInfoServiceImpl : DisMemberInfoService {
         if ("0" == memberInfo.disUserType) {
             //查询锁粉数据
             val param = HashMap<String, Any>(2)
-            param["memberId"] = memberInfo.id
+            param["memberId"] = memberInfo.id!!
             val disFansList = disFansMapper.selectList(param)
 
             if (disFansList.size >= 10) {
@@ -88,10 +88,10 @@ class DisMemberInfoServiceImpl : DisMemberInfoService {
                 if (count >= 3) {
                     memberInfo.disUserType = "1"
                     memberInfo.disLevel = 3
-                    val userEntity = userDao.queryByMemberId(memberInfo.id)
+                    val userEntity = userDao.queryByMemberId(memberInfo.id!!)
                     memberInfo.userEntity = userEntity
                     update(memberInfo)
-                    return parentLevelUp(memberInfo.disMemberParent)
+                    return parentLevelUp(memberInfo.disMemberParent!!)
                 }
             }
         } else if ("1" == memberInfo.disUserType) {
@@ -109,24 +109,24 @@ class DisMemberInfoServiceImpl : DisMemberInfoService {
      */
     @Throws(Exception::class)
     private fun parentLevelUp(member: DisMemberInfoEntity): Boolean {
-        val parent = disMemberInfoDao.queryObject(member.id)
+        val parent = disMemberInfoDao.queryObject(member.id!!)
         if (member.disLevel == 1) {
             return true
         }
         //查询会员的下级会员数量
         val param = HashMap<String, Any>(2)
-        param["parent_id"] = member.id
+        param["parent_id"] = member.id!!
         val children = disMemberInfoDao.queryList(param).filter { m -> "1" == m.disUserType }.count()
         //三级升二级
         if (member.disLevel == 3 && children >= 5) {
-            disMemberInfoDao.updateDisLevel(2, "1", member.id)
+            disMemberInfoDao.updateDisLevel(2, "1", member.id!!)
 
         }
         //二级升一级
         if (member.disLevel == 2 && children >= 15) {
-            disMemberInfoDao.updateDisLevel(1, "1", member.id)
+            disMemberInfoDao.updateDisLevel(1, "1", member.id!!)
         }
-        return parentLevelUp(parent.disMemberParent)
+        return parentLevelUp(parent.disMemberParent!!)
     }
 
 

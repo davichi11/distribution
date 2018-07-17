@@ -12,6 +12,7 @@ import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.time.LocalDateTime
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -22,8 +23,8 @@ class SysUserTokenServiceImpl : SysUserTokenService {
     @Autowired
     private lateinit var sysUserTokenDao: SysUserTokenDao
     @Autowired
-    private lateinit var redisTemplate: RedisTemplate<*, *>
-
+    private lateinit var redisTemplate: RedisTemplate<String, Any>
+    private val EXPIRE:Long = 3600 * 12
     override fun queryByUserId(userId: Long?): SysUserTokenEntity {
         return sysUserTokenDao.queryByUserId(userId)
     }
@@ -59,25 +60,32 @@ class SysUserTokenServiceImpl : SysUserTokenService {
         val expireTime = LocalDateTime.now().plusDays(1)
 
         //判断是否生成过token
-        val tokenEntity: SysUserTokenEntity? = queryByUserId(userId)
-        when (tokenEntity) {
-            null -> //保存token
-                save(SysUserTokenEntity(1L, userId, token, expireTime, now))
-            else -> { //更新token
-                tokenEntity.token = token
-                tokenEntity.updateTime = now
-                tokenEntity.expireTime = expireTime
-                update(tokenEntity)
-            }
+        //从Redis中根据token获取用户ID
+        val o = redisTemplate.opsForValue().get(token) as String?
+        //        SysUserTokenEntity tokenEntity = queryByUserId(userId);
+        if (userId != NumberUtils.toLong(o)) {
+            val tokenEntity = SysUserTokenEntity()
+            tokenEntity.userId = userId
+            tokenEntity.token = token
+            tokenEntity.updateTime = now
+            tokenEntity.expireTime = expireTime
+            //保存token
+            //向Redis中存入token,12小时后过期
+            val operations = redisTemplate.opsForValue()
+            operations.set(token, userId.toString(), EXPIRE, TimeUnit.SECONDS)
+            //向数据库中存入token
+            save(tokenEntity)
+            //        } else {
+            //            SysUserTokenEntity tokenEntity = new SysUserTokenEntity();
+            //            tokenEntity.setToken(token);
+            //            tokenEntity.setUpdateTime(now);
+            //            tokenEntity.setExpireTime(expireTime);
+            //
+            //            //更新token
+            //            update(tokenEntity);
         }
 
-        return Result().ok().put("token", token!!).put("expire", EXPIRE)
+        return Result().ok().put("token", token).put("expire", EXPIRE)
     }
 
-    companion object {
-        /**
-         * 12小时后过期
-         */
-        private val EXPIRE = 3600 * 12
-    }
 }

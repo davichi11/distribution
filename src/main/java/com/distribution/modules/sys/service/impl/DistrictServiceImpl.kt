@@ -17,9 +17,9 @@ import org.springframework.stereotype.Service
 @Service
 class DistrictServiceImpl : DistrictService {
     @Autowired
-    private val districtDao: DistrictDao? = null
+    private lateinit var districtDao: DistrictDao
 
     override fun getByParentId(parentId: String): List<District> {
-        return districtDao!!.getByParentId(parentId)
+        return districtDao.getByParentId(parentId)
     }
 }

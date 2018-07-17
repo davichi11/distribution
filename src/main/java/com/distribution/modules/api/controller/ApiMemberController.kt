@@ -86,7 +86,7 @@ class ApiMemberController {
     private val log = LoggerFactory.getLogger(ApiMemberController::class.java)
 
 
-    val vipList: Result?
+    val vipList: Result
         @AuthIgnore
         @ApiOperation("获取VIP购买列表")
         @GetMapping("/vip")
@@ -105,14 +105,14 @@ class ApiMemberController {
     @GetMapping("team")
     @ApiOperation(value = "我的团队")
     @ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "会员手机号", required = true)
-    fun myTeam(mobile: String): Result? {
+    fun myTeam(mobile: String): Result {
         if (StringUtils.isBlank(mobile)) {
             return Result().error(msg = "手机号不能为空")
         }
         val member = disMemberInfoService.queryByMobile(mobile)
         //查询所有锁粉信息
         val fansParam = HashMap<String, Any>(2)
-        fansParam["memberId"] = member!!.id
+        fansParam["memberId"] = member!!.id!!
         val disFansList = disFansService.queryList(fansParam)!!
                 .map { disFans ->
                     val memberInfo = Optional.ofNullable(disMemberInfoService.queryByOpenId(disFans.wechatId))
@@ -122,8 +122,8 @@ class ApiMemberController {
 
         //所有代理信息
         val children = member.disMemberChildren?.filter { m ->  "1" == m.disUserType }?.map { memberInfo ->
-            val disFans = Optional.ofNullable(disFansService.queryByOpenId(memberInfo.openId)).orElse(DisFans())
-            memberInfo.userEntity = userService.queryByMemberId(memberInfo.id)!!
+            val disFans = Optional.ofNullable(disFansService.queryByOpenId(memberInfo.openId!!)).orElse(DisFans())
+            memberInfo.userEntity = userService.queryByMemberId(memberInfo.id!!)!!
             getDisMemberVO(disFans, memberInfo)
         }?.toList()
 
@@ -138,10 +138,10 @@ class ApiMemberController {
 
     private fun getDisMemberVO(disFans: DisFans, memberInfo: DisMemberInfoEntity): DisMemberVO {
         val memberVO = DisMemberVO()
-        memberVO.disUserName = memberInfo.disUserName
-        memberVO.disUserType = memberInfo.disUserType
-        memberVO.disLevel = memberInfo.disLevel
-        memberVO.mobile = Optional.ofNullable(memberInfo.userEntity).orElse(UserEntity()).mobile
+        memberVO.disUserName = memberInfo.disUserName!!
+        memberVO.disUserType = memberInfo.disUserType!!
+        memberVO.disLevel = memberInfo.disLevel!!
+        memberVO.mobile = Optional.ofNullable(memberInfo.userEntity).orElse(UserEntity()).mobile!!
         memberVO.openId = disFans.wechatId
         memberVO.addTime = StringUtils.substring(memberInfo.addTime, 0, 10)
         memberVO.nickName = disFans.wechatNickname
@@ -153,7 +153,7 @@ class ApiMemberController {
 
     @GetMapping("/memberAccount/{mobile}")
     @ApiOperation(value = "查询用户账户信息")
-    fun memberAccountInfo(@PathVariable("mobile") mobile: String): Result? {
+    fun memberAccountInfo(@PathVariable("mobile") mobile: String): Result {
         val memberAccount = Optional.ofNullable(memberAccountService.selectMemberAccountByUserId(mobile))
                 .orElse(MemberAccount())
         return Result().ok().put("alipayAccount", memberAccount.aliPayAccount)
@@ -170,7 +170,7 @@ class ApiMemberController {
     @AuthIgnore
     @GetMapping("/disMember/{mobile}")
     @ApiOperation(value = "查询用户信息")
-    fun disMember(@PathVariable("mobile") mobile: String): Result? {
+    fun disMember(@PathVariable("mobile") mobile: String): Result {
         val map = HashMap<String, Any>(2)
         map["mobile"] = mobile
         val disMemberInfoEntities = disMemberInfoService.queryList(map)
@@ -183,7 +183,7 @@ class ApiMemberController {
 
     @ApiOperation(value = "根据token获取用户信息")
     @GetMapping("/memberByToken")
-    fun getMemberInfoByToken(token: String, request: HttpServletRequest): Result? {
+    fun getMemberInfoByToken(token: String, request: HttpServletRequest): Result {
         var t = token
         if (StringUtils.isBlank(t)) {
             if (StringUtils.isNotBlank(request.getHeader("token"))) {
@@ -195,21 +195,21 @@ class ApiMemberController {
         val claims = jwtConfig.getClaimByToken(t)
         val userId = claims!!.subject
         val userEntity = userService.queryObject(userId) ?: return Result().error(msg = "请先注册")
-        val memberInfoEntity = disMemberInfoService.queryByMobile(userEntity.mobile)
+        val memberInfoEntity = disMemberInfoService.queryByMobile(userEntity.mobile!!)
         val memberVO = buildMemberVO(userEntity, memberInfoEntity!!)
         return Result().ok().put("memberInfo", memberVO)
     }
 
     private fun buildMemberVO(userEntity: UserEntity, memberInfo: DisMemberInfoEntity): DisMemberVO {
         val disMemberVO = DisMemberVO()
-        val fans = disFansService.queryByOpenId(memberInfo.openId)
-        disMemberVO.disUserName = memberInfo.disUserName
-        disMemberVO.disUserType = memberInfo.disUserType
-        disMemberVO.disLevel = memberInfo.disLevel
-        disMemberVO.mobile = userEntity.mobile
-        disMemberVO.idCode = memberInfo.idCode
-        disMemberVO.openId = memberInfo.openId
-        disMemberVO.addTime = memberInfo.addTime
+        val fans = disFansService.queryByOpenId(memberInfo.openId!!)
+        disMemberVO.disUserName = memberInfo.disUserName!!
+        disMemberVO.disUserType = memberInfo.disUserType!!
+        disMemberVO.disLevel = memberInfo.disLevel!!
+        disMemberVO.mobile = userEntity.mobile!!
+        disMemberVO.idCode = memberInfo.idCode!!
+        disMemberVO.openId = memberInfo.openId!!
+        disMemberVO.addTime = memberInfo.addTime!!
         if (fans != null) {
             disMemberVO.nickName = fans.wechatNickname
             disMemberVO.imgUrl = fans.wechatImg
@@ -222,19 +222,19 @@ class ApiMemberController {
     @AuthIgnore
     @GetMapping("/upLevel/{openId}")
     @ApiOperation(value = "查询用户上级信息")
-    fun getUpLevel(@PathVariable("openId") openId: String): Result? {
+    fun getUpLevel(@PathVariable("openId") openId: String): Result {
         val fans = disFansService.queryByOpenId(openId)
         //获取上级会员信息
         val parent = fans!!.disMemberInfo ?: return Result().error(msg = "用户不存在")
-        val disFans = disFansService.queryByOpenId(parent.openId)
+        val disFans = disFansService.queryByOpenId(parent.openId!!)
         val memberVO = DisMemberVO()
-        memberVO.disUserName = parent.disUserName
+        memberVO.disUserName = parent.disUserName!!
         memberVO.disUserType = parent.disLevel.toString()
-        memberVO.mobile = userService.queryByMemberId(parent.id)!!.mobile
-        memberVO.openId = parent.openId
+        memberVO.mobile = userService.queryByMemberId(parent.id!!)!!.mobile!!
+        memberVO.openId = parent.openId!!
         memberVO.nickName = disFans!!.wechatNickname
         memberVO.imgUrl = disFans.wechatImg
-        memberVO.disLevel = parent.disLevel
+        memberVO.disLevel = parent.disLevel!!
 
         return Result().ok().put("upLevel", memberVO)
     }
@@ -243,7 +243,7 @@ class ApiMemberController {
     @AuthIgnore
     @ApiOperation(value = "查询微信关注者信息")
     @GetMapping("/disFans")
-    fun disFansInfo(@RequestParam openId: String): Result? {
+    fun disFansInfo(@RequestParam openId: String): Result {
         if (StringUtils.isBlank(openId)) {
             return Result().error(msg = "openID不能为空")
         }
@@ -252,9 +252,9 @@ class ApiMemberController {
         val member = disMemberInfoService.queryByOpenId(openId)
         if (member != null) {
             BeanUtils.copyProperties(member, memberVO)
-            memberVO.token = jwtConfig.generateToken(member.userEntity.userId)
+            memberVO.token = jwtConfig.generateToken(member.userEntity!!.userId!!)
             memberVO.expire = jwtConfig.expire
-            memberVO.mobile = member.userEntity.mobile
+            memberVO.mobile = member.userEntity!!.mobile!!
         }
         memberVO.imgUrl = fans.wechatImg
         memberVO.nickName = fans.wechatNickname
@@ -264,7 +264,10 @@ class ApiMemberController {
     }
 
     @ApiOperation("更新会员手机号")
-    @ApiImplicitParams(ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "手机号", required = true), ApiImplicitParam(paramType = "query", dataType = "string", name = "oldMobile", value = "旧手机号", required = true), ApiImplicitParam(paramType = "query", dataType = "string", name = "captcha", value = "验证码", required = true))
+    @ApiImplicitParams(
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "手机号", required = true),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "oldMobile", value = "旧手机号", required = true),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "captcha", value = "验证码", required = true))
     @PostMapping("/updateMobile")
     fun updateMobile(mobile: String, oldMobile: String, captcha: String): Result {
         if (redisTemplate.opsForValue().get(mobile) != captcha) {
@@ -312,7 +315,10 @@ class ApiMemberController {
      * @return
      */
     @ApiOperation("更新会员信息")
-    @ApiImplicitParams(ApiImplicitParam(paramType = "path", dataType = "string", name = "mobile", value = "手机号", required = true))
+    @ApiImplicitParams(
+            ApiImplicitParam(paramType = "path", dataType = "string", name = "mobile", value = "手机号", required = true),
+            ApiImplicitParam(paramType = "body", dataType = "DisMemberVO", name = "memberVO", value = "手机号", required = true)
+    )
     @PatchMapping("/disMember/{mobile}")
     fun updateMemberInfo(@PathVariable("mobile") mobile: String, @RequestBody memberVO: DisMemberVO): Result {
         val member = disMemberInfoService.queryByMobile(mobile)
@@ -369,15 +375,15 @@ class ApiMemberController {
             //根据支付宝账户查询对应的会员信息
             val member = disMemberInfoService.queryByMobile(orderHistory.mobile)
             //构造模板消息
-            val templateMessage = buildTemplateMsg(member!!.openId, member.disLevel.toString(),
-                    level, member.disUserName)
+            val templateMessage = buildTemplateMsg(member!!.openId!!, member.disLevel.toString(),
+                    level, member.disUserName!!)
             //升级会员
             member.disLevel = NumberUtils.toInt(level)
             //用户类型升级为会员
             if ("0" == member.disUserType) {
                 member.disUserType = "1"
             }
-            disMemberInfoService.updateDisLevel(member.disLevel, member.disUserType, member.id)
+            disMemberInfoService.updateDisLevel(member.disLevel, member.disUserType!!, member.id!!)
             //调用分润
             var money = 0.00
             when (level) {
@@ -409,7 +415,7 @@ class ApiMemberController {
      * @param name
      * @return
      */
-    private fun buildTemplateMsg(openId: String?, oldLevel: String, newLevel: String, name: String?): WxMpTemplateMessage {
+    private fun buildTemplateMsg(openId: String, oldLevel: String, newLevel: String, name: String): WxMpTemplateMessage {
         val wxMpTemplateMessage = WxMpTemplateMessage()
         wxMpTemplateMessage.templateId = "kfKckhHo6GnTqO35SPHgQYKkomi1HV9kXsGbm9AO2Y8"
         wxMpTemplateMessage.toUser = openId

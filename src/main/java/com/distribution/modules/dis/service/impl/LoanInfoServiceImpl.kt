@@ -82,13 +82,13 @@ class LoanInfoServiceImpl : LoanInfoService {
     override fun getProductUrl(member: DisMemberInfoEntity, prodId: String): String {
         val loanInfo = loanInfoDao.queryObject(prodId)
         val params = HashMap<String, String>()
-        params["name"] = member.disUserName
-        params["phone"] = member.userEntity.mobile
+        params["name"] = member.disUserName!!
+        params["phone"] = member.userEntity!!.mobile!!
         params["type"] = "1"
         params["goodsId"] = prodId
-        params["idCard"] = member.idCode
+        params["idCard"] = member.idCode!!
         params["fatherId"] = "5710"
-        val fans = fansService.queryByOpenId(member.openId)
+        val fans = fansService.queryByOpenId(member.openId!!)
         params["otherUserId"] = fans!!.workerId.toString()
         val url = OkHttpUtil.attachHttpGetParams("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do", params)
         //        RequestBody formBody = RequestBody.create(MediaType.parse("text/json; charset=utf-8"), JSON.toJSONString(params));

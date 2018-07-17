@@ -42,13 +42,13 @@
         where user_id = #{userId,jdbcType=VARCHAR}
     </update>
 
-    <select id="queryObject" resultType="com.distribution.modules.api.entity.UserEntity">
+    <select id="queryObject" resultMap="user_map">
         SELECT *
         FROM tb_user
         WHERE user_id = #{value}
     </select>
 
-    <select id="queryByMobile" resultType="com.distribution.modules.api.entity.UserEntity">
+    <select id="queryByMobile" resultMap="user_map">
         SELECT *
         FROM tb_user
         WHERE mobile = #{value}
@@ -66,7 +66,7 @@
         WHERE m.id = #{memberId}
     </select>
 
-    <select id="queryList" resultType="com.distribution.modules.api.entity.UserEntity">
+    <select id="queryList" resultMap="user_map">
         SELECT * FROM tb_user
         <where>
             <if test="mobile !='' and mobile !=null">
@@ -78,7 +78,7 @@
         </where>
     </select>
 
-    <select id="queryTotal" resultType="com.distribution.modules.api.entity.UserEntity">
+    <select id="queryTotal" resultMap="user_map">
         SELECT count(1) FROM tb_user
         <where>
             <if test="mobile !='' and mobile !=null">

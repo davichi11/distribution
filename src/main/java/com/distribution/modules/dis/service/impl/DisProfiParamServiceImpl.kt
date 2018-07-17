@@ -101,7 +101,7 @@ class DisProfiParamServiceImpl : DisProfiParamService {
         //获取当前用户等级的分润
         val memberParam = disProfiParams.first { p -> p.disProLevel == member.disLevel.toString() }
         //当前用户账户信息
-        val memberAccount = accountMapper.selectMemberAccountByUserId(member.id)
+        val memberAccount = accountMapper.selectMemberAccountByUserId(member.id!!)
         if ("1" == member.disUserType) {
             //当前用户分润,如果是购买会员则不分
             if (!isReward) {
@@ -109,16 +109,16 @@ class DisProfiParamServiceImpl : DisProfiParamService {
             }
         }
         //当前会员的上两级
-        val parent = memberInfoDao.queryObject(member.disMemberParent.id)
-        val parentAccount = accountMapper.selectMemberAccountByUserId(parent.id)
-        val parentParam = disProfiParams.first{ p -> p.disProLevel == parent.disLevel.toString() }
+        val parent = memberInfoDao.queryObject(member.disMemberParent!!.id!!)
+        val parentAccount = accountMapper.selectMemberAccountByUserId(parent.id!!)
+        val parentParam = disProfiParams.first { p -> p.disProLevel == parent.disLevel.toString() }
 
-        val grand = Optional.ofNullable(memberInfoDao.queryObject(parent.parentId))
+        val grand = Optional.ofNullable(memberInfoDao.queryObject(parent.parentId!!))
                 .orElse(DisMemberInfoEntity())
         var grandAccount = MemberAccount()
         var grandParam = DisProfiParam()
-        if (grand.id.isNotEmpty()) {
-            grandAccount = accountMapper.selectMemberAccountByUserId(grand.id)
+        if (grand.id != null) {
+            grandAccount = accountMapper.selectMemberAccountByUserId(grand.id!!)
             grandParam = disProfiParams.first { p -> p.disProLevel == grand.disLevel.toString() }
         }
         if (isReward) {
@@ -214,7 +214,7 @@ class DisProfiParamServiceImpl : DisProfiParamService {
      * @return
      */
     private fun isUpLevel(child: DisMemberInfoEntity, parent: DisMemberInfoEntity): Boolean {
-        return "1" == parent.disUserType && "0" == child.disUserType || child.disLevel > parent.disLevel
+        return "1" == parent.disUserType && "0" == child.disUserType || child.disLevel!! > parent.disLevel!!
     }
 
     /**
@@ -238,12 +238,12 @@ class DisProfiParamServiceImpl : DisProfiParamService {
         historyMapper.insert(history)
         //保存分润记录
         val profitRecord = DisProfitRecord()
-        profitRecord.disGetUserId = member.id
-        profitRecord.disSetUserId = member.disMemberParent.id
+        profitRecord.disGetUserId = member.id!!
+        profitRecord.disSetUserId = member.disMemberParent!!.id!!
         profitRecord.disAmount = money
         profitRecord.disProType = "1"
         profitRecord.disNote = ""
-        profitRecord.account = account.aliPayAccount!!
+        profitRecord.account = account.aliPayAccount
         profitRecord.disOrderId = ""
         profitRecord.addTime = DateUtils.formatDateTime(LocalDateTime.now())
         profitRecord.id = CommonUtils.uuid

@@ -102,14 +102,14 @@ class CardOrderInfoServiceImpl : CardOrderInfoService {
         if (1 == status) {
             val cardOrderInfoEntityList = cardOrderInfoDao.queryListByIds(map["ids"] as List<*>)
             for (cardOrderInfoEntity in cardOrderInfoEntityList) {
-                val member = disMemberInfoDao.queryObject(cardOrderInfoEntity.memberInfo!!.id)
+                val member = disMemberInfoDao.queryObject(cardOrderInfoEntity.memberInfo!!.id!!)
                 //如果当前办卡人和其上级都是非会员,则跳过分润
-                if ("0" == member.disUserType && "0" == member.disMemberParent.disUserType) {
+                if ("0" == member.disUserType && "0" == member.disMemberParent!!.disUserType) {
                     continue
                 }
                 //调用分润
-                disProfiParamService.doFeeSplitting(member, cardOrderInfoEntity.cardInfo!!.rebate!!, false)
-                if ("0" == member.disMemberParent.disUserType) {
+                disProfiParamService.doFeeSplitting(member, cardOrderInfoEntity.cardInfo!!.rebate, false)
+                if ("0" == member.disMemberParent!!.disUserType) {
                     //执行会员升级
                     levelUpSender.send(JSON.toJSONString(member.disMemberParent))
                 }

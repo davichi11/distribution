@@ -68,17 +68,19 @@ class ApiLoanController {
     @GetMapping("/loanInfo")
     @ApiOperation("查询所有贷款详情")
     @ApiImplicitParam(paramType = "query", dataType = "string", name = "贷款产品ID", value = "id")
-    fun getLoanInfo(id: String): Result? {
-        return if (StringUtils.isBlank(id)) {
-            Result().ok().put("loanInfos", create.selectFrom(Tables.LOAN_INFO).fetchInto(LoanInfo::class.java))
-        } else Result().ok().put("loanInfo", create.selectFrom(Tables.LOAN_INFO).where(Tables.LOAN_INFO.ID.eq(id))
-                .fetchInto(LoanInfo::class.java))
+    fun getLoanInfo(id: String?): Result {
+        return when {
+            StringUtils.isBlank(id) -> Result().ok().put("loanInfos",
+                    create.selectFrom(Tables.LOAN_INFO).fetchInto(LoanInfo::class.java))
+            else -> Result().ok().put("loanInfo", create.selectFrom(Tables.LOAN_INFO).where(Tables.LOAN_INFO.ID.eq(id))
+                    .fetchInto(LoanInfo::class.java))
+        }
     }
 
     @GetMapping("/loanOrder/{mobile}")
     @ApiOperation("查询用户贷款订单记录")
     @ApiImplicitParam(paramType = "patch", dataType = "string", name = "用户手机号", value = "mobile")
-    fun getLoanOrderInfo(@PathVariable("mobile") mobile: String, page: Int = 0, limit: Int = 0, status: Int = 0): Result? {
+    fun getLoanOrderInfo(@PathVariable("mobile") mobile: String, page: Int = 0, limit: Int = 0, status: Int = 0): Result {
         val param = HashMap<String, Any>()
         param["mobile"] = mobile
         param["status"] = status
@@ -91,7 +93,7 @@ class ApiLoanController {
     @PostMapping("/loan")
     @ApiOperation("用户贷款申请")
     @ApiImplicitParam(paramType = "body", dataType = "LoanOrderVO")
-    fun applyLoan(@RequestBody loanOrder: LoanOrderVO): Result? {
+    fun applyLoan(@RequestBody loanOrder: LoanOrderVO): Result {
         if (StringUtils.isBlank(loanOrder.orderMobile)) {
             return Result().error(msg = "手机号码不正确")
         }
@@ -117,7 +119,8 @@ class ApiLoanController {
             return Result().error(msg = "申请异常")
         }
         //查看是否已办过该贷款产品
-        val count = create.selectCount().from(LOAN_ORDER_INFO).where(Tables.LOAN_ORDER_INFO.ORDER_MOBILE.eq(loanOrder.orderMobile))
+        val count = create.selectCount().from(LOAN_ORDER_INFO)
+                .where(Tables.LOAN_ORDER_INFO.ORDER_MOBILE.eq(loanOrder.orderMobile))
                 .fetchOneInto(Int::class.javaPrimitiveType)
         if (count >= 1) {
             return Result().ok().put("url", url)
@@ -150,7 +153,7 @@ class ApiLoanController {
         }
 
         //给上级发送消息
-        val parentMessage = buildTemplateMsg(member.disMemberParent.openId, member.disUserName, loanInfo.loanName)
+        val parentMessage = buildTemplateMsg(member.disMemberParent!!.openId, member.disUserName, loanInfo.loanName)
         try {
             wxMpService.templateMsgService.sendTemplateMsg(parentMessage)
         } catch (e: WxErrorException) {

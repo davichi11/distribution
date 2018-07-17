@@ -102,7 +102,7 @@ class WeiXinMpController {
     fun buildOauthUrl(mobile: String): String {
         var localMobile = mobile
         if (StringUtils.isBlank(localMobile)) {
-            localMobile = userService.queryObject("1")!!.mobile
+            localMobile = userService.queryObject("1")!!.mobile!!
         }
         val map = HashMap<String, Any>()
         map["mobile"] = localMobile
@@ -119,7 +119,7 @@ class WeiXinMpController {
     fun buildShareUrl(mobile: String, to: String): String {
         var localMobile = mobile
         if (StringUtils.isBlank(localMobile)) {
-            localMobile = userService.queryObject("1")!!.mobile
+            localMobile = userService.queryObject("1")!!.mobile!!
         }
         val map = HashMap<String, Any>()
         map["mobile"] = localMobile
@@ -229,8 +229,8 @@ class WeiXinMpController {
             //关联推荐人
             disFans.disMemberInfo = disMemberInfo
             //发送新会员加入模板信息
-            val templateMessage = buildTemplateMsg(disMemberInfo.openId, disFans,
-                    disMemberInfo.disUserName, workerId.toString())
+            val templateMessage = buildTemplateMsg(disMemberInfo.openId!!, disFans,
+                    disMemberInfo.disUserName!!, workerId.toString())
             try {
                 disFansService.save(disFans)
                 //异步执行会员升级逻辑

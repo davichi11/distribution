@@ -104,7 +104,7 @@ class UserServiceImpl : UserService {
     override fun login(mobile: String, password: String): String {
         val user = Optional.ofNullable(queryByMobile(mobile)).filter { u -> u.password == DigestUtils.sha256Hex(password) }
                 .orElseThrow { RRException("手机号或密码错误") }
-        return user.userId
+        return user.userId!!
     }
 
 }

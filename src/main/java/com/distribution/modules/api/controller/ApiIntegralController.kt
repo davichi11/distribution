@@ -53,7 +53,7 @@ class ApiIntegralController {
     private lateinit var create: DSLContext
     private val log = LoggerFactory.getLogger(ApiIntegralController::class.java)
 
-    val allProductType: Result?
+    val allProductType: Result
         @AuthIgnore
         @GetMapping("/productType")
         @ApiOperation("查询所有产品类型")
@@ -73,7 +73,7 @@ class ApiIntegralController {
     @AuthIgnore
     @GetMapping("/productDetail/{type}")
     @ApiOperation("根据产品类型查询产品")
-    fun getProductDetailByType(@PathVariable("type") type: String): Result? {
+    fun getProductDetailByType(@PathVariable("type") type: String): Result {
         val productDetails = create.selectFrom(PRODUCT_DETAIL)
                 .where(PRODUCT_DETAIL.PROD_TYPE_ID.eq(type))
                 .orderBy(PRODUCT_DETAIL.PROD_DETAIL_VALUE.asc())
@@ -93,7 +93,7 @@ class ApiIntegralController {
     @AuthIgnore
     @GetMapping("/productType/{detailId}")
     @ApiOperation("根据产品查询产品类型")
-    fun getProductTypeByDetail(@PathVariable("detailId") detailId: String): Result? {
+    fun getProductTypeByDetail(@PathVariable("detailId") detailId: String): Result {
         val detailRecord = create.selectFrom(Tables.PRODUCT_DETAIL)
                 .where(Tables.PRODUCT_DETAIL.ID.eq(detailId)).fetchOne()
         val type = create.selectFrom<ProductTypeRecord>(Tables.PRODUCT_TYPE)
@@ -104,7 +104,7 @@ class ApiIntegralController {
     @AuthIgnore
     @GetMapping("/tutorial/{type}")
     @ApiOperation("根据产品类型查询图文教程")
-    fun getIntegralTutorials(@PathVariable("type") type: String): Result? {
+    fun getIntegralTutorials(@PathVariable("type") type: String): Result {
         val integralTutorials = create.selectFrom<IntegralTutorialRecord>(Tables.INTEGRAL_TUTORIAL)
                 .where(Tables.INTEGRAL_TUTORIAL.TYPE_ID.eq(type))
                 .orderBy(Tables.INTEGRAL_TUTORIAL.STEP.asc())
@@ -115,7 +115,7 @@ class ApiIntegralController {
 
     @GetMapping("/integralOrder/{mobile}")
     @ApiOperation("查询用户的兑换记录")
-    fun getIntegralOrders(@PathVariable("mobile") mobile: String, page: Int = 0, limit: Int = 0, status: Int = 0): Result? {
+    fun getIntegralOrders(@PathVariable("mobile") mobile: String, page: Int = 0, limit: Int = 0, status: Int = 0): Result {
         val param = HashMap<String, Any>()
         param["mobile"] = mobile
         param["status"] = status

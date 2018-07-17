@@ -72,7 +72,7 @@ class ApiCardController {
     @AuthIgnore
     @GetMapping("/cardList")
     @ApiOperation(value = "信用卡列表")
-    fun list(page: String, limit: String): Result? {
+    fun list(page: String = "0", limit: String = "0"): Result? {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(NumberUtils.toInt(page, 0), NumberUtils.toInt(limit, 0))
                 .doSelectPageInfo<CardInfo> { cardInfoService.queryList(mapOf()) }
@@ -89,7 +89,7 @@ class ApiCardController {
      */
     @GetMapping("/memberCardList/{mobile}")
     @ApiOperation(value = "用户办卡记录,订单明细")
-    fun memberCardList(@PathVariable mobile: String, page: String, limit: String, type: String): Result? {
+    fun memberCardList(@PathVariable mobile: String, page: String = "0", limit: String = "0", type: String = "0"): Result? {
         var pageInfo: PageInfo<CardOrderInfoEntity> = PageInfo()
         val member = disMemberInfoService.queryByMobile(mobile)
         if (member != null) {
@@ -171,7 +171,7 @@ class ApiCardController {
                 return Result().error(msg = "申请异常")
             }
             //查询改用户是否已办理过该银行的信用卡,如果有办过就不保存也不提醒
-            val countBankNum = cardOrderInfoService.countUserCard(member.id, cardOrderInfoVO.bankNum)
+            val countBankNum = cardOrderInfoService.countUserCard(member.id!!, cardOrderInfoVO.bankNum)
             if (countBankNum != null && countBankNum >= 1) {
                 return Result().ok().put("url", url)
             }
@@ -181,12 +181,12 @@ class ApiCardController {
             val wxMpUser = wxMpService.userService.userInfo(member.openId, "zh_CN")
                     ?: return Result().ok().put("url", url)
             //发送订单信息提醒
-            val message = buildTemplateMsg(member.openId, member.disUserName,
+            val message = buildTemplateMsg(member.openId!!, member.disUserName!!,
                     cardInfo.cardName, "", "")
             wxMpService.templateMsgService.sendTemplateMsg(message)
             //给上级发送消息
-            val parentMessage = buildTemplateMsg(member.disMemberParent.openId,
-                    member.disUserName, cardInfo.cardName, "", "")
+            val parentMessage = buildTemplateMsg(member.disMemberParent!!.openId!!,
+                    member.disUserName!!, cardInfo.cardName, "", "")
             wxMpService.templateMsgService.sendTemplateMsg(parentMessage)
             return Result().ok().put("url", url)
         } catch (e: Exception) {
@@ -226,7 +226,7 @@ class ApiCardController {
      * @param name
      * @return
      */
-    private fun buildTemplateMsg(openId: String?, name: String?, bankName: String?,
+    private fun buildTemplateMsg(openId: String, name: String, bankName: String,
                                  orderItemName: String, orderItemData: String): WxMpTemplateMessage {
         val wxMpTemplateMessage = WxMpTemplateMessage()
         wxMpTemplateMessage.templateId = "GB5gLcSDAjHtSxnZxmkcSMd4yU_WEnt2KHhpAZF3_fw"
