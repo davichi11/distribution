@@ -38,7 +38,9 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static com.distribution.pojo.Tables.LOAN_ORDER_INFO;
 
@@ -85,10 +87,14 @@ public class ApiLoanController {
     @GetMapping("/loanOrder/{mobile}")
     @ApiOperation("查询用户贷款订单记录")
     @ApiImplicitParam(paramType = "patch", dataType = "string", name = "用户手机号", value = "mobile")
-    public Result getLoanOrderInfo(@PathVariable("mobile") String mobile,Integer page, Integer limit, Integer status) {
+    public Result getLoanOrderInfo(@PathVariable("mobile") String mobile, Integer page, Integer limit, Integer status) {
+        DisMemberInfoEntity member = disMemberInfoService.queryByMobile(mobile);
+        List<String> memberIds = member.getDisMemberChildren().stream().filter(Objects::nonNull)
+                .map(DisMemberInfoEntity::getId).collect(Collectors.toList());
+        memberIds.add(member.getId());
         Map<String, Object> param = new HashMap<>();
-        param.put("mobile", mobile);
         param.put("status", status);
+        param.put("memberIds", memberIds);
         //查询列表数据
         PageInfo<LoanOrderInfoEntity> pageInfo = PageHelper.startPage(page, limit)
                 .doSelectPageInfo(() -> loanOrderInfoService.queryList(param));
@@ -117,7 +123,7 @@ public class ApiLoanController {
         try {
             url = loanInfoService.getProductUrl(member, loanOrder.getLoanId());
         } catch (Exception e) {
-            log.error("申请异常",e);
+            log.error("申请异常", e);
             return Result.error("申请异常");
         }
         if (StringUtils.isBlank(url)) {

@@ -6,6 +6,8 @@ import com.distribution.common.utils.Result;
 import com.distribution.modules.api.annotation.AuthIgnore;
 import com.distribution.modules.api.pojo.vo.ProductDetailVO;
 import com.distribution.modules.api.pojo.vo.ProductTypeVO;
+import com.distribution.modules.dis.entity.DisMemberInfoEntity;
+import com.distribution.modules.dis.service.DisMemberInfoService;
 import com.distribution.modules.integral.entity.IntegralOrderEntity;
 import com.distribution.modules.integral.service.IntegralOrderService;
 import com.distribution.modules.integral.service.ProductDetailService;
@@ -30,6 +32,7 @@ import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static com.distribution.pojo.Tables.*;
@@ -48,6 +51,8 @@ import static com.distribution.pojo.Tables.*;
 @Api("积分兑换接口")
 @CrossOrigin
 public class ApiIntegralController {
+    @Autowired
+    private DisMemberInfoService disMemberInfoService;
     @Autowired
     private ProductDetailService productDetailService;
     @Autowired
@@ -119,9 +124,13 @@ public class ApiIntegralController {
     @GetMapping("/integralOrder/{mobile}")
     @ApiOperation("查询用户的兑换记录")
     public Result getIntegralOrders(@PathVariable("mobile") String mobile, Integer page, Integer limit, Integer status) {
+        DisMemberInfoEntity member = disMemberInfoService.queryByMobile(mobile);
+        List<String> memberIds = member.getDisMemberChildren().stream().filter(Objects::nonNull)
+                .map(DisMemberInfoEntity::getId).collect(Collectors.toList());
+        memberIds.add(member.getId());
         Map<String, Object> param = new HashMap<>();
-        param.put("mobile", mobile);
         param.put("status", status);
+        param.put("memberIds", memberIds);
         //查询列表数据
         PageInfo<IntegralOrderEntity> pageInfo = PageHelper.startPage(page, limit)
                 .doSelectPageInfo(() -> integralOrderService.queryList(param));
