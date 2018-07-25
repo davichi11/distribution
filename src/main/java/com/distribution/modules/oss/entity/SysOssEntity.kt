@@ -1,6 +1,5 @@
 package com.distribution.modules.oss.entity
 
-import lombok.Data
 import java.io.Serializable
 import java.util.*
 

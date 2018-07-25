@@ -229,8 +229,7 @@ class WeiXinMpController {
             //关联推荐人
             disFans.disMemberInfo = disMemberInfo
             //发送新会员加入模板信息
-            val templateMessage = buildTemplateMsg(disMemberInfo.openId!!, disFans,
-                    disMemberInfo.disUserName!!, workerId.toString())
+            val templateMessage = buildTemplateMsg(disMemberInfo.openId!!, disMemberInfo.disUserName!!, workerId.toString())
             try {
                 disFansService.save(disFans)
                 //异步执行会员升级逻辑
@@ -253,11 +252,10 @@ class WeiXinMpController {
      * 构造新会员加入模板信息
      *
      * @param openId
-     * @param disFans
      * @param name
      * @return
      */
-    private fun buildTemplateMsg(openId: String, disFans: DisFans, name: String, workerId: String): WxMpTemplateMessage {
+    private fun buildTemplateMsg(openId: String, name: String, workerId: String): WxMpTemplateMessage {
         val wxMpTemplateMessage = WxMpTemplateMessage()
         wxMpTemplateMessage.templateId = "-IxOfOp7QmIBKcS2MZ8c9WT35bBT6HO4yKfcj3C3u0E"
         wxMpTemplateMessage.toUser = openId

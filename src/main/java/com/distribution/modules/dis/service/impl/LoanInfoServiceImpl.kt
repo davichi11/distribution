@@ -41,6 +41,10 @@ class LoanInfoServiceImpl : LoanInfoService {
         if (StringUtils.isBlank(loanInfo.id)) {
             return
         }
+        if (loanInfo.loanUrl.isNotEmpty() && loanInfo.loanImg.isNotEmpty()) {
+            loanInfoDao.save(loanInfo)
+            return
+        }
         val apiResponse = cardInfoService.getProductInfo(loanInfo.id)
         if (apiResponse.isSuccess) {
             loanInfo.loanImg = apiResponse.results.icon
@@ -49,7 +53,6 @@ class LoanInfoServiceImpl : LoanInfoService {
             loanInfoDao.save(loanInfo)
             return
         }
-        loanInfoDao.save(loanInfo)
     }
 
     @Transactional(rollbackFor = [(Exception::class)])

@@ -2,7 +2,6 @@ package com.distribution.modules.oss.cloud
 
 import com.aliyun.oss.OSSClient
 import com.distribution.common.exception.RRException
-import lombok.extern.slf4j.Slf4j
 import org.slf4j.LoggerFactory
 
 import java.io.ByteArrayInputStream

@@ -13,7 +13,6 @@ import com.alipay.api.response.AlipayFundTransToaccountTransferResponse
 import com.alipay.api.response.AlipayTradeWapPayResponse
 import com.distribution.common.utils.CommonUtils
 import com.distribution.common.utils.DateUtils
-import lombok.extern.slf4j.Slf4j
 import org.apache.commons.lang.StringUtils
 import org.slf4j.LoggerFactory
 import java.io.IOException
@@ -28,7 +27,6 @@ import java.time.LocalDateTime
  * @Description TODO(描述)
  * @create 2018/5/29-20:50
  */
-@Slf4j
 object AliPayUtils {
 
     private const val APP_ID = "2018052860259186"

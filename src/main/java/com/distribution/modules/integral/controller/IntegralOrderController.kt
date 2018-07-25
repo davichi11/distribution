@@ -4,7 +4,6 @@ import com.distribution.common.utils.Result
 import com.distribution.modules.integral.entity.IntegralOrderEntity
 import com.distribution.modules.integral.service.IntegralOrderService
 import com.github.pagehelper.PageHelper
-import lombok.extern.slf4j.Slf4j
 import org.apache.commons.collections.MapUtils
 import org.apache.commons.lang3.math.NumberUtils
 import org.apache.shiro.authz.annotation.RequiresPermissions
@@ -33,7 +32,7 @@ class IntegralOrderController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("integralorder:list")
-    fun list(@RequestParam params: Map<String, Any>): Result? {
+    fun list(@RequestParam params: Map<String, Any>): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page"),
                 MapUtils.getInteger(params, "limit")).doSelectPageInfo<IntegralOrderEntity> { integralOrderService.queryList(params) }
@@ -46,7 +45,7 @@ class IntegralOrderController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("integralorder:info")
-    fun info(@PathVariable("id") id: String): Result? {
+    fun info(@PathVariable("id") id: String): Result {
         val integralOrder = integralOrderService.queryObject(id)
 
         return Result().ok().put("integralOrder", integralOrder)

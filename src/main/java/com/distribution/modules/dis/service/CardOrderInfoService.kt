@@ -72,7 +72,7 @@ interface CardOrderInfoService {
      * @param banNum
      * @return
      */
-    fun countUserCard(memberId: String, banNum: String): Int?
+    fun countUserCard(memberId: String, banNum: String): Int
 
     /**
      * 批量修改订单状态

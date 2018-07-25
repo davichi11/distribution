@@ -6,7 +6,6 @@ import com.distribution.common.utils.Result
 import com.distribution.modules.sys.service.SysGeneratorService
 import com.github.pagehelper.PageHelper
 import com.github.pagehelper.PageInfo
-import lombok.extern.slf4j.Slf4j
 import org.apache.commons.collections.MapUtils
 import org.apache.commons.io.FileUtils
 import org.slf4j.LoggerFactory
@@ -43,7 +42,7 @@ class SysGeneratorController {
      * @return
      */
     @GetMapping("/list")
-    fun list(@RequestParam params: Map<String, Any>): Result? {
+    fun list(@RequestParam params: Map<String, Any>): Result {
 
         val pageInfo: PageInfo<Map<String, Any>>
         try {

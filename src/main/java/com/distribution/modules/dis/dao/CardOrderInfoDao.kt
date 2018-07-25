@@ -31,7 +31,7 @@ interface CardOrderInfoDao : BaseDao<CardOrderInfoEntity> {
      * @return
      */
     fun countUserCard(@Param("memberId") memberId: String, @Param("bankNum") bankNum: String,
-                      @Param("startDate") startDate: String, @Param("endDate") endDate: String): Int?
+                      @Param("startDate") startDate: String, @Param("endDate") endDate: String): Int
 
     /**
      * 批量修改订单状态

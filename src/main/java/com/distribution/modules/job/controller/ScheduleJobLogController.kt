@@ -30,7 +30,7 @@ class ScheduleJobLogController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:schedule:log")
-    fun list(@RequestParam params: Map<String, Any>): Result? {
+    fun list(@RequestParam params: Map<String, Any>): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page", 0),
                 MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo<ScheduleJobLogEntity> { scheduleJobLogService.queryList(params) }
@@ -41,7 +41,7 @@ class ScheduleJobLogController {
      * 定时任务日志信息
      */
     @RequestMapping("/info/{logId}")
-    fun info(@PathVariable("logId") logId: Long): Result? {
+    fun info(@PathVariable("logId") logId: Long): Result {
         val log = scheduleJobLogService.queryObject(logId)
 
         return Result().ok().put("log", log)

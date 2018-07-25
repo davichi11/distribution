@@ -1,7 +1,6 @@
 package com.distribution.modules.api.controller
 
 
-import com.distribution.common.utils.ConfigConstant
 import com.distribution.common.utils.Result
 import com.distribution.modules.api.annotation.AuthIgnore
 import com.distribution.modules.api.annotation.LoginUser
@@ -51,7 +50,7 @@ class ApiCommonController {
     @GetMapping("userInfo")
     @ApiOperation(value = "获取用户信息")
     @ApiImplicitParam(paramType = "header", name = "token", value = "token", required = true)
-    fun userInfo(@LoginUser user: UserEntity): Result? {
+    fun userInfo(@LoginUser user: UserEntity): Result {
         return Result().ok().put("user", user)
     }
 
@@ -61,14 +60,14 @@ class ApiCommonController {
     @AuthIgnore
     @GetMapping("notToken")
     @ApiOperation(value = "忽略Token验证测试")
-    fun notToken(): Result? {
+    fun notToken(): Result {
         return Result().ok().put("msg", "无需token也能访问。。。")
     }
 
     @AuthIgnore
     @ApiOperation("根据上级code获取区域信息")
     @GetMapping("/area/{code}")
-    fun getAreaInfo(@PathVariable("code") code: String): Result? {
+    fun getAreaInfo(@PathVariable("code") code: String): Result {
         return Result().ok().put("area", districtService.getByParentId(code))
     }
 
@@ -77,9 +76,7 @@ class ApiCommonController {
     fun ios(): Map<String, String> {
         //苹果上架前为0；上架中为0； 上架审核通过后为1；  建议此值从数据库获取，或者从配置文件中获取，方便审核通过后进行修改；
         val ios = sysConfigService.getValue("ios", "0")
-        val map = HashMap<String, String>(2)
-        map["ios"] = ios
-        return map
+        return mapOf("ios" to ios)
     }
 
 
@@ -92,7 +89,7 @@ class ApiCommonController {
     @AuthIgnore
     @ApiOperation("文件上传接口")
     @PostMapping("/upload")
-    fun upload(@ApiParam("文件") file: MultipartFile?): Result? {
+    fun upload(@ApiParam("文件") file: MultipartFile?): Result {
         if (file == null) {
             return Result().error(msg = "上传文件为空")
         }

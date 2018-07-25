@@ -39,7 +39,7 @@ class CardOrderInfoController {
     @RequestMapping("/list")
     @ResponseBody
     @RequiresPermissions("cardorderinfo:list")
-    fun list(@RequestParam params: Map<String, Any>): Result? {
+    fun list(@RequestParam params: Map<String, Any>): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page", 0),
                 MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo<CardOrderInfoEntity> { cardOrderInfoService.queryList(params) }
@@ -54,7 +54,7 @@ class CardOrderInfoController {
     @RequestMapping("/info/{id}")
     @ResponseBody
     @RequiresPermissions("cardorderinfo:info")
-    fun info(@PathVariable("id") id: String): Result? {
+    fun info(@PathVariable("id") id: String): Result {
         val cardOrderInfo = cardOrderInfoService.queryObject(id)
         return Result().ok().put("cardOrderInfo", cardOrderInfo)
     }

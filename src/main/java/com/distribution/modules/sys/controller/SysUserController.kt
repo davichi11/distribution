@@ -39,7 +39,7 @@ class SysUserController : AbstractController() {
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:user:list")
-    fun list(@RequestParam params: MutableMap<String, Any>): Result? {
+    fun list(@RequestParam params: MutableMap<String, Any>): Result {
         //只有超级管理员，才能查看所有管理员列表
         if (userId!!.toInt() != Constant.SUPER_ADMIN) {
             params["createUserId"] = userId!!
@@ -55,7 +55,7 @@ class SysUserController : AbstractController() {
      * 获取登录的用户信息
      */
     @RequestMapping("/info")
-    fun info(): Result? {
+    fun info(): Result {
         return Result().ok().put("user", user)
     }
 
@@ -92,7 +92,7 @@ class SysUserController : AbstractController() {
      */
     @RequestMapping("/info/{userId}")
     @RequiresPermissions("sys:user:info")
-    fun info(@PathVariable("userId") userId: Long): Result? {
+    fun info(@PathVariable("userId") userId: Long): Result {
         val user = sysUserService.queryObject(userId)
 
         //获取用户所属的角色列表

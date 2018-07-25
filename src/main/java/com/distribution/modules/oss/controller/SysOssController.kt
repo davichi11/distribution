@@ -15,7 +15,6 @@ import com.distribution.modules.oss.service.SysOssService
 import com.distribution.modules.sys.service.SysConfigService
 import com.github.pagehelper.PageHelper
 import com.google.gson.Gson
-import lombok.extern.slf4j.Slf4j
 import org.apache.commons.collections.MapUtils
 import org.apache.shiro.authz.annotation.RequiresPermissions
 import org.slf4j.LoggerFactory
@@ -50,7 +49,7 @@ class SysOssController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:oss:all")
-    fun list(@RequestParam params: Map<String, Any>): Result? {
+    fun list(@RequestParam params: Map<String, Any>): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page", 0),
                 MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo<SysOssEntity> { sysOssService.queryList(params) }
@@ -63,7 +62,7 @@ class SysOssController {
      */
     @RequestMapping("/config")
     @RequiresPermissions("sys:oss:all")
-    fun config(): Result? {
+    fun config(): Result {
         val config = sysConfigService.getConfigObject(KEY, CloudStorageConfig::class.java)
 
         return Result().ok().put("config", config)
@@ -105,7 +104,7 @@ class SysOssController {
     @RequestMapping("/upload")
     @RequiresPermissions("sys:oss:all")
     @Throws(Exception::class)
-    fun upload(@RequestParam("file") file: MultipartFile): Result? {
+    fun upload(@RequestParam("file") file: MultipartFile): Result {
         if (file.isEmpty) {
             throw RRException("上传文件不能为空")
         }

@@ -2,15 +2,11 @@ package com.distribution.modules.job.task
 
 import com.distribution.common.utils.DateUtils
 import com.distribution.modules.sys.service.SysLogService
-import com.google.common.collect.Maps
-import lombok.extern.slf4j.Slf4j
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-
 import java.time.LocalDate
-import java.util.Arrays
 
 /**
  * @author ChunLiang Hu
@@ -33,7 +29,6 @@ class DeleteLogTask {
      * @param params
      */
     fun deleteLog(params: String) {
-        val map = Maps.newHashMap<String, Any>()
         var beginDate = LocalDate.now().minusMonths(1)
         var endDate = LocalDate.now()
         if (params.contains(",")) {
@@ -43,10 +38,8 @@ class DeleteLogTask {
             //提取结束时间并转换
             endDate = strings.filter { s -> s.toUpperCase().contains("ENDDATE") }.map { convertToLocalDate(it) }[0]
         }
-        map["beginDate"] = beginDate
-        map["endDate"] = endDate
         try {
-            logService.deleteByParams(map)
+            logService.deleteByParams(mapOf("beginDate" to beginDate, "endDate" to endDate))
         } catch (e: Exception) {
             log.error("删除日志异常", e)
             logService.saveErrorLog(params)

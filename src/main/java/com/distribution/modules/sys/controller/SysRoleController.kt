@@ -34,7 +34,7 @@ class SysRoleController : AbstractController() {
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:role:list")
-    fun list(@RequestParam params: MutableMap<String, Any>): Result? {
+    fun list(@RequestParam params: MutableMap<String, Any>): Result {
         //如果不是超级管理员，则只查询自己创建的角色列表
         if (userId!!.toInt() != Constant.SUPER_ADMIN) {
             params["createUserId"] = userId!!
@@ -50,7 +50,7 @@ class SysRoleController : AbstractController() {
      */
     @RequestMapping("/select")
     @RequiresPermissions("sys:role:select")
-    fun select(): Result? {
+    fun select(): Result {
         val map = HashMap<String, Any>(16)
 
         //如果不是超级管理员，则只查询自己所拥有的角色列表
@@ -67,7 +67,7 @@ class SysRoleController : AbstractController() {
      */
     @RequestMapping("/info/{roleId}")
     @RequiresPermissions("sys:role:info")
-    fun info(@PathVariable("roleId") roleId: Long): Result? {
+    fun info(@PathVariable("roleId") roleId: Long): Result {
         val role = sysRoleService.queryObject(roleId)
 
         //查询角色对应的菜单

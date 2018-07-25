@@ -48,6 +48,9 @@ data class LoanOrderInfoEntity(
          *
          */
         var loanId: String = "",
+        var loanName: String = "",
+
+        var userName: String = "",
 
         /**
          *

@@ -6,7 +6,6 @@ import com.distribution.common.utils.Result
 import com.distribution.modules.dis.entity.DisProfiParam
 import com.distribution.modules.dis.service.DisProfiParamService
 import com.github.pagehelper.PageHelper
-import lombok.extern.slf4j.Slf4j
 import org.apache.commons.collections.MapUtils
 import org.apache.shiro.authz.annotation.RequiresPermissions
 import org.slf4j.LoggerFactory
@@ -35,7 +34,7 @@ class DisProfiParamController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("disprofiparam:list")
-    fun list(@RequestParam params: Map<String, Any>): Result? {
+    fun list(@RequestParam params: Map<String, Any>): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page", 0),
                 MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo<DisProfiParam> { disProfiParamService.queryList(params) }
@@ -48,7 +47,7 @@ class DisProfiParamController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("disprofiparam:info")
-    fun info(@PathVariable("id") id: String): Result? {
+    fun info(@PathVariable("id") id: String): Result {
         val disProfiParam = disProfiParamService.queryObject(id)
 
         return Result().ok().put("disProfiParam", disProfiParam)

@@ -6,6 +6,7 @@ import com.distribution.common.utils.Result
 import com.distribution.modules.api.annotation.AuthIgnore
 import com.distribution.modules.api.pojo.vo.ProductDetailVO
 import com.distribution.modules.api.pojo.vo.ProductTypeVO
+import com.distribution.modules.dis.service.DisMemberInfoService
 import com.distribution.modules.integral.entity.IntegralOrderEntity
 import com.distribution.modules.integral.service.IntegralOrderService
 import com.distribution.modules.integral.service.ProductDetailService
@@ -20,7 +21,6 @@ import com.github.pagehelper.PageHelper
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
-import org.eclipse.collections.impl.factory.Maps
 import org.jooq.DSLContext
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanUtils
@@ -44,6 +44,8 @@ import java.util.*
 @CrossOrigin
 class ApiIntegralController {
     @Autowired
+    private lateinit var disMemberInfoService: DisMemberInfoService
+    @Autowired
     private lateinit var productDetailService: ProductDetailService
     @Autowired
     private lateinit var productTypeService: ProductTypeService
@@ -58,7 +60,7 @@ class ApiIntegralController {
         @GetMapping("/productType")
         @ApiOperation("查询所有产品类型")
         get() {
-            val productTypeVOS = productTypeService.queryList(Maps.mutable.empty()).map { type ->
+            val productTypeVOS = productTypeService.queryList(mapOf()).map { type ->
                 val typeVO = ProductTypeVO()
                 BeanUtils.copyProperties(type, typeVO)
                 typeVO.tutorials = create.selectFrom<IntegralTutorialRecord>(Tables.INTEGRAL_TUTORIAL)
@@ -116,8 +118,11 @@ class ApiIntegralController {
     @GetMapping("/integralOrder/{mobile}")
     @ApiOperation("查询用户的兑换记录")
     fun getIntegralOrders(@PathVariable("mobile") mobile: String, page: Int = 0, limit: Int = 0, status: Int = 0): Result {
+        val member = disMemberInfoService.queryByMobile(mobile)!!
+        val memberIds = member.disMemberChildren!!.map { it.id }.toMutableList()
+        memberIds.add(member.id)
         val param = HashMap<String, Any>()
-        param["mobile"] = mobile
+        param["memberIds"] = memberIds
         param["status"] = status
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(page, limit)

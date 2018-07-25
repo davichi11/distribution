@@ -34,7 +34,7 @@ class LoanOrderInfoController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("loanorderinfo:list")
-    fun list(@RequestParam params: Map<String, Any>): Result? {
+    fun list(@RequestParam params: Map<String, Any>): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page"),
                 MapUtils.getInteger(params, "limit")).doSelectPageInfo<LoanOrderInfoEntity> { loanOrderInfoService.queryList(params) }
@@ -47,7 +47,7 @@ class LoanOrderInfoController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("loanorderinfo:info")
-    fun info(@PathVariable("id") id: String): Result? {
+    fun info(@PathVariable("id") id: String): Result {
         val loanOrderInfo = loanOrderInfoService.queryObject(id)
 
         return Result().ok().put("loanOrderInfo", loanOrderInfo)

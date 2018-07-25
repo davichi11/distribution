@@ -81,8 +81,11 @@ class ApiLoanController {
     @ApiOperation("查询用户贷款订单记录")
     @ApiImplicitParam(paramType = "patch", dataType = "string", name = "用户手机号", value = "mobile")
     fun getLoanOrderInfo(@PathVariable("mobile") mobile: String, page: Int = 0, limit: Int = 0, status: Int = 0): Result {
+        val member = disMemberInfoService.queryByMobile(mobile)!!
+        val memberIds = member.disMemberChildren!!.map { it.id }.toMutableList()
+        memberIds.add(member.id)
         val param = HashMap<String, Any>()
-        param["mobile"] = mobile
+        param["memberIds"] = memberIds
         param["status"] = status
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(page, limit)
@@ -105,17 +108,17 @@ class ApiLoanController {
         }
         val loanInfo = create.selectFrom(Tables.LOAN_INFO)
                 .where(Tables.LOAN_INFO.ID.eq(loanOrder.loanId)).fetchOne()
-        val member = disMemberInfoService.queryByMobile(loanOrder.orderMobile)
+        val member = disMemberInfoService.queryByMobile(loanOrder.orderMobile)!!
         //先调用第三方接口保存用户信息并返回url
         val url: String
         try {
-            url = loanInfoService.getProductUrl(member!!, loanOrder.loanId)
+            url = loanInfoService.getProductUrl(member, loanOrder.loanId)
         } catch (e: Exception) {
             log.error("申请异常", e)
             return Result().error(msg = "申请异常")
         }
 
-        if (StringUtils.isBlank(url)) {
+        if (url.isEmpty()) {
             return Result().error(msg = "申请异常")
         }
         //查看是否已办过该贷款产品

@@ -67,11 +67,16 @@ class CardInfoServiceImpl : CardInfoService {
         if (StringUtils.isBlank(cardInfo.bankNum)) {
             return
         }
-        val apiResponse = getProductInfo(cardInfo.bankNum)
-        if (apiResponse.isSuccess) {
-            cardInfo.cardImg = apiResponse.results.backgroundImg
-            cardInfo.cardUrl = apiResponse.results.link
-            cardInfoMapper.insertSelective(cardInfo)
+        when {
+            cardInfo.cardImg.isNotEmpty() && cardInfo.cardUrl.isNotEmpty() -> cardInfoMapper.insertSelective(cardInfo)
+            else -> {
+                val apiResponse = getProductInfo(cardInfo.bankNum)
+                if (apiResponse.isSuccess) {
+                    cardInfo.cardImg = apiResponse.results.backgroundImg
+                    cardInfo.cardUrl = apiResponse.results.link
+                    cardInfoMapper.insertSelective(cardInfo)
+                }
+            }
         }
     }
 

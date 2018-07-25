@@ -29,7 +29,7 @@ class SysConfigController : AbstractController() {
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:config:list")
-    fun list(@RequestParam params: Map<String, Any>): Result? {
+    fun list(@RequestParam params: Map<String, Any>): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page", 0),
                 MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo<SysConfigEntity> { sysConfigService.queryList(params) }
@@ -42,7 +42,7 @@ class SysConfigController : AbstractController() {
      */
     @GetMapping("/info/{id}")
     @RequiresPermissions("sys:config:info")
-    fun info(@PathVariable("id") id: Long): Result? {
+    fun info(@PathVariable("id") id: Long): Result {
         val config = sysConfigService.queryObject(id)
 
         return Result().ok().put("config", config)

@@ -4,7 +4,6 @@ import com.distribution.common.utils.Result
 import com.distribution.modules.pos.entity.PosApplyEntity
 import com.distribution.modules.pos.service.PosApplyService
 import com.github.pagehelper.PageHelper
-import lombok.extern.slf4j.Slf4j
 import org.apache.commons.collections.MapUtils
 import org.apache.shiro.authz.annotation.RequiresPermissions
 import org.slf4j.LoggerFactory
@@ -33,7 +32,7 @@ class PosApplyController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("posapply:list")
-    fun list(@RequestParam params: Map<String, Any>): Result? {
+    fun list(@RequestParam params: Map<String, Any>): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page"),
                 MapUtils.getInteger(params, "limit")).doSelectPageInfo<PosApplyEntity> { posApplyService.queryList(params) }
@@ -46,7 +45,7 @@ class PosApplyController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("posapply:info")
-    fun info(@PathVariable("id") id: String): Result? {
+    fun info(@PathVariable("id") id: String): Result {
         val posApply = posApplyService.queryObject(id)
 
         return Result().ok().put("posApply", posApply)

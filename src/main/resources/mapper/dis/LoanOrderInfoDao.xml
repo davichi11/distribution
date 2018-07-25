@@ -19,20 +19,58 @@
     </resultMap>
 
     <select id="queryObject" resultMap="loanOrderInfoMap">
-        select *
-        from loan_order_info
-        where id = #{value}
+        select
+            o.id,
+            order_id,
+            order_mobile,
+            order_idcardno,
+            order_status,
+            member_id,
+            loan_id,
+            loan_amount,
+            o.is_delete,
+            o.add_time,
+            o.update_time,
+            loan_money,
+            l.loan_name,
+            m.dis_user_name as 'user_name'
+        from loan_order_info o
+            left join loan_info l on o.loan_id = l.id
+            left join dis_member_info m on m.id = o.member_id
+        where o.id = #{value}
     </select>
 
     <select id="queryList" resultMap="loanOrderInfoMap">
-        select id, order_id, order_mobile, order_idcardno, order_status, member_id, loan_id, loan_amount, is_delete,
-        add_time, update_time, loan_money from loan_order_info
+        select
+        o.id,
+        order_id,
+        order_mobile,
+        order_idcardno,
+        order_status,
+        member_id,
+        loan_id,
+        loan_amount,
+        o.is_delete,
+        o.add_time,
+        o.update_time,
+        loan_money,
+        l.loan_name,
+        m.dis_user_name as 'user_name'
+        from loan_order_info o
+        left join loan_info l on o.loan_id = l.id
+        left join dis_member_info m on m.id = o.member_id
         <where>
             <if test="mobile != null and mobile != ''">
-                and order_mobile = #{mobile}
+                and o.order_mobile = #{mobile}
             </if>
             <if test="status != null">
-                and order_status = #{status}
+                and o.order_status = #{status}
+            </if>
+            <if test="memberIds != null">
+                and o.member_id in
+                <foreach item="item" collection="memberIds" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
             </if>
         </where>
         <choose>

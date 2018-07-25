@@ -1,6 +1,5 @@
 package com.distribution.modules.memeber.entity
 
-import lombok.Data
 import java.math.BigDecimal
 import javax.validation.constraints.NotNull
 

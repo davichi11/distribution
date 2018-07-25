@@ -1,6 +1,5 @@
 package com.distribution.modules.job.entity
 
-import lombok.Data
 
 import java.io.Serializable
 import java.time.LocalDateTime

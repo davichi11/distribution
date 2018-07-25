@@ -10,7 +10,6 @@ import com.distribution.pojo.tables.pojos.IntegralTutorial
 import com.distribution.pojo.tables.pojos.ProductType
 import com.distribution.pojo.tables.records.IntegralTutorialRecord
 import com.github.pagehelper.PageHelper
-import com.google.common.collect.Maps
 import org.apache.commons.collections.CollectionUtils
 import org.apache.commons.collections.MapUtils
 import org.apache.shiro.authz.annotation.RequiresPermissions
@@ -40,16 +39,16 @@ class ProductTypeController {
 
     private val log = LoggerFactory.getLogger(ProductTypeController::class.java)
 
-    val all: Result?
+    val all: Result
         @GetMapping("/productType")
-        get() = Result().ok().put("productTypes", productTypeService.queryList(Maps.newHashMap()))
+        get() = Result().ok().put("productTypes", productTypeService.queryList(mapOf()))
 
     /**
      * 列表
      */
     @RequestMapping("/list")
     @RequiresPermissions("producttype:list")
-    fun list(@RequestParam params: Map<String, Any>): Result? {
+    fun list(@RequestParam params: Map<String, Any>): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page"),
                 MapUtils.getInteger(params, "limit")).doSelectPageInfo<ProductTypeEntity> { productTypeService.queryList(params) }
@@ -62,7 +61,7 @@ class ProductTypeController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("producttype:info")
-    fun info(@PathVariable("id") id: String): Result? {
+    fun info(@PathVariable("id") id: String): Result {
         val type = create.selectFrom(Tables.PRODUCT_TYPE).where(Tables.PRODUCT_TYPE.ID.eq(id))
                 .fetchOneInto(ProductType::class.java)
         val typeVO = ProductTypeVO()
@@ -89,7 +88,7 @@ class ProductTypeController {
         typeRecord.insert()
         if (CollectionUtils.isNotEmpty(productType.tutorials)) {
             val tutorialRecords = ArrayList<IntegralTutorialRecord>()
-            productType.tutorials!!.forEach { tutorial ->
+            productType.tutorials.forEach { tutorial ->
                 val record = create.newRecord(Tables.INTEGRAL_TUTORIAL)
                 record.step = tutorial.step
                 record.textDescribe = tutorial.textDescribe
@@ -112,7 +111,7 @@ class ProductTypeController {
             val typeRecord = create.newRecord(Tables.PRODUCT_TYPE)
             BeanUtils.copyProperties(productType, typeRecord)
             typeRecord.update()
-            productType.tutorials!!.forEach { t ->
+            productType.tutorials.forEach { t ->
                 val tutorialRecord = create.newRecord(Tables.INTEGRAL_TUTORIAL)
                 BeanUtils.copyProperties(t, tutorialRecord)
                 tutorialRecord.update()

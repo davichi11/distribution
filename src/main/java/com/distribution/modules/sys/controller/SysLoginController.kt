@@ -7,7 +7,6 @@ import com.distribution.modules.sys.service.SysUserService
 import com.distribution.modules.sys.service.SysUserTokenService
 import com.google.code.kaptcha.Constants
 import com.google.code.kaptcha.Producer
-import lombok.extern.slf4j.Slf4j
 import org.apache.commons.io.IOUtils
 import org.apache.commons.lang3.BooleanUtils
 import org.apache.shiro.crypto.hash.Sha256Hash

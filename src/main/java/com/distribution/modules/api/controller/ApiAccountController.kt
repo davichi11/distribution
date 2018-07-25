@@ -30,6 +30,7 @@ import org.modelmapper.ModelMapper
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.RedisTemplate
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.*
 import java.math.BigDecimal
 import java.text.MessageFormat
@@ -183,7 +184,7 @@ class ApiAccountController {
      */
     @GetMapping("/withdrawals/{mobile}")
     @ApiOperation(value = "提现记录")
-    fun memberWithdrawalList(@PathVariable mobile: String, @RequestParam params: Map<String, Any>): Result? {
+    fun memberWithdrawalList(@PathVariable mobile: String, @RequestParam params: Map<String, Any>): Result {
         val param = HashMap<String, Any>(2)
         param["withdrawMobile"] = mobile
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page", 0),
@@ -201,7 +202,7 @@ class ApiAccountController {
      */
     @GetMapping("/memberAccountHistory/{mobile}")
     @ApiOperation(value = "收益明细")
-    fun memberReturns(@PathVariable mobile: String, @RequestParam params: Map<String, Any>): Result? {
+    fun memberReturns(@PathVariable mobile: String, @RequestParam params: Map<String, Any>): Result {
         val map = HashMap<String, Any>(2)
         map["mobile"] = mobile
         val member = disMemberInfoService.queryByMobile(mobile)
@@ -225,6 +226,8 @@ class ApiAccountController {
      */
     @PostMapping("/withdrawal")
     @ApiOperation(value = "用户提现")
+    @Transactional(rollbackFor = [(Exception::class)])
+    @Throws(Exception::class)
     fun saveWithdrawalInfo(@RequestBody withdrawalVo: WithdrawalVo): Result {
         //提现校验
         val account = memberAccountService.selectMemberAccountByUserId(withdrawalVo.withdrawMobile)
@@ -234,8 +237,8 @@ class ApiAccountController {
         }
         val countKey = withdrawalVo.withdrawMobile + "_withdrawal"
 
-        val count = NumberUtils.toDouble(redisTemplate.opsForValue().get(countKey))
-        if (count >= 500 || withdrawalVo.withdrawAmount.toDouble() >= 500) {
+        val limit = NumberUtils.toDouble(redisTemplate.opsForValue().get(countKey))
+        if (limit >= 500 || withdrawalVo.withdrawAmount.toDouble() >= 500) {
             return Result().error(msg = "已超出每日提现限额")
         }
 
@@ -252,45 +255,38 @@ class ApiAccountController {
                     withdrawalVo.withdrawAmount)
         }
 
-        try {
-            //调用支付宝转账接口
-            val response = AliPayUtils.transferResponse(payParams)
-            if (!response.isSuccess) {
-
-                log.error("会员{}提现失败,case:{},订单号为{}", account.member.disUserName,
-                        response.msg, orderId)
-                return Result().error(msg = "提现失败")
-            }
-            //提现成功更新账户余额
-            account.memberAmount = account.memberAmount.subtract(withdrawalVo.withdrawAmount)
-            memberAccountService.update(account)
-            //保存提现记录
-            val withdrawalInfo = modelMapper.map(withdrawalVo, WithdrawalInfo::class.java)
-            withdrawalInfo.withdrawType = if (response.isSuccess) "1" else "0"
-            withdrawalInfo.withdrawNum = orderId
-            withdrawalInfo.addTime = DateUtils.formatDateTime(LocalDateTime.now())
-            withdrawalInfo.id = CommonUtils.uuid
-            withdrawalInfoService.save(withdrawalInfo)
-            //当前时间
-            val start = LocalDateTime.now()
-            //第二天开始时间
-            val end = LocalDateTime.now().plusDays(1).with(LocalTime.MIN)
-            //计算时间差
-            val between = Duration.between(start, end)
-            //获取相差的小时
-            val millis = between.toMillis()
-
-            //更新每日提现限额
-            redisTemplate.opsForValue().set(countKey, withdrawalVo.withdrawAmount.add(BigDecimal(count)).toString(),
-                    millis, TimeUnit.MILLISECONDS)
-            //发送提现成功提醒
-            wxMpService.templateMsgService.sendTemplateMsg(buildTemplateMsg(account.member.openId,
-                    withdrawalVo.withdrawAmount.toString(), withdrawalInfo.withdrawName))
-        } catch (e: Exception) {
-            log.error("提现异常", e)
-            return Result().error(msg = "提现异常")
+        //调用支付宝转账接口
+        val response = AliPayUtils.transferResponse(payParams)
+        if (!response.isSuccess) {
+            log.error("会员{}提现失败,case:{},订单号为{}", account.member.disUserName,
+                    response.msg, orderId)
+            return Result().error(msg = "提现失败")
         }
+        //提现成功更新账户余额
+        account.memberAmount = account.memberAmount.subtract(withdrawalVo.withdrawAmount)
+        memberAccountService.update(account)
+        //保存提现记录
+        val withdrawalInfo = modelMapper.map(withdrawalVo, WithdrawalInfo::class.java)
+        withdrawalInfo.withdrawType = if (response.isSuccess) "1" else "0"
+        withdrawalInfo.withdrawNum = orderId
+        withdrawalInfo.addTime = DateUtils.formatDateTime(LocalDateTime.now())
+        withdrawalInfo.id = CommonUtils.uuid
+        withdrawalInfoService.save(withdrawalInfo)
+        //当前时间
+        val start = LocalDateTime.now()
+        //第二天开始时间
+        val end = LocalDateTime.now().plusDays(1).with(LocalTime.MIN)
+        //计算时间差
+        val between = Duration.between(start, end)
+        //获取相差的小时
+        val millis = between.toMillis()
 
+        //更新每日提现限额
+        redisTemplate.opsForValue().set(countKey, withdrawalVo.withdrawAmount.add(BigDecimal(limit)).toString(),
+                millis, TimeUnit.MILLISECONDS)
+        //发送提现成功提醒
+        wxMpService.templateMsgService.sendTemplateMsg(buildTemplateMsg(account.member.openId,
+                withdrawalVo.withdrawAmount.toString(), withdrawalInfo.withdrawName))
         return Result().ok()
     }
 

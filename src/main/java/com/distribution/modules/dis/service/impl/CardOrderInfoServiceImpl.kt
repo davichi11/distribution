@@ -1,6 +1,7 @@
 package com.distribution.modules.dis.service.impl
 
 import com.alibaba.fastjson.JSON
+import com.distribution.common.exception.RRException
 import com.distribution.common.utils.DateUtils
 import com.distribution.common.utils.DateUtils.endDateOfMonth
 import com.distribution.common.utils.DateUtils.startDateOfMonth
@@ -77,9 +78,9 @@ class CardOrderInfoServiceImpl : CardOrderInfoService {
      * @param banNum
      * @return
      */
-    override fun countUserCard(memberId: String, banNum: String): Int? {
+    override fun countUserCard(memberId: String, banNum: String): Int {
         if (StringUtils.isBlank(memberId) && StringUtils.isBlank(banNum)) {
-            return null
+            throw RRException("用户ID,银行卡编号不能为空")
         }
         val startDate = DateUtils.format(startDateOfMonth())
         val endDate = DateUtils.format(endDateOfMonth())

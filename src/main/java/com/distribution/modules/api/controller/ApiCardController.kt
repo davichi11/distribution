@@ -72,7 +72,7 @@ class ApiCardController {
     @AuthIgnore
     @GetMapping("/cardList")
     @ApiOperation(value = "信用卡列表")
-    fun list(page: String = "0", limit: String = "0"): Result? {
+    fun list(page: String = "0", limit: String = "0"): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(NumberUtils.toInt(page, 0), NumberUtils.toInt(limit, 0))
                 .doSelectPageInfo<CardInfo> { cardInfoService.queryList(mapOf()) }
@@ -89,7 +89,7 @@ class ApiCardController {
      */
     @GetMapping("/memberCardList/{mobile}")
     @ApiOperation(value = "用户办卡记录,订单明细")
-    fun memberCardList(@PathVariable mobile: String, page: String = "0", limit: String = "0", type: String = "0"): Result? {
+    fun memberCardList(@PathVariable mobile: String, page: String = "0", limit: String = "0", type: String = "0"): Result {
         var pageInfo: PageInfo<CardOrderInfoEntity> = PageInfo()
         val member = disMemberInfoService.queryByMobile(mobile)
         if (member != null) {
@@ -112,7 +112,7 @@ class ApiCardController {
 
     @ApiOperation(value = "业绩总数,信用卡,贷款,积分 数量")
     @GetMapping("/allCount/{mobile}")
-    fun getAllCount(@PathVariable("mobile") mobile: String): Result? {
+    fun getAllCount(@PathVariable("mobile") mobile: String): Result {
         val member = disMemberInfoService.queryByMobile(mobile)
         var allCount = 0
         var cardCount = 0
@@ -152,7 +152,7 @@ class ApiCardController {
     @AuthIgnore
     @PostMapping("/saveCardOrder")
     @ApiOperation(value = "添加申请人信息")
-    fun saveCardOrderInfo(@RequestBody cardOrderInfoVO: CardOrderInfoVO): Result? {
+    fun saveCardOrderInfo(@RequestBody cardOrderInfoVO: CardOrderInfoVO): Result {
         if (StringUtils.isBlank(cardOrderInfoVO.orderMobile)) {
             return Result().error(msg = "手机号码不正确")
         }
@@ -164,22 +164,21 @@ class ApiCardController {
         }
         val cardInfo = cardInfoService.queryByBankNum(cardOrderInfoVO.bankNum)
         try {
-            val member = disMemberInfoService.queryByMobile(cardOrderInfoVO.orderMobile)
+            val member = disMemberInfoService.queryByMobile(cardOrderInfoVO.orderMobile)!!
             //先调用第三方接口保存用户信息并返回url
-            val url = cardInfoService.getProductUrl(member!!, cardOrderInfoVO.bankNum)
-            if (StringUtils.isBlank(url)) {
+            val url = cardInfoService.getProductUrl(member, cardOrderInfoVO.bankNum)
+            if (url.isEmpty()) {
                 return Result().error(msg = "申请异常")
             }
             //查询改用户是否已办理过该银行的信用卡,如果有办过就不保存也不提醒
             val countBankNum = cardOrderInfoService.countUserCard(member.id!!, cardOrderInfoVO.bankNum)
-            if (countBankNum != null && countBankNum >= 1) {
+            if (countBankNum >= 1) {
                 return Result().ok().put("url", url)
             }
             //订单数据保存
             saveCardOrder(cardOrderInfoVO, cardInfo, member)
             //发送消息前先查询是否已关注
-            val wxMpUser = wxMpService.userService.userInfo(member.openId, "zh_CN")
-                    ?: return Result().ok().put("url", url)
+            wxMpService.userService.userInfo(member.openId, "zh_CN") ?: return Result().ok().put("url", url)
             //发送订单信息提醒
             val message = buildTemplateMsg(member.openId!!, member.disUserName!!,
                     cardInfo.cardName, "", "")

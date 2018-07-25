@@ -30,7 +30,7 @@ class DisMemberInfoController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("dismemberinfo:list")
-    fun list(@RequestParam params: Map<String, Any>): Result? {
+    fun list(@RequestParam params: Map<String, Any>): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page", 0),
                 MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo<DisMemberInfoEntity> { disMemberInfoService.queryList(params) }
@@ -44,7 +44,7 @@ class DisMemberInfoController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("dismemberinfo:info")
-    fun info(@PathVariable("id") id: String): Result? {
+    fun info(@PathVariable("id") id: String): Result {
         val disMemberInfo = disMemberInfoService.queryObject(id)
         return if (disMemberInfo == null) Result().error(msg = "无数据")
         else Result().ok().put("disMemberInfo", disMemberInfo)

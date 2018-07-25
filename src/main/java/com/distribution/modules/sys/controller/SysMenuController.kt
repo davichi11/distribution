@@ -8,7 +8,6 @@ import com.distribution.common.utils.Result
 import com.distribution.modules.sys.entity.SysMenuEntity
 import com.distribution.modules.sys.service.ShiroService
 import com.distribution.modules.sys.service.SysMenuService
-import com.google.common.collect.Maps
 import org.apache.commons.lang.StringUtils
 import org.apache.shiro.authz.annotation.RequiresPermissions
 import org.springframework.beans.factory.annotation.Autowired
@@ -38,7 +37,7 @@ class SysMenuController : AbstractController() {
     @RequestMapping("/list")
     @RequiresPermissions("sys:menu:list")
     fun list(): List<SysMenuEntity> {
-        return sysMenuService.queryList(Maps.newHashMap())
+        return sysMenuService.queryList(mapOf())
     }
 
     /**
@@ -46,7 +45,7 @@ class SysMenuController : AbstractController() {
      */
     @RequestMapping("/select")
     @RequiresPermissions("sys:menu:select")
-    fun select(): Result? {
+    fun select(): Result {
         //查询列表数据
         val menuList = sysMenuService.queryNotButtonList()
 
@@ -66,10 +65,10 @@ class SysMenuController : AbstractController() {
      */
     @RequestMapping("/perms")
     @RequiresPermissions("sys:menu:perms")
-    fun perms(): Result? {
+    fun perms(): Result {
         //查询列表数据
         val menuList: List<SysMenuEntity> = if (userId!!.toInt() == Constant.SUPER_ADMIN) {
-            sysMenuService.queryList(Maps.newHashMap())
+            sysMenuService.queryList(mapOf())
         } else {
             sysMenuService.queryUserList(userId)
         }
@@ -84,7 +83,7 @@ class SysMenuController : AbstractController() {
      */
     @RequestMapping("/info/{menuId}")
     @RequiresPermissions("sys:menu:info")
-    fun info(@PathVariable("menuId") menuId: Long?): Result? {
+    fun info(@PathVariable("menuId") menuId: Long?): Result {
         val menu = sysMenuService.queryObject(menuId)
         return Result().ok().put("menu", menu)
     }
@@ -160,7 +159,7 @@ class SysMenuController : AbstractController() {
      * 用户菜单列表
      */
     @RequestMapping("/user")
-    fun user(): Result? {
+    fun user(): Result {
         val menuList = sysMenuService.getUserMenuList(userId)
         val permissions = shiroService.getUserPermissions(userId!!)
         return Result().ok().put("menuList", menuList).put("permissions", permissions)

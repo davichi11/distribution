@@ -6,7 +6,6 @@ import com.distribution.common.validator.ValidatorUtils
 import com.distribution.modules.job.entity.ScheduleJobEntity
 import com.distribution.modules.job.service.ScheduleJobService
 import com.github.pagehelper.PageHelper
-import lombok.extern.slf4j.Slf4j
 import org.apache.commons.collections.MapUtils
 import org.apache.shiro.authz.annotation.RequiresPermissions
 import org.slf4j.LoggerFactory
@@ -35,7 +34,7 @@ class ScheduleJobController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("sys:schedule:list")
-    fun list(@RequestParam params: Map<String, Any>): Result? {
+    fun list(@RequestParam params: Map<String, Any>): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page", 0),
                 MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo<ScheduleJobEntity> { scheduleJobService.queryList(params) }
@@ -47,7 +46,7 @@ class ScheduleJobController {
      */
     @RequestMapping("/info/{jobId}")
     @RequiresPermissions("sys:schedule:info")
-    fun info(@PathVariable("jobId") jobId: Long): Result? {
+    fun info(@PathVariable("jobId") jobId: Long): Result {
         val schedule = scheduleJobService.queryObject(jobId)
 
         return Result().ok().put("schedule", schedule)

@@ -9,7 +9,6 @@ import com.distribution.pojo.Tables
 import com.distribution.pojo.tables.pojos.ProductDetailParams
 import com.distribution.pojo.tables.records.ProductDetailParamsRecord
 import com.github.pagehelper.PageHelper
-import lombok.extern.slf4j.Slf4j
 import org.apache.commons.collections.CollectionUtils
 import org.apache.commons.collections.MapUtils
 import org.apache.shiro.authz.annotation.RequiresPermissions
@@ -42,7 +41,7 @@ class ProductDetailController {
      */
     @RequestMapping("/list")
     @RequiresPermissions("productdetail:list")
-    fun list(@RequestParam params: Map<String, Any>): Result? {
+    fun list(@RequestParam params: Map<String, Any>): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page"),
                 MapUtils.getInteger(params, "limit")).doSelectPageInfo<ProductDetailEntity> { productDetailService.queryList(params) }
@@ -55,7 +54,7 @@ class ProductDetailController {
      */
     @RequestMapping("/info/{id}")
     @RequiresPermissions("productdetail:info")
-    fun info(@PathVariable("id") id: String): Result? {
+    fun info(@PathVariable("id") id: String): Result {
         val productDetail = productDetailService.queryObject(id)
         val productDetailVO = ProductDetailVO()
         BeanUtils.copyProperties(productDetail, productDetailVO)

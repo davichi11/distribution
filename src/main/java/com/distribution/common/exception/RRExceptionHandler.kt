@@ -25,7 +25,7 @@ class RRExceptionHandler {
     fun handleRRException(e: RRException): Result {
         val result = Result()
         result["code"] = e.code
-        result["msg"] = e.message!!
+        result["msg"] = e.message ?: ""
 
         return result
     }
