@@ -13,6 +13,7 @@
         <result property="prodDetailUrl" column="prod_detail_url"/>
         <result property="prodDetailCount" column="prod_detail_count"/>
         <result property="typeName" column="type_name"/>
+        <result property="isDelete" column="is_delete"/>
     </resultMap>
 
     <select id="queryObject" resultMap="productDetailMap">
@@ -27,11 +28,10 @@
         t.prod_name as 'type_name'
         from product_detail d
         left join product_type t on d.prod_type_id=t.id
-        <where>
-            <if test="prodDetailName != null">
-                and d.prod_detail_name like concat('%',#{prodDetailName},'%')
-            </if>
-        </where>
+        where d.is_delete = '1'
+        <if test="prodDetailName != null">
+            and d.prod_detail_name like concat('%',#{prodDetailName},'%')
+        </if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
@@ -66,6 +66,9 @@
             <if test="prodDetailCount != null">
                 `prod_detail_count`,
             </if>
+            <if test="isDelete != null and isDelete != ''">
+                `is_delete`
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -85,6 +88,9 @@
             </if>
             <if test="prodDetailCount != null">
                 #{prodDetailCount},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                #{isDelete}
             </if>
         </trim>
     </insert>
@@ -109,7 +115,10 @@
                 ,
             </if>
             <if test="prodDetailCount != null">
-                `prod_detail_count` = #{prodDetailCount}
+                `prod_detail_count` = #{prodDetailCount},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                `is_delete` = #{isDelete}
             </if>
         </set>
         where id = #{id}

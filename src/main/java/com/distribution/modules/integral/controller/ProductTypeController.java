@@ -23,10 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 
 /**
@@ -130,20 +127,30 @@ public class ProductTypeController {
     }
 
     /**
-     * 删除
+     * 禁用
      */
     @RequestMapping("/delete")
     @RequiresPermissions("producttype:delete")
     public Result delete(@RequestBody String[] ids) {
         try {
             if (ids.length == 1) {
-                productTypeService.delete(ids[0]);
+                ProductTypeEntity productTypeEntity = productTypeService.queryObject(ids[0]);
+                productTypeEntity.setIsDelete("0");
+                productTypeService.update(productTypeEntity);
             } else {
-                productTypeService.deleteBatch(ids);
+                Arrays.stream(ids).forEach(id->{
+                    ProductTypeEntity productTypeEntity = productTypeService.queryObject(id);
+                    productTypeEntity.setIsDelete("0");
+                    try {
+                        productTypeService.update(productTypeEntity);
+                    } catch (Exception e) {
+                        log.error("禁用产品类型异常", e);
+                    }
+                });
             }
         } catch (Exception e) {
-            log.error("删除产品类型异常", e);
-            return Result.error("删除产品类型异常");
+            log.error("禁用产品类型异常", e);
+            return Result.error("禁用产品类型异常");
         }
         return Result.ok();
     }

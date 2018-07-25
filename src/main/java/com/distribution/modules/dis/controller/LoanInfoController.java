@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Map;
 
 
@@ -91,20 +92,30 @@ public class LoanInfoController {
     }
 
     /**
-     * 删除
+     * 禁用
      */
     @RequestMapping("/delete")
     @RequiresPermissions("loaninfo:delete")
     public Result delete(@RequestBody String[] ids) {
         try {
             if (ids.length == 1) {
-                loanInfoService.delete(ids[0]);
+                LoanInfoEntity loanInfoEntity = loanInfoService.queryObject(ids[0]);
+                loanInfoEntity.setIsDelete(0);
+                loanInfoService.update(loanInfoEntity);
             } else {
-                loanInfoService.deleteBatch(ids);
+                Arrays.stream(ids).forEach(id->{
+                    LoanInfoEntity loanInfoEntity = loanInfoService.queryObject(id);
+                    loanInfoEntity.setIsDelete(0);
+                    try {
+                        loanInfoService.update(loanInfoEntity);
+                    } catch (Exception e) {
+                        log.error("禁用贷款产品信息异常", e);
+                    }
+                });
             }
         } catch (Exception e) {
-            log.error("删除贷款产品信息异常", e);
-            return Result.error("删除贷款产品信息异常");
+            log.error("禁用贷款产品信息异常", e);
+            return Result.error("禁用贷款产品信息异常");
         }
         return Result.ok();
     }

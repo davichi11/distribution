@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -125,20 +126,32 @@ public class ProductDetailController {
     }
 
     /**
-     * 删除
+     * 禁用
      */
     @RequestMapping("/delete")
     @RequiresPermissions("productdetail:delete")
     public Result delete(@RequestBody String[] ids) {
         try {
             if (ids.length == 1) {
-                productDetailService.delete(ids[0]);
+                ProductDetailEntity productDetailEntity = productDetailService.queryObject(ids[0]);
+                productDetailEntity.setIsDelete("0");
+//                productDetailService.delete(ids[0]);
+                productDetailService.update(productDetailEntity);
             } else {
-                productDetailService.deleteBatch(ids);
+                Arrays.stream(ids).forEach(id->{
+                    ProductDetailEntity productDetailEntity = productDetailService.queryObject(id);
+                    productDetailEntity.setIsDelete("0");
+//                productDetailService.delete(ids[0]);
+                    try {
+                        productDetailService.update(productDetailEntity);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
             }
         } catch (Exception e) {
-            log.error("删除积分兑换产品列表异常", e);
-            return Result.error("删除积分兑换产品列表异常");
+            log.error("禁用积分兑换产品列表异常", e);
+            return Result.error("禁用积分兑换产品列表异常");
         }
         return Result.ok();
     }

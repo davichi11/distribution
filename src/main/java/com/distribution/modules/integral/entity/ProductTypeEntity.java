@@ -40,4 +40,5 @@ public class ProductTypeEntity implements Serializable {
 
     private String prodType;
     private Double exchangePercent;
+    private String isDelete;
 }

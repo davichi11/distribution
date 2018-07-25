@@ -12,6 +12,7 @@
         <result property="prodImg" column="prod_img"/>
         <result property="prodType" column="prod_type"/>
         <result property="exchangePercent" column="exchange_percent"/>
+        <result property="isDelete" column="is_delete"/>
     </resultMap>
 
     <select id="queryObject" resultMap="productTypeMap">
@@ -22,11 +23,10 @@
 
     <select id="queryList" resultMap="productTypeMap">
         select id, prod_name, prod_rate, prod_remark, prod_img, prod_type, exchange_percent from product_type t
-        <where>
-            <if test="prodName != null">
-                and t.prod_name like concat('%',#{prodName},'%')
-            </if>
-        </where>
+        where t.is_delete='1'
+        <if test="prodName != null">
+            and t.prod_name like concat('%',#{prodName},'%')
+        </if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
@@ -59,12 +59,14 @@
                 `prod_img`,
             </if>
             <if test="prodType != null">
-                `prod_type`
+                `prod_type`,
             </if>
             <if test="exchangePercent != null">
-                `exchange_percent`
+                `exchange_percent`,
             </if>
-
+            <if test="isDelete != null and isDelete != ''">
+                `is_delete`
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -83,10 +85,13 @@
                 #{prodImg},
             </if>
             <if test="prodType != null">
-                #{prodType}
+                #{prodType},
             </if>
             <if test="exchangePercent != null">
-                #{exchangePercent}
+                #{exchangePercent},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                #{isDelete}
             </if>
         </trim>
     </insert>
@@ -114,6 +119,9 @@
             </if>
             <if test="exchangePercent != null">
                 exchange_percent=#{exchangePercent},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                `is_delete` = #{isDelete}
             </if>
         </set>
         where id = #{id}

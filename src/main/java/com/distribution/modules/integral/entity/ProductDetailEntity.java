@@ -43,4 +43,6 @@ public class ProductDetailEntity implements Serializable {
      * 兑换次数
      */
     private String prodDetailCount;
+
+    private String isDelete;
 }
