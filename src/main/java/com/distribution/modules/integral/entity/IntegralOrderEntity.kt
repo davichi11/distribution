@@ -21,6 +21,7 @@ data class IntegralOrderEntity(
          */
         var detailId: String = "",
         var prodName: String = "",
+        var prodTypeName: String = "",
         var userName: String = "",
         var idCode: String = "",
         /**

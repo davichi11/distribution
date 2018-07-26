@@ -1,6 +1,8 @@
 package com.distribution.modules.pos.entity
 
+import com.distribution.common.utils.DateUtils
 import java.io.Serializable
+import java.time.LocalDateTime
 
 
 /**
@@ -25,5 +27,6 @@ data class PosApplyEntity(
         /**
          * 连锁属性 0:非连锁,1:连锁
          */
-        var attribute: Int = 0
+        var attribute: Int = 0,
+        var addTime: String = DateUtils.formatDateTime(LocalDateTime.now())
 ) : Serializable

@@ -18,7 +18,8 @@ $(function () {
                         return "连锁";
                     }
                 }
-            }
+            },
+            {label: '申请时间', name: 'addTime', index: 'add_time', width: 80}
         ],
         viewrecords: true,
         height: 385,
