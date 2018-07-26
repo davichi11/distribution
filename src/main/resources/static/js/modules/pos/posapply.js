@@ -19,7 +19,7 @@ $(function () {
                     }
                 }
             },
-            {label: '申请时间', name: 'areaCode', index: 'area_code', width: 80},
+            {label: '申请时间', name: 'addTime', index: 'add_time', width: 80}
         ],
         viewrecords: true,
         height: 385,

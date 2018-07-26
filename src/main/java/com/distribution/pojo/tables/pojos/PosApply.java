@@ -4,9 +4,8 @@
 package com.distribution.pojo.tables.pojos;
 
 
-import java.io.Serializable;
-
 import javax.annotation.Generated;
+import java.io.Serializable;
 
 
 /**
@@ -22,7 +21,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PosApply implements Serializable {
 
-    private static final long serialVersionUID = 701124497;
+    private static final long serialVersionUID = 398335998;
 
     private String  id;
     private String  name;
@@ -31,6 +30,7 @@ public class PosApply implements Serializable {
     private String  areaCode;
     private Boolean attribute;
     private String  addTime;
+    private String  isDelete;
 
     public PosApply() {}
 
@@ -42,6 +42,7 @@ public class PosApply implements Serializable {
         this.areaCode = value.areaCode;
         this.attribute = value.attribute;
         this.addTime = value.addTime;
+        this.isDelete = value.isDelete;
     }
 
     public PosApply(
@@ -51,7 +52,8 @@ public class PosApply implements Serializable {
         String  merchants,
         String  areaCode,
         Boolean attribute,
-        String  addTime
+        String  addTime,
+        String  isDelete
     ) {
         this.id = id;
         this.name = name;
@@ -60,6 +62,7 @@ public class PosApply implements Serializable {
         this.areaCode = areaCode;
         this.attribute = attribute;
         this.addTime = addTime;
+        this.isDelete = isDelete;
     }
 
     public String getId() {
@@ -118,6 +121,14 @@ public class PosApply implements Serializable {
         this.addTime = addTime;
     }
 
+    public String getIsDelete() {
+        return this.isDelete;
+    }
+
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("PosApply (");
@@ -129,6 +140,7 @@ public class PosApply implements Serializable {
         sb.append(", ").append(areaCode);
         sb.append(", ").append(attribute);
         sb.append(", ").append(addTime);
+        sb.append(", ").append(isDelete);
 
         sb.append(")");
         return sb.toString();
