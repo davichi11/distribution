@@ -30,6 +30,7 @@ public class IntegralOrderEntity implements Serializable {
     private String detailId;
 
     private String prodName;
+    private String prodTypeName;
     private String userName;
     private String idCode;
     private Integer disLevel;

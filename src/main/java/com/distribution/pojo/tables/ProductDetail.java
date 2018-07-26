@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductDetail extends TableImpl<ProductDetailRecord> {
 
-    private static final long serialVersionUID = 1381838830;
+    private static final long serialVersionUID = 700977851;
 
     /**
      * The reference instance of <code>distribution.product_detail</code>
@@ -87,6 +87,11 @@ public class ProductDetail extends TableImpl<ProductDetailRecord> {
      * The column <code>distribution.product_detail.prod_detail_url</code>. 快捷入口
      */
     public final TableField<ProductDetailRecord, String> PROD_DETAIL_URL = createField("prod_detail_url", org.jooq.impl.SQLDataType.VARCHAR(500), this, "快捷入口");
+
+    /**
+     * The column <code>distribution.product_detail.is_delete</code>. 使用启用 0:否 1:是
+     */
+    public final TableField<ProductDetailRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.CHAR(1).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.CHAR)), this, "使用启用 0:否 1:是");
 
     /**
      * Create a <code>distribution.product_detail</code> table reference

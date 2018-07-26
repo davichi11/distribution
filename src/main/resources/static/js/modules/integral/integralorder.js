@@ -7,6 +7,7 @@ $(function () {
             {label: '兑换人手机号', name: 'mobile', index: 'mobile', width: 80},
             {label: '兑换人会员等级', name: 'disLevel', index: 'dis_level', width: 80},
             {label: '兑换产品', name: 'prodName', index: 'd.prod_detail_name', width: 80},
+            {label: '兑换产品所属类型', name: 'prodTypeName', index: 'd.prod_type_name', width: 80},
             {
                 label: '卷码图片', name: 'img', index: 'img', width: 80,
                 formatter: (value, options, row) => value ? `<a href="#" onclick="showImg('${value}')">点击查看图标</a>`

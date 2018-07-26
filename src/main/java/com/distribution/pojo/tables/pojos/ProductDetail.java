@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductDetail implements Serializable {
 
-    private static final long serialVersionUID = 1455354853;
+    private static final long serialVersionUID = -445786772;
 
     private String  id;
     private String  prodDetailName;
@@ -31,6 +31,7 @@ public class ProductDetail implements Serializable {
     private Long    prodDetailValue;
     private String  prodDetailCount;
     private String  prodDetailUrl;
+    private String  isDelete;
 
     public ProductDetail() {}
 
@@ -42,6 +43,7 @@ public class ProductDetail implements Serializable {
         this.prodDetailValue = value.prodDetailValue;
         this.prodDetailCount = value.prodDetailCount;
         this.prodDetailUrl = value.prodDetailUrl;
+        this.isDelete = value.isDelete;
     }
 
     public ProductDetail(
@@ -51,7 +53,8 @@ public class ProductDetail implements Serializable {
         String  prodTypeId,
         Long    prodDetailValue,
         String  prodDetailCount,
-        String  prodDetailUrl
+        String  prodDetailUrl,
+        String  isDelete
     ) {
         this.id = id;
         this.prodDetailName = prodDetailName;
@@ -60,6 +63,7 @@ public class ProductDetail implements Serializable {
         this.prodDetailValue = prodDetailValue;
         this.prodDetailCount = prodDetailCount;
         this.prodDetailUrl = prodDetailUrl;
+        this.isDelete = isDelete;
     }
 
     public String getId() {
@@ -118,6 +122,14 @@ public class ProductDetail implements Serializable {
         this.prodDetailUrl = prodDetailUrl;
     }
 
+    public String getIsDelete() {
+        return this.isDelete;
+    }
+
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ProductDetail (");
@@ -129,6 +141,7 @@ public class ProductDetail implements Serializable {
         sb.append(", ").append(prodDetailValue);
         sb.append(", ").append(prodDetailCount);
         sb.append(", ").append(prodDetailUrl);
+        sb.append(", ").append(isDelete);
 
         sb.append(")");
         return sb.toString();

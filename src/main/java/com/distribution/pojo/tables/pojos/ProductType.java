@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductType implements Serializable {
 
-    private static final long serialVersionUID = -1864265918;
+    private static final long serialVersionUID = 1267455823;
 
     private String id;
     private String prodName;
@@ -31,6 +31,7 @@ public class ProductType implements Serializable {
     private String prodImg;
     private String prodType;
     private Double exchangePercent;
+    private String isDelete;
 
     public ProductType() {}
 
@@ -42,6 +43,7 @@ public class ProductType implements Serializable {
         this.prodImg = value.prodImg;
         this.prodType = value.prodType;
         this.exchangePercent = value.exchangePercent;
+        this.isDelete = value.isDelete;
     }
 
     public ProductType(
@@ -51,7 +53,8 @@ public class ProductType implements Serializable {
         String prodRemark,
         String prodImg,
         String prodType,
-        Double exchangePercent
+        Double exchangePercent,
+        String isDelete
     ) {
         this.id = id;
         this.prodName = prodName;
@@ -60,6 +63,7 @@ public class ProductType implements Serializable {
         this.prodImg = prodImg;
         this.prodType = prodType;
         this.exchangePercent = exchangePercent;
+        this.isDelete = isDelete;
     }
 
     public String getId() {
@@ -118,6 +122,14 @@ public class ProductType implements Serializable {
         this.exchangePercent = exchangePercent;
     }
 
+    public String getIsDelete() {
+        return this.isDelete;
+    }
+
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("ProductType (");
@@ -129,6 +141,7 @@ public class ProductType implements Serializable {
         sb.append(", ").append(prodImg);
         sb.append(", ").append(prodType);
         sb.append(", ").append(exchangePercent);
+        sb.append(", ").append(isDelete);
 
         sb.append(")");
         return sb.toString();

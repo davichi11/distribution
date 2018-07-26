@@ -1,8 +1,10 @@
 package com.distribution.modules.pos.entity;
 
+import com.distribution.common.utils.DateUtils;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 
 /**
@@ -40,4 +42,8 @@ public class PosApplyEntity implements Serializable {
      * 连锁属性 0:非连锁,1:连锁
      */
     private Integer attribute;
+
+    private String addTime = DateUtils.formatDateTime(LocalDateTime.now());
+
+    private String isDelete = "1";
 }

@@ -11,6 +11,7 @@
         <result property="img" column="img"/>
         <result property="addTime" column="add_time"/>
         <result property="prodName" column="prod_name"/>
+        <result property="prodTypeName" column="prod_type_name"/>
         <result property="record" column="record"/>
         <result property="status" column="status"/>
         <result property="disLevel" column="dis_level"/>
@@ -28,11 +29,13 @@
             status,
             profi_money,
             d.prod_detail_name as 'prod_name',
+            t.prod_name        as 'prod_type_name',
             m.dis_user_name    as 'user_name',
             m.dis_user_id_code as 'id_code',
             m.dis_level
         from integral_order o
             left join product_detail d on o.detail_id = d.id
+            left join product_type t on d.prod_type_id = t.id
             left join tb_user u on o.mobile = u.mobile
             left join dis_member_info m on u.user_id = m.dis_user_id
         where o.id = #{value}
@@ -48,11 +51,13 @@
         status,
         profi_money,
         d.prod_detail_name as 'prod_name',
+        t.prod_name as 'prod_type_name',
         m.dis_user_name as 'user_name',
         m.dis_user_id_code as 'id_code',
         m.dis_level
         from integral_order o
         left join product_detail d on o.detail_id=d.id
+        left join product_type t on d.prod_type_id = t.id
         left join tb_user u on o.mobile = u.mobile
         left join dis_member_info m on u.user_id=m.dis_user_id
         <where>

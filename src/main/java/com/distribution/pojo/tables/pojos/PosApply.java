@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PosApply implements Serializable {
 
-    private static final long serialVersionUID = 1130754051;
+    private static final long serialVersionUID = 701124497;
 
     private String  id;
     private String  name;
@@ -30,6 +30,7 @@ public class PosApply implements Serializable {
     private String  merchants;
     private String  areaCode;
     private Boolean attribute;
+    private String  addTime;
 
     public PosApply() {}
 
@@ -40,6 +41,7 @@ public class PosApply implements Serializable {
         this.merchants = value.merchants;
         this.areaCode = value.areaCode;
         this.attribute = value.attribute;
+        this.addTime = value.addTime;
     }
 
     public PosApply(
@@ -48,7 +50,8 @@ public class PosApply implements Serializable {
         Long    mobile,
         String  merchants,
         String  areaCode,
-        Boolean attribute
+        Boolean attribute,
+        String  addTime
     ) {
         this.id = id;
         this.name = name;
@@ -56,6 +59,7 @@ public class PosApply implements Serializable {
         this.merchants = merchants;
         this.areaCode = areaCode;
         this.attribute = attribute;
+        this.addTime = addTime;
     }
 
     public String getId() {
@@ -106,6 +110,14 @@ public class PosApply implements Serializable {
         this.attribute = attribute;
     }
 
+    public String getAddTime() {
+        return this.addTime;
+    }
+
+    public void setAddTime(String addTime) {
+        this.addTime = addTime;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("PosApply (");
@@ -116,6 +128,7 @@ public class PosApply implements Serializable {
         sb.append(", ").append(merchants);
         sb.append(", ").append(areaCode);
         sb.append(", ").append(attribute);
+        sb.append(", ").append(addTime);
 
         sb.append(")");
         return sb.toString();

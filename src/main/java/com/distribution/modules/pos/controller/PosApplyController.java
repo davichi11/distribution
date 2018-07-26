@@ -11,6 +11,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Map;
 
 
@@ -91,9 +92,19 @@ public class PosApplyController {
     public Result delete(@RequestBody String[] ids) {
         try {
             if (ids.length == 1) {
-                posApplyService.delete(ids[0]);
+                PosApplyEntity applyEntity = posApplyService.queryObject(ids[0]);
+                applyEntity.setIsDelete("0");
+                posApplyService.update(applyEntity);
             } else {
-                posApplyService.deleteBatch(ids);
+                Arrays.stream(ids).forEach(id -> {
+                    PosApplyEntity applyEntity = posApplyService.queryObject(id);
+                    applyEntity.setIsDelete("0");
+                    try {
+                        posApplyService.update(applyEntity);
+                    } catch (Exception e) {
+                        log.error("删除POS机申请异常", e);
+                    }
+                });
             }
         } catch (Exception e) {
             log.error("删除POS机申请异常", e);

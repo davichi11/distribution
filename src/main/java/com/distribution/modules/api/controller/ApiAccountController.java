@@ -198,7 +198,7 @@ public class ApiAccountController {
      */
     @GetMapping("/withdrawals/{mobile}")
     @ApiOperation(value = "提现记录")
-    public Result memberWithdrawalList(@PathVariable String mobile,@RequestParam Map<String, Object> params) {
+    public Result memberWithdrawalList(@PathVariable String mobile, @RequestParam Map<String, Object> params) {
         Map<String, Object> param = new HashMap<>(2);
         param.put("withdrawMobile", mobile);
         PageInfo<WithdrawalInfo> pageInfo = PageHelper.startPage(MapUtils.getInteger(params, "page", 0),
@@ -216,7 +216,7 @@ public class ApiAccountController {
      */
     @GetMapping("/memberAccountHistory/{mobile}")
     @ApiOperation(value = "收益明细")
-    public Result memberReturns(@PathVariable String mobile,@RequestParam Map<String, Object> params) {
+    public Result memberReturns(@PathVariable String mobile, @RequestParam Map<String, Object> params) {
         Map<String, Object> map = new HashMap<>(2);
         map.put("mobile", mobile);
         DisMemberInfoEntity member = disMemberInfoService.queryList(map).stream().findFirst().orElse(new DisMemberInfoEntity());
@@ -247,10 +247,12 @@ public class ApiAccountController {
         if (account.getMemberAmount().compareTo(withdrawalVo.getWithdrawAmount()) < 0) {
             return Result.error("提现金额超出可用余额");
         }
-        String countKey = withdrawalVo.getWithdrawMobile() + "_withdrawal";
+        String limitKey = withdrawalVo.getWithdrawMobile() + "_withdrawal";
+        String countKey = withdrawalVo.getWithdrawMobile() + "_withdrawal_count";
 
-        Double count = NumberUtils.toDouble(redisTemplate.opsForValue().get(countKey));
-        if (count >= 500 || withdrawalVo.getWithdrawAmount().doubleValue() >= 500) {
+        Double limit = NumberUtils.toDouble(redisTemplate.opsForValue().get(limitKey));
+        Integer count = NumberUtils.toInt(redisTemplate.opsForValue().get(countKey));
+        if (limit >= 500 || withdrawalVo.getWithdrawAmount().doubleValue() >= 500 || count > 1) {
             return Result.error("已超出每日提现限额");
         }
 
@@ -296,7 +298,10 @@ public class ApiAccountController {
             long millis = between.toMillis();
 
             //更新每日提现限额
-            redisTemplate.opsForValue().set(countKey, withdrawalVo.getWithdrawAmount().add(new BigDecimal(count)) + "",
+            redisTemplate.opsForValue().set(limitKey, withdrawalVo.getWithdrawAmount().add(new BigDecimal(limit)) + "",
+                    millis, TimeUnit.MILLISECONDS);
+            //更新每日提现次数
+            redisTemplate.opsForValue().set(countKey, count + 1 + "",
                     millis, TimeUnit.MILLISECONDS);
             //发送提现成功提醒
             wxMpService.getTemplateMsgService().sendTemplateMsg(buildTemplateMsg(account.getMember().getOpenId(),
