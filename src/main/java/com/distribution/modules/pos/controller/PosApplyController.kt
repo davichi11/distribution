@@ -91,9 +91,15 @@ class PosApplyController {
     fun delete(@RequestBody ids: Array<String>): Result {
         try {
             if (ids.size == 1) {
-                posApplyService.delete(ids[0])
+                val posApplyEntity = posApplyService.queryObject(ids[0])
+                posApplyEntity.isDelete = "0"
+                posApplyService.update(posApplyEntity)
             } else {
-                posApplyService.deleteBatch(ids)
+                ids.forEach {
+                    val posApplyEntity = posApplyService.queryObject(it)
+                    posApplyEntity.isDelete = "0"
+                    posApplyService.update(posApplyEntity)
+                }
             }
         } catch (e: Exception) {
             log.error("删除POS机申请异常", e)

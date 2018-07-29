@@ -380,6 +380,11 @@
             <artifactId>kotlin-reflect</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-core</artifactId>
+            <version>0.24.0</version>
+        </dependency>
 
 
         <dependency>
@@ -400,6 +405,13 @@
             <groupId>com.google.zxing</groupId>
             <artifactId>core</artifactId>
             <version>3.3.2</version>
+        </dependency>
+
+        <!--markdown处理-->
+        <dependency>
+            <groupId>com.atlassian.commonmark</groupId>
+            <artifactId>commonmark</artifactId>
+            <version>0.9.0</version>
         </dependency>
     </dependencies>
 
@@ -500,9 +512,9 @@
                     <!-- JDBC connection parameters -->
                     <jdbc>
                         <driver>com.mysql.jdbc.Driver</driver>
-                        <url>jdbc:mysql://47.105.53.69:3306</url>
+                        <url>jdbc:mysql://localhost:3306</url>
                         <user>root</user>
-                        <password>root</password>
+                        <password>admin</password>
                     </jdbc>
                     <generator>
                         <database>

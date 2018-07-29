@@ -9,7 +9,7 @@
         <result property="withdrawNum" column="withdraw_num"/>
         <result property="withdrawType" column="withdraw_type"/>
         <result property="withdrawName" column="withdraw_name"/>
-        <result property="withdrawNobile" column="withdraw_mobile"/>
+        <result property="withdrawMobile" column="withdraw_mobile"/>
         <result property="withdrawCard" column="withdraw_card"/>
         <result property="withdrawAmount" column="withdraw_amount"/>
         <result property="withdrawPoundage" column="withdraw_poundage"/>
@@ -27,7 +27,7 @@
     </sql>
 
 
-    <select id="queryList" resultType="com.distribution.modules.memeber.entity.WithdrawalInfo">
+    <select id="queryList" resultMap="WithdrawalInfoMap">
         select
         <include refid="Base_Column_List"/>
         from withdrawal_info

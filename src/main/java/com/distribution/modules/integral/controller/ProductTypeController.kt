@@ -132,9 +132,15 @@ class ProductTypeController {
     fun delete(@RequestBody ids: Array<String>): Result {
         try {
             if (ids.size == 1) {
-                productTypeService.delete(ids[0])
+                val typeEntity = productTypeService.queryObject(ids[0])
+                typeEntity.isDelete = "0"
+                productTypeService.update(typeEntity)
             } else {
-                productTypeService.deleteBatch(ids)
+                ids.forEach {
+                    val typeEntity = productTypeService.queryObject(it)
+                    typeEntity.isDelete = "0"
+                    productTypeService.update(typeEntity)
+                }
             }
         } catch (e: Exception) {
             log.error("删除产品类型异常", e)

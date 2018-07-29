@@ -4,6 +4,8 @@
 package com.distribution.pojo;
 
 
+import com.distribution.pojo.tables.AdPicture;
+import com.distribution.pojo.tables.ArticleInfo;
 import com.distribution.pojo.tables.CardInfo;
 import com.distribution.pojo.tables.CardOrderInfo;
 import com.distribution.pojo.tables.DisDictionary;
@@ -39,6 +41,8 @@ import com.distribution.pojo.tables.SysUserToken;
 import com.distribution.pojo.tables.TbToken;
 import com.distribution.pojo.tables.TbUser;
 import com.distribution.pojo.tables.WithdrawalInfo;
+import com.distribution.pojo.tables.records.AdPictureRecord;
+import com.distribution.pojo.tables.records.ArticleInfoRecord;
 import com.distribution.pojo.tables.records.CardInfoRecord;
 import com.distribution.pojo.tables.records.CardOrderInfoRecord;
 import com.distribution.pojo.tables.records.DisDictionaryRecord;
@@ -100,6 +104,8 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
+    public static final Identity<AdPictureRecord, Integer> IDENTITY_AD_PICTURE = Identities0.IDENTITY_AD_PICTURE;
+    public static final Identity<ArticleInfoRecord, Integer> IDENTITY_ARTICLE_INFO = Identities0.IDENTITY_ARTICLE_INFO;
     public static final Identity<DisDictionaryRecord, Integer> IDENTITY_DIS_DICTIONARY = Identities0.IDENTITY_DIS_DICTIONARY;
     public static final Identity<IntegralTutorialRecord, Integer> IDENTITY_INTEGRAL_TUTORIAL = Identities0.IDENTITY_INTEGRAL_TUTORIAL;
     public static final Identity<ProductDetailParamsRecord, Integer> IDENTITY_PRODUCT_DETAIL_PARAMS = Identities0.IDENTITY_PRODUCT_DETAIL_PARAMS;
@@ -119,6 +125,8 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<AdPictureRecord> KEY_AD_PICTURE_PRIMARY = UniqueKeys0.KEY_AD_PICTURE_PRIMARY;
+    public static final UniqueKey<ArticleInfoRecord> KEY_ARTICLE_INFO_PRIMARY = UniqueKeys0.KEY_ARTICLE_INFO_PRIMARY;
     public static final UniqueKey<CardInfoRecord> KEY_CARD_INFO_PRIMARY = UniqueKeys0.KEY_CARD_INFO_PRIMARY;
     public static final UniqueKey<CardInfoRecord> KEY_CARD_INFO_CARD_INFO_ID_UINDEX = UniqueKeys0.KEY_CARD_INFO_CARD_INFO_ID_UINDEX;
     public static final UniqueKey<CardOrderInfoRecord> KEY_CARD_ORDER_INFO_PRIMARY = UniqueKeys0.KEY_CARD_ORDER_INFO_PRIMARY;
@@ -184,6 +192,8 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     private static class Identities0 {
+        public static Identity<AdPictureRecord, Integer> IDENTITY_AD_PICTURE = Internal.createIdentity(AdPicture.AD_PICTURE, AdPicture.AD_PICTURE.ID);
+        public static Identity<ArticleInfoRecord, Integer> IDENTITY_ARTICLE_INFO = Internal.createIdentity(ArticleInfo.ARTICLE_INFO, ArticleInfo.ARTICLE_INFO.ID);
         public static Identity<DisDictionaryRecord, Integer> IDENTITY_DIS_DICTIONARY = Internal.createIdentity(DisDictionary.DIS_DICTIONARY, DisDictionary.DIS_DICTIONARY.ID);
         public static Identity<IntegralTutorialRecord, Integer> IDENTITY_INTEGRAL_TUTORIAL = Internal.createIdentity(IntegralTutorial.INTEGRAL_TUTORIAL, IntegralTutorial.INTEGRAL_TUTORIAL.ID);
         public static Identity<ProductDetailParamsRecord, Integer> IDENTITY_PRODUCT_DETAIL_PARAMS = Internal.createIdentity(ProductDetailParams.PRODUCT_DETAIL_PARAMS, ProductDetailParams.PRODUCT_DETAIL_PARAMS.ID);
@@ -201,6 +211,8 @@ public class Keys {
     }
 
     private static class UniqueKeys0 {
+        public static final UniqueKey<AdPictureRecord> KEY_AD_PICTURE_PRIMARY = Internal.createUniqueKey(AdPicture.AD_PICTURE, "KEY_ad_picture_PRIMARY", AdPicture.AD_PICTURE.ID);
+        public static final UniqueKey<ArticleInfoRecord> KEY_ARTICLE_INFO_PRIMARY = Internal.createUniqueKey(ArticleInfo.ARTICLE_INFO, "KEY_article_info_PRIMARY", ArticleInfo.ARTICLE_INFO.ID);
         public static final UniqueKey<CardInfoRecord> KEY_CARD_INFO_PRIMARY = Internal.createUniqueKey(CardInfo.CARD_INFO, "KEY_card_info_PRIMARY", CardInfo.CARD_INFO.ID);
         public static final UniqueKey<CardInfoRecord> KEY_CARD_INFO_CARD_INFO_ID_UINDEX = Internal.createUniqueKey(CardInfo.CARD_INFO, "KEY_card_info_card_info_id_uindex", CardInfo.CARD_INFO.ID);
         public static final UniqueKey<CardOrderInfoRecord> KEY_CARD_ORDER_INFO_PRIMARY = Internal.createUniqueKey(CardOrderInfo.CARD_ORDER_INFO, "KEY_card_order_info_PRIMARY", CardOrderInfo.CARD_ORDER_INFO.ID);

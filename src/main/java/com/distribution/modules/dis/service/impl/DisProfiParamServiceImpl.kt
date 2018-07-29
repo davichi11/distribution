@@ -15,6 +15,7 @@ import com.distribution.modules.dis.entity.DisProfitRecord
 import com.distribution.modules.dis.service.DisProfiParamService
 import com.distribution.weixin.service.WeiXinService
 import com.google.common.collect.Lists
+import kotlinx.coroutines.experimental.async
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage
 import org.springframework.beans.factory.annotation.Autowired
@@ -248,10 +249,12 @@ class DisProfiParamServiceImpl : DisProfiParamService {
         profitRecord.addTime = DateUtils.formatDateTime(LocalDateTime.now())
         profitRecord.id = CommonUtils.uuid
         disProfitRecordMapper.insert(profitRecord)
-        //公众号给用户发送消息
-        val templateMessage = buildTemplateMsg(member.openId, money,
-                member.disUserName, account.memberAmount)
-        weiXinService.sendTemplateMsg(templateMessage)
+        async {
+            //公众号给用户发送消息
+            val templateMessage = buildTemplateMsg(member.openId, money,
+                    member.disUserName, account.memberAmount)
+            weiXinService.sendTemplateMsg(templateMessage)
+        }
     }
 
     /**

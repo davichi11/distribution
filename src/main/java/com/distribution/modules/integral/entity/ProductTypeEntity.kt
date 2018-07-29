@@ -41,7 +41,8 @@ data class ProductTypeEntity(
 
         var prodType: String = "",
 
-        var exchangePercent: Double = 0.00
+        var exchangePercent: Double = 0.00,
+        var isDelete: String = "1"
 ) : Serializable {
     companion object {
         private const val serialVersionUID = 1L

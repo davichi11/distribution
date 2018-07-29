@@ -4,6 +4,8 @@
 package com.distribution.pojo;
 
 
+import com.distribution.pojo.tables.AdPicture;
+import com.distribution.pojo.tables.ArticleInfo;
 import com.distribution.pojo.tables.CardInfo;
 import com.distribution.pojo.tables.CardOrderInfo;
 import com.distribution.pojo.tables.DisDictionary;
@@ -66,12 +68,22 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Distribution extends SchemaImpl {
 
-    private static final long serialVersionUID = -1185982045;
+    private static final long serialVersionUID = -1388964126;
 
     /**
      * The reference instance of <code>distribution</code>
      */
     public static final Distribution DISTRIBUTION = new Distribution();
+
+    /**
+     * 轮播图
+     */
+    public final AdPicture AD_PICTURE = com.distribution.pojo.tables.AdPicture.AD_PICTURE;
+
+    /**
+     * 文章表
+     */
+    public final ArticleInfo ARTICLE_INFO = com.distribution.pojo.tables.ArticleInfo.ARTICLE_INFO;
 
     /**
      * 可办信用卡信息表
@@ -283,6 +295,8 @@ public class Distribution extends SchemaImpl {
 
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
+            AdPicture.AD_PICTURE,
+            ArticleInfo.ARTICLE_INFO,
             CardInfo.CARD_INFO,
             CardOrderInfo.CARD_ORDER_INFO,
             District.DISTRICT,

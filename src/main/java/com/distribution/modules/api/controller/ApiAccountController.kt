@@ -48,7 +48,6 @@ import java.util.concurrent.TimeUnit
  * @create 2018/6/8-17:28
  */
 @Api("用户账户接口")
-
 @RestController
 @RequestMapping("/api")
 @CrossOrigin

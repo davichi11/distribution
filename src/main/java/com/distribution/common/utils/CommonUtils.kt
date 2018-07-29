@@ -1,6 +1,8 @@
 package com.distribution.common.utils
 
 import org.apache.commons.lang.StringUtils
+import org.commonmark.parser.Parser
+import org.commonmark.renderer.html.HtmlRenderer
 import java.util.*
 
 /**
@@ -12,6 +14,11 @@ import java.util.*
  * @create 2018/4/27-11:24
  */
 object CommonUtils {
+
+    /**
+     * markdown解析器
+     */
+    private val parser = Parser.builder().build()
 
     /**
      * 生成32位的UUID
@@ -44,16 +51,30 @@ object CommonUtils {
      * @return
      */
     fun fuzzyIdCode(idCode: String): String {
-        return if (StringUtils.isBlank(idCode)) {
-            ""
-        } else StringUtils.substring(idCode, 0, 3) + "***********" + StringUtils.substring(idCode, idCode.length - 3, idCode.length)
+        return when {
+            StringUtils.isBlank(idCode) -> ""
+            else -> StringUtils.substring(idCode, 0, 3) + "***********" + StringUtils.substring(idCode, idCode.length - 3, idCode.length)
+        }
     }
 
     fun fuzzyMobile(mobile: String): String {
-        return if (StringUtils.isBlank(mobile)) {
-            ""
-        } else StringUtils.substring(mobile, 0, 3) + "*****" + StringUtils.substring(mobile, mobile.length - 3, mobile.length)
+        return when {
+            StringUtils.isBlank(mobile) -> ""
+            else -> StringUtils.substring(mobile, 0, 3) + "*****" + StringUtils.substring(mobile, mobile.length - 3, mobile.length)
+        }
 
+    }
+
+    fun mdToHtml(value: String): String {
+        return when {
+            value.isEmpty() -> ""
+            else -> {
+                val s = value.replace("<!--more-->", "\r\n")
+                val document = parser.parse(s)
+                val renderer = HtmlRenderer.builder().build()
+                renderer.render(document)
+            }
+        }
     }
 
 

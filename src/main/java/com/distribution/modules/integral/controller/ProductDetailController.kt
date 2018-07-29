@@ -79,7 +79,7 @@ class ProductDetailController {
             productDetail.insert()
             if (CollectionUtils.isNotEmpty(detailVO.params)) {
                 val paramsRecords = ArrayList<ProductDetailParamsRecord>()
-                detailVO.params!!.forEach { params ->
+                detailVO.params.forEach { params ->
                     val paramsRecord = create.newRecord(Tables.PRODUCT_DETAIL_PARAMS)
                     BeanUtils.copyProperties(params, paramsRecord)
                     paramsRecord.detailId = id
@@ -106,7 +106,7 @@ class ProductDetailController {
             BeanUtils.copyProperties(productDetail, detail)
             detail.update()
             if (CollectionUtils.isNotEmpty(productDetail.params)) {
-                productDetail.params!!.forEach { param ->
+                productDetail.params.forEach { param ->
                     val paramsRecord = create.newRecord(Tables.PRODUCT_DETAIL_PARAMS)
                     BeanUtils.copyProperties(param, paramsRecord)
                     paramsRecord.update()
@@ -128,9 +128,15 @@ class ProductDetailController {
     fun delete(@RequestBody ids: Array<String>): Result {
         try {
             if (ids.size == 1) {
-                productDetailService.delete(ids[0])
+                val productDetail = productDetailService.queryObject(ids[0])
+                productDetail.isDelete = "0"
+                productDetailService.update(productDetail)
             } else {
-                productDetailService.deleteBatch(ids)
+                ids.forEach {
+                    val productDetail = productDetailService.queryObject(it)
+                    productDetail.isDelete = "0"
+                    productDetailService.update(productDetail)
+                }
             }
         } catch (e: Exception) {
             log.error("删除积分兑换产品列表异常", e)

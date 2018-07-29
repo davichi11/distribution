@@ -4,6 +4,8 @@
 package com.distribution.pojo;
 
 
+import com.distribution.pojo.tables.AdPicture;
+import com.distribution.pojo.tables.ArticleInfo;
 import com.distribution.pojo.tables.CardInfo;
 import com.distribution.pojo.tables.CardOrderInfo;
 import com.distribution.pojo.tables.DisDictionary;
@@ -64,6 +66,8 @@ public class Indexes {
     // INDEX definitions
     // -------------------------------------------------------------------------
 
+    public static final Index AD_PICTURE_PRIMARY = Indexes0.AD_PICTURE_PRIMARY;
+    public static final Index ARTICLE_INFO_PRIMARY = Indexes0.ARTICLE_INFO_PRIMARY;
     public static final Index CARD_INFO_CARD_INFO_ID_UINDEX = Indexes0.CARD_INFO_CARD_INFO_ID_UINDEX;
     public static final Index CARD_INFO_PRIMARY = Indexes0.CARD_INFO_PRIMARY;
     public static final Index CARD_ORDER_INFO_CARD_ORDER_INFO_ID_UINDEX = Indexes0.CARD_ORDER_INFO_CARD_ORDER_INFO_ID_UINDEX;
@@ -138,6 +142,8 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     private static class Indexes0 {
+        public static Index AD_PICTURE_PRIMARY = Internal.createIndex("PRIMARY", AdPicture.AD_PICTURE, new OrderField[] { AdPicture.AD_PICTURE.ID }, true);
+        public static Index ARTICLE_INFO_PRIMARY = Internal.createIndex("PRIMARY", ArticleInfo.ARTICLE_INFO, new OrderField[] { ArticleInfo.ARTICLE_INFO.ID }, true);
         public static Index CARD_INFO_CARD_INFO_ID_UINDEX = Internal.createIndex("card_info_id_uindex", CardInfo.CARD_INFO, new OrderField[] { CardInfo.CARD_INFO.ID }, true);
         public static Index CARD_INFO_PRIMARY = Internal.createIndex("PRIMARY", CardInfo.CARD_INFO, new OrderField[] { CardInfo.CARD_INFO.ID }, true);
         public static Index CARD_ORDER_INFO_CARD_ORDER_INFO_ID_UINDEX = Internal.createIndex("card_order_info_id_uindex", CardOrderInfo.CARD_ORDER_INFO, new OrderField[] { CardOrderInfo.CARD_ORDER_INFO.ID }, true);

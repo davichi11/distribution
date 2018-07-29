@@ -11,66 +11,27 @@ import javax.validation.constraints.NotNull
  * @Description:
  */
 
-class WithdrawalInfo {
+data class WithdrawalInfo(
+        var id: String? = null,
 
-    var id: String? = null
-        set(id) {
-            field = this.id
-        }
-    var withdrawNum: String? = null
-        set(withdrawNum) {
-            field = this.withdrawNum
-        }
-    /**
-     * 提现状态 0:失败,1:成功
-     */
-    var withdrawType: String? = null
-        set(withdrawType) {
-            field = this.withdrawType
-        }
-    /**
-     * 提现金额
-     */
-    @NotNull
-    var withdrawAmount: BigDecimal? = null
-        set(withdrawAmount) {
-            field = this.withdrawAmount
-        }
-    var withdrawName: String? = null
-        set(withdrawName) {
-            field = this.withdrawName
-        }
-    @NotNull
-    var withdrawMobile: String? = null
-        set(withdrawMobile) {
-            field = this.withdrawMobile
-        }
-    var withdrawCard: String? = null
-        set(withdrawCard) {
-            field = this.withdrawCard
-        }
-    var withdrawPoundage: BigDecimal? = null
-        set(withdrawPoundage) {
-            field = this.withdrawPoundage
-        }
-    var realAmount: BigDecimal? = null
-        set(realAmount) {
-            field = this.realAmount
-        }
-    var aliPayAccount: String? = null
-        set(aliPayAccount) {
-            field = this.aliPayAccount
-        }
-    var isDelete: String? = null
-        set(isDelete) {
-            field = this.isDelete
-        }
-    var addTime: String? = null
-        set(addTime) {
-            field = this.addTime
-        }
-    var updateTime: String? = null
-        set(updateTime) {
-            field = this.updateTime
-        }
-}
+        var withdrawNum: String? = null,
+        /**
+         * 提现状态 0:失败,1:成功
+         */
+        var withdrawType: String? = null,
+        /**
+         * 提现金额
+         */
+        @NotNull
+        var withdrawAmount: BigDecimal? = null,
+        var withdrawName: String? = null,
+        @NotNull
+        var withdrawMobile: String? = null,
+        var withdrawCard: String? = null,
+        var withdrawPoundage: BigDecimal? = null,
+        var realAmount: BigDecimal? = null,
+        var aliPayAccount: String? = null,
+        var isDelete: String? = null,
+        var addTime: String? = null,
+        var updateTime: String? = null
+)

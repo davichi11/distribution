@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PosApply extends TableImpl<PosApplyRecord> {
 
-    private static final long serialVersionUID = 204413083;
+    private static final long serialVersionUID = 1826312202;
 
     /**
      * The reference instance of <code>distribution.pos_apply</code>
@@ -82,6 +82,16 @@ public class PosApply extends TableImpl<PosApplyRecord> {
      * The column <code>distribution.pos_apply.attribute</code>. 连锁属性 0:非连锁,1:连锁
      */
     public final TableField<PosApplyRecord, Boolean> ATTRIBUTE = createField("attribute", org.jooq.impl.SQLDataType.BOOLEAN.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BOOLEAN)), this, "连锁属性 0:非连锁,1:连锁");
+
+    /**
+     * The column <code>distribution.pos_apply.add_time</code>. 申请时间
+     */
+    public final TableField<PosApplyRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "申请时间");
+
+    /**
+     * The column <code>distribution.pos_apply.is_delete</code>. 是否启用 0否 1是
+     */
+    public final TableField<PosApplyRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.CHAR(1).nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.CHAR)), this, "是否启用 0否 1是");
 
     /**
      * Create a <code>distribution.pos_apply</code> table reference

@@ -11,6 +11,7 @@ import com.distribution.modules.dis.entity.CardOrderInfoEntity
 import com.distribution.modules.dis.service.CardOrderInfoService
 import com.distribution.modules.dis.service.DisProfiParamService
 import com.distribution.queue.LevelUpSender
+import kotlinx.coroutines.experimental.async
 import org.apache.commons.collections.MapUtils
 import org.apache.commons.lang.StringUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -101,20 +102,23 @@ class CardOrderInfoServiceImpl : CardOrderInfoService {
         val status = MapUtils.getIntValue(map, "orderStatus", 0)
         //订单成功后调用分润
         if (1 == status) {
-            val cardOrderInfoEntityList = cardOrderInfoDao.queryListByIds(map["ids"] as List<*>)
-            for (cardOrderInfoEntity in cardOrderInfoEntityList) {
-                val member = disMemberInfoDao.queryObject(cardOrderInfoEntity.memberInfo!!.id!!)
-                //如果当前办卡人和其上级都是非会员,则跳过分润
-                if ("0" == member.disUserType && "0" == member.disMemberParent!!.disUserType) {
-                    continue
-                }
-                //调用分润
-                disProfiParamService.doFeeSplitting(member, cardOrderInfoEntity.cardInfo!!.rebate, false)
-                if ("0" == member.disMemberParent!!.disUserType) {
-                    //执行会员升级
-                    levelUpSender.send(JSON.toJSONString(member.disMemberParent))
+            async {
+                val cardOrderInfoEntityList = cardOrderInfoDao.queryListByIds(map["ids"] as List<*>)
+                for (cardOrderInfoEntity in cardOrderInfoEntityList) {
+                    val member = disMemberInfoDao.queryObject(cardOrderInfoEntity.memberInfo!!.id!!)
+                    //如果当前办卡人和其上级都是非会员,则跳过分润
+                    if ("0" == member.disUserType && "0" == member.disMemberParent!!.disUserType) {
+                        continue
+                    }
+                    //调用分润
+                    disProfiParamService.doFeeSplitting(member, cardOrderInfoEntity.cardInfo!!.rebate, false)
+                    if ("0" == member.disMemberParent!!.disUserType) {
+                        //执行会员升级
+                        levelUpSender.send(JSON.toJSONString(member.disMemberParent))
+                    }
                 }
             }
         }
     }
+
 }

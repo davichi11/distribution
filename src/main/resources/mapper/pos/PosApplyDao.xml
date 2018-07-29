@@ -11,6 +11,7 @@
         <result property="merchants" column="merchants"/>
         <result property="areaCode" column="area_code"/>
         <result property="attribute" column="attribute"/>
+        <result property="isDelete" column="is_delete"/>
     </resultMap>
 
     <select id="queryObject" resultMap="posApplyMap">
@@ -21,6 +22,7 @@
 
     <select id="queryList" resultMap="posApplyMap">
         select * from pos_apply
+        where is_delete = '1'
         <choose>
             <when test="sidx != null and sidx.trim() != ''">
                 order by ${sidx} ${order}
@@ -50,7 +52,10 @@
                 `area_code`,
             </if>
             <if test="attribute != null">
-                `attribute`
+                `attribute`,
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                `is_delete`
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -74,7 +79,10 @@
                 ,
             </if>
             <if test="attribute != null">
-                #{attribute}
+                #{attribute},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                #{isDelete}
             </if>
         </trim>
     </insert>
@@ -99,7 +107,10 @@
                 ,
             </if>
             <if test="attribute != null">
-                `attribute` = #{attribute}
+                `attribute` = #{attribute},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                `is_delete` = #{isDelete}
             </if>
         </set>
         where id = #{id}

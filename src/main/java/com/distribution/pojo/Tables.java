@@ -4,6 +4,8 @@
 package com.distribution.pojo;
 
 
+import com.distribution.pojo.tables.AdPicture;
+import com.distribution.pojo.tables.ArticleInfo;
 import com.distribution.pojo.tables.CardInfo;
 import com.distribution.pojo.tables.CardOrderInfo;
 import com.distribution.pojo.tables.DisDictionary;
@@ -57,6 +59,16 @@ import javax.annotation.Generated;
 )
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Tables {
+
+    /**
+     * 轮播图
+     */
+    public static final AdPicture AD_PICTURE = com.distribution.pojo.tables.AdPicture.AD_PICTURE;
+
+    /**
+     * 文章表
+     */
+    public static final ArticleInfo ARTICLE_INFO = com.distribution.pojo.tables.ArticleInfo.ARTICLE_INFO;
 
     /**
      * 可办信用卡信息表

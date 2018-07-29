@@ -45,7 +45,8 @@ data class ProductDetailEntity(
         /**
          * 兑换次数
          */
-        var prodDetailCount: String = ""
+        var prodDetailCount: String = "",
+        var isDelete: String = "1"
 ) : Serializable {
 
     companion object {

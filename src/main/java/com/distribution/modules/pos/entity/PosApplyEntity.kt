@@ -28,5 +28,6 @@ data class PosApplyEntity(
          * 连锁属性 0:非连锁,1:连锁
          */
         var attribute: Int = 0,
-        var addTime: String = DateUtils.formatDateTime(LocalDateTime.now())
+        var addTime: String = DateUtils.formatDateTime(LocalDateTime.now()),
+        var isDelete: String = "1"
 ) : Serializable

@@ -17,7 +17,7 @@ import java.io.InputStream
 
 class AliyunAbstractCloudStorageService(config: CloudStorageConfig) : AbstractCloudStorageService() {
     private var client: OSSClient? = null
-    private val log= LoggerFactory.getLogger(AliyunAbstractCloudStorageService::class.java)
+    private val log = LoggerFactory.getLogger(AliyunAbstractCloudStorageService::class.java)
 
     init {
         this.config = config
@@ -48,7 +48,7 @@ class AliyunAbstractCloudStorageService(config: CloudStorageConfig) : AbstractCl
     }
 
     override fun upload(data: ByteArray): String {
-        return upload(data, getPath(config!!.aliyunPrefix!!))
+        return upload(data, getPath(config!!.aliyunPrefix ?: ""))
     }
 
     override fun upload(inputStream: InputStream): String {

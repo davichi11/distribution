@@ -29,7 +29,7 @@ class OAuth2Filter : AuthenticatingFilter() {
 
         return if (StringUtils.isBlank(token)) {
             null
-        } else OAuth2Token(token)
+        } else OAuth2Token(token!!)
 
     }
 
@@ -72,7 +72,7 @@ class OAuth2Filter : AuthenticatingFilter() {
     /**
      * 获取请求的token
      */
-    private fun getRequestToken(httpRequest: HttpServletRequest): String {
+    private fun getRequestToken(httpRequest: HttpServletRequest): String? {
         //从header中获取token
         var token = httpRequest.getHeader("token")
 
