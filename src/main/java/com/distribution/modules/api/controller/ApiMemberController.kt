@@ -28,6 +28,7 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
+import kotlinx.coroutines.experimental.launch
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage
 import org.apache.commons.collections.CollectionUtils
@@ -153,8 +154,8 @@ class ApiMemberController {
     @GetMapping("/memberAccount/{mobile}")
     @ApiOperation(value = "查询用户账户信息")
     fun memberAccountInfo(@PathVariable("mobile") mobile: String): Result {
-        val memberAccount = Optional.ofNullable(memberAccountService.selectMemberAccountByUserId(mobile))
-                .orElse(MemberAccount())
+        val memberAccount = memberAccountService.selectMemberAccountByUserId(mobile) ?: MemberAccount()
+
         return Result().ok().put("alipayAccount", memberAccount.aliPayAccount)
     }
 
@@ -191,8 +192,8 @@ class ApiMemberController {
                 return Result().error(msg = "token不能为空")
             }
         }
-        val claims = jwtConfig.getClaimByToken(t)
-        val userId = claims!!.subject
+        val userId = jwtConfig.getClaimByToken(t)!!.subject
+//        val userId = claims!!.subject
         val userEntity = userService.queryObject(userId) ?: return Result().error(msg = "请先注册")
         val memberInfoEntity = disMemberInfoService.queryByMobile(userEntity.mobile!!)
         val memberVO = buildMemberVO(userEntity, memberInfoEntity!!)
@@ -225,13 +226,13 @@ class ApiMemberController {
         val fans = disFansService.queryByOpenId(openId)
         //获取上级会员信息
         val parent = fans!!.disMemberInfo ?: return Result().error(msg = "用户不存在")
-        val disFans = disFansService.queryByOpenId(parent.openId!!)
+        val disFans = disFansService.queryByOpenId(parent.openId!!) ?: return Result().error(msg = "用户不存在")
         val memberVO = DisMemberVO()
         memberVO.disUserName = parent.disUserName!!
         memberVO.disUserType = parent.disLevel.toString()
         memberVO.mobile = userService.queryByMemberId(parent.id!!)!!.mobile!!
         memberVO.openId = parent.openId!!
-        memberVO.nickName = disFans!!.wechatNickname
+        memberVO.nickName = disFans.wechatNickname
         memberVO.imgUrl = disFans.wechatImg
         memberVO.disLevel = parent.disLevel!!
 
@@ -273,19 +274,18 @@ class ApiMemberController {
             return Result().error(msg = "验证码不正确")
         }
         val userEntity = userService.queryByMobile(oldMobile) ?: return Result().error(msg = "用户不存在")
-        val userEntityt = userService.queryByMobile(mobile)
-        if (userEntityt != null) {
+        if (userService.queryByMobile(mobile) != null) {
             return Result().error(msg = "该手机号己被注册")
         }
         userEntity.mobile = mobile
-        try {
+
+        return try {
             userService.update(userEntity)
+            Result().ok("更新用户手机号成功")
         } catch (e: Exception) {
             log.error("更新用户手机号异常", e)
             return Result().error(msg = "更新用户手机号异常")
         }
-
-        return Result().ok("更新用户手机号成功")
     }
 
     @AuthIgnore
@@ -320,16 +320,16 @@ class ApiMemberController {
     )
     @PatchMapping("/disMember/{mobile}")
     fun updateMemberInfo(@PathVariable("mobile") mobile: String, @RequestBody memberVO: DisMemberVO): Result {
-        val member = disMemberInfoService.queryByMobile(mobile)!!
+        val member = disMemberInfoService.queryByMobile(mobile) ?: return Result().error(msg = "用户不存在")
         BeanUtils.copyProperties(memberVO, member)
-        try {
+        return try {
             disMemberInfoService.update(member)
+            Result().ok("更新成功")
         } catch (e: Exception) {
             log.error("更新会员信息异常", e)
             return Result().error(msg = "更新会员信息异常")
         }
 
-        return Result().ok("更新成功")
     }
 
 
@@ -357,8 +357,8 @@ class ApiMemberController {
                 return "failure"
             }
             //从回传参数中取出购买的会员等级
-            val level = params["passback_params"]!!
-            if (StringUtils.isBlank(level)) {
+            val level = params["passback_params"]
+            if (level == null || level.isBlank()) {
                 log.info("回传参数中没有会员等级")
                 return "failure"
             }
@@ -372,9 +372,9 @@ class ApiMemberController {
             }
             orderHistoryService.updateOrderStatus(1, orderNo)
             //根据支付宝账户查询对应的会员信息
-            val member = disMemberInfoService.queryByMobile(orderHistory.mobile)
+            val member = disMemberInfoService.queryByMobile(orderHistory.mobile)!!
             //构造模板消息
-            val templateMessage = buildTemplateMsg(member!!.openId!!, member.disLevel.toString(),
+            val templateMessage = buildTemplateMsg(member.openId!!, member.disLevel.toString(),
                     level, member.disUserName!!)
             //升级会员
             member.disLevel = NumberUtils.toInt(level)
@@ -390,9 +390,11 @@ class ApiMemberController {
                 "2" -> money = 200.00
                 "3" -> money = 100.00
             }
-            profiParamService.doFeeSplitting(member, money, true)
-            //生级成功发送消息
-            weiXinService.sendTemplateMsg(templateMessage)
+            launch {
+                profiParamService.doFeeSplitting(member, money, true)
+                //生级成功发送消息
+                weiXinService.sendTemplateMsg(templateMessage)
+            }
             return "success"
 
         } catch (e: AlipayApiException) {

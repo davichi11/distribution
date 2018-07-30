@@ -7,6 +7,8 @@ import com.distribution.modules.integral.dao.IntegralOrderDao
 import com.distribution.modules.integral.entity.IntegralOrderEntity
 import com.distribution.modules.integral.service.IntegralOrderService
 import com.distribution.queue.LevelUpSender
+import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -49,8 +51,10 @@ class IntegralOrderServiceImpl : IntegralOrderService {
             if ("0" == member.disUserType && "0" == member.disMemberParent!!.disUserType) {
                 return
             }
-            //调用分润
-            disProfiParamService.doFeeSplitting(member, integralOrder.profiMoney, false)
+            launch {
+                //调用分润
+                disProfiParamService.doFeeSplitting(member, integralOrder.profiMoney, false)
+            }
             if ("0" == member.disMemberParent!!.disUserType) {
                 //执行会员升级
                 levelUpSender.send(JSON.toJSONString(member.disMemberParent))

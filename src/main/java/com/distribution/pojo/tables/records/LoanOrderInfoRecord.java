@@ -5,13 +5,14 @@ package com.distribution.pojo.tables.records;
 
 
 import com.distribution.pojo.tables.LoanOrderInfo;
+
+import javax.annotation.Generated;
+
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record12;
 import org.jooq.Row12;
 import org.jooq.impl.UpdatableRecordImpl;
-
-import javax.annotation.Generated;
 
 
 /**

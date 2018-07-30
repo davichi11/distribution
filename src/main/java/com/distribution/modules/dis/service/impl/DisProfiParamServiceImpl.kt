@@ -15,7 +15,7 @@ import com.distribution.modules.dis.entity.DisProfitRecord
 import com.distribution.modules.dis.service.DisProfiParamService
 import com.distribution.weixin.service.WeiXinService
 import com.google.common.collect.Lists
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage
 import org.springframework.beans.factory.annotation.Autowired
@@ -240,7 +240,7 @@ class DisProfiParamServiceImpl : DisProfiParamService {
         //保存分润记录
         val profitRecord = DisProfitRecord()
         profitRecord.disGetUserId = member.id!!
-        profitRecord.disSetUserId = member.disMemberParent!!.id!!
+        profitRecord.disSetUserId = member.disMemberParent?.id ?: ""
         profitRecord.disAmount = money
         profitRecord.disProType = "1"
         profitRecord.disNote = ""
@@ -249,7 +249,7 @@ class DisProfiParamServiceImpl : DisProfiParamService {
         profitRecord.addTime = DateUtils.formatDateTime(LocalDateTime.now())
         profitRecord.id = CommonUtils.uuid
         disProfitRecordMapper.insert(profitRecord)
-        async {
+        launch {
             //公众号给用户发送消息
             val templateMessage = buildTemplateMsg(member.openId, money,
                     member.disUserName, account.memberAmount)
@@ -266,7 +266,7 @@ class DisProfiParamServiceImpl : DisProfiParamService {
      * @param balance 账户余额
      * @return
      */
-    private fun buildTemplateMsg(openId: String?, money: BigDecimal, name: String?, balance: BigDecimal?): WxMpTemplateMessage {
+    private suspend fun buildTemplateMsg(openId: String?, money: BigDecimal, name: String?, balance: BigDecimal?): WxMpTemplateMessage {
         val wxMpTemplateMessage = WxMpTemplateMessage()
         wxMpTemplateMessage.templateId = "8PktExsPLnwT5Z6IXFuTsMhLIHzfY0m4MZxqBbeQvEg"
         wxMpTemplateMessage.toUser = openId

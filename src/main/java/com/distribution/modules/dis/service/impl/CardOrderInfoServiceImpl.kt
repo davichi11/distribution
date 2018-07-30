@@ -11,9 +11,10 @@ import com.distribution.modules.dis.entity.CardOrderInfoEntity
 import com.distribution.modules.dis.service.CardOrderInfoService
 import com.distribution.modules.dis.service.DisProfiParamService
 import com.distribution.queue.LevelUpSender
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.experimental.launch
 import org.apache.commons.collections.MapUtils
 import org.apache.commons.lang.StringUtils
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -30,6 +31,8 @@ class CardOrderInfoServiceImpl : CardOrderInfoService {
     private lateinit var disProfiParamService: DisProfiParamService
     @Autowired
     private lateinit var disMemberInfoDao: DisMemberInfoDao
+
+    private val log = LoggerFactory.getLogger(CardOrderInfoServiceImpl::class.java)
 
     override fun queryObject(id: String): CardOrderInfoEntity {
         return cardOrderInfoDao.queryObject(id)
@@ -102,7 +105,7 @@ class CardOrderInfoServiceImpl : CardOrderInfoService {
         val status = MapUtils.getIntValue(map, "orderStatus", 0)
         //订单成功后调用分润
         if (1 == status) {
-            async {
+            launch {
                 val cardOrderInfoEntityList = cardOrderInfoDao.queryListByIds(map["ids"] as List<*>)
                 for (cardOrderInfoEntity in cardOrderInfoEntityList) {
                     val member = disMemberInfoDao.queryObject(cardOrderInfoEntity.memberInfo!!.id!!)
