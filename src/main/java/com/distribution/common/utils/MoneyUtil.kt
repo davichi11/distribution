@@ -8,9 +8,9 @@ object MoneyUtil {
         return money.cent
     }
 
-    @JvmStatic
-    fun main(args: Array<String>) {
-        println(convertMoney2Cent("20.02"))
-    }
+//    @JvmStatic
+//    fun main(args: Array<String>) {
+//        println(convertMoney2Cent("20.02"))
+//    }
 
 }

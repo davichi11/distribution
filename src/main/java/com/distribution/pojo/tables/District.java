@@ -31,7 +31,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class District extends TableImpl<DistrictRecord> {
 
-    private static final long serialVersionUID = -2071067526;
+    private static final long serialVersionUID = 1105727950;
 
     /**
      * The reference instance of <code>distribution.district</code>
@@ -69,7 +69,7 @@ public class District extends TableImpl<DistrictRecord> {
     /**
      * The column <code>distribution.district.order</code>.
      */
-    public final TableField<DistrictRecord, Boolean> ORDER = createField("order", org.jooq.impl.SQLDataType.BOOLEAN, this, "");
+    public final TableField<DistrictRecord, Integer> ORDER = createField("order", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
      * Create a <code>distribution.district</code> table reference

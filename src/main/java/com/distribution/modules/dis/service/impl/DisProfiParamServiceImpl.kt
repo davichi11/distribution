@@ -227,7 +227,7 @@ class DisProfiParamServiceImpl : DisProfiParamService {
      */
     @Throws(Exception::class)
     private fun updateAccont(member: DisMemberInfoEntity, account: MemberAccount, money: BigDecimal) {
-        account.memberAmount = account.memberAmount!!.add(money)
+        account.memberAmount = account.memberAmount.add(money)
         accountMapper.updateByPrimaryKeySelective(account)
         //保存交易记录
         val history = MemberAccountHistory()

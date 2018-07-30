@@ -115,13 +115,12 @@ class ApiMemberController {
         fansParam["memberId"] = member!!.id!!
         val disFansList = disFansService.queryList(fansParam)!!
                 .map { disFans ->
-                    val memberInfo = Optional.ofNullable(disMemberInfoService.queryByOpenId(disFans.wechatId))
-                            .orElse(DisMemberInfoEntity())
+                    val memberInfo = disMemberInfoService.queryByOpenId(disFans.wechatId) ?: DisMemberInfoEntity()
                     getDisMemberVO(disFans, memberInfo)
                 }.filter { vo -> "0" == vo.disUserType }.toList()
 
         //所有代理信息
-        val children = member.disMemberChildren?.filter { m ->  "1" == m.disUserType }?.map { memberInfo ->
+        val children = member.disMemberChildren?.filter { m -> "1" == m.disUserType }?.map { memberInfo ->
             val disFans = Optional.ofNullable(disFansService.queryByOpenId(memberInfo.openId!!)).orElse(DisFans())
             memberInfo.userEntity = userService.queryByMemberId(memberInfo.id!!)!!
             getDisMemberVO(disFans, memberInfo)
@@ -138,12 +137,12 @@ class ApiMemberController {
 
     private fun getDisMemberVO(disFans: DisFans, memberInfo: DisMemberInfoEntity): DisMemberVO {
         val memberVO = DisMemberVO()
-        memberVO.disUserName = memberInfo.disUserName!!
-        memberVO.disUserType = memberInfo.disUserType!!
-        memberVO.disLevel = memberInfo.disLevel!!
-        memberVO.mobile = Optional.ofNullable(memberInfo.userEntity).orElse(UserEntity()).mobile!!
+        memberVO.disUserName = memberInfo.disUserName ?: disFans.wechatNickname
+        memberVO.disUserType = memberInfo.disUserType ?: "0"
+        memberVO.disLevel = memberInfo.disLevel ?: 0
+        memberVO.mobile = memberInfo.userEntity?.mobile ?: ""
         memberVO.openId = disFans.wechatId
-        memberVO.addTime = StringUtils.substring(memberInfo.addTime, 0, 10)
+        memberVO.addTime = StringUtils.substring(memberInfo.addTime ?: "", 0, 10)
         memberVO.nickName = disFans.wechatNickname
         memberVO.imgUrl = disFans.wechatImg
         memberVO.workerId = disFans.workerId
@@ -321,10 +320,10 @@ class ApiMemberController {
     )
     @PatchMapping("/disMember/{mobile}")
     fun updateMemberInfo(@PathVariable("mobile") mobile: String, @RequestBody memberVO: DisMemberVO): Result {
-        val member = disMemberInfoService.queryByMobile(mobile)
+        val member = disMemberInfoService.queryByMobile(mobile)!!
         BeanUtils.copyProperties(memberVO, member)
         try {
-            disMemberInfoService.update(member!!)
+            disMemberInfoService.update(member)
         } catch (e: Exception) {
             log.error("更新会员信息异常", e)
             return Result().error(msg = "更新会员信息异常")

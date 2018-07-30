@@ -5,11 +5,9 @@ import com.distribution.common.utils.OkHttpUtil
 import com.distribution.modules.api.entity.IdCardResponse
 import com.distribution.modules.api.service.IdCardQueryService
 import okhttp3.Request
-import okhttp3.Response
 import org.springframework.stereotype.Service
-
 import java.io.IOException
-import java.util.HashMap
+import java.util.*
 
 /**
  * @author ChunLiang Hu
@@ -35,6 +33,6 @@ class IdCardQueryServiceImpl : IdCardQueryService {
             return false
         }
         val query = JSON.parseObject(response.body()!!.string(), IdCardResponse::class.java)
-        return query.errorCode == 0 && query.result!!.res == 1
+        return query.errorCode == 0 && query.result.res == 1
     }
 }

@@ -22,7 +22,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LoanInfo implements Serializable {
 
-    private static final long serialVersionUID = -242504504;
+    private static final long serialVersionUID = -314245580;
 
     private String  id;
     private String  loanName;
@@ -30,7 +30,7 @@ public class LoanInfo implements Serializable {
     private String  loanImg;
     private String  addTime;
     private String  updateTime;
-    private Boolean isDelete;
+    private Integer isDelete;
     private String  remark;
 
     public LoanInfo() {}
@@ -53,7 +53,7 @@ public class LoanInfo implements Serializable {
         String  loanImg,
         String  addTime,
         String  updateTime,
-        Boolean isDelete,
+        Integer isDelete,
         String  remark
     ) {
         this.id = id;
@@ -114,11 +114,11 @@ public class LoanInfo implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public Boolean getIsDelete() {
+    public Integer getIsDelete() {
         return this.isDelete;
     }
 
-    public void setIsDelete(Boolean isDelete) {
+    public void setIsDelete(Integer isDelete) {
         this.isDelete = isDelete;
     }
 

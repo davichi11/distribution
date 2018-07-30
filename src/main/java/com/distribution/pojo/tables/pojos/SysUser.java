@@ -23,7 +23,7 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysUser implements Serializable {
 
-    private static final long serialVersionUID = 1453135990;
+    private static final long serialVersionUID = 809144802;
 
     private Long      userId;
     private String    username;
@@ -31,7 +31,7 @@ public class SysUser implements Serializable {
     private String    salt;
     private String    email;
     private String    mobile;
-    private Boolean   status;
+    private Integer   status;
     private Long      createUserId;
     private Timestamp createTime;
 
@@ -56,7 +56,7 @@ public class SysUser implements Serializable {
         String    salt,
         String    email,
         String    mobile,
-        Boolean   status,
+        Integer   status,
         Long      createUserId,
         Timestamp createTime
     ) {
@@ -119,11 +119,11 @@ public class SysUser implements Serializable {
         this.mobile = mobile;
     }
 
-    public Boolean getStatus() {
+    public Integer getStatus() {
         return this.status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

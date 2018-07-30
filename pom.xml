@@ -413,6 +413,12 @@
             <artifactId>commonmark</artifactId>
             <version>0.9.0</version>
         </dependency>
+        <!--emoji表情处理-->
+        <dependency>
+            <groupId>com.vdurmont</groupId>
+            <artifactId>emoji-java</artifactId>
+            <version>3.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -512,9 +518,9 @@
                     <!-- JDBC connection parameters -->
                     <jdbc>
                         <driver>com.mysql.jdbc.Driver</driver>
-                        <url>jdbc:mysql://localhost:3306</url>
+                        <url>jdbc:mysql://47.105.53.69:3306</url>
                         <user>root</user>
-                        <password>admin</password>
+                        <password>root</password>
                     </jdbc>
                     <generator>
                         <database>
@@ -533,7 +539,7 @@
                             <!--强制类型-->
                             <forcedTypes>
                                 <forcedType>
-                                    <name>BOOLEAN</name>
+                                    <name>INT</name>
                                     <types>(?i:TINYINT(\s*\(\d+\))?(\s*UNSIGNED)?)</types>
                                 </forcedType>
                             </forcedTypes>

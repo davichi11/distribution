@@ -22,14 +22,14 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PosApply implements Serializable {
 
-    private static final long serialVersionUID = 398335998;
+    private static final long serialVersionUID = 986063702;
 
     private String  id;
     private String  name;
     private Long    mobile;
     private String  merchants;
     private String  areaCode;
-    private Boolean attribute;
+    private Integer attribute;
     private String  addTime;
     private String  isDelete;
 
@@ -52,7 +52,7 @@ public class PosApply implements Serializable {
         Long    mobile,
         String  merchants,
         String  areaCode,
-        Boolean attribute,
+        Integer attribute,
         String  addTime,
         String  isDelete
     ) {
@@ -106,11 +106,11 @@ public class PosApply implements Serializable {
         this.areaCode = areaCode;
     }
 
-    public Boolean getAttribute() {
+    public Integer getAttribute() {
         return this.attribute;
     }
 
-    public void setAttribute(Boolean attribute) {
+    public void setAttribute(Integer attribute) {
         this.attribute = attribute;
     }
 

@@ -1,10 +1,9 @@
 package com.distribution.modules.sys.entity
 
-
-import org.hibernate.validator.constraints.NotBlank
 import org.springframework.format.annotation.DateTimeFormat
 import java.io.Serializable
 import java.time.LocalDateTime
+import javax.validation.constraints.NotBlank
 
 /**
  * 角色

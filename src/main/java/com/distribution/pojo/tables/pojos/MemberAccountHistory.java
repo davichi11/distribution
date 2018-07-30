@@ -23,10 +23,10 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MemberAccountHistory implements Serializable {
 
-    private static final long serialVersionUID = 2014659786;
+    private static final long serialVersionUID = 1493522466;
 
     private String     id;
-    private Boolean    hisType;
+    private Integer    hisType;
     private String     accountId;
     private BigDecimal hisAmount;
     private String     hisNote;
@@ -49,7 +49,7 @@ public class MemberAccountHistory implements Serializable {
 
     public MemberAccountHistory(
         String     id,
-        Boolean    hisType,
+        Integer    hisType,
         String     accountId,
         BigDecimal hisAmount,
         String     hisNote,
@@ -75,11 +75,11 @@ public class MemberAccountHistory implements Serializable {
         this.id = id;
     }
 
-    public Boolean getHisType() {
+    public Integer getHisType() {
         return this.hisType;
     }
 
-    public void setHisType(Boolean hisType) {
+    public void setHisType(Integer hisType) {
         this.hisType = hisType;
     }
 

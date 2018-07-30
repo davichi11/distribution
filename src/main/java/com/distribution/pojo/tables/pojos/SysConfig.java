@@ -22,12 +22,12 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysConfig implements Serializable {
 
-    private static final long serialVersionUID = -870992844;
+    private static final long serialVersionUID = 568855476;
 
     private Long    id;
     private String  key;
     private String  value;
-    private Boolean status;
+    private Integer status;
     private String  remark;
 
     public SysConfig() {}
@@ -44,7 +44,7 @@ public class SysConfig implements Serializable {
         Long    id,
         String  key,
         String  value,
-        Boolean status,
+        Integer status,
         String  remark
     ) {
         this.id = id;
@@ -78,11 +78,11 @@ public class SysConfig implements Serializable {
         this.value = value;
     }
 
-    public Boolean getStatus() {
+    public Integer getStatus() {
         return this.status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

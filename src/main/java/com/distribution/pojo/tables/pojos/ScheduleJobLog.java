@@ -23,14 +23,14 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ScheduleJobLog implements Serializable {
 
-    private static final long serialVersionUID = -852880497;
+    private static final long serialVersionUID = 1989857807;
 
     private Long      logId;
     private Long      jobId;
     private String    beanName;
     private String    methodName;
     private String    params;
-    private Boolean   status;
+    private Integer   status;
     private String    error;
     private Integer   times;
     private Timestamp createTime;
@@ -55,7 +55,7 @@ public class ScheduleJobLog implements Serializable {
         String    beanName,
         String    methodName,
         String    params,
-        Boolean   status,
+        Integer   status,
         String    error,
         Integer   times,
         Timestamp createTime
@@ -111,11 +111,11 @@ public class ScheduleJobLog implements Serializable {
         this.params = params;
     }
 
-    public Boolean getStatus() {
+    public Integer getStatus() {
         return this.status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

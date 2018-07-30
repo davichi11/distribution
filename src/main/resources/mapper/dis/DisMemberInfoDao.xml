@@ -20,7 +20,7 @@
         <result property="isDelete" column="is_delete"/>
         <association property="userEntity" column="dis_user_id"
                      javaType="com.distribution.modules.api.entity.UserEntity">
-            <id property="user_id" column="u_id"/>
+            <id property="userId" column="u_id"/>
             <result property="username" column="username"/>
             <result property="mobile" column="mobile"/>
         </association>
@@ -61,7 +61,7 @@
             m.add_time,
             m.update_time,
             m.is_delete,
-            u.user_id,
+            u.user_id as "u_id",
             u.username,
             u.mobile,
             p.id            "p_id",
@@ -102,7 +102,7 @@
         m.add_time,
         m.update_time,
         m.is_delete,
-        u.user_id,
+        u.user_id as "u_id",
         u.username,
         u.mobile,
         p.id "p_id",
@@ -140,7 +140,7 @@
                 and m.dis_model_id = #{parent_id}
             </if>
             <if test="mobile != null and mobile != ''">
-                and u.mobile = #{mobile}
+                and u.mobile like concat('%',#{mobile},'%')
             </if>
             <if test="openIds != null">
                 and m.open_id in
@@ -331,28 +331,11 @@
             m.add_time,
             m.update_time,
             m.is_delete,
-            u.user_id,
+            u.user_id as "u_id",
             u.username,
-            u.mobile,
-            p.id            "p_id",
-            p.dis_user_id   "p_user_id",
-            p.dis_user_name "p_name",
-            p.dis_user_type "p_dis_user_type",
-            p.dis_model_id  "p_dis_model_id",
-            p.open_id       "p_open_id",
-            p.dis_level     "p_dis_level",
-            p.add_time      "p_add_time",
-            c.id            "c_id",
-            c.dis_user_id   "c_user_id",
-            c.dis_user_type "c_dis_user_type",
-            c.open_id       "c_open_id",
-            c.dis_level     "c_dis_level",
-            c.add_time      "c_add_time",
-            c.dis_user_name "c_name"
+            u.mobile
         from distribution.dis_member_info m
             left join distribution.tb_user u on u.user_id = m.dis_user_id
-            left join dis_member_info p on m.dis_model_id = p.id
-            left join dis_member_info c on c.dis_model_id = m.id
         where m.open_id = #{openId}
     </select>
     <select id="queryByMobile" resultMap="disMemberInfoMap">
@@ -371,7 +354,7 @@
             m.add_time,
             m.update_time,
             m.is_delete,
-            u.user_id,
+            u.user_id as "u_id",
             u.username,
             u.mobile,
             p.id            "p_id",

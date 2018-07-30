@@ -19,13 +19,13 @@ data class ScheduleJobEntity(
         /**
          * spring bean名称
          */
-        @org.hibernate.validator.constraints.NotBlank(message = "bean名称不能为空")
+        @javax.validation.constraints.NotBlank(message = "bean名称不能为空")
         var beanName: String? = null,
 
         /**
          * 方法名
          */
-        @org.hibernate.validator.constraints.NotBlank(message = "方法名称不能为空")
+        @javax.validation.constraints.NotBlank(message = "方法名称不能为空")
         var methodName: String? = null,
 
         /**
@@ -36,7 +36,7 @@ data class ScheduleJobEntity(
         /**
          * cron表达式
          */
-        @org.hibernate.validator.constraints.NotBlank(message = "cron表达式不能为空")
+        @javax.validation.constraints.NotBlank(message = "cron表达式不能为空")
         var cronExpression: String? = null,
 
         /**

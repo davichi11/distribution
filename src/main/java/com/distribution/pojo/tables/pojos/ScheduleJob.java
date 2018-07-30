@@ -23,14 +23,14 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ScheduleJob implements Serializable {
 
-    private static final long serialVersionUID = -115723548;
+    private static final long serialVersionUID = 335970168;
 
     private Long      jobId;
     private String    beanName;
     private String    methodName;
     private String    params;
     private String    cronExpression;
-    private Boolean   status;
+    private Integer   status;
     private String    remark;
     private Timestamp createTime;
 
@@ -53,7 +53,7 @@ public class ScheduleJob implements Serializable {
         String    methodName,
         String    params,
         String    cronExpression,
-        Boolean   status,
+        Integer   status,
         String    remark,
         Timestamp createTime
     ) {
@@ -107,11 +107,11 @@ public class ScheduleJob implements Serializable {
         this.cronExpression = cronExpression;
     }
 
-    public Boolean getStatus() {
+    public Integer getStatus() {
         return this.status;
     }
 
-    public void setStatus(Boolean status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

@@ -35,7 +35,7 @@ class SysLogController {
     fun list(@RequestParam params: Map<String, Any>): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page", 0)!!,
-                MapUtils.getInteger(params, "limit", 0)!!).doSelectPageInfo<SysLogEntity> { sysLogService!!.queryList(params) }
+                MapUtils.getInteger(params, "limit", 0)!!).doSelectPageInfo<SysLogEntity> { sysLogService.queryList(params) }
         return Result().ok().put("page", pageInfo)
     }
 

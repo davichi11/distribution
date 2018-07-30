@@ -39,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MemberAccountHistory extends TableImpl<MemberAccountHistoryRecord> {
 
-    private static final long serialVersionUID = 585289102;
+    private static final long serialVersionUID = 2033891812;
 
     /**
      * The reference instance of <code>distribution.member_account_history</code>
@@ -62,7 +62,7 @@ public class MemberAccountHistory extends TableImpl<MemberAccountHistoryRecord> 
     /**
      * The column <code>distribution.member_account_history.his_type</code>. 收入类型，0:支出,1:收入
      */
-    public final TableField<MemberAccountHistoryRecord, Boolean> HIS_TYPE = createField("his_type", org.jooq.impl.SQLDataType.BOOLEAN.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.BOOLEAN)), this, "收入类型，0:支出,1:收入");
+    public final TableField<MemberAccountHistoryRecord, Integer> HIS_TYPE = createField("his_type", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "收入类型，0:支出,1:收入");
 
     /**
      * The column <code>distribution.member_account_history.account_id</code>. 关联的订单ID

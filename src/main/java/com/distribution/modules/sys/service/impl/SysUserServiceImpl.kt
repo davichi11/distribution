@@ -93,8 +93,8 @@ class SysUserServiceImpl : SysUserService {
 
     @Transactional(rollbackFor = [(Exception::class)])
     @Throws(Exception::class)
-    override fun deleteBatch(userId: Array<Long>) {
-        sysUserDao.deleteBatch(userId)
+    override fun deleteBatch(userIds: Array<Long>) {
+        sysUserDao.deleteBatch(userIds)
     }
 
     override fun updatePassword(userId: Long, password: String, newPassword: String): Int {

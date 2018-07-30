@@ -12,12 +12,12 @@ import com.distribution.pojo.tables.pojos.ProductDetailParams
  */
 
 data class ProductDetailVO(
-        var id: String = "",
-        var prodDetailName: String = "",
-        var prodDetailUrl: String = "",
-        var prodDetailBuyBack: Int = 0,
-        var prodTypeId: String = "",
-        var prodDetailValue: Long = 0L,
-        var prodDetailCount: String = "",
+        var id: String? = null,
+        var prodDetailName: String? = null,
+        var prodDetailUrl: String? = null,
+        var prodDetailBuyBack: Int? = null,
+        var prodTypeId: String? = null,
+        var prodDetailValue: Long? = null,
+        var prodDetailCount: String? = null,
         internal var params: List<ProductDetailParams> = mutableListOf()
 )

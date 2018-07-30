@@ -39,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysConfig extends TableImpl<SysConfigRecord> {
 
-    private static final long serialVersionUID = -1008507642;
+    private static final long serialVersionUID = -774298640;
 
     /**
      * The reference instance of <code>distribution.sys_config</code>
@@ -72,7 +72,7 @@ public class SysConfig extends TableImpl<SysConfigRecord> {
     /**
      * The column <code>distribution.sys_config.status</code>. ??   0???   1???
      */
-    public final TableField<SysConfigRecord, Boolean> STATUS = createField("status", org.jooq.impl.SQLDataType.BOOLEAN.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.BOOLEAN)), this, "??   0???   1???");
+    public final TableField<SysConfigRecord, Integer> STATUS = createField("status", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.INTEGER)), this, "??   0???   1???");
 
     /**
      * The column <code>distribution.sys_config.remark</code>. ??

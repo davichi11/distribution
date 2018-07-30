@@ -50,6 +50,12 @@
                     <input type="text" name="disUserName" value="1" v-model="q.disUserName"/>
                 </label>
             </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">会员手机号</div>
+                <label class="">
+                    <input type="tel" name="mobile"  v-model="q.mobile"/>
+                </label>
+            </div>
             <a class="btn btn-default" @click="query">查询</a>
             <a class="btn btn-info" @click="reset">重置</a>
             <a v-if="hasPermission('dismemberinfo:save')" class="btn btn-primary" @click="add"><i

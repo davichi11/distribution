@@ -22,13 +22,13 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class District implements Serializable {
 
-    private static final long serialVersionUID = -1164697261;
+    private static final long serialVersionUID = -1852066133;
 
     private Short   id;
     private String  name;
     private Short   parentId;
     private String  code;
-    private Boolean order;
+    private Integer order;
 
     public District() {}
 
@@ -45,7 +45,7 @@ public class District implements Serializable {
         String  name,
         Short   parentId,
         String  code,
-        Boolean order
+        Integer order
     ) {
         this.id = id;
         this.name = name;
@@ -86,11 +86,11 @@ public class District implements Serializable {
         this.code = code;
     }
 
-    public Boolean getOrder() {
+    public Integer getOrder() {
         return this.order;
     }
 
-    public void setOrder(Boolean order) {
+    public void setOrder(Integer order) {
         this.order = order;
     }
 

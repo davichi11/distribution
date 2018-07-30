@@ -9,6 +9,7 @@
         <result property="imgUrl" column="img_url"/>
         <result property="articleId" column="article_id"/>
         <result property="articleTitle" column="article_title"/>
+        <result property="articleType" column="article_type"/>
         <result property="order" column="order_num"/>
         <result property="addTime" column="add_time"/>
         <result property="isDelete" column="is_delete"/>
@@ -16,7 +17,8 @@
 
     <select id="queryObject" resultMap="adPictureMap">
         select a.*,
-               t.title as "article_title"
+               t.title as "article_title",
+               t.type as "article_type"
         from ad_picture a
         left join article_info t on a.article_id = t.id
         where a.id = #{value}
@@ -24,7 +26,8 @@
 
     <select id="queryList" resultMap="adPictureMap">
         select a.*,
-        t.title as "article_title"
+        t.title as "article_title",
+        t.type as "article_type"
         from ad_picture a
         left join article_info t on a.article_id = t.id
         where a.is_delete='1'

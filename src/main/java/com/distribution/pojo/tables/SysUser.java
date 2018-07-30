@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysUser extends TableImpl<SysUserRecord> {
 
-    private static final long serialVersionUID = 1343737056;
+    private static final long serialVersionUID = 2092748468;
 
     /**
      * The reference instance of <code>distribution.sys_user</code>
@@ -88,7 +88,7 @@ public class SysUser extends TableImpl<SysUserRecord> {
     /**
      * The column <code>distribution.sys_user.status</code>. 状态  0：禁用   1：正常
      */
-    public final TableField<SysUserRecord, Boolean> STATUS = createField("status", org.jooq.impl.SQLDataType.BOOLEAN, this, "状态  0：禁用   1：正常");
+    public final TableField<SysUserRecord, Integer> STATUS = createField("status", org.jooq.impl.SQLDataType.INTEGER, this, "状态  0：禁用   1：正常");
 
     /**
      * The column <code>distribution.sys_user.create_user_id</code>. 创建者ID

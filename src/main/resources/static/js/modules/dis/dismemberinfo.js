@@ -6,12 +6,14 @@ $(function () {
             {label: 'id', name: 'id', index: 'id', width: 50, key: true, hidden: true},
             {label: '用户名称', name: 'disUserName', index: 'm.dis_user_name', width: 80},
             {label: '级别', name: 'disLevel', index: 'm.dis_level', width: 80},
-            {label: '身份类型', name: 'disUserType', index: 'm.dis_user_type', width: 80,
+            {
+                label: '身份类型', name: 'disUserType', index: 'm.dis_user_type', width: 80,
                 formatter: (value, options, row) => value === '0' ?
                     '<span class="label label-danger">非会员</span>' :
-                    '<span class="label label-success">会员</span>'},
+                    '<span class="label label-success">会员</span>'
+            },
             {label: '上级', name: 'disMemberParent.disUserName', index: 'm.dis_model_id', width: 80},
-            {label: '备注', name: 'disNote', index: 'dis_note', width: 80},
+            {label: '用户手机号', name: 'userEntity.mobile', index: 'u.mobile', width: 80},
             {label: '添加时间', name: 'addTime', index: 'm.add_time', width: 80}
         ],
         viewrecords: true,
@@ -47,7 +49,8 @@ let vm = new Vue({
         q: {
             disLevel: null,
             disUserType: null,
-            disUserName:""
+            disUserName: "",
+            mobile: ""
         },
         showList: true,
         title: null,
@@ -61,6 +64,7 @@ let vm = new Vue({
             vm.q.disLevel = null;
             vm.q.disUserType = null;
             vm.q.disUserName = "";
+            vm.q.mobile=""
         },
         add: () => {
             vm.showList = false;
@@ -128,7 +132,12 @@ let vm = new Vue({
             vm.showList = true;
             let page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
-                postData: {'disLevel': vm.q.disLevel, 'disUserType': vm.q.disUserType,'disUserName':vm.q.disUserName },
+                postData: {
+                    'disLevel': vm.q.disLevel,
+                    'disUserType': vm.q.disUserType,
+                    'disUserName': vm.q.disUserName,
+                    'mobile': vm.q.mobile
+                },
                 page: page
             }).trigger("reloadGrid");
         }

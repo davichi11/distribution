@@ -42,14 +42,14 @@ class QcloudAbstractCloudStorageService(config: CloudStorageConfig) : AbstractCl
     }
 
     override fun upload(data: ByteArray, path: String): String {
-        var path = path
+        var cosPath = path
         //腾讯云必需要以"/"开头
-        if (!path.startsWith("/")) {
-            path = "/$path"
+        if (!cosPath.startsWith("/")) {
+            cosPath = "/$cosPath"
         }
 
         //上传到腾讯云
-        val request = UploadFileRequest(config!!.qcloudBucketName, path, data)
+        val request = UploadFileRequest(config!!.qcloudBucketName, cosPath, data)
         val response = client!!.uploadFile(request)
 
         val jsonObject = JSONObject.fromObject(response)
@@ -57,7 +57,7 @@ class QcloudAbstractCloudStorageService(config: CloudStorageConfig) : AbstractCl
             throw RRException("文件上传失败，" + jsonObject.getString("message"))
         }
 
-        return config!!.qcloudDomain!! + path
+        return config!!.qcloudDomain!! + cosPath
     }
 
     override fun upload(inputStream: InputStream, path: String): String {

@@ -182,7 +182,7 @@ class ApiLoanController {
                 Constant.PayType.applyLoan.value)
         orderInfoRecord.memberId = member.id
         orderInfoRecord.orderStatus = "2"
-        orderInfoRecord.isDelete = false
+        orderInfoRecord.isDelete = 0
         orderInfoRecord.addTime = DateUtils.formatDateTime(LocalDateTime.now())
         orderInfoRecord.insert()
     }

@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ScheduleJob extends TableImpl<ScheduleJobRecord> {
 
-    private static final long serialVersionUID = 614913142;
+    private static final long serialVersionUID = -789820854;
 
     /**
      * The reference instance of <code>distribution.schedule_job</code>
@@ -83,7 +83,7 @@ public class ScheduleJob extends TableImpl<ScheduleJobRecord> {
     /**
      * The column <code>distribution.schedule_job.status</code>. ????  0???  1???
      */
-    public final TableField<ScheduleJobRecord, Boolean> STATUS = createField("status", org.jooq.impl.SQLDataType.BOOLEAN, this, "????  0???  1???");
+    public final TableField<ScheduleJobRecord, Integer> STATUS = createField("status", org.jooq.impl.SQLDataType.INTEGER, this, "????  0???  1???");
 
     /**
      * The column <code>distribution.schedule_job.remark</code>. 备注

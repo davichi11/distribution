@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LoanOrderInfo extends TableImpl<LoanOrderInfoRecord> {
 
-    private static final long serialVersionUID = -441011907;
+    private static final long serialVersionUID = -537947993;
 
     /**
      * The reference instance of <code>distribution.loan_order_info</code>
@@ -96,7 +96,7 @@ public class LoanOrderInfo extends TableImpl<LoanOrderInfoRecord> {
     /**
      * The column <code>distribution.loan_order_info.is_delete</code>.
      */
-    public final TableField<LoanOrderInfoRecord, Boolean> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.BOOLEAN.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.BOOLEAN)), this, "");
+    public final TableField<LoanOrderInfoRecord, Integer> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>distribution.loan_order_info.add_time</code>.

@@ -65,18 +65,18 @@ class SysUserController : AbstractController() {
     @SysLog("修改密码")
     @RequestMapping("/password")
     fun password(password: String, newPassword: String): Result {
-        var password = password
-        var newPassword = newPassword
+        var password1 = password
+        var newPassword1 = newPassword
 
         //sha256加密
-        password = Sha256Hash(password, user.salt).toHex()
+        password1 = Sha256Hash(password1, user.salt).toHex()
         //sha256加密
-        newPassword = Optional.ofNullable(newPassword).orElseThrow { RRException("新密码不为能空") }
+        newPassword1 = Optional.ofNullable(newPassword1).orElseThrow { RRException("新密码不为能空") }
 
         //更新密码
         var count = 0
         try {
-            count = sysUserService.updatePassword(userId!!, password, newPassword)
+            count = sysUserService.updatePassword(userId!!, password1, newPassword1)
         } catch (e: Exception) {
             logger.error("修改密码异常", e)
         }

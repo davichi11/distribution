@@ -30,6 +30,10 @@ data class AdPictureEntity(
          */
         var articleTitle: String? = null,
         /**
+         * 对应的文章类型
+         */
+        var articleType: String? = null,
+        /**
          * 排序
          */
         var order: Int = 0,

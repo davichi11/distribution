@@ -11,6 +11,7 @@ import com.distribution.modules.dis.service.DisFansService
 import com.distribution.modules.dis.service.DisMemberInfoService
 import com.distribution.queue.LevelUpSender
 import com.google.common.collect.Lists
+import com.vdurmont.emoji.EmojiParser
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
@@ -215,8 +216,8 @@ class WeiXinMpController {
         disFans.id = CommonUtils.uuid
         disFans.wechatId = user.openId
         disFans.wechatImg = user.headImgUrl
-        disFans.wechatNickname = user.nickname
-        val workerId = redisTemplate.opsForValue().increment("worker_id", 1)
+        disFans.wechatNickname = EmojiParser.removeAllEmojis(user.nickname)
+        val workerId = redisTemplate.opsForValue().increment("worker_id", 1)!!
         disFans.workerId = workerId
 
         //查询推荐人是否存在
