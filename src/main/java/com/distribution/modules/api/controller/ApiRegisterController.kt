@@ -65,10 +65,10 @@ class ApiRegisterController {
             ApiImplicitParam(paramType = "query", dataType = "string", name = "name", value = "真实姓名", required = true),
             ApiImplicitParam(paramType = "query", dataType = "string", name = "idCode", value = "身份证号", required = true),
             ApiImplicitParam(paramType = "query", dataType = "string", name = "openId", value = "微信open_id"))
-    fun register(mobile: String, password: String, name: String, idCode: String, captcha: String, openId: String): Result {
+    fun register(mobile: String, password: String?, name: String?, idCode: String?, captcha: String?, openId: String?): Result {
         var pwd = password
         if (StringUtils.isBlank(mobile)) {
-            return Result().error( msg ="手机号不能为空")
+            return Result().error(msg = "手机号不能为空")
         }
         if (StringUtils.isBlank(pwd)) {
             pwd = mobile
@@ -76,28 +76,28 @@ class ApiRegisterController {
         //根据手机号获取验证码
         val code = redisTemplate.opsForValue().get(mobile)
         if (captcha != code) {
-            return Result().error( msg ="验证码不正确")
+            return Result().error(msg = "验证码不正确")
         }
 
         if (StringUtils.isBlank(openId)) {
-            return Result().error( msg ="openid不能为空")
+            return Result().error(msg = "openid不能为空")
         }
         try {
             //身份证号码实名认证
-            if (!idCardQueryService.isMatched(idCode, name)) {
-                return Result().error( msg ="身份证号不正确,请确认")
+            if (!idCardQueryService.isMatched(idCode ?: "", name ?: "")) {
+                return Result().error(msg = "身份证号不正确,请确认")
             }
             //查询是否有对应的会员
             val param = HashMap<String, Any>(2)
             param["mobile"] = mobile
             val memberList = memberInfoService.queryList(param)
             if (CollectionUtils.isNotEmpty(memberList)) {
-                return Result().error( msg ="该手机号已注册")
+                return Result().error(msg = "该手机号已注册")
             }
             userService.save(mobile, pwd, name, idCode, openId)
         } catch (e: Exception) {
             log.error("注册异常", e)
-            return Result().error( msg ="注册异常")
+            return Result().error(msg = "注册异常")
         }
 
         return Result().ok("注册成功")
@@ -107,7 +107,7 @@ class ApiRegisterController {
     fun updatePassword(mobile: String, oldPwd: String, newPwd: String): Result {
         val userId = userService.login(mobile, oldPwd)
         if (StringUtils.isBlank(userId)) {
-            return Result().error( msg ="旧密码不正确")
+            return Result().error(msg = "旧密码不正确")
         }
         val userEntity = UserEntity()
         userEntity.userId = userId
@@ -117,7 +117,7 @@ class ApiRegisterController {
             userService.update(userEntity)
         } catch (e: Exception) {
             log.error("用户修改密码异常", e)
-            return Result().error( msg ="用户修改密码异常")
+            return Result().error(msg = "用户修改密码异常")
         }
 
         return Result().ok("修改成功")
@@ -135,7 +135,7 @@ class ApiRegisterController {
     @ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "手机号", required = true)
     fun sendCaptcha(mobile: String): Result {
         if (StringUtils.isBlank(mobile)) {
-            return Result().error( msg ="手机号不正确")
+            return Result().error(msg = "手机号不正确")
         }
         val captcha = CommonUtils.random
         //放入Redis缓存,60秒过期

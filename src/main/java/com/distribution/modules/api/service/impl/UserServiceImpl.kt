@@ -45,7 +45,7 @@ class UserServiceImpl : UserService {
 
     @Transactional(rollbackFor = [(Exception::class)])
     @Throws(Exception::class)
-    override fun save(mobile: String, password: String, name: String, idCode: String, openId: String): UserEntity {
+    override fun save(mobile: String, password: String?, name: String?, idCode: String?, openId: String?): UserEntity {
         val user = UserEntity()
         user.userId = CommonUtils.uuid
         user.mobile = mobile
@@ -63,7 +63,7 @@ class UserServiceImpl : UserService {
         member.openId = openId
         //是否已是锁粉
         val fansParam = HashMap<String, Any>(2)
-        fansParam["openId"] = openId
+        fansParam["openId"] = openId!!
         val disFansList = fansMapper.selectList(fansParam)
         if (CollectionUtils.isNotEmpty(disFansList)) {
             val fans = disFansList[0]

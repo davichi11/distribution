@@ -53,7 +53,7 @@ interface UserService {
      * @throws Exception
      */
     @Throws(Exception::class)
-    fun save(mobile: String, password: String, name: String, idCode: String, openId: String): UserEntity
+    fun save(mobile: String, password: String?, name: String?, idCode: String?, openId: String?): UserEntity
 
     /**
      * 更新
