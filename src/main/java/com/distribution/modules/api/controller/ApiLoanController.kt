@@ -20,6 +20,7 @@ import com.google.common.collect.Lists
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
+import kotlinx.coroutines.experimental.launch
 import me.chanjar.weixin.common.exception.WxErrorException
 import me.chanjar.weixin.mp.api.WxMpService
 import me.chanjar.weixin.mp.bean.result.WxMpUser
@@ -147,20 +148,22 @@ class ApiLoanController {
         if (wxMpUser.openId.isEmpty()) {
             return Result().ok().put("url", url)
         }
-        //发送订单信息提醒
-        val message = buildTemplateMsg(member.openId, member.disUserName, loanInfo.loanName)
-        try {
-            wxMpService.templateMsgService.sendTemplateMsg(message)
-        } catch (e: WxErrorException) {
-            log.error("发送订单信息提醒异常", e)
-        }
+        launch {
+            //发送订单信息提醒
+            val message = buildTemplateMsg(member.openId, member.disUserName, loanInfo.loanName)
+            try {
+                wxMpService.templateMsgService.sendTemplateMsg(message)
+            } catch (e: WxErrorException) {
+                log.error("发送订单信息提醒异常", e)
+            }
 
-        //给上级发送消息
-        val parentMessage = buildTemplateMsg(member.disMemberParent!!.openId, member.disUserName, loanInfo.loanName)
-        try {
-            wxMpService.templateMsgService.sendTemplateMsg(parentMessage)
-        } catch (e: WxErrorException) {
-            log.error("给上级发送消息异常", e)
+            //给上级发送消息
+            val parentMessage = buildTemplateMsg(member.disMemberParent!!.openId, member.disUserName, loanInfo.loanName)
+            try {
+                wxMpService.templateMsgService.sendTemplateMsg(parentMessage)
+            } catch (e: WxErrorException) {
+                log.error("给上级发送消息异常", e)
+            }
         }
 
         return Result().ok().put("url", url)

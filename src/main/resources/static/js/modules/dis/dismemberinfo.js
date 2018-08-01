@@ -14,7 +14,7 @@ $(function () {
             },
             {label: '上级', name: 'disMemberParent.disUserName', index: 'm.dis_model_id', width: 80},
             {label: '用户手机号', name: 'userEntity.mobile', index: 'u.mobile', width: 80},
-            {label: '添加时间', name: 'addTime', index: 'm.add_time', width: 80}
+            {label: '注册时间', name: 'addTime', index: 'm.add_time', width: 80}
         ],
         viewrecords: true,
         height: 385,
@@ -41,6 +41,27 @@ $(function () {
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
         }
     });
+
+    new AjaxUpload('#upload', {
+        action: baseURL + 'dismemberinfo/batchSendMoney?token=' + token,
+        name: 'file',
+        autoSubmit: true,
+        responseType: "json",
+        onSubmit: (file, extension) => {
+            if (!(extension && /^(xls|xlsx)$/.test(extension.toLowerCase()))) {
+                alert('请上传Excel文件！');
+                return false;
+            }
+        },
+        onComplete: (file, r) => {
+            if (r.code === 0) {
+                alert(r.url);
+                vm.reload();
+            } else {
+                alert(r.msg);
+            }
+        }
+    });
 });
 
 let vm = new Vue({
@@ -50,7 +71,8 @@ let vm = new Vue({
             disLevel: null,
             disUserType: null,
             disUserName: "",
-            mobile: ""
+            mobile: "",
+            parentId: ""
         },
         showList: true,
         title: null,
@@ -60,11 +82,27 @@ let vm = new Vue({
         query: () => {
             vm.reload();
         },
+        queryChildren: () => {
+            let id = getSelectedRow();
+            if (id == null) {
+                return;
+            }
+            vm.showList = true;
+            vm.parentId = id
+            let page = $("#jqGrid").jqGrid('getGridParam', 'page');
+            $("#jqGrid").jqGrid('setGridParam', {
+                postData: {
+                    'parent_id': vm.parentId
+                },
+                page: page
+            }).trigger("reloadGrid");
+        },
         reset: () => {
             vm.q.disLevel = null;
             vm.q.disUserType = null;
             vm.q.disUserName = "";
-            vm.q.mobile=""
+            vm.q.mobile = ""
+            vm.parentId = ""
         },
         add: () => {
             vm.showList = false;
@@ -136,7 +174,8 @@ let vm = new Vue({
                     'disLevel': vm.q.disLevel,
                     'disUserType': vm.q.disUserType,
                     'disUserName': vm.q.disUserName,
-                    'mobile': vm.q.mobile
+                    'mobile': vm.q.mobile,
+                    'parent_id': ""
                 },
                 page: page
             }).trigger("reloadGrid");

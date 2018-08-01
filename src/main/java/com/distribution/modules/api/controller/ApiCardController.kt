@@ -19,6 +19,7 @@ import com.github.pagehelper.PageHelper
 import com.github.pagehelper.PageInfo
 import com.google.common.collect.Lists
 import io.swagger.annotations.ApiOperation
+import kotlinx.coroutines.experimental.launch
 import me.chanjar.weixin.mp.api.WxMpService
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage
@@ -179,14 +180,16 @@ class ApiCardController {
             saveCardOrder(cardOrderInfoVO, cardInfo, member)
             //发送消息前先查询是否已关注
             wxMpService.userService.userInfo(member.openId, "zh_CN") ?: return Result().ok().put("url", url)
-            //发送订单信息提醒
-            val message = buildTemplateMsg(member.openId!!, member.disUserName!!,
-                    cardInfo.cardName, "", "")
-            wxMpService.templateMsgService.sendTemplateMsg(message)
-            //给上级发送消息
-            val parentMessage = buildTemplateMsg(member.disMemberParent!!.openId!!,
-                    member.disUserName!!, cardInfo.cardName, "", "")
-            wxMpService.templateMsgService.sendTemplateMsg(parentMessage)
+            launch {
+                //发送订单信息提醒
+                val message = buildTemplateMsg(member.openId!!, member.disUserName!!,
+                        cardInfo.cardName, "", "")
+                wxMpService.templateMsgService.sendTemplateMsg(message)
+                //给上级发送消息
+                val parentMessage = buildTemplateMsg(member.disMemberParent!!.openId!!,
+                        member.disUserName!!, cardInfo.cardName, "", "")
+                wxMpService.templateMsgService.sendTemplateMsg(parentMessage)
+            }
             return Result().ok().put("url", url)
         } catch (e: Exception) {
             log.error("申请异常", e)

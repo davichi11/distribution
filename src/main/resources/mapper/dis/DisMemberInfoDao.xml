@@ -46,44 +46,101 @@
     </resultMap>
 
     <select id="queryObject" resultMap="disMemberInfoMap">
-        select
-            m.id,
-            m.dis_platform_id,
-            m.dis_user_id,
-            m.dis_model_id,
-            m.dis_full_index,
-            m.dis_user_name,
-            m.dis_level,
-            m.dis_user_type,
-            m.dis_user_id_code,
-            m.dis_note,
-            m.open_id,
-            m.add_time,
-            m.update_time,
-            m.is_delete,
-            u.user_id as "u_id",
-            u.username,
-            u.mobile,
-            p.id            "p_id",
-            p.dis_user_id   "p_user_id",
-            p.dis_user_name "p_name",
-            p.dis_user_type "p_dis_user_type",
-            p.dis_model_id  "p_dis_model_id",
-            p.open_id       "p_open_id",
-            p.dis_level     "p_dis_level",
-            p.add_time      "p_add_time",
-            c.id            "c_id",
-            c.dis_user_id   "c_user_id",
-            c.dis_user_type "c_dis_user_type",
-            c.dis_level     "c_dis_level",
-            c.open_id       "c_open_id",
-            c.add_time      "c_add_time",
-            c.dis_user_name "c_name"
+        select m.id,
+               m.dis_platform_id,
+               m.dis_user_id,
+               m.dis_model_id,
+               m.dis_full_index,
+               m.dis_user_name,
+               m.dis_level,
+               m.dis_user_type,
+               m.dis_user_id_code,
+               m.dis_note,
+               m.open_id,
+               m.add_time,
+               m.update_time,
+               m.is_delete,
+               u.user_id as    "u_id",
+               u.username,
+               u.mobile,
+               p.id            "p_id",
+               p.dis_user_id   "p_user_id",
+               p.dis_user_name "p_name",
+               p.dis_user_type "p_dis_user_type",
+               p.dis_model_id  "p_dis_model_id",
+               p.open_id       "p_open_id",
+               p.dis_level     "p_dis_level",
+               p.add_time      "p_add_time",
+               c.id            "c_id",
+               c.dis_user_id   "c_user_id",
+               c.dis_user_type "c_dis_user_type",
+               c.dis_level     "c_dis_level",
+               c.open_id       "c_open_id",
+               c.add_time      "c_add_time",
+               c.dis_user_name "c_name"
         from distribution.dis_member_info m
-            left join distribution.tb_user u on u.user_id = m.dis_user_id
-            left join dis_member_info p on m.dis_model_id = p.id
-            left join dis_member_info c on c.dis_model_id = m.id
+                 left join distribution.tb_user u on u.user_id = m.dis_user_id
+                 left join dis_member_info p on m.dis_model_id = p.id
+                 left join dis_member_info c on c.dis_model_id = m.id
         where m.id = #{value}
+    </select>
+
+    <select id="queryForPage" resultMap="disMemberInfoMap">
+        select
+        m.id,
+        m.dis_platform_id,
+        m.dis_user_id,
+        m.dis_model_id,
+        m.dis_full_index,
+        m.dis_user_name,
+        m.dis_level,
+        m.dis_user_type,
+        m.dis_user_id_code,
+        m.dis_note,
+        m.open_id,
+        m.add_time,
+        m.update_time,
+        m.is_delete,
+        u.mobile,
+        p.dis_user_name "p_name"
+        from distribution.dis_member_info m
+        left join distribution.tb_user u on u.user_id = m.dis_user_id
+        left join dis_member_info p on m.dis_model_id = p.id
+        <where>
+            <if test="disUserName !=null">
+                and m.dis_user_name like concat('%',#{disUserName},'%')
+            </if>
+            <if test="disLevel != null and disLevel !=''">
+                and m.dis_level = #{disLevel}
+            </if>
+            <if test="disUserType != null and disUserType!=''">
+                and m.dis_user_type =#{disUserType}
+            </if>
+            <if test="userId !=null">
+                and m.dis_user_id = #{userId}
+            </if>
+            <if test="parent_id !=null and parent_id != ''">
+                and m.dis_model_id = #{parent_id}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and u.mobile like concat('%',#{mobile},'%')
+            </if>
+            <if test="openIds != null">
+                and m.open_id in
+                <foreach collection="openIds" item="id" open="(" separator="," close=")">
+                    #{id}
+                </foreach>
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by m.add_time desc
+            </otherwise>
+        </choose>
+
     </select>
 
     <select id="queryList" resultMap="disMemberInfoMap">
@@ -305,7 +362,8 @@
     </update>
 
     <delete id="delete">
-        delete from distribution.dis_member_info
+        delete
+        from distribution.dis_member_info
         where id = #{value}
     </delete>
 
@@ -316,71 +374,70 @@
         </foreach>
     </delete>
     <select id="findByOpenId" resultMap="disMemberInfoMap">
-        select
-            m.id,
-            m.dis_platform_id,
-            m.dis_user_id,
-            m.dis_model_id,
-            m.dis_full_index,
-            m.dis_user_name,
-            m.dis_level,
-            m.dis_user_type,
-            m.dis_user_id_code,
-            m.dis_note,
-            m.open_id,
-            m.add_time,
-            m.update_time,
-            m.is_delete,
-            u.user_id as "u_id",
-            u.username,
-            u.mobile
+        select m.id,
+               m.dis_platform_id,
+               m.dis_user_id,
+               m.dis_model_id,
+               m.dis_full_index,
+               m.dis_user_name,
+               m.dis_level,
+               m.dis_user_type,
+               m.dis_user_id_code,
+               m.dis_note,
+               m.open_id,
+               m.add_time,
+               m.update_time,
+               m.is_delete,
+               u.user_id as "u_id",
+               u.username,
+               u.mobile
         from distribution.dis_member_info m
-            left join distribution.tb_user u on u.user_id = m.dis_user_id
+                 left join distribution.tb_user u on u.user_id = m.dis_user_id
         where m.open_id = #{openId}
     </select>
     <select id="queryByMobile" resultMap="disMemberInfoMap">
-        select
-            m.id,
-            m.dis_platform_id,
-            m.dis_user_id,
-            m.dis_model_id,
-            m.dis_full_index,
-            m.dis_user_name,
-            m.dis_level,
-            m.dis_user_type,
-            m.dis_user_id_code,
-            m.dis_note,
-            m.open_id,
-            m.add_time,
-            m.update_time,
-            m.is_delete,
-            u.user_id as "u_id",
-            u.username,
-            u.mobile,
-            p.id            "p_id",
-            p.dis_user_id   "p_user_id",
-            p.dis_user_name "p_name",
-            p.dis_user_type "p_dis_user_type",
-            p.dis_model_id  "p_dis_model_id",
-            p.open_id       "p_open_id",
-            p.dis_level     "p_dis_level",
-            p.add_time      "p_add_time",
-            c.id            "c_id",
-            c.dis_user_id   "c_user_id",
-            c.dis_user_type "c_dis_user_type",
-            c.open_id       "c_open_id",
-            c.dis_level     "c_dis_level",
-            c.add_time      "c_add_time",
-            c.dis_user_name "c_name"
+        select m.id,
+               m.dis_platform_id,
+               m.dis_user_id,
+               m.dis_model_id,
+               m.dis_full_index,
+               m.dis_user_name,
+               m.dis_level,
+               m.dis_user_type,
+               m.dis_user_id_code,
+               m.dis_note,
+               m.open_id,
+               m.add_time,
+               m.update_time,
+               m.is_delete,
+               u.user_id as    "u_id",
+               u.username,
+               u.mobile,
+               p.id            "p_id",
+               p.dis_user_id   "p_user_id",
+               p.dis_user_name "p_name",
+               p.dis_user_type "p_dis_user_type",
+               p.dis_model_id  "p_dis_model_id",
+               p.open_id       "p_open_id",
+               p.dis_level     "p_dis_level",
+               p.add_time      "p_add_time",
+               c.id            "c_id",
+               c.dis_user_id   "c_user_id",
+               c.dis_user_type "c_dis_user_type",
+               c.open_id       "c_open_id",
+               c.dis_level     "c_dis_level",
+               c.add_time      "c_add_time",
+               c.dis_user_name "c_name"
         from distribution.dis_member_info m
-            left join distribution.tb_user u on u.user_id = m.dis_user_id
-            left join dis_member_info p on m.dis_model_id = p.id
-            left join dis_member_info c on c.dis_model_id = m.id
+                 left join distribution.tb_user u on u.user_id = m.dis_user_id
+                 left join dis_member_info p on m.dis_model_id = p.id
+                 left join dis_member_info c on c.dis_model_id = m.id
         where u.mobile = #{mobile}
     </select>
     <update id="updateDisLevel">
         update dis_member_info
-        set dis_level = #{level},dis_user_type = #{type}
+        set dis_level     = #{level},
+            dis_user_type = #{type}
         where id = #{id}
     </update>
 

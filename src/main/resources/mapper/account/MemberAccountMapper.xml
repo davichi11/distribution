@@ -184,84 +184,97 @@
         where account_id = #{accountId,jdbcType=VARCHAR}
     </update>
     <select id="selectMemberAccount" resultMap="BaseResultMap">
-        select
-            account_id,
-            member_type,
-            member_amount,
-            alipay_account,
-            a.is_delete,
-            a.add_time,
-            a.update_time,
-            id as "m_id",
-            dis_platform_id,
-            dis_user_id,
-            dis_model_id,
-            dis_full_index,
-            dis_user_name,
-            dis_level,
-            dis_user_type,
-            open_id,
-            dis_note,
-            m.add_time,
-            m.update_time,
-            m.is_delete
+        select account_id,
+               member_type,
+               member_amount,
+               alipay_account,
+               a.is_delete,
+               a.add_time,
+               a.update_time,
+               id as "m_id",
+               dis_platform_id,
+               dis_user_id,
+               dis_model_id,
+               dis_full_index,
+               dis_user_name,
+               dis_level,
+               dis_user_type,
+               open_id,
+               dis_note,
+               m.add_time,
+               m.update_time,
+               m.is_delete
         from member_account a
-            left join dis_member_info m on a.member_id = m.id
+                 left join dis_member_info m on a.member_id = m.id
         where member_id = #{memberId}
     </select>
 
     <select id="selectMemberAccountByUserId" resultMap="BaseResultMap">
-        select
-            account_id,
-            member_type,
-            member_amount,
-            alipay_account,
-            a.is_delete,
-            a.add_time,
-            a.update_time,
-            id as "m_id",
-            dis_platform_id,
-            dis_user_id,
-            dis_model_id,
-            dis_full_index,
-            dis_user_name,
-            dis_level,
-            open_id,
-            dis_user_type,
-            dis_note,
-            m.add_time,
-            m.update_time,
-            m.is_delete
+        select account_id,
+               member_type,
+               member_amount,
+               alipay_account,
+               a.is_delete,
+               a.add_time,
+               a.update_time,
+               id as "m_id",
+               dis_platform_id,
+               dis_user_id,
+               dis_model_id,
+               dis_full_index,
+               dis_user_name,
+               dis_level,
+               open_id,
+               dis_user_type,
+               dis_note,
+               m.add_time,
+               m.update_time,
+               m.is_delete
         from member_account a
-            left join dis_member_info m on a.member_id = m.id
-            left join tb_user t on t.user_id = m.dis_user_id
-        where m.id = #{userId} or t.mobile = #{userId}
+                 left join dis_member_info m on a.member_id = m.id
+                 left join tb_user t on t.user_id = m.dis_user_id
+        where m.id = #{userId}
+           or t.mobile = #{userId}
     </select>
     <select id="selectByAlipay" resultMap="BaseResultMap">
-        select
-            account_id,
-            member_type,
-            member_amount,
-            alipay_account,
-            a.is_delete,
-            a.add_time,
-            a.update_time,
-            id as "m_id",
-            dis_platform_id,
-            dis_user_id,
-            dis_model_id,
-            dis_full_index,
-            dis_user_name,
-            dis_level,
-            open_id,
-            dis_user_type,
-            dis_note,
-            m.add_time,
-            m.update_time,
-            m.is_delete
+        select account_id,
+               member_type,
+               member_amount,
+               alipay_account,
+               a.is_delete,
+               a.add_time,
+               a.update_time,
+               id as "m_id",
+               dis_platform_id,
+               dis_user_id,
+               dis_model_id,
+               dis_full_index,
+               dis_user_name,
+               dis_level,
+               open_id,
+               dis_user_type,
+               dis_note,
+               m.add_time,
+               m.update_time,
+               m.is_delete
         from member_account a
-            left join dis_member_info m on a.member_id = m.id
-            left join tb_user t on t.user_id = m.dis_user_id
-        where alipay_account =#{alipayAccount}
+                 left join dis_member_info m on a.member_id = m.id
+                 left join tb_user t on t.user_id = m.dis_user_id
+        where alipay_account = #{alipayAccount}
     </select>
+    <select id="selectByUserName" resultMap="BaseResultMap">
+        select account_id,
+               member_type,
+               member_amount,
+               alipay_account
+        from member_account a
+                 left join dis_member_info m on a.member_id = m.id
+        where m.dis_user_name = #{name}
+    </select>
+
+    <update id="updateByUserName" parameterType="string">
+        update member_account
+        set member_amount = member_amount + 1
+        where member_id = (select m.id from dis_member_info m where m.dis_user_name = #{name})
+    </update>
 </mapper>

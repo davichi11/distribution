@@ -16,7 +16,16 @@ $(function () {
                 width: 180,
                 formatter: (value, options, row) => `<a href="#">${value}</a>`
             },
-            {label: '佣金返利', name: 'rebate', index: 'rebate', width: 80}
+            {label: '佣金返利', name: 'rebate', index: 'rebate', width: 80},
+            {
+                label: '是否推送第三方',
+                name: 'useThirdPart',
+                index: 'use_third_part',
+                width: 50,
+                formatter: (value, options, row) => value === 0 ?
+                    '<span class="label label-danger">不推送</span>' :
+                    '<span class="label label-success">推送</span>'
+            }
         ],
         viewrecords: true,
         height: 385,

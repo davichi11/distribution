@@ -35,7 +35,7 @@ data class MemberAccount(
         var memberAmount: BigDecimal = BigDecimal.ZERO,
 
         /**  */
-        var isDelete: String = "",
+        var isDelete: String = "1",
 
         /**  */
         var addTime: String = "",

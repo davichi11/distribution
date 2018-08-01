@@ -15,6 +15,7 @@ import java.util.*
 
 @Service
 class DisMemberInfoServiceImpl : DisMemberInfoService {
+
     @Autowired
     private lateinit var disMemberInfoDao: DisMemberInfoDao
     @Autowired
@@ -23,6 +24,10 @@ class DisMemberInfoServiceImpl : DisMemberInfoService {
     private lateinit var disFansMapper: DisFansMapper
     @Autowired
     private lateinit var userDao: UserDao
+
+    override fun queryByPage(map: Map<String, Any>): List<DisMemberInfoEntity>? {
+        return disMemberInfoDao.queryForPage(map)
+    }
 
     override fun queryObject(id: String): DisMemberInfoEntity {
         return disMemberInfoDao.queryObject(id)

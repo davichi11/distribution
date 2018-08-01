@@ -42,6 +42,8 @@ interface DisMemberInfoService {
      */
     fun queryList(map: Map<String, Any>): List<DisMemberInfoEntity>?
 
+    fun queryByPage(map: Map<String, Any>):List<DisMemberInfoEntity>?
+
     /**
      * 保存
      *

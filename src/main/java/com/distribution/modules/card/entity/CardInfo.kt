@@ -62,6 +62,11 @@ data class CardInfo(
 
 
         /**  */
-        var isDelete: String = ""
-                             
+        var isDelete: String = "",
+        /**
+         * 是否启用推送第三方数据 0否 1是
+         */
+        var useThirdPart: Int = 1
+
+
 )

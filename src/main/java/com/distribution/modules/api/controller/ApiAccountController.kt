@@ -20,6 +20,7 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
+import kotlinx.coroutines.experimental.launch
 import me.chanjar.weixin.mp.api.WxMpService
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage
@@ -152,13 +153,13 @@ class ApiAccountController {
         //        Map<String, Object> param = new HashMap<>(2);
         //        param.put("userId",userId);
         //账户信息
-        val memberAccount = memberAccountService.selectMemberAccountByUserId(mobile)
+        val memberAccount = memberAccountService.selectMemberAccountByUserId(mobile) ?: MemberAccount()
 
         //提现金额
         val withdrawalAmount = withdrawalInfoService.withdrawalAmounts(mobile)
         resultMap["withdrawalAmount"] = withdrawalAmount
         //账户余额
-        resultMap["memberAccount"] = memberAccount!!.memberAmount
+        resultMap["memberAccount"] = memberAccount.memberAmount
         val map = HashMap<String, Any>(6)
         map["accountId"] = memberAccount.accountId
         map["hisType"] = MemberAccountHistory.HisType.INCOME
@@ -283,9 +284,11 @@ class ApiAccountController {
         //更新每日提现限额
         redisTemplate.opsForValue().set(countKey, withdrawalVo.withdrawAmount.add(BigDecimal(limit)).toString(),
                 millis, TimeUnit.MILLISECONDS)
-        //发送提现成功提醒
-        wxMpService.templateMsgService.sendTemplateMsg(buildTemplateMsg(account.member.openId,
-                withdrawalVo.withdrawAmount.toString(), withdrawalInfo.withdrawName))
+        launch {
+            //发送提现成功提醒
+            wxMpService.templateMsgService.sendTemplateMsg(buildTemplateMsg(account.member.openId,
+                    withdrawalVo.withdrawAmount.toString(), withdrawalInfo.withdrawName))
+        }
         return Result().ok()
     }
 

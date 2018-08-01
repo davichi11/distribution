@@ -13,39 +13,39 @@ data class DisMemberVO(
         /**
          * 上级会员ID
          */
-        var parentId: String = "",
+        var parentId: String? = null,
 
         /**
          * 用户名
          */
-        var disUserName: String = "",
+        var disUserName: String? = null,
 
 
         /**
          * 身份类型(0 非会员 1会员)
          */
-        var disUserType: String = "",
+        var disUserType: String? = null,
 
 
         /**
          * 级别
          */
-        var disLevel: Int = 0,
+        var disLevel: Int? = null,
 
         /**
          * 手机号
          */
-        var mobile: String = "",
+        var mobile: String? = null,
 
         /**
          * 身份证号码
          */
-        var idCode: String = "",
+        var idCode: String? = null,
 
         /**
          * 微信openID
          */
-        var openId: String = "",
+        var openId: String? = null,
 
         /**
          * 微信昵称

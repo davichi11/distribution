@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service
 @Service
 class MemberAccountServiceImpl : MemberAccountService {
 
+
+
     @Autowired
     private lateinit var memberAccountMapper: MemberAccountMapper
 
@@ -36,5 +38,16 @@ class MemberAccountServiceImpl : MemberAccountService {
     @Throws(Exception::class)
     override fun update(memberAccount: MemberAccount) {
         memberAccountMapper.updateByPrimaryKeySelective(memberAccount)
+    }
+
+    @Throws(Exception::class)
+    override fun updateByUserName(name: String) {
+        if (name.isNotBlank()) {
+            memberAccountMapper.updateByUserName(name)
+        }
+    }
+
+    override fun selectByUserName(name: String): MemberAccount? {
+        return memberAccountMapper.selectByUserName(name)
     }
 }

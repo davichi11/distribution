@@ -21,6 +21,14 @@ interface DisMemberInfoDao : BaseDao<DisMemberInfoEntity> {
      */
     fun findByOpenId(openId: String): DisMemberInfoEntity
 
+    /**
+     * 查询列表
+     *
+     * @param map
+     * @return
+     */
+    fun queryForPage(map: Map<String, Any>): List<DisMemberInfoEntity>?
+
     fun queryByMobile(mobile: String): DisMemberInfoEntity
 
     @Throws(Exception::class)

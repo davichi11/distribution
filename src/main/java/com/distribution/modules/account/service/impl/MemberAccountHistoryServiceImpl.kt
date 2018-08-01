@@ -11,6 +11,9 @@ class MemberAccountHistoryServiceImpl : MemberAccountHistoryService {
 
     @Autowired
     private lateinit var memberAccountHistoryMapper: MemberAccountHistoryMapper
+    override fun saveHistory(history: MemberAccountHistory) {
+        memberAccountHistoryMapper.insert(history)
+    }
 
     override fun findList(param: Map<String, Any>): List<MemberAccountHistory> {
         return memberAccountHistoryMapper.queryList(param)

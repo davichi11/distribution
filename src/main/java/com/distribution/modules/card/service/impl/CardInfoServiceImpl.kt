@@ -136,6 +136,10 @@ class CardInfoServiceImpl : CardInfoService {
     @Throws(Exception::class)
     override fun getProductUrl(member: DisMemberInfoEntity, prodId: String): String {
         val cardInfo = cardInfoMapper.selectByBankNum(prodId)
+        //如果不推送数据直接返回URL
+        if (cardInfo.useThirdPart == 0) {
+            return cardInfo.cardUrl
+        }
         val params = HashMap<String, String>()
         params["name"] = member.disUserName!!
         params["phone"] = member.userEntity!!.mobile!!

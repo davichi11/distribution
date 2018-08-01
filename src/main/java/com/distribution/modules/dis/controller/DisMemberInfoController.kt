@@ -1,14 +1,24 @@
 package com.distribution.modules.dis.controller
 
+import com.distribution.common.excel.ExcelUtils
+import com.distribution.common.utils.CommonUtils
+import com.distribution.common.utils.DateUtils
 import com.distribution.common.utils.Result
+import com.distribution.modules.account.entity.MemberAccountHistory
+import com.distribution.modules.account.service.MemberAccountHistoryService
+import com.distribution.modules.account.service.MemberAccountService
 import com.distribution.modules.dis.entity.DisMemberInfoEntity
 import com.distribution.modules.dis.service.DisMemberInfoService
 import com.github.pagehelper.PageHelper
 import org.apache.commons.collections.MapUtils
+import org.apache.commons.lang3.StringUtils
 import org.apache.shiro.authz.annotation.RequiresPermissions
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
+import java.math.BigDecimal
+import java.time.LocalDateTime
 
 
 /**
@@ -23,6 +33,11 @@ import org.springframework.web.bind.annotation.*
 class DisMemberInfoController {
     @Autowired
     private lateinit var disMemberInfoService: DisMemberInfoService
+    @Autowired
+    private lateinit var memberAccountService: MemberAccountService
+    @Autowired
+    private lateinit var historyService: MemberAccountHistoryService
+
     private val log = LoggerFactory.getLogger(DisMemberInfoController::class.java)
 
     /**
@@ -33,7 +48,7 @@ class DisMemberInfoController {
     fun list(@RequestParam params: Map<String, Any>): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page", 0),
-                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo<DisMemberInfoEntity> { disMemberInfoService.queryList(params) }
+                MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo<DisMemberInfoEntity> { disMemberInfoService.queryByPage(params) }
 
         return Result().ok().put("page", pageInfo)
     }
@@ -100,6 +115,34 @@ class DisMemberInfoController {
         }
 
         return Result().ok()
+    }
+
+    @RequestMapping("/batchSendMoney")
+    fun batchSendMoney(file: MultipartFile?): Result {
+        if (file == null) {
+            return Result().error(msg = "文件未上传")
+        }
+        val errorList = mutableListOf<String>()
+        ExcelUtils.readExcel(file.inputStream, 0).forEach {
+            it.filter { StringUtils.isNoneBlank(it) }.forEach {
+                val memberAccount = memberAccountService.selectByUserName(it ?: "")
+                if (memberAccount == null) {
+                    errorList.add(it ?: "")
+                } else {
+                    memberAccountService.updateByUserName(it ?: "")
+                    //保存历史记录
+                    val historyRecord = MemberAccountHistory()
+                    historyRecord.id = CommonUtils.uuid
+                    historyRecord.accountId = memberAccount.accountId
+                    historyRecord.hisAmount = BigDecimal.ONE
+                    historyRecord.hisType = MemberAccountHistory.HisType.INCOME
+                    historyRecord.addTime = DateUtils.formatDateTime(LocalDateTime.now())
+                    historyRecord.isDelete = "1"
+                    historyService.saveHistory(historyRecord)
+                }
+            }
+        }
+        return Result().ok("操作成功").put("error", errorList)
     }
 
 }

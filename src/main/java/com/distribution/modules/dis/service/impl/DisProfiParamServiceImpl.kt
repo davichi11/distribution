@@ -100,7 +100,7 @@ class DisProfiParamServiceImpl : DisProfiParamService {
             }
         }
         //获取当前用户等级的分润
-        val memberParam = disProfiParams.first { p -> p.disProLevel == member.disLevel.toString() }
+        val memberParam = if ("0" == member.disUserType) DisProfiParam() else disProfiParams.first { p -> p.disProLevel == member.disLevel.toString() }
         //当前用户账户信息
         val memberAccount = accountMapper.selectMemberAccountByUserId(member.id!!)
         if ("1" == member.disUserType) {
@@ -109,23 +109,23 @@ class DisProfiParamServiceImpl : DisProfiParamService {
                 updateAccont(member, memberAccount, BigDecimal(money * memberParam.disProValue))
             }
         }
-        //当前会员的上两级
+        //当前会员的上一级
         val parent = memberInfoDao.queryObject(member.disMemberParent!!.id!!)
         val parentAccount = accountMapper.selectMemberAccountByUserId(parent.id!!)
         val parentParam = disProfiParams.first { p -> p.disProLevel == parent.disLevel.toString() }
-
-        val grand = Optional.ofNullable(memberInfoDao.queryObject(parent.parentId!!))
-                .orElse(DisMemberInfoEntity())
-        var grandAccount = MemberAccount()
-        var grandParam = DisProfiParam()
-        if (grand.id != null) {
-            grandAccount = accountMapper.selectMemberAccountByUserId(grand.id!!)
-            grandParam = disProfiParams.first { p -> p.disProLevel == grand.disLevel.toString() }
-        }
         if (isReward) {
             //上一级分润,用于直接购买会员
             updateParent(money, parent, parentAccount)
         } else {
+            //上两级会员
+            val grand = if (parent.parentId != null) memberInfoDao.queryObject(parent.parentId!!) else null
+            //上两级会员账户
+            val grandAccount = if (grand != null) accountMapper.selectMemberAccountByUserId(grand.id!!) else null
+            //上两级会员分润参数
+            val grandParam = if (grand != null)
+                disProfiParams.first { p -> p.disProLevel == grand.disLevel.toString() }
+            else DisProfiParam()
+
             //上两级会员分润
             updateParentAndGrand(member, money, memberParam.disProValue, parent, parentAccount, parentParam.disProValue,
                     grand, grandAccount, grandParam.disProValue)
@@ -144,7 +144,7 @@ class DisProfiParamServiceImpl : DisProfiParamService {
      * @throws Exception
      */
     @Throws(Exception::class)
-    private fun updateParent(money: Double, parent: DisMemberInfoEntity, parentAccount: MemberAccount) {
+    private fun updateParent(money: Double, parent: DisMemberInfoEntity, parentAccount: MemberAccount?) {
         if ("1" == parent.disUserType) {
             updateAccont(parent, parentAccount, BigDecimal(money))
         }
@@ -166,7 +166,7 @@ class DisProfiParamServiceImpl : DisProfiParamService {
      */
     @Throws(Exception::class)
     private fun updateParentAndGrand(member: DisMemberInfoEntity, money: Double, memberParam: Double,
-                                     parent: DisMemberInfoEntity, parentAccount: MemberAccount, parentParam: Double?,
+                                     parent: DisMemberInfoEntity, parentAccount: MemberAccount?, parentParam: Double?,
                                      grand: DisMemberInfoEntity?, grandAccount: MemberAccount?, grandParam: Double?) {
         //当三人都在同级时,当前会员拿级别佣金,上一级拿5%
         if (member.disLevel == parent.disLevel && grand != null && member.disLevel == grand.disLevel) {
@@ -226,7 +226,10 @@ class DisProfiParamServiceImpl : DisProfiParamService {
      * @param money
      */
     @Throws(Exception::class)
-    private fun updateAccont(member: DisMemberInfoEntity, account: MemberAccount, money: BigDecimal) {
+    private fun updateAccont(member: DisMemberInfoEntity, account: MemberAccount?, money: BigDecimal) {
+        if (account == null) {
+            return
+        }
         account.memberAmount = account.memberAmount.add(money)
         accountMapper.updateByPrimaryKeySelective(account)
         //保存交易记录
