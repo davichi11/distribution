@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CardInfo extends TableImpl<CardInfoRecord> {
 
-    private static final long serialVersionUID = -952740461;
+    private static final long serialVersionUID = 751574921;
 
     /**
      * The reference instance of <code>distribution.card_info</code>
@@ -107,6 +107,11 @@ public class CardInfo extends TableImpl<CardInfoRecord> {
      * The column <code>distribution.card_info.rebate</code>. 信用卡返利
      */
     public final TableField<CardInfoRecord, Double> REBATE = createField("rebate", org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "信用卡返利");
+
+    /**
+     * The column <code>distribution.card_info.use_third_part</code>. 是否启用推送第三方数据 0否 1是
+     */
+    public final TableField<CardInfoRecord, Integer> USE_THIRD_PART = createField("use_third_part", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.INTEGER)), this, "是否启用推送第三方数据 0否 1是");
 
     /**
      * Create a <code>distribution.card_info</code> table reference

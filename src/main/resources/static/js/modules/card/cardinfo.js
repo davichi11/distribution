@@ -7,7 +7,10 @@ $(function () {
             {label: '银行代号', name: 'bankNum', index: 'bank_num', width: 50},
             {label: '信用卡代号', name: 'cardNum', index: 'card_num', width: 50},
             {label: '信用卡名称', name: 'cardName', index: 'card_name', width: 80},
-            {label: '信用卡图片', name: 'cardImg', index: 'card_img', width: 80},
+            {
+                label: '信用卡图片', name: 'cardImg', index: 'card_img', width: 80,
+                formatter: (value, options, row) => `<a href="#" onclick="showImg('${value}')">点击查看图标</a>`
+            },
             {label: '信用卡详情', name: 'cardInfo', index: 'card_info', width: 80},
             {
                 label: '信用卡办理链接',
@@ -21,7 +24,7 @@ $(function () {
                 label: '是否推送第三方',
                 name: 'useThirdPart',
                 index: 'use_third_part',
-                width: 50,
+                width: 80,
                 formatter: (value, options, row) => value === 0 ?
                     '<span class="label label-danger">不推送</span>' :
                     '<span class="label label-success">推送</span>'
@@ -59,7 +62,14 @@ var vm = new Vue({
     data: {
         showList: true,
         title: null,
-        cardInfo: {}
+        cardInfo: {},
+        type: [{
+            "code": 0,
+            "value": "否"
+        }, {
+            "code": 1,
+            "value": "是"
+        }]
     },
     methods: {
         query: function () {

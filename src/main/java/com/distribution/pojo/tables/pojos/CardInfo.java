@@ -4,9 +4,8 @@
 package com.distribution.pojo.tables.pojos;
 
 
-import java.io.Serializable;
-
 import javax.annotation.Generated;
+import java.io.Serializable;
 
 
 /**
@@ -22,19 +21,20 @@ import javax.annotation.Generated;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CardInfo implements Serializable {
 
-    private static final long serialVersionUID = 979958609;
+    private static final long serialVersionUID = 1960580532;
 
-    private String id;
-    private String bankNum;
-    private String cardNum;
-    private String cardName;
-    private String cardImg;
-    private String cardInfo;
-    private String cardUrl;
-    private String updateTime;
-    private String addTime;
-    private String isDelete;
-    private Double rebate;
+    private String  id;
+    private String  bankNum;
+    private String  cardNum;
+    private String  cardName;
+    private String  cardImg;
+    private String  cardInfo;
+    private String  cardUrl;
+    private String  updateTime;
+    private String  addTime;
+    private String  isDelete;
+    private Double  rebate;
+    private Integer useThirdPart;
 
     public CardInfo() {}
 
@@ -50,20 +50,22 @@ public class CardInfo implements Serializable {
         this.addTime = value.addTime;
         this.isDelete = value.isDelete;
         this.rebate = value.rebate;
+        this.useThirdPart = value.useThirdPart;
     }
 
     public CardInfo(
-        String id,
-        String bankNum,
-        String cardNum,
-        String cardName,
-        String cardImg,
-        String cardInfo,
-        String cardUrl,
-        String updateTime,
-        String addTime,
-        String isDelete,
-        Double rebate
+        String  id,
+        String  bankNum,
+        String  cardNum,
+        String  cardName,
+        String  cardImg,
+        String  cardInfo,
+        String  cardUrl,
+        String  updateTime,
+        String  addTime,
+        String  isDelete,
+        Double  rebate,
+        Integer useThirdPart
     ) {
         this.id = id;
         this.bankNum = bankNum;
@@ -76,6 +78,7 @@ public class CardInfo implements Serializable {
         this.addTime = addTime;
         this.isDelete = isDelete;
         this.rebate = rebate;
+        this.useThirdPart = useThirdPart;
     }
 
     public String getId() {
@@ -166,6 +169,14 @@ public class CardInfo implements Serializable {
         this.rebate = rebate;
     }
 
+    public Integer getUseThirdPart() {
+        return this.useThirdPart;
+    }
+
+    public void setUseThirdPart(Integer useThirdPart) {
+        this.useThirdPart = useThirdPart;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("CardInfo (");
@@ -181,6 +192,7 @@ public class CardInfo implements Serializable {
         sb.append(", ").append(addTime);
         sb.append(", ").append(isDelete);
         sb.append(", ").append(rebate);
+        sb.append(", ").append(useThirdPart);
 
         sb.append(")");
         return sb.toString();
