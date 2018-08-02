@@ -153,7 +153,8 @@ class ApiAccountController {
         //        Map<String, Object> param = new HashMap<>(2);
         //        param.put("userId",userId);
         //账户信息
-        val memberAccount = memberAccountService.selectMemberAccountByUserId(mobile) ?: MemberAccount()
+        val memberAccount = memberAccountService.selectMemberAccountByUserId(mobile)
+                ?: return Result().error(msg = "请先在账户管理--绑定支付宝账户")
 
         //提现金额
         val withdrawalAmount = withdrawalInfoService.withdrawalAmounts(mobile)
@@ -230,8 +231,10 @@ class ApiAccountController {
     @Throws(Exception::class)
     fun saveWithdrawalInfo(@RequestBody withdrawalVo: WithdrawalVo): Result {
         //提现校验
-        val account = memberAccountService.selectMemberAccountByUserId(withdrawalVo.withdrawMobile)
-                ?: return Result().error(msg = "请先在账户管理--绑定支付宝账户")
+        val account = memberAccountService.selectMemberAccountByUserId(withdrawalVo.withdrawMobile)!!
+        if (account.aliPayAccount.isBlank()) {
+            return Result().error(msg = "请先在账户管理--绑定支付宝账户")
+        }
         if (account.memberAmount < withdrawalVo.withdrawAmount) {
             return Result().error(msg = "提现金额超出可用余额")
         }

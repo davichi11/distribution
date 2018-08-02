@@ -4,8 +4,9 @@
 package com.distribution.pojo.tables.pojos;
 
 
-import javax.annotation.Generated;
 import java.io.Serializable;
+
+import javax.annotation.Generated;
 
 
 /**

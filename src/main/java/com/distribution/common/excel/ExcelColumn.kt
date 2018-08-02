@@ -1,7 +1,5 @@
 package com.distribution.common.excel
 
-import java.lang.annotation.Documented
-
 /**
  * @author ChunLiang Hu
  * @Company
@@ -12,7 +10,7 @@ import java.lang.annotation.Documented
  */
 @Target(AnnotationTarget.FIELD)
 @Retention(AnnotationRetention.RUNTIME)
-@Documented
+@MustBeDocumented
 annotation class ExcelColumn(val value: String = "",
                              /**
                               * 从1开始

@@ -4,6 +4,7 @@ package com.distribution.modules.api.controller
 import com.alibaba.fastjson.JSONObject
 import com.distribution.common.utils.CommonUtils
 import com.distribution.common.utils.Result
+import com.distribution.modules.account.service.MemberAccountService
 import com.distribution.modules.api.annotation.AuthIgnore
 import com.distribution.modules.api.entity.UserEntity
 import com.distribution.modules.api.service.IdCardQueryService
@@ -46,6 +47,8 @@ class ApiRegisterController {
     private lateinit var memberInfoService: DisMemberInfoService
     @Autowired
     private lateinit var idCardQueryService: IdCardQueryService
+    @Autowired
+    private lateinit var memberAccountService: MemberAccountService
     @Autowired
     private lateinit var sender: NotifySender
     @Autowired
@@ -95,6 +98,7 @@ class ApiRegisterController {
                 return Result().error(msg = "该手机号已注册")
             }
             userService.save(mobile, pwd, name, idCode, openId)
+
         } catch (e: Exception) {
             log.error("注册异常", e)
             return Result().error(msg = "注册异常")

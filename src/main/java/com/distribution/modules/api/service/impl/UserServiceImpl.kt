@@ -3,6 +3,8 @@ package com.distribution.modules.api.service.impl
 import com.distribution.common.exception.RRException
 import com.distribution.common.utils.CommonUtils
 import com.distribution.common.utils.DateUtils
+import com.distribution.modules.account.dao.MemberAccountMapper
+import com.distribution.modules.account.entity.MemberAccount
 import com.distribution.modules.api.dao.UserDao
 import com.distribution.modules.api.entity.UserEntity
 import com.distribution.modules.api.service.UserService
@@ -26,6 +28,8 @@ class UserServiceImpl : UserService {
     private lateinit var memberInfoDao: DisMemberInfoDao
     @Autowired
     private lateinit var fansMapper: DisFansMapper
+    @Autowired
+    private lateinit var memberAccountMapper: MemberAccountMapper
 
     override fun queryObject(userId: String): UserEntity {
         return userDao.queryObject(userId)
@@ -76,6 +80,15 @@ class UserServiceImpl : UserService {
         member.addTime = DateUtils.formatDateTime(LocalDateTime.now())
         memberInfoDao.save(member)
         user.memberInfo = member
+
+
+        //注册成功之后开通默认账户
+        val memberAccount = MemberAccount()
+        memberAccount.member = member
+        memberAccount.accountId = CommonUtils.uuid
+        memberAccount.memberType = "1"
+        memberAccountMapper.insertSelective(memberAccount)
+
         return user
     }
 

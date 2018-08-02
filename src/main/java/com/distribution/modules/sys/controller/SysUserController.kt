@@ -1,7 +1,6 @@
 package com.distribution.modules.sys.controller
 
 import com.distribution.common.annotation.SysLog
-import com.distribution.common.exception.RRException
 import com.distribution.common.utils.Constant
 import com.distribution.common.utils.Result
 import com.distribution.common.validator.ValidatorUtils
@@ -17,7 +16,6 @@ import org.apache.shiro.authz.annotation.RequiresPermissions
 import org.apache.shiro.crypto.hash.Sha256Hash
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
-import java.util.*
 
 /**
  * 系统用户
@@ -65,13 +63,10 @@ class SysUserController : AbstractController() {
     @SysLog("修改密码")
     @RequestMapping("/password")
     fun password(password: String, newPassword: String): Result {
-        var password1 = password
-        var newPassword1 = newPassword
-
         //sha256加密
-        password1 = Sha256Hash(password1, user.salt).toHex()
+        val password1 = Sha256Hash(password, user.salt).toHex()
         //sha256加密
-        newPassword1 = Optional.ofNullable(newPassword1).orElseThrow { RRException("新密码不为能空") }
+        val newPassword1 = Sha256Hash(newPassword, user.salt).toHex()
 
         //更新密码
         var count = 0

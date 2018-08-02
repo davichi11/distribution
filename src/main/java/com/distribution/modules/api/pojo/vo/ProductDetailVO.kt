@@ -19,5 +19,5 @@ data class ProductDetailVO(
         var prodTypeId: String? = null,
         var prodDetailValue: Long? = null,
         var prodDetailCount: String? = null,
-        internal var params: List<ProductDetailParams> = mutableListOf()
+        var params: List<ProductDetailParams> = mutableListOf()
 )

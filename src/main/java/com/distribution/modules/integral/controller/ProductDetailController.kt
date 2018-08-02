@@ -57,10 +57,11 @@ class ProductDetailController {
     fun info(@PathVariable("id") id: String): Result {
         val productDetail = productDetailService.queryObject(id)
         val productDetailVO = ProductDetailVO()
-        BeanUtils.copyProperties(productDetail, productDetailVO)
-        productDetailVO.params = create.selectFrom(Tables.PRODUCT_DETAIL_PARAMS)
+        val list = create.selectFrom(Tables.PRODUCT_DETAIL_PARAMS)
                 .where(Tables.PRODUCT_DETAIL_PARAMS.DETAIL_ID.eq(id))
                 .fetchInto(ProductDetailParams::class.java)
+        BeanUtils.copyProperties(productDetail, productDetailVO)
+        productDetailVO.params = list
         return Result().ok().put("productDetail", productDetailVO)
     }
 

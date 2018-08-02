@@ -164,7 +164,7 @@
                 #{cardUrl,jdbcType=VARCHAR},
             </if>
             <if test="rebate != null">
-                #{rebate}
+                #{rebate},
             </if>
             <if test="updateTime != null">
                 #{updateTime,jdbcType=VARCHAR},
@@ -176,7 +176,7 @@
                 #{isDelete,jdbcType=VARCHAR},
             </if>
             <if test="useThirdPart != null">
-                #{useThirdPart}
+                #{useThirdPart},
             </if>
         </trim>
     </insert>
