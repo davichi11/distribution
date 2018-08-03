@@ -264,9 +264,14 @@
     </select>
     <select id="selectByUserName" resultMap="BaseResultMap">
         select account_id,
+               member_id,
                member_type,
                member_amount,
-               alipay_account
+               alipay_account,
+               a.is_delete,
+               a.add_time,
+               a.update_time,
+               m.id as "m_id"
         from member_account a
                  left join dis_member_info m on a.member_id = m.id
         where m.dis_user_name = #{name}

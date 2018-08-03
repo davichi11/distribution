@@ -47,7 +47,7 @@ class MemberAccountServiceImpl : MemberAccountService {
         }
     }
 
-    override fun selectByUserName(name: String): MemberAccount? {
+    override fun selectByUserName(name: String): List<MemberAccount>? {
         return memberAccountMapper.selectByUserName(name)
     }
 }

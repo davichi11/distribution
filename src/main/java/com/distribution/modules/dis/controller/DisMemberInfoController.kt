@@ -123,22 +123,26 @@ class DisMemberInfoController {
             return Result().error(msg = "文件未上传")
         }
         val errorList = mutableListOf<String>()
-        ExcelUtils.readExcel(file.inputStream, 0).forEach {
-            it.filter { StringUtils.isNoneBlank(it) }.forEach {
+        ExcelUtils.readExcel(file.inputStream, 0).forEach { names ->
+            names.filter { StringUtils.isNoneBlank(it) }.forEach { it ->
                 val memberAccount = memberAccountService.selectByUserName(it ?: "")
                 if (memberAccount == null) {
                     errorList.add(it ?: "")
                 } else {
-                    memberAccountService.updateByUserName(it ?: "")
-                    //保存历史记录
-                    val historyRecord = MemberAccountHistory()
-                    historyRecord.id = CommonUtils.uuid
-                    historyRecord.accountId = memberAccount.accountId
-                    historyRecord.hisAmount = BigDecimal.ONE
-                    historyRecord.hisType = MemberAccountHistory.HisType.INCOME
-                    historyRecord.addTime = DateUtils.formatDateTime(LocalDateTime.now())
-                    historyRecord.isDelete = "1"
-                    historyService.saveHistory(historyRecord)
+                    memberAccount.forEach {
+                        it.memberAmount = it.memberAmount.inc()
+                        memberAccountService.update(it)
+                        //保存历史记录
+                        val historyRecord = MemberAccountHistory()
+                        historyRecord.id = CommonUtils.uuid
+                        historyRecord.accountId = it.accountId
+                        historyRecord.hisAmount = BigDecimal.ONE
+                        historyRecord.hisType = MemberAccountHistory.HisType.INCOME
+                        historyRecord.addTime = DateUtils.formatDateTime(LocalDateTime.now())
+                        historyRecord.isDelete = "1"
+                        historyService.saveHistory(historyRecord)
+                    }
+//                    memberAccountService.updateByUserName(it ?: "")
                 }
             }
         }

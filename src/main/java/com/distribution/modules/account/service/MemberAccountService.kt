@@ -14,7 +14,7 @@ interface MemberAccountService {
      */
     fun selectByAlipay(alipayAccount: String): MemberAccount?
 
-    fun selectByUserName(@Param("name") name: String): MemberAccount?
+    fun selectByUserName(@Param("name") name: String): List<MemberAccount>?
 
     /**
      * 保存用户账户信息

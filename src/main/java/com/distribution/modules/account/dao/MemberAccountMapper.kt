@@ -85,6 +85,6 @@ interface MemberAccountMapper {
     @Throws(Exception::class)
     fun updateByUserName(@Param("name") name: String)
 
-    fun selectByUserName(@Param("name") name: String): MemberAccount?
+    fun selectByUserName(@Param("name") name: String): List<MemberAccount>?
 
 }
