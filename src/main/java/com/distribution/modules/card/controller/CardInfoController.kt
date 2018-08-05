@@ -62,6 +62,7 @@ class CardInfoController {
         try {
             cardInfo.id = CommonUtils.uuid
             cardInfo.addTime = DateUtils.formatDateTime(LocalDateTime.now())
+
             cardInfoService.save(cardInfo)
         } catch (e: Exception) {
             log.error("保存异常", e)

@@ -124,8 +124,8 @@ class CardInfoServiceImpl : CardInfoService {
     @Throws(Exception::class)
     override fun getProductInfo(prodId: String): CardApiResponse {
 
-        val url = OkHttpUtil.attachHttpGetParam("http://www.qichangkeji.vip/qckjgzhManager/DownSingleLoan/selectById.do",
-                "id", prodId)
+        val url = OkHttpUtil.attachHttpGetParams("http://www.qichangkeji.vip/qckjgzhManager/DownSingleLoan/selectById.do",
+                mapOf("id" to prodId, "fatherId" to "5710"))
         val request = Request.Builder().url(url).get().build()
         val response = OkHttpUtil.execute(request)
         return if (response.isSuccessful) {
@@ -147,8 +147,8 @@ class CardInfoServiceImpl : CardInfoService {
         params["goodsId"] = prodId
         params["idCard"] = member.idCode!!
         params["fatherId"] = "5710"
-        val fans = fansService.queryByOpenId(member.openId!!)
-        params["otherUserId"] = fans!!.workerId.toString()
+        val fans = fansService.queryByOpenId(member.openId!!)!!
+        params["otherUserId"] = fans.workerId.toString()
         val url = OkHttpUtil.attachHttpGetParams("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do", params)
         //        RequestBody formBody = RequestBody.create(MediaType.parse("text/json; charset=utf-8"), JSON.toJSONString(params));
         //        Request request = new Request.Builder().url("http://www.qichangkeji.vip/qckjgzhManager/DownUser/Add.do")

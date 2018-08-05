@@ -1,5 +1,7 @@
 package com.distribution.modules.api.entity
 
+import java.io.Serializable
+
 /**
  * @author ChunLiang Hu
  * @Company
@@ -14,5 +16,6 @@ data class IdCardResponse(
 
         var result: IdCardResults = IdCardResults(),
 
-        var errorCode: Int = 0
-)
+        var errorCode: Int = 0,
+        private val serialVersionUID: Long = 1L
+) : Serializable
