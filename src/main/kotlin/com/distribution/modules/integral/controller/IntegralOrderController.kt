@@ -51,25 +51,25 @@ class IntegralOrderController {
         return Result().ok().put("integralOrder", integralOrder)
     }
 
-    /**
-     * 删除
-     */
-    @RequestMapping("/delete")
-    @RequiresPermissions("integralorder:delete")
-    fun delete(@RequestBody ids: Array<String>): Result {
-        try {
-            if (ids.size == 1) {
-                integralOrderService.delete(ids[0])
-            } else {
-                integralOrderService.deleteBatch(ids)
-            }
-        } catch (e: Exception) {
-            log.error("删除积分兑换订单异常", e)
-            return Result().error(msg = "删除积分兑换订单异常")
-        }
-
-        return Result().ok()
-    }
+//    /**
+//     * 删除
+//     */
+//    @RequestMapping("/delete")
+//    @RequiresPermissions("integralorder:delete")
+//    fun delete(@RequestBody ids: Array<String>): Result {
+//        try {
+//            if (ids.size == 1) {
+//                integralOrderService.delete(ids[0])
+//            } else {
+//                integralOrderService.deleteBatch(ids)
+//            }
+//        } catch (e: Exception) {
+//            log.error("删除积分兑换订单异常", e)
+//            return Result().error(msg = "删除积分兑换订单异常")
+//        }
+//
+//        return Result().ok()
+//    }
 
     /**
      * 审核

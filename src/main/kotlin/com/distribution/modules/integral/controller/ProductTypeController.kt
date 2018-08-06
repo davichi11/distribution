@@ -131,12 +131,13 @@ class ProductTypeController {
     @RequiresPermissions("producttype:delete")
     fun delete(@RequestBody ids: Array<String>): Result {
         try {
-            if (ids.size == 1) {
-                val typeEntity = productTypeService.queryObject(ids[0])
-                typeEntity.isDelete = "0"
-                productTypeService.update(typeEntity)
-            } else {
-                ids.forEach {
+            when {
+                ids.size == 1 -> {
+                    val typeEntity = productTypeService.queryObject(ids[0])
+                    typeEntity.isDelete = "0"
+                    productTypeService.update(typeEntity)
+                }
+                else -> ids.forEach {
                     val typeEntity = productTypeService.queryObject(it)
                     typeEntity.isDelete = "0"
                     productTypeService.update(typeEntity)

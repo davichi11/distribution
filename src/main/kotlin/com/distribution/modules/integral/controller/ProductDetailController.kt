@@ -128,12 +128,13 @@ class ProductDetailController {
     @RequiresPermissions("productdetail:delete")
     fun delete(@RequestBody ids: Array<String>): Result {
         try {
-            if (ids.size == 1) {
-                val productDetail = productDetailService.queryObject(ids[0])
-                productDetail.isDelete = "0"
-                productDetailService.update(productDetail)
-            } else {
-                ids.forEach {
+            when {
+                ids.size == 1 -> {
+                    val productDetail = productDetailService.queryObject(ids[0])
+                    productDetail.isDelete = "0"
+                    productDetailService.update(productDetail)
+                }
+                else -> ids.forEach {
                     val productDetail = productDetailService.queryObject(it)
                     productDetail.isDelete = "0"
                     productDetailService.update(productDetail)

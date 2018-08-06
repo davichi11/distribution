@@ -238,11 +238,17 @@ class ApiAccountController {
         if (account.memberAmount < withdrawalVo.withdrawAmount) {
             return Result().error(msg = "提现金额超出可用余额")
         }
-        val countKey = withdrawalVo.withdrawMobile + "_withdrawal"
+        val limitKey = withdrawalVo.withdrawMobile + "_withdrawal"
 
-        val limit = NumberUtils.toDouble(redisTemplate.opsForValue().get(countKey))
+        val limit = NumberUtils.toDouble(redisTemplate.opsForValue().get(limitKey))
         if (limit >= 500 || withdrawalVo.withdrawAmount.toDouble() >= 500) {
             return Result().error(msg = "已超出每日提现限额")
+        }
+
+        val countKey = withdrawalVo.withdrawMobile + "_count"
+        var count = NumberUtils.toInt(redisTemplate.opsForValue().get(countKey) ?: "0")
+        if (count >= 2) {
+            return Result().error(msg = "已超出每日提现次数")
         }
 
         val orderId = AliPayUtils.generateOrderId(withdrawalVo.withdrawMobile,
@@ -285,10 +291,14 @@ class ApiAccountController {
         val millis = between.toMillis()
 
         //更新每日提现限额
-        redisTemplate.opsForValue().set(countKey, withdrawalVo.withdrawAmount.add(BigDecimal(limit)).toString(),
+        redisTemplate.opsForValue().set(limitKey, withdrawalVo.withdrawAmount.add(BigDecimal(limit)).toString(),
                 millis, TimeUnit.MILLISECONDS)
+        //更新每日提现次数
+        count += 1
+        redisTemplate.opsForValue().set(countKey, (count).toString(), millis, TimeUnit.MILLISECONDS)
+
+        //发送提现成功提醒
         launch {
-            //发送提现成功提醒
             wxMpService.templateMsgService.sendTemplateMsg(buildTemplateMsg(account.member.openId,
                     withdrawalVo.withdrawAmount.toString(), withdrawalInfo.withdrawName))
         }

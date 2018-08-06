@@ -96,10 +96,17 @@ class LoanInfoController {
     @RequiresPermissions("loaninfo:delete")
     fun delete(@RequestBody ids: Array<String>): Result {
         try {
-            if (ids.size == 1) {
-                loanInfoService.delete(ids[0])
-            } else {
-                loanInfoService.deleteBatch(ids)
+            when {
+                ids.size == 1 -> {
+                    val loanInfo = loanInfoService.queryObject(ids[0])
+                    loanInfo.isDelete = 0
+                    loanInfoService.update(loanInfo)
+                }
+                else -> ids.forEach {
+                    val loanInfo = loanInfoService.queryObject(it)
+                    loanInfo.isDelete = 0
+                    loanInfoService.update(loanInfo)
+                }
             }
         } catch (e: Exception) {
             log.error("删除贷款产品信息异常", e)

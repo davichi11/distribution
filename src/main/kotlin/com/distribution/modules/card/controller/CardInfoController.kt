@@ -97,9 +97,15 @@ class CardInfoController {
     fun delete(@RequestBody ids: Array<String>): Result {
         try {
             if (ids.size == 1) {
-                cardInfoService.delete(ids[0])
+                val cardInfo = cardInfoService.queryObject(ids[0])
+                cardInfo.isDelete = "0"
+                cardInfoService.update(cardInfo)
             } else {
-                cardInfoService.deleteBatch(ids)
+                ids.forEach {
+                    val cardInfo = cardInfoService.queryObject(it)
+                    cardInfo.isDelete = "0"
+                    cardInfoService.update(cardInfo)
+                }
             }
         } catch (e: Exception) {
             log.error("删除信用卡信息异常", e)

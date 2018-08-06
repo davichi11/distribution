@@ -112,10 +112,17 @@ class LoanOrderInfoController {
     @RequiresPermissions("loanorderinfo:delete")
     fun delete(@RequestBody ids: Array<String>): Result {
         try {
-            if (ids.size == 1) {
-                loanOrderInfoService.delete(ids[0])
-            } else {
-                loanOrderInfoService.deleteBatch(ids)
+            when {
+                ids.size == 1 -> {
+                    val loanOrderInfoEntity = loanOrderInfoService.queryObject(ids[0])
+                    loanOrderInfoEntity.isDelete = 0
+                    loanOrderInfoService.update(loanOrderInfoEntity)
+                }
+                else -> ids.forEach {
+                    val loanOrderInfoEntity = loanOrderInfoService.queryObject(it)
+                    loanOrderInfoEntity.isDelete = 0
+                    loanOrderInfoService.update(loanOrderInfoEntity)
+                }
             }
         } catch (e: Exception) {
             log.error("删除贷款订单信息异常", e)
