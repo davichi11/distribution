@@ -1,11 +1,14 @@
 package com.distribution
 
 import com.alibaba.fastjson.JSON
+import com.distribution.common.excel.ExcelUtils
 import com.distribution.common.utils.OkHttpUtil
 import com.distribution.modules.card.entity.CardApiResponse
 import okhttp3.Request
+import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.math.NumberUtils
 import org.junit.Test
+import java.io.File
 import java.io.IOException
 import java.io.UnsupportedEncodingException
 import java.time.Duration
@@ -24,7 +27,13 @@ import java.util.*
 class MyTest {
     @Test
     fun test1() {
-        print(Float.NaN)
+        val f = File("/Volumes/APPLE SD Card Reader Media/工作文档/钱到手app/签到表7月31日.xlsx")
+        ExcelUtils.readExcel(f.inputStream(), 0).forEach { it.filter { StringUtils.isNoneBlank(it) }.forEach { println(it) } }
+    }
+
+
+    private suspend fun aa() {
+        print("123123")
     }
 
     @Test

@@ -31,7 +31,7 @@ import java.time.LocalDateTime
 class SysLogAspect {
     private val log = LoggerFactory.getLogger(SysLogAspect::class.java)
     @Autowired
-    private val sysLogService: SysLogService? = null
+    private lateinit var sysLogService: SysLogService
 
     @Pointcut("@annotation(com.distribution.common.annotation.SysLog)")
     fun logPointCut() {
@@ -72,7 +72,7 @@ class SysLogAspect {
         sysLog.createDate = LocalDateTime.now()
         //保存系统日志
         try {
-            sysLogService!!.save(sysLog)
+            sysLogService.save(sysLog)
         } catch (e: Exception) {
             log.error("保存日志异常", e)
         }

@@ -19,7 +19,8 @@ spring:
         name: dis
     # 环境 dev|test|pro
     profiles:
-        active: pro
+#        active: pro
+        active: dev
 #    datasource:
 #        type: com.alibaba.druid.pool.DruidDataSource
 #        driverClassName: com.mysql.jdbc.Driver

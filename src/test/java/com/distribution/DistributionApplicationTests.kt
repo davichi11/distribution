@@ -2,6 +2,7 @@ package com.distribution
 
 import com.alibaba.fastjson.JSON
 import com.distribution.modules.api.pojo.vo.LoanOrderVO
+import com.distribution.modules.api.service.IdCardQueryService
 import com.distribution.modules.sys.service.SysUserService
 import org.junit.Before
 import org.junit.Test
@@ -23,11 +24,14 @@ import java.io.IOException
 @SpringBootTest
 class DistributionApplicationTests {
     @Autowired
-    internal lateinit var userService: SysUserService
+    lateinit var userService: SysUserService
     @Autowired
-    internal lateinit var context: WebApplicationContext
+    lateinit var context: WebApplicationContext
     @Autowired
-    internal lateinit var redisTemplate: RedisTemplate<String, Any>
+    lateinit var redisTemplate: RedisTemplate<String, Any>
+    @Autowired
+    lateinit var idCardQueryService: IdCardQueryService
+
 
     private lateinit var mockMvc: MockMvc
 
@@ -68,6 +72,13 @@ class DistributionApplicationTests {
                 .header("token", "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI0ZDU2N2FjNjYwYzc0MWFlYTY1MzYzNjE3ZTcxMTk5YyIsImlhdCI6MTUzMTE4MjExMSwiZXhwIjoxNTMxODE1NzExfQ.p6kx0XTxXIj1I8DQHJ3Cr2Jy8ggy9DHUVxi1Vabz_nI")
                 .content(JSON.toJSONString(orderVO)))
                 .andExpect(MockMvcResultMatchers.status().isOk).andDo(MockMvcResultHandlers.print())
+    }
+
+    @Test
+    fun testIdCardQuery() {
+        print("------------------------------------")
+        print(idCardQueryService.isMatched("140109198701040532", "胡春亮"))
+        print("------------------------------------")
     }
 
 }
