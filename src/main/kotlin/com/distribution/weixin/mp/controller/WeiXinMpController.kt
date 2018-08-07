@@ -10,6 +10,8 @@ import com.distribution.modules.dis.entity.DisFans
 import com.distribution.modules.dis.service.DisFansService
 import com.distribution.modules.dis.service.DisMemberInfoService
 import com.distribution.queue.LevelUpSender
+import com.distribution.weixin.service.WeiXinService
+import com.distribution.weixin.utils.WxUtils
 import com.google.common.collect.Lists
 import com.vdurmont.emoji.EmojiParser
 import io.swagger.annotations.Api
@@ -25,8 +27,8 @@ import me.chanjar.weixin.mp.api.impl.WxMpMenuServiceImpl
 import me.chanjar.weixin.mp.bean.result.WxMpOAuth2AccessToken
 import me.chanjar.weixin.mp.bean.result.WxMpUser
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
-import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage
 import org.apache.commons.lang3.StringUtils
+import org.bouncycastle.asn1.x500.style.RFC4519Style.name
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -56,6 +58,8 @@ import java.util.*
 class WeiXinMpController {
     @Autowired
     private lateinit var wxMpService: WxMpService
+    @Autowired
+    private lateinit var weiXinService: WeiXinService
     @Autowired
     private lateinit var disFansService: DisFansService
     @Autowired
@@ -230,8 +234,6 @@ class WeiXinMpController {
             }
             //关联推荐人
             disFans.disMemberInfo = disMemberInfo
-            //发送新会员加入模板信息
-            val templateMessage = buildTemplateMsg(disMemberInfo.openId!!, disMemberInfo.disUserName!!, workerId.toString())
             try {
                 disFansService.save(disFans)
                 //异步执行会员升级逻辑
@@ -240,9 +242,18 @@ class WeiXinMpController {
                 log.error("保存锁粉信息异常", e)
             }
 
+            //发送新会员加入模板信息
             launch {
                 try {
-                    wxMpService.templateMsgService.sendTemplateMsg(templateMessage)
+                    //构造新会员加入模板信息
+                    val templateDataList = Lists.newArrayList(
+                            WxMpTemplateData("first", MessageFormat.format("尊敬的会员：{0}，恭喜您，有新会员加入！", name)),
+                            WxMpTemplateData("keyword1", workerId.toString()),
+                            WxMpTemplateData("keyword2", DateUtils.formatDateTime(LocalDateTime.now())),
+                            WxMpTemplateData("remark", "感谢您的努力")
+                    )
+                    WxUtils.buildAndSendTemplateMsg(disMemberInfo.openId!!, "-IxOfOp7QmIBKcS2MZ8c9WT35bBT6HO4yKfcj3C3u0E",
+                            templateDataList, weiXinService)
                 } catch (e: WxErrorException) {
                     log.error("发送消息异常", e)
                 }
@@ -251,28 +262,6 @@ class WeiXinMpController {
 
         return "redirect:$returnUrl"
     }
-
-    /**
-     * 构造新会员加入模板信息
-     *
-     * @param openId
-     * @param name
-     * @return
-     */
-    private fun buildTemplateMsg(openId: String, name: String, workerId: String): WxMpTemplateMessage {
-        val wxMpTemplateMessage = WxMpTemplateMessage()
-        wxMpTemplateMessage.templateId = "-IxOfOp7QmIBKcS2MZ8c9WT35bBT6HO4yKfcj3C3u0E"
-        wxMpTemplateMessage.toUser = openId
-        val templateDataList = Lists.newArrayList(
-                WxMpTemplateData("first", MessageFormat.format("尊敬的会员：{0}，恭喜您，有新会员加入！", name)),
-                WxMpTemplateData("keyword1", workerId),
-                WxMpTemplateData("keyword2", DateUtils.formatDateTime(LocalDateTime.now())),
-                WxMpTemplateData("remark", "感谢您的努力")
-        )
-        wxMpTemplateMessage.data = templateDataList
-        return wxMpTemplateMessage
-    }
-
 
     /**
      * 生成jssdk对应配置

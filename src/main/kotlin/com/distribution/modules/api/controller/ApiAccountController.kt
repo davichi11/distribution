@@ -14,16 +14,15 @@ import com.distribution.modules.api.pojo.vo.WithdrawalVo
 import com.distribution.modules.dis.service.DisMemberInfoService
 import com.distribution.modules.memeber.entity.WithdrawalInfo
 import com.distribution.modules.memeber.service.WithdrawalInfoService
+import com.distribution.weixin.service.WeiXinService
+import com.distribution.weixin.utils.WxUtils
 import com.github.pagehelper.PageHelper
-import com.google.common.collect.Lists
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import kotlinx.coroutines.experimental.launch
-import me.chanjar.weixin.mp.api.WxMpService
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
-import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage
 import org.apache.commons.collections.MapUtils
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.math.NumberUtils
@@ -62,7 +61,7 @@ class ApiAccountController {
     @Autowired
     private lateinit var memberAccountHistoryService: MemberAccountHistoryService
     @Autowired
-    private lateinit var wxMpService: WxMpService
+    private lateinit var weiXinService: WeiXinService
     @Autowired
     private lateinit var redisTemplate: RedisTemplate<String, String>
     @Autowired
@@ -285,10 +284,8 @@ class ApiAccountController {
         val start = LocalDateTime.now()
         //第二天开始时间
         val end = LocalDateTime.now().plusDays(1).with(LocalTime.MIN)
-        //计算时间差
-        val between = Duration.between(start, end)
-        //获取相差的小时
-        val millis = between.toMillis()
+        //计算时间差 获取相差的秒
+        val millis = Duration.between(start, end).toMillis()
 
         //更新每日提现限额
         redisTemplate.opsForValue().set(limitKey, withdrawalVo.withdrawAmount.add(BigDecimal(limit)).toString(),
@@ -299,31 +296,18 @@ class ApiAccountController {
 
         //发送提现成功提醒
         launch {
-            wxMpService.templateMsgService.sendTemplateMsg(buildTemplateMsg(account.member.openId,
-                    withdrawalVo.withdrawAmount.toString(), withdrawalInfo.withdrawName))
+            //            wxMpService.templateMsgService.sendTemplateMsg(buildTemplateMsg(account.member.openId,
+//                    withdrawalVo.withdrawAmount.toString(), withdrawalInfo.withdrawName))
+            val templateDataList = listOf(
+                    WxMpTemplateData("first", MessageFormat.format("提现成功！", withdrawalInfo.withdrawName)),
+                    WxMpTemplateData("keyword1", withdrawalVo.withdrawAmount.toString()),
+                    WxMpTemplateData("keyword2", DateUtils.formatDateTime(LocalDateTime.now())),
+                    WxMpTemplateData("remark", "感谢您的使用")
+            )
+            WxUtils.buildAndSendTemplateMsg(account.member.openId!!, "g-fARpDMBjuMPPnAQnUgUN1YLivLZQvhnAFaELvV_bU",
+                    templateDataList, weiXinService)
         }
         return Result().ok()
     }
 
-    /**
-     * 构造提现提醒模板信息
-     *
-     * @param openId
-     * @param amount
-     * @param name
-     * @return
-     */
-    private fun buildTemplateMsg(openId: String?, amount: String, name: String?): WxMpTemplateMessage {
-        val wxMpTemplateMessage = WxMpTemplateMessage()
-        wxMpTemplateMessage.templateId = "g-fARpDMBjuMPPnAQnUgUN1YLivLZQvhnAFaELvV_bU"
-        wxMpTemplateMessage.toUser = openId
-        val templateDataList = Lists.newArrayList(
-                WxMpTemplateData("first", MessageFormat.format("提现成功！", name)),
-                WxMpTemplateData("keyword1", amount),
-                WxMpTemplateData("keyword2", DateUtils.formatDateTime(LocalDateTime.now())),
-                WxMpTemplateData("remark", "感谢您的使用")
-        )
-        wxMpTemplateMessage.data = templateDataList
-        return wxMpTemplateMessage
-    }
 }

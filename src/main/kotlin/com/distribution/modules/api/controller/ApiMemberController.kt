@@ -23,6 +23,7 @@ import com.distribution.modules.pos.entity.PosApplyEntity
 import com.distribution.modules.pos.service.PosApplyService
 import com.distribution.modules.sys.service.SysConfigService
 import com.distribution.weixin.service.WeiXinService
+import com.distribution.weixin.utils.WxUtils
 import com.google.common.collect.Lists
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
@@ -30,7 +31,6 @@ import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import kotlinx.coroutines.experimental.launch
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
-import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage
 import org.apache.commons.collections.CollectionUtils
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.math.NumberUtils
@@ -373,9 +373,7 @@ class ApiMemberController {
             orderHistoryService.updateOrderStatus(1, orderNo)
             //根据支付宝账户查询对应的会员信息
             val member = disMemberInfoService.queryByMobile(orderHistory.mobile)!!
-            //构造模板消息
-            val templateMessage = buildTemplateMsg(member.openId!!, member.disLevel.toString(),
-                    level, member.disUserName!!)
+
             //升级会员
             member.disLevel = NumberUtils.toInt(level)
             //用户类型升级为会员
@@ -392,8 +390,18 @@ class ApiMemberController {
             }
             launch {
                 profiParamService.doFeeSplitting(member, money, true)
+
+                //构造模板消息
+                val templateDataList = Lists.newArrayList(
+                        WxMpTemplateData("first", MessageFormat.format("尊敬的会员：{0}，您的会员已经成功开通！", member.disUserName)),
+                        WxMpTemplateData("keyword1", member.disLevel.toString()),
+                        WxMpTemplateData("keyword2", level),
+                        WxMpTemplateData("keyword3", " "),
+                        WxMpTemplateData("remark", "感谢您的使用")
+                )
                 //生级成功发送消息
-                weiXinService.sendTemplateMsg(templateMessage)
+                WxUtils.buildAndSendTemplateMsg(member.openId!!, "kfKckhHo6GnTqO35SPHgQYKkomi1HV9kXsGbm9AO2Y8",
+                        templateDataList, weiXinService)
             }
             return "success"
 
@@ -407,28 +415,5 @@ class ApiMemberController {
 
     }
 
-    /**
-     * 组装会员升级提醒模板消息
-     *
-     * @param openId
-     * @param oldLevel
-     * @param newLevel
-     * @param name
-     * @return
-     */
-    private fun buildTemplateMsg(openId: String, oldLevel: String, newLevel: String, name: String): WxMpTemplateMessage {
-        val wxMpTemplateMessage = WxMpTemplateMessage()
-        wxMpTemplateMessage.templateId = "kfKckhHo6GnTqO35SPHgQYKkomi1HV9kXsGbm9AO2Y8"
-        wxMpTemplateMessage.toUser = openId
-        val templateDataList = Lists.newArrayList(
-                WxMpTemplateData("first", MessageFormat.format("尊敬的会员：{0}，您的会员已经成功开通！", name)),
-                WxMpTemplateData("keyword1", oldLevel),
-                WxMpTemplateData("keyword2", newLevel),
-                WxMpTemplateData("keyword3", " "),
-                WxMpTemplateData("remark", "感谢您的使用")
-        )
-        wxMpTemplateMessage.data = templateDataList
-        return wxMpTemplateMessage
-    }
 
 }

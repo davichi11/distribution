@@ -53,9 +53,9 @@ class DeleteLogTask {
      * @param date
      * @return
      */
-    private fun convertToLocalDate(date: String): LocalDate? {
+    private fun convertToLocalDate(date: String): LocalDate {
         if (StringUtils.isBlank(date)) {
-            return null
+            return LocalDate.now()
         }
         var separator = ""
         if (date.contains(":")) {

@@ -15,6 +15,8 @@ import com.distribution.modules.dis.service.DisMemberInfoService
 import com.distribution.modules.dis.vo.CardOrderInfoVO
 import com.distribution.pojo.Tables.INTEGRAL_ORDER
 import com.distribution.pojo.Tables.LOAN_ORDER_INFO
+import com.distribution.weixin.service.WeiXinService
+import com.distribution.weixin.utils.WxUtils
 import com.github.pagehelper.PageHelper
 import com.github.pagehelper.PageInfo
 import com.google.common.collect.Lists
@@ -22,7 +24,6 @@ import io.swagger.annotations.ApiOperation
 import kotlinx.coroutines.experimental.launch
 import me.chanjar.weixin.mp.api.WxMpService
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
-import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage
 import org.apache.commons.lang.StringUtils
 import org.apache.commons.lang3.math.NumberUtils
 import org.jooq.DSLContext
@@ -47,6 +48,8 @@ class ApiCardController {
     private lateinit var disMemberInfoService: DisMemberInfoService
     @Autowired
     private lateinit var wxMpService: WxMpService
+    @Autowired
+    private lateinit var weiXinService: WeiXinService
     @Autowired
     private lateinit var modelMapper: ModelMapper
     @Autowired
@@ -182,13 +185,13 @@ class ApiCardController {
             wxMpService.userService.userInfo(member.openId, "zh_CN") ?: return Result().ok().put("url", url)
             launch {
                 //发送订单信息提醒
-                val message = buildTemplateMsg(member.openId!!, member.disUserName!!,
-                        cardInfo.cardName, "", "")
-                wxMpService.templateMsgService.sendTemplateMsg(message)
+                val message = buildTemplateMsg(member.disUserName!!, cardInfo.cardName, "", "")
+                WxUtils.buildAndSendTemplateMsg(member.openId!!, "GB5gLcSDAjHtSxnZxmkcSMd4yU_WEnt2KHhpAZF3_fw",
+                        message, weiXinService)
                 //给上级发送消息
-                val parentMessage = buildTemplateMsg(member.disMemberParent!!.openId!!,
-                        member.disUserName!!, cardInfo.cardName, "", "")
-                wxMpService.templateMsgService.sendTemplateMsg(parentMessage)
+                val parentMessage = buildTemplateMsg(member.disUserName!!, cardInfo.cardName, "", "")
+                WxUtils.buildAndSendTemplateMsg(member.disMemberParent!!.openId!!, "GB5gLcSDAjHtSxnZxmkcSMd4yU_WEnt2KHhpAZF3_fw",
+                        parentMessage, weiXinService)
             }
             return Result().ok().put("url", url)
         } catch (e: Exception) {
@@ -224,16 +227,12 @@ class ApiCardController {
     /**
      * 构造订单通知模板信息
      *
-     * @param openId
      * @param name
      * @return
      */
-    private fun buildTemplateMsg(openId: String, name: String, bankName: String,
-                                 orderItemName: String, orderItemData: String): WxMpTemplateMessage {
-        val wxMpTemplateMessage = WxMpTemplateMessage()
-        wxMpTemplateMessage.templateId = "GB5gLcSDAjHtSxnZxmkcSMd4yU_WEnt2KHhpAZF3_fw"
-        wxMpTemplateMessage.toUser = openId
-        val templateDataList = Lists.newArrayList(
+    private fun buildTemplateMsg(name: String, bankName: String, orderItemName: String,
+                                 orderItemData: String): List<WxMpTemplateData> {
+        return Lists.newArrayList(
                 WxMpTemplateData("first", "您收到了一条新的信用卡订单"),
                 WxMpTemplateData("tradeDateTime", DateUtils.formatDateTime(LocalDateTime.now())),
                 WxMpTemplateData("orderType", bankName),
@@ -242,7 +241,6 @@ class ApiCardController {
                 WxMpTemplateData("orderItemData", orderItemData),
                 WxMpTemplateData("remark", "帮助别人,成就自我")
         )
-        wxMpTemplateMessage.data = templateDataList
-        return wxMpTemplateMessage
     }
+
 }

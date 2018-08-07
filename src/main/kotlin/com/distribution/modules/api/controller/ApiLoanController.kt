@@ -15,6 +15,8 @@ import com.distribution.modules.dis.service.LoanOrderInfoService
 import com.distribution.pojo.Tables
 import com.distribution.pojo.Tables.LOAN_ORDER_INFO
 import com.distribution.pojo.tables.pojos.LoanInfo
+import com.distribution.weixin.service.WeiXinService
+import com.distribution.weixin.utils.WxUtils
 import com.github.pagehelper.PageHelper
 import com.google.common.collect.Lists
 import io.swagger.annotations.Api
@@ -25,7 +27,6 @@ import me.chanjar.weixin.common.exception.WxErrorException
 import me.chanjar.weixin.mp.api.WxMpService
 import me.chanjar.weixin.mp.bean.result.WxMpUser
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
-import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage
 import org.apache.commons.lang3.StringUtils
 import org.jooq.DSLContext
 import org.slf4j.LoggerFactory
@@ -58,6 +59,8 @@ class ApiLoanController {
     private lateinit var disMemberInfoService: DisMemberInfoService
     @Autowired
     private lateinit var wxMpService: WxMpService
+    @Autowired
+    private lateinit var weiXinService: WeiXinService
     /**
      * 身份证正则
      */
@@ -150,17 +153,15 @@ class ApiLoanController {
         }
         launch {
             //发送订单信息提醒
-            val message = buildTemplateMsg(member.openId, member.disUserName, loanInfo.loanName)
             try {
-                wxMpService.templateMsgService.sendTemplateMsg(message)
+                buildTemplateMsg(member.openId, member.disUserName, loanInfo.loanName, weiXinService)
             } catch (e: WxErrorException) {
                 log.error("发送订单信息提醒异常", e)
             }
 
             //给上级发送消息
-            val parentMessage = buildTemplateMsg(member.disMemberParent!!.openId, member.disUserName, loanInfo.loanName)
             try {
-                wxMpService.templateMsgService.sendTemplateMsg(parentMessage)
+                buildTemplateMsg(member.disMemberParent!!.openId, member.disUserName, loanInfo.loanName, weiXinService)
             } catch (e: WxErrorException) {
                 log.error("给上级发送消息异常", e)
             }
@@ -197,10 +198,7 @@ class ApiLoanController {
      * @param name
      * @return
      */
-    private fun buildTemplateMsg(openId: String?, name: String?, bankName: String): WxMpTemplateMessage {
-        val wxMpTemplateMessage = WxMpTemplateMessage()
-        wxMpTemplateMessage.templateId = "GB5gLcSDAjHtSxnZxmkcSMd4yU_WEnt2KHhpAZF3_fw"
-        wxMpTemplateMessage.toUser = openId
+    private fun buildTemplateMsg(openId: String?, name: String?, bankName: String, weiXinService: WeiXinService) {
         val templateDataList = Lists.newArrayList(
                 WxMpTemplateData("first", "您收到了一条新的贷款申请订单"),
                 WxMpTemplateData("tradeDateTime", DateUtils.formatDateTime(LocalDateTime.now())),
@@ -210,8 +208,8 @@ class ApiLoanController {
                 WxMpTemplateData("orderItemData", ""),
                 WxMpTemplateData("remark", "帮助别人,成就自我")
         )
-        wxMpTemplateMessage.data = templateDataList
-        return wxMpTemplateMessage
+        WxUtils.buildAndSendTemplateMsg(openId!!, "GB5gLcSDAjHtSxnZxmkcSMd4yU_WEnt2KHhpAZF3_fw",
+                templateDataList, weiXinService)
     }
 
 

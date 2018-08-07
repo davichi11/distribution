@@ -28,7 +28,7 @@ object DateUtils {
      * 转换时间为字符串
      *
      * @param date
-     * @param pattern 时间格式
+     * @param pattern 时间格式 默认 yyyy-MM-dd
      * @return
      */
     @JvmOverloads
@@ -40,7 +40,7 @@ object DateUtils {
      * 转换时间戳为字符串
      *
      * @param dateTime
-     * @param timePattern 时间戳格式
+     * @param timePattern 时间戳格式 默认 yyyy-MM-dd HH:mm:ss
      * @return
      */
     @JvmOverloads
@@ -52,7 +52,7 @@ object DateUtils {
      * 字符串转换为时间
      *
      * @param date
-     * @param datePattern 时间格式
+     * @param datePattern 时间格式 默认 yyyy-MM-dd
      * @return
      */
     @JvmOverloads
@@ -66,25 +66,15 @@ object DateUtils {
     /**
      * 字符串转换为时间戳
      *
-     * @param dateTiem
-     * @param timePattern
+     * @param dateTime
+     * @param timePattern 时间格式 默认 yyyy-MM-dd HH:mm:ss
      * @return
      */
-    fun stringFormatDateTime(dateTiem: String, timePattern: String): LocalDateTime {
-        return if (StringUtils.isNotBlank(dateTiem))
-            LocalDateTime.parse(dateTiem, DateTimeFormatter.ofPattern(timePattern))
+    fun stringFormatDateTime(dateTime: String, timePattern: String = DATE_TIME_PATTERN): LocalDateTime {
+        return if (StringUtils.isNotBlank(dateTime))
+            LocalDateTime.parse(dateTime, DateTimeFormatter.ofPattern(timePattern))
         else
             LocalDateTime.now()
-    }
-
-    /**
-     * 使用默认的时间格式转换字符串为时间戳
-     *
-     * @param dateTime
-     * @return
-     */
-    fun stringFormatDateTime(dateTime: String): LocalDateTime {
-        return stringFormatDateTime(dateTime, DATE_TIME_PATTERN)
     }
 
     /**

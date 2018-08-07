@@ -14,10 +14,10 @@ import com.distribution.modules.dis.entity.DisProfiParam
 import com.distribution.modules.dis.entity.DisProfitRecord
 import com.distribution.modules.dis.service.DisProfiParamService
 import com.distribution.weixin.service.WeiXinService
+import com.distribution.weixin.utils.WxUtils
 import com.google.common.collect.Lists
 import kotlinx.coroutines.experimental.launch
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
-import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -254,33 +254,17 @@ class DisProfiParamServiceImpl : DisProfiParamService {
         disProfitRecordMapper.insert(profitRecord)
         launch {
             //公众号给用户发送消息
-            val templateMessage = buildTemplateMsg(member.openId, money,
-                    member.disUserName, account.memberAmount)
-            weiXinService.sendTemplateMsg(templateMessage)
+//            val templateMessage = buildTemplateMsg(member.openId, money,
+//                    member.disUserName, account.memberAmount)
+            val templateDataList = Lists.newArrayList(
+                    WxMpTemplateData("first", MessageFormat.format("尊敬的{0}您好，您获得了一笔新的佣金！", member.disUserName)),
+                    WxMpTemplateData("keyword1", money.setScale(2, BigDecimal.ROUND_HALF_EVEN).toString()),
+                    WxMpTemplateData("keyword2", DateUtils.formatDateTime(LocalDateTime.now())),
+                    WxMpTemplateData("remark", "感谢您的使用")
+            )
+            WxUtils.buildAndSendTemplateMsg(member.openId!!, "8PktExsPLnwT5Z6IXFuTsMhLIHzfY0m4MZxqBbeQvEg",
+                    templateDataList, weiXinService)
         }
-    }
-
-    /**
-     * 组装模板消息
-     *
-     * @param openId
-     * @param money   返现金额
-     * @param name    用户名
-     * @param balance 账户余额
-     * @return
-     */
-    private suspend fun buildTemplateMsg(openId: String?, money: BigDecimal, name: String?, balance: BigDecimal?): WxMpTemplateMessage {
-        val wxMpTemplateMessage = WxMpTemplateMessage()
-        wxMpTemplateMessage.templateId = "8PktExsPLnwT5Z6IXFuTsMhLIHzfY0m4MZxqBbeQvEg"
-        wxMpTemplateMessage.toUser = openId
-        val templateDataList = Lists.newArrayList(
-                WxMpTemplateData("first", MessageFormat.format("尊敬的{0}您好，您获得了一笔新的佣金！", name)),
-                WxMpTemplateData("keyword1", money.setScale(2, BigDecimal.ROUND_HALF_EVEN).toString()),
-                WxMpTemplateData("keyword2", DateUtils.formatDateTime(LocalDateTime.now())),
-                WxMpTemplateData("remark", "感谢您的使用")
-        )
-        wxMpTemplateMessage.data = templateDataList
-        return wxMpTemplateMessage
     }
 
 }
