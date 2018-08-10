@@ -67,8 +67,11 @@ class ApiRegisterController {
             ApiImplicitParam(paramType = "query", dataType = "string", name = "captcha", value = "验证码", required = true),
             ApiImplicitParam(paramType = "query", dataType = "string", name = "name", value = "真实姓名", required = true),
             ApiImplicitParam(paramType = "query", dataType = "string", name = "idCode", value = "身份证号", required = true),
-            ApiImplicitParam(paramType = "query", dataType = "string", name = "openId", value = "微信open_id"))
-    fun register(mobile: String, password: String?, name: String?, idCode: String?, captcha: String?, openId: String?): Result {
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "openId", value = "微信open_id"),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "fatherWorkerId", value = "上级用户工号")
+    )
+    fun register(mobile: String, password: String?, name: String?, idCode: String?,
+                 captcha: String?, openId: String?, fatherWorkerId: String?): Result {
         var pwd = password
         if (StringUtils.isBlank(mobile)) {
             return Result().error(msg = "手机号不能为空")
@@ -97,7 +100,7 @@ class ApiRegisterController {
             if (CollectionUtils.isNotEmpty(memberList)) {
                 return Result().error(msg = "该手机号已注册")
             }
-            userService.save(mobile, pwd, name, idCode, openId)
+            userService.save(mobile, pwd, name, idCode, openId, fatherWorkerId)
 
         } catch (e: Exception) {
             log.error("注册异常", e)

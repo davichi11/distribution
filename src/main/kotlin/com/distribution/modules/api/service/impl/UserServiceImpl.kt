@@ -13,6 +13,8 @@ import com.distribution.modules.dis.dao.DisMemberInfoDao
 import com.distribution.modules.dis.entity.DisMemberInfoEntity
 import org.apache.commons.codec.digest.DigestUtils
 import org.apache.commons.collections.CollectionUtils
+import org.apache.commons.lang3.StringUtils
+import org.apache.commons.lang3.math.NumberUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -49,7 +51,8 @@ class UserServiceImpl : UserService {
 
     @Transactional(rollbackFor = [(Exception::class)])
     @Throws(Exception::class)
-    override fun save(mobile: String, password: String?, name: String?, idCode: String?, openId: String?): UserEntity {
+    override fun save(mobile: String, password: String?, name: String?, idCode: String?,
+                      openId: String?, fatherWorkerId: String?): UserEntity {
         val user = UserEntity()
         user.userId = CommonUtils.uuid
         user.mobile = mobile
@@ -69,11 +72,19 @@ class UserServiceImpl : UserService {
         val fansParam = HashMap<String, Any>(2)
         fansParam["openId"] = openId!!
         val disFansList = fansMapper.selectList(fansParam)
-        if (CollectionUtils.isNotEmpty(disFansList)) {
-            val fans = disFansList[0]
-            member.parentId = fans.disMemberInfo!!.parentId
-            member.disMemberParent = fans.disMemberInfo!!
-            member.disPlatformId = 1L
+        when {
+            CollectionUtils.isNotEmpty(disFansList) -> {
+                val fans = disFansList[0]
+                member.parentId = fans.disMemberInfo!!.parentId
+                member.disMemberParent = fans.disMemberInfo!!
+                member.disPlatformId = 1L
+            }
+            StringUtils.isNoneBlank(fatherWorkerId) -> {
+                val father = memberInfoDao.queryByWorkerId(NumberUtils.toLong(fatherWorkerId))!!
+                member.parentId = father.id
+                member.disMemberParent = father
+                member.disPlatformId = 1L
+            }
         }
         member.disLevel = 0
         member.disUserType = "0"

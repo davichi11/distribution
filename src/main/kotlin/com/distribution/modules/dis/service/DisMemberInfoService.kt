@@ -42,7 +42,7 @@ interface DisMemberInfoService {
      */
     fun queryList(map: Map<String, Any>): List<DisMemberInfoEntity>?
 
-    fun queryByPage(map: Map<String, Any>):List<DisMemberInfoEntity>?
+    fun queryByPage(map: Map<String, Any>): List<DisMemberInfoEntity>?
 
     /**
      * 保存
@@ -87,5 +87,8 @@ interface DisMemberInfoService {
      */
     @Throws(Exception::class)
     fun levelUp(memberInfo: DisMemberInfoEntity): Boolean
+
+    fun findByWorkerId(workerid: String): DisMemberInfoEntity?
+
 
 }

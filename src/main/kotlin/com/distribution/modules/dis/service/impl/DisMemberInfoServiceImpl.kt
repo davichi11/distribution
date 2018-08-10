@@ -7,6 +7,7 @@ import com.distribution.modules.dis.dao.DisMemberInfoDao
 import com.distribution.modules.dis.entity.DisMemberInfoEntity
 import com.distribution.modules.dis.service.DisMemberInfoService
 import org.apache.commons.collections.CollectionUtils
+import org.apache.commons.lang3.math.NumberUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -15,15 +16,19 @@ import java.util.*
 
 @Service
 class DisMemberInfoServiceImpl : DisMemberInfoService {
-
     @Autowired
     private lateinit var disMemberInfoDao: DisMemberInfoDao
+
     @Autowired
     private lateinit var cardOrderInfoDao: CardOrderInfoDao
     @Autowired
     private lateinit var disFansMapper: DisFansMapper
     @Autowired
     private lateinit var userDao: UserDao
+
+    override fun findByWorkerId(workerid: String): DisMemberInfoEntity? {
+        return disMemberInfoDao.queryByWorkerId(NumberUtils.toLong(workerid))
+    }
 
     override fun queryByPage(map: Map<String, Any>): List<DisMemberInfoEntity>? {
         return disMemberInfoDao.queryForPage(map)

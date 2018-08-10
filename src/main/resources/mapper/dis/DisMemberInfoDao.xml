@@ -434,6 +434,26 @@
                  left join dis_member_info c on c.dis_model_id = m.id
         where u.mobile = #{mobile}
     </select>
+
+    <select id="queryByWorkerId" resultType="com.distribution.modules.dis.entity.DisMemberInfoEntity">
+        select d.id,
+               dis_platform_id,
+               dis_user_id,
+               dis_model_id,
+               dis_full_index,
+               dis_user_name,
+               dis_level,
+               dis_user_type,
+               dis_user_id_code,
+               dis_note,
+               add_time,
+               update_time,
+               is_delete,
+               open_id
+        from dis_member_info d
+                 left join dis_fans f on f.wechat_id = d.open_id
+        where f.worker_id = #{workerId}
+    </select>
     <update id="updateDisLevel">
         update dis_member_info
         set dis_level     = #{level},

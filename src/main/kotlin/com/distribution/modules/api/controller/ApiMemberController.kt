@@ -181,6 +181,18 @@ class ApiMemberController {
         }
     }
 
+    @AuthIgnore
+    @GetMapping("/disMember/workerId/{workerId}")
+    @ApiOperation(value = "根据工号查询用户信息")
+    fun findByWorkerId(@PathVariable("workerId") workerId: String): Result {
+        val disMemberInfoEntity = disMemberInfoService.findByWorkerId(workerId)
+        return if (disMemberInfoEntity?.id == null) {
+            Result().error(msg = "没有该用户信息")
+        } else {
+            Result().ok().put("disMember", disMemberInfoEntity)
+        }
+    }
+
     @ApiOperation(value = "根据token获取用户信息")
     @GetMapping("/memberByToken")
     fun getMemberInfoByToken(token: String, request: HttpServletRequest): Result {

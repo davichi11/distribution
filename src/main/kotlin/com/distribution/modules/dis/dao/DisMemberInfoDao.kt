@@ -31,6 +31,8 @@ interface DisMemberInfoDao : BaseDao<DisMemberInfoEntity> {
 
     fun queryByMobile(mobile: String): DisMemberInfoEntity
 
+    fun queryByWorkerId(@Param("workerId") workerId: Long): DisMemberInfoEntity?
+
     @Throws(Exception::class)
     fun updateDisLevel(@Param("level") level: Int?, @Param("type") type: String, @Param("id") id: String)
 }
