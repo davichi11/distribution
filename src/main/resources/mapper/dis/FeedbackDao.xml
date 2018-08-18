@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.distribution.modules.dis.dao.FeedbackDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.distribution.modules.dis.entity.FeedbackEntity" id="feedbackMap">
+        <result property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="addTime" column="add_time"/>
+        <result property="isDelete" column="is_delete"/>
+        <association property="member" column="memberId"
+                     javaType="com.distribution.modules.dis.entity.DisMemberInfoEntity">
+            <id property="id" column="m_id"/>
+            <result property="disUserName" column="dis_user_name"/>
+            <result property="disLevel" column="dis_level"/>
+            <result property="disUserType" column="dis_user_type"/>
+            <result property="openId" column="open_id"/>
+        </association>
+    </resultMap>
+
+    <select id="queryObject" resultMap="feedbackMap">
+        select f.id,
+               member_id,
+               title,
+               content,
+               f.add_time,
+               f.is_delete,
+               m.open_id,
+               m.id as "m_id",
+               m.dis_user_name,
+               m.dis_level,
+               m.dis_user_type
+        from feedback f
+                 left join dis_member_info m on f.member_id = m.id
+        where f.id = #{value}
+    </select>
+
+    <select id="queryList" resultMap="feedbackMap">
+        select f.id,
+        member_id,
+        title,
+        content,
+        f.add_time,
+        f.is_delete,
+        m.open_id,
+        m.id as "m_id",
+        m.dis_user_name,
+        m.dis_level,
+        m.dis_user_type
+        from feedback f
+        left join dis_member_info m on f.member_id = m.id
+        left join tb_user u on m.dis_user_id = u.user_id
+        <where>
+            <if test="title !=null and title != ''">
+                and f.title like concat('%',#{title},'%')
+            </if>
+            <if test="user_name != null and user_name != ''">
+                and m.dis_user_name = #{user_name}
+            </if>
+            <if test="user_id != null and user_id != ''">
+                and m.id = #{user_id}
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and u.mobile = #{mobile}
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by f.add_time desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.distribution.modules.dis.entity.FeedbackEntity" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into feedback
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
+            <if test="memberId != null">
+                `member_id`,
+            </if>
+            <if test="title != null">
+                `title`,
+            </if>
+            <if test="content != null">
+                `content`,
+            </if>
+            <if test="addTime != null">
+                `add_time`,
+            </if>
+            <if test="isDelete != null">
+                `is_delete`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="memberId != null">
+                #{memberId},
+            </if>
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+            <if test="addTime != null">
+                #{addTime},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.distribution.modules.dis.entity.FeedbackEntity">
+        update feedback
+        <set>
+            <if test="memberId != null">
+                `member_id` = #{memberId}
+                ,
+            </if>
+            <if test="title != null">
+                `title` = #{title}
+                ,
+            </if>
+            <if test="content != null">
+                `content` = #{content}
+                ,
+            </if>
+            <if test="addTime != null">
+                `add_time` = #{addTime}
+                ,
+            </if>
+            <if test="isDelete != null">
+                `is_delete` = #{isDelete}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from feedback
+        where id = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from feedback where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

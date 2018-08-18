@@ -1,4 +1,4 @@
-package com.distribution.modules.api.controller
+package com.distribution.modules.api.controller.member
 
 
 import com.alibaba.fastjson.JSONObject

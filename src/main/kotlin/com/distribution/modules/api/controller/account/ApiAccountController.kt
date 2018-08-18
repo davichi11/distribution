@@ -1,5 +1,6 @@
-package com.distribution.modules.api.controller
+package com.distribution.modules.api.controller.account
 
+import com.alipay.api.AlipayApiException
 import com.distribution.ali.pay.AliPayParams
 import com.distribution.ali.pay.AliPayUtils
 import com.distribution.common.utils.CommonUtils
@@ -10,13 +11,17 @@ import com.distribution.modules.account.entity.MemberAccount
 import com.distribution.modules.account.entity.MemberAccountHistory
 import com.distribution.modules.account.service.MemberAccountHistoryService
 import com.distribution.modules.account.service.MemberAccountService
+import com.distribution.modules.api.annotation.AuthIgnore
 import com.distribution.modules.api.pojo.vo.WithdrawalVo
 import com.distribution.modules.dis.service.DisMemberInfoService
+import com.distribution.modules.dis.service.DisProfiParamService
+import com.distribution.modules.dis.service.OrderHistoryService
 import com.distribution.modules.memeber.entity.WithdrawalInfo
 import com.distribution.modules.memeber.service.WithdrawalInfoService
 import com.distribution.weixin.service.WeiXinService
 import com.distribution.weixin.utils.WxUtils
 import com.github.pagehelper.PageHelper
+import com.google.common.collect.Lists
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
@@ -39,6 +44,8 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.*
 import java.util.concurrent.TimeUnit
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 /**
  * @author ChunLiang Hu
@@ -62,6 +69,10 @@ class ApiAccountController {
     private lateinit var memberAccountHistoryService: MemberAccountHistoryService
     @Autowired
     private lateinit var weiXinService: WeiXinService
+    @Autowired
+    private lateinit var profiParamService: DisProfiParamService
+    @Autowired
+    private lateinit var orderHistoryService: OrderHistoryService
     @Autowired
     private lateinit var redisTemplate: RedisTemplate<String, String>
     @Autowired
@@ -308,6 +319,88 @@ class ApiAccountController {
                     templateDataList, weiXinService)
         }
         return Result().ok()
+    }
+
+    /**
+     * 购买会员 支付回调
+     *
+     * @param request
+     * @return
+     */
+    @AuthIgnore
+    @RequestMapping("/alipayCallback")
+    fun alipayCallback(request: HttpServletRequest, response: HttpServletResponse): String {
+        val parameterMap = request.parameterMap
+        val params = HashMap<String, String>(parameterMap.size)
+        parameterMap.forEach { k, v -> params[k] = v.joinToString(",") }
+        log.info("接收支付宝支付回调,参数为{}", params)
+        //判断支付结果
+        if ("TRADE_SUCCESS" != params["trade_status"]) {
+            log.info("支付失败,参数为{}", params)
+            return "failure"
+        }
+        try {
+            if (!AliPayUtils.signVerified(params)) {
+                log.error("验签失败")
+                return "failure"
+            }
+            //从回传参数中取出购买的会员等级
+            val level = params["passback_params"]
+            if (level == null || level.isBlank()) {
+                log.info("回传参数中没有会员等级")
+                return "failure"
+            }
+            val orderNo = params["out_trade_no"]!!
+
+            //更新订单状态
+            val orderHistory = orderHistoryService.selectByOrderId(orderNo)
+            if (orderHistory == null) {
+                log.error("没有{}该订单信息", orderNo)
+                return "failure"
+            }
+            orderHistoryService.updateOrderStatus(1, orderNo)
+            //根据支付宝账户查询对应的会员信息
+            val member = disMemberInfoService.queryByMobile(orderHistory.mobile)!!
+
+            //升级会员
+            member.disLevel = NumberUtils.toInt(level)
+            //用户类型升级为会员
+            if ("0" == member.disUserType) {
+                member.disUserType = "1"
+            }
+            disMemberInfoService.updateDisLevel(member.disLevel, member.disUserType!!, member.id!!)
+            //调用分润
+            var money = 0.00
+            when (level) {
+                "1" -> money = 300.00
+                "2" -> money = 200.00
+                "3" -> money = 100.00
+            }
+            launch {
+                profiParamService.doFeeSplitting(member, money, true)
+
+                //构造模板消息
+                val templateDataList = Lists.newArrayList(
+                        WxMpTemplateData("first", MessageFormat.format("尊敬的会员：{0}，您的会员已经成功开通！", member.disUserName)),
+                        WxMpTemplateData("keyword1", member.disLevel.toString()),
+                        WxMpTemplateData("keyword2", level),
+                        WxMpTemplateData("keyword3", " "),
+                        WxMpTemplateData("remark", "感谢您的使用")
+                )
+                //生级成功发送消息
+                WxUtils.buildAndSendTemplateMsg(member.openId!!, "kfKckhHo6GnTqO35SPHgQYKkomi1HV9kXsGbm9AO2Y8",
+                        templateDataList, weiXinService)
+            }
+            return "success"
+
+        } catch (e: AlipayApiException) {
+            log.error("回调参数验签异常", e)
+            return "failure"
+        } catch (e: Exception) {
+            log.error("会员升级异常", e)
+            return "failure"
+        }
+
     }
 
 }

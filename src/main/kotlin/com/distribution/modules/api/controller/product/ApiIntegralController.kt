@@ -1,4 +1,4 @@
-package com.distribution.modules.api.controller
+package com.distribution.modules.api.controller.product
 
 import com.distribution.common.utils.CommonUtils
 import com.distribution.common.utils.DateUtils

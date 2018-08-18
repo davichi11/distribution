@@ -82,7 +82,7 @@
                 order by ${sidx} ${order}
             </when>
             <otherwise>
-                order by o.id desc
+                order by o.add_time desc
             </otherwise>
         </choose>
         <if test="offset != null and limit != null">

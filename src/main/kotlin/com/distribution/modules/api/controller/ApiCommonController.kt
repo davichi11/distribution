@@ -30,7 +30,6 @@ import java.util.*
  */
 @RestController
 @RequestMapping("/api")
-
 @Api("通用接口")
 @CrossOrigin
 class ApiCommonController {

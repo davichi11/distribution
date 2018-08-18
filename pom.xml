@@ -428,15 +428,15 @@
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <fork>true</fork>
-                    <executable>true</executable>
-                    <classifier>exec</classifier>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<fork>true</fork>-->
+                    <!--<executable>true</executable>-->
+                    <!--<classifier>exec</classifier>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -450,6 +450,9 @@
                     </dependency>
                 </dependencies>
                 <configuration>
+                    <fork>true</fork>
+                    <executable>true</executable>
+                    <classifier>exec</classifier>
                     <mainClass>com.distribution.DistributionApplication</mainClass>
                     <!-- debug 模式 -->
                     <profiles>

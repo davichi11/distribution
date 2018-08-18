@@ -1,4 +1,4 @@
-package com.distribution.modules.api.controller
+package com.distribution.modules.api.controller.account
 
 import com.alibaba.fastjson.JSON
 import com.distribution.ali.pay.AliPayParams

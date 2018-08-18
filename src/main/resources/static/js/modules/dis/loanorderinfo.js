@@ -77,25 +77,21 @@ var vm = new Vue({
     data: {
         showList: true,
         title: null,
+        mobile: "",
         loanOrderInfo: {}
     },
     methods: {
         query: function () {
             vm.reload();
         },
-        add: function () {
-            vm.showList = false;
-            vm.title = "新增";
-            vm.loanOrderInfo = {};
-        },
         update: function (event) {
             //页面层-自定义
-            var id = getSelectedRow();
-            var applydata = getSelectedRowData();
-            if (id == undefined) {
+            let id = getSelectedRow();
+            let applydata = getSelectedRowData();
+            if (!id) {
                 return
             }
-            if (applydata.orderStatus != 2) {
+            if (applydata.orderStatus !== 2) {
                 layer.msg('请选择可以分润的订单');
                 return
             }
@@ -142,7 +138,7 @@ var vm = new Vue({
             });
         },
         saveOrUpdate: function (event) {
-            var url = vm.loanOrderInfo.id == null ? "loanorderinfo/save" : "loanorderinfo/update";
+            let url = vm.loanOrderInfo.id == null ? "loanorderinfo/save" : "loanorderinfo/update";
             $.ajax({
                 type: "POST",
                 url: baseURL + url,
@@ -160,7 +156,7 @@ var vm = new Vue({
             });
         },
         del: function (event) {
-            var ids = getSelectedRows();
+            let ids = getSelectedRows();
             if (ids == null) {
                 return;
             }
@@ -190,8 +186,11 @@ var vm = new Vue({
         },
         reload: function (event) {
             vm.showList = true;
-            var page = $("#jqGrid").jqGrid('getGridParam', 'page');
+            let page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
+                postData: {
+                    "mobile": vm.mobile
+                },
                 page: page
             }).trigger("reloadGrid");
         }

@@ -4,9 +4,9 @@ import com.alibaba.fastjson.JSON
 import com.distribution.common.excel.ExcelUtils
 import com.distribution.common.utils.OkHttpUtil
 import com.distribution.modules.card.entity.CardApiResponse
+import com.google.common.collect.Lists
 import okhttp3.Request
 import org.apache.commons.lang3.StringUtils
-import org.apache.commons.lang3.math.NumberUtils
 import org.junit.Test
 import java.io.File
 import java.io.IOException
@@ -37,9 +37,44 @@ class MyTest {
     }
 
     @Test
+    fun test6() {
+        var list = LinkedList<Int>()
+        for (i in 1..5) {
+            list.add(i)
+        }
+
+        var l = LinkedList<Int>()
+//        for (i in list) {
+//            val pop = list.pop()
+//            l.addFirst(pop)
+//            list.addLast(pop)
+//        }
+
+        while (list.size > 0) {
+            val pop = list.pop()
+            l.addFirst(pop)
+            list.addLast(pop)
+        }
+
+        print(list)
+
+
+    }
+
+    @Test
     fun test5() {
-        //        System.out.println(new BigDecimal("568").setScale(2,BigDecimal.ROUND_HALF_EVEN).doubleValue());
-        println(NumberUtils.toLong("15657122353"))
+        val between = Duration.between(LocalDateTime.now().with(LocalTime.MIN), LocalDateTime.now())
+        println(between.toMinutes())
+
+        val partition = Lists.partition(listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 2)
+
+        for (i in 0..38) {
+            partition.forEach {
+                print(i)
+                println(it)
+            }
+        }
+
     }
 
     @Test
