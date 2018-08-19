@@ -31,17 +31,17 @@ class ApiFeedBackController {
     private lateinit var feedbackService: FeedbackService
     private val log = LoggerFactory.getLogger(ApiFeedBackController::class.java)
 
-    @GetMapping("/feedback/{mobile}")
+    @GetMapping("/feedback")
     @ApiOperation(value = "根据手机号查询用户的反馈记录")
-    @ApiImplicitParam(paramType = "query", dataType = "path", name = "mobile", value = "会员手机号", required = true)
-    fun getFeedbackList(@PathVariable mobile: String, page: String = "0", limit: String = "0"): Result {
+    @ApiImplicitParam(paramType = "query", dataType = "string", name = "mobile", value = "会员手机号", required = true)
+    fun getFeedbackList(mobile: String, page: String = "0", limit: String = "0"): Result {
         val pageInfo = PageHelper.startPage<Any>(NumberUtils.toInt(page, 0), NumberUtils.toInt(limit, 0))
                 .doSelectPageInfo<FeedbackEntity> { feedbackService.queryList(mapOf("mobile" to mobile)) }
         return Result().ok().put("page", pageInfo)
     }
 
     @ApiOperation(value = "根据id查询反馈记录")
-    @ApiImplicitParam(paramType = "query", dataType = "path", name = "id",  required = true)
+    @ApiImplicitParam(paramType = "path", dataType = "long", name = "id",  required = true)
     @GetMapping("/feedback/{id}")
     fun getOneFeedbackById(@PathVariable id: Long): Result {
         val feedbackEntity = feedbackService.queryObject(id) ?: return Result().error(msg = "无此记录")

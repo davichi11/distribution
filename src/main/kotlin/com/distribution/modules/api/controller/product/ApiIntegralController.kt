@@ -78,6 +78,7 @@ class ApiIntegralController {
     fun getProductDetailByType(@PathVariable("type") type: String): Result {
         val productDetails = create.selectFrom(PRODUCT_DETAIL)
                 .where(PRODUCT_DETAIL.PROD_TYPE_ID.eq(type))
+                .and(PRODUCT_DETAIL.IS_DELETE.eq("1"))
                 .orderBy(PRODUCT_DETAIL.PROD_DETAIL_VALUE.asc())
                 .fetchInto(ProductDetail::class.java)
         val detailVOS = productDetails.map { productDetail ->
@@ -97,9 +98,13 @@ class ApiIntegralController {
     @ApiOperation("根据产品查询产品类型")
     fun getProductTypeByDetail(@PathVariable("detailId") detailId: String): Result {
         val detailRecord = create.selectFrom(Tables.PRODUCT_DETAIL)
-                .where(Tables.PRODUCT_DETAIL.ID.eq(detailId)).fetchOne()
+                .where(Tables.PRODUCT_DETAIL.ID.eq(detailId))
+                .and(Tables.PRODUCT_DETAIL.IS_DELETE.eq("1"))
+                .fetchOne()
         val type = create.selectFrom<ProductTypeRecord>(Tables.PRODUCT_TYPE)
-                .where(Tables.PRODUCT_TYPE.ID.eq(detailRecord.prodTypeId)).fetchOneInto(ProductType::class.java)
+                .where(Tables.PRODUCT_TYPE.ID.eq(detailRecord.prodTypeId))
+                .and(Tables.PRODUCT_TYPE.IS_DELETE.eq("1"))
+                .fetchOneInto(ProductType::class.java)
         return Result().ok().put("productType", type)
     }
 
