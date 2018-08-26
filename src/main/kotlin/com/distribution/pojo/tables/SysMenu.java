@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.SysMenuRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysMenu extends TableImpl<SysMenuRecord> {
 
-    private static final long serialVersionUID = 1050906820;
+    private static final long serialVersionUID = -109978468;
 
     /**
-     * The reference instance of <code>distribution.sys_menu</code>
+     * The reference instance of <code>distribution_dev.sys_menu</code>
      */
     public static final SysMenu SYS_MENU = new SysMenu();
 
@@ -55,61 +55,61 @@ public class SysMenu extends TableImpl<SysMenuRecord> {
     }
 
     /**
-     * The column <code>distribution.sys_menu.menu_id</code>.
+     * The column <code>distribution_dev.sys_menu.menu_id</code>.
      */
     public final TableField<SysMenuRecord, Long> MENU_ID = createField("menu_id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution.sys_menu.parent_id</code>. 父菜单ID，一级菜单为0
+     * The column <code>distribution_dev.sys_menu.parent_id</code>. 父菜单ID，一级菜单为0
      */
     public final TableField<SysMenuRecord, Long> PARENT_ID = createField("parent_id", org.jooq.impl.SQLDataType.BIGINT, this, "父菜单ID，一级菜单为0");
 
     /**
-     * The column <code>distribution.sys_menu.name</code>. 菜单名称
+     * The column <code>distribution_dev.sys_menu.name</code>. 菜单名称
      */
     public final TableField<SysMenuRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(50), this, "菜单名称");
 
     /**
-     * The column <code>distribution.sys_menu.url</code>. 菜单URL
+     * The column <code>distribution_dev.sys_menu.url</code>. 菜单URL
      */
     public final TableField<SysMenuRecord, String> URL = createField("url", org.jooq.impl.SQLDataType.VARCHAR(200), this, "菜单URL");
 
     /**
-     * The column <code>distribution.sys_menu.perms</code>. 授权(多个用逗号分隔，如：user:list,user:create)
+     * The column <code>distribution_dev.sys_menu.perms</code>. 授权(多个用逗号分隔，如：user:list,user:create)
      */
     public final TableField<SysMenuRecord, String> PERMS = createField("perms", org.jooq.impl.SQLDataType.VARCHAR(500), this, "授权(多个用逗号分隔，如：user:list,user:create)");
 
     /**
-     * The column <code>distribution.sys_menu.type</code>. 类型   0：目录   1：菜单   2：按钮
+     * The column <code>distribution_dev.sys_menu.type</code>. 类型   0：目录   1：菜单   2：按钮
      */
     public final TableField<SysMenuRecord, Integer> TYPE = createField("type", org.jooq.impl.SQLDataType.INTEGER, this, "类型   0：目录   1：菜单   2：按钮");
 
     /**
-     * The column <code>distribution.sys_menu.icon</code>. 菜单图标
+     * The column <code>distribution_dev.sys_menu.icon</code>. 菜单图标
      */
     public final TableField<SysMenuRecord, String> ICON = createField("icon", org.jooq.impl.SQLDataType.VARCHAR(50), this, "菜单图标");
 
     /**
-     * The column <code>distribution.sys_menu.order_num</code>. 排序
+     * The column <code>distribution_dev.sys_menu.order_num</code>. 排序
      */
     public final TableField<SysMenuRecord, Integer> ORDER_NUM = createField("order_num", org.jooq.impl.SQLDataType.INTEGER, this, "排序");
 
     /**
-     * Create a <code>distribution.sys_menu</code> table reference
+     * Create a <code>distribution_dev.sys_menu</code> table reference
      */
     public SysMenu() {
         this(DSL.name("sys_menu"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.sys_menu</code> table reference
+     * Create an aliased <code>distribution_dev.sys_menu</code> table reference
      */
     public SysMenu(String alias) {
         this(DSL.name(alias), SYS_MENU);
     }
 
     /**
-     * Create an aliased <code>distribution.sys_menu</code> table reference
+     * Create an aliased <code>distribution_dev.sys_menu</code> table reference
      */
     public SysMenu(Name alias) {
         this(alias, SYS_MENU);
@@ -128,7 +128,7 @@ public class SysMenu extends TableImpl<SysMenuRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

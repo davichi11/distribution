@@ -30,59 +30,59 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysUserTokenRecord extends UpdatableRecordImpl<SysUserTokenRecord> implements Record4<Long, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 378724109;
+    private static final long serialVersionUID = -442287535;
 
     /**
-     * Setter for <code>distribution.sys_user_token.user_id</code>.
+     * Setter for <code>distribution_dev.sys_user_token.user_id</code>.
      */
     public void setUserId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user_token.user_id</code>.
+     * Getter for <code>distribution_dev.sys_user_token.user_id</code>.
      */
     public Long getUserId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>distribution.sys_user_token.token</code>. token
+     * Setter for <code>distribution_dev.sys_user_token.token</code>. token
      */
     public void setToken(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user_token.token</code>. token
+     * Getter for <code>distribution_dev.sys_user_token.token</code>. token
      */
     public String getToken() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.sys_user_token.expire_time</code>. 过期时间
+     * Setter for <code>distribution_dev.sys_user_token.expire_time</code>. 过期时间
      */
     public void setExpireTime(Timestamp value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user_token.expire_time</code>. 过期时间
+     * Getter for <code>distribution_dev.sys_user_token.expire_time</code>. 过期时间
      */
     public Timestamp getExpireTime() {
         return (Timestamp) get(2);
     }
 
     /**
-     * Setter for <code>distribution.sys_user_token.update_time</code>. 更新时间
+     * Setter for <code>distribution_dev.sys_user_token.update_time</code>. 更新时间
      */
     public void setUpdateTime(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user_token.update_time</code>. 更新时间
+     * Getter for <code>distribution_dev.sys_user_token.update_time</code>. 更新时间
      */
     public Timestamp getUpdateTime() {
         return (Timestamp) get(3);

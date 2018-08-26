@@ -28,115 +28,115 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LoanInfoRecord extends UpdatableRecordImpl<LoanInfoRecord> implements Record8<String, String, String, String, String, String, Integer, String> {
 
-    private static final long serialVersionUID = -768415627;
+    private static final long serialVersionUID = -1880660147;
 
     /**
-     * Setter for <code>distribution.loan_info.id</code>.
+     * Setter for <code>distribution_dev.loan_info.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_info.id</code>.
+     * Getter for <code>distribution_dev.loan_info.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution.loan_info.loan_name</code>. 贷款产品名称
+     * Setter for <code>distribution_dev.loan_info.loan_name</code>. 贷款产品名称
      */
     public void setLoanName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_info.loan_name</code>. 贷款产品名称
+     * Getter for <code>distribution_dev.loan_info.loan_name</code>. 贷款产品名称
      */
     public String getLoanName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.loan_info.loan_url</code>. 产品链接
+     * Setter for <code>distribution_dev.loan_info.loan_url</code>. 产品链接
      */
     public void setLoanUrl(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_info.loan_url</code>. 产品链接
+     * Getter for <code>distribution_dev.loan_info.loan_url</code>. 产品链接
      */
     public String getLoanUrl() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.loan_info.loan_img</code>.
+     * Setter for <code>distribution_dev.loan_info.loan_img</code>.
      */
     public void setLoanImg(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_info.loan_img</code>.
+     * Getter for <code>distribution_dev.loan_info.loan_img</code>.
      */
     public String getLoanImg() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.loan_info.add_time</code>.
+     * Setter for <code>distribution_dev.loan_info.add_time</code>.
      */
     public void setAddTime(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_info.add_time</code>.
+     * Getter for <code>distribution_dev.loan_info.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution.loan_info.update_time</code>.
+     * Setter for <code>distribution_dev.loan_info.update_time</code>.
      */
     public void setUpdateTime(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_info.update_time</code>.
+     * Getter for <code>distribution_dev.loan_info.update_time</code>.
      */
     public String getUpdateTime() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution.loan_info.is_delete</code>. 是否启用 0否 1是
+     * Setter for <code>distribution_dev.loan_info.is_delete</code>. 是否启用 0否 1是
      */
     public void setIsDelete(Integer value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_info.is_delete</code>. 是否启用 0否 1是
+     * Getter for <code>distribution_dev.loan_info.is_delete</code>. 是否启用 0否 1是
      */
     public Integer getIsDelete() {
         return (Integer) get(6);
     }
 
     /**
-     * Setter for <code>distribution.loan_info.remark</code>.
+     * Setter for <code>distribution_dev.loan_info.remark</code>.
      */
     public void setRemark(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_info.remark</code>.
+     * Getter for <code>distribution_dev.loan_info.remark</code>.
      */
     public String getRemark() {
         return (String) get(7);

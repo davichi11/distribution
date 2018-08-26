@@ -30,24 +30,24 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ScheduleJobLogRecord extends UpdatableRecordImpl<ScheduleJobLogRecord> implements Record9<Long, Long, String, String, String, Integer, String, Integer, Timestamp> {
 
-    private static final long serialVersionUID = -908159551;
+    private static final long serialVersionUID = 1290774401;
 
     /**
-     * Setter for <code>distribution.schedule_job_log.log_id</code>. ????ID
+     * Setter for <code>distribution_dev.schedule_job_log.log_id</code>. ????ID
      */
     public void setLogId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job_log.log_id</code>. ????ID
+     * Getter for <code>distribution_dev.schedule_job_log.log_id</code>. ????ID
      */
     public Long getLogId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>distribution.schedule_job_log.job_id</code>. ??ID
+     * Setter for <code>distribution_dev.schedule_job_log.job_id</code>. ??ID
 
      */
     public void setJobId(Long value) {
@@ -55,7 +55,7 @@ public class ScheduleJobLogRecord extends UpdatableRecordImpl<ScheduleJobLogReco
     }
 
     /**
-     * Getter for <code>distribution.schedule_job_log.job_id</code>. ??ID
+     * Getter for <code>distribution_dev.schedule_job_log.job_id</code>. ??ID
 
      */
     public Long getJobId() {
@@ -63,98 +63,98 @@ public class ScheduleJobLogRecord extends UpdatableRecordImpl<ScheduleJobLogReco
     }
 
     /**
-     * Setter for <code>distribution.schedule_job_log.bean_name</code>. spring bean ??
+     * Setter for <code>distribution_dev.schedule_job_log.bean_name</code>. spring bean ??
      */
     public void setBeanName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job_log.bean_name</code>. spring bean ??
+     * Getter for <code>distribution_dev.schedule_job_log.bean_name</code>. spring bean ??
      */
     public String getBeanName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.schedule_job_log.method_name</code>. ???
+     * Setter for <code>distribution_dev.schedule_job_log.method_name</code>. ???
      */
     public void setMethodName(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job_log.method_name</code>. ???
+     * Getter for <code>distribution_dev.schedule_job_log.method_name</code>. ???
      */
     public String getMethodName() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.schedule_job_log.params</code>. ??
+     * Setter for <code>distribution_dev.schedule_job_log.params</code>. ??
      */
     public void setParams(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job_log.params</code>. ??
+     * Getter for <code>distribution_dev.schedule_job_log.params</code>. ??
      */
     public String getParams() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution.schedule_job_log.status</code>. ????    0???    1???
+     * Setter for <code>distribution_dev.schedule_job_log.status</code>. ????    0???    1???
      */
     public void setStatus(Integer value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job_log.status</code>. ????    0???    1???
+     * Getter for <code>distribution_dev.schedule_job_log.status</code>. ????    0???    1???
      */
     public Integer getStatus() {
         return (Integer) get(5);
     }
 
     /**
-     * Setter for <code>distribution.schedule_job_log.error</code>. ????
+     * Setter for <code>distribution_dev.schedule_job_log.error</code>. ????
      */
     public void setError(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job_log.error</code>. ????
+     * Getter for <code>distribution_dev.schedule_job_log.error</code>. ????
      */
     public String getError() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution.schedule_job_log.times</code>. ??(?????)
+     * Setter for <code>distribution_dev.schedule_job_log.times</code>. ??(?????)
      */
     public void setTimes(Integer value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job_log.times</code>. ??(?????)
+     * Getter for <code>distribution_dev.schedule_job_log.times</code>. ??(?????)
      */
     public Integer getTimes() {
         return (Integer) get(7);
     }
 
     /**
-     * Setter for <code>distribution.schedule_job_log.create_time</code>. ????
+     * Setter for <code>distribution_dev.schedule_job_log.create_time</code>. ????
      */
     public void setCreateTime(Timestamp value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job_log.create_time</code>. ????
+     * Getter for <code>distribution_dev.schedule_job_log.create_time</code>. ????
      */
     public Timestamp getCreateTime() {
         return (Timestamp) get(8);

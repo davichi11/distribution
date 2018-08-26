@@ -17,9 +17,9 @@ import org.springframework.stereotype.Component
 @Component
 class NotifySender {
     @Autowired
-    private val rabbitTemplate: RabbitTemplate? = null
+    private lateinit var rabbitTemplate: RabbitTemplate
 
     fun send(context: String) {
-        rabbitTemplate!!.convertAndSend("notify", context)
+        rabbitTemplate.convertAndSend("notify", context)
     }
 }

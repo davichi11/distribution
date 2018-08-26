@@ -86,7 +86,6 @@ class WeiXinMpController {
         if (StringUtils.isAnyBlank(signature, timestamp, nonce, echostr)) {
             throw IllegalArgumentException("请求参数非法，请核实!")
         }
-
         return if (!wxMpService.checkSignature(timestamp, nonce, signature)) {
             "非法请求"
         } else echostr

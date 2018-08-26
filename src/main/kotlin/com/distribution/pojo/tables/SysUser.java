@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.SysUserRecord;
@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysUser extends TableImpl<SysUserRecord> {
 
-    private static final long serialVersionUID = 2092748468;
+    private static final long serialVersionUID = -1239590004;
 
     /**
-     * The reference instance of <code>distribution.sys_user</code>
+     * The reference instance of <code>distribution_dev.sys_user</code>
      */
     public static final SysUser SYS_USER = new SysUser();
 
@@ -56,66 +56,66 @@ public class SysUser extends TableImpl<SysUserRecord> {
     }
 
     /**
-     * The column <code>distribution.sys_user.user_id</code>.
+     * The column <code>distribution_dev.sys_user.user_id</code>.
      */
     public final TableField<SysUserRecord, Long> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution.sys_user.username</code>. 用户名
+     * The column <code>distribution_dev.sys_user.username</code>. 用户名
      */
     public final TableField<SysUserRecord, String> USERNAME = createField("username", org.jooq.impl.SQLDataType.VARCHAR(50).nullable(false), this, "用户名");
 
     /**
-     * The column <code>distribution.sys_user.password</code>. 密码
+     * The column <code>distribution_dev.sys_user.password</code>. 密码
      */
     public final TableField<SysUserRecord, String> PASSWORD = createField("password", org.jooq.impl.SQLDataType.VARCHAR(100), this, "密码");
 
     /**
-     * The column <code>distribution.sys_user.salt</code>. 盐
+     * The column <code>distribution_dev.sys_user.salt</code>. 盐
      */
     public final TableField<SysUserRecord, String> SALT = createField("salt", org.jooq.impl.SQLDataType.VARCHAR(20), this, "盐");
 
     /**
-     * The column <code>distribution.sys_user.email</code>. 邮箱
+     * The column <code>distribution_dev.sys_user.email</code>. 邮箱
      */
     public final TableField<SysUserRecord, String> EMAIL = createField("email", org.jooq.impl.SQLDataType.VARCHAR(100), this, "邮箱");
 
     /**
-     * The column <code>distribution.sys_user.mobile</code>. 手机号
+     * The column <code>distribution_dev.sys_user.mobile</code>. 手机号
      */
     public final TableField<SysUserRecord, String> MOBILE = createField("mobile", org.jooq.impl.SQLDataType.VARCHAR(100), this, "手机号");
 
     /**
-     * The column <code>distribution.sys_user.status</code>. 状态  0：禁用   1：正常
+     * The column <code>distribution_dev.sys_user.status</code>. 状态  0：禁用   1：正常
      */
     public final TableField<SysUserRecord, Integer> STATUS = createField("status", org.jooq.impl.SQLDataType.INTEGER, this, "状态  0：禁用   1：正常");
 
     /**
-     * The column <code>distribution.sys_user.create_user_id</code>. 创建者ID
+     * The column <code>distribution_dev.sys_user.create_user_id</code>. 创建者ID
      */
     public final TableField<SysUserRecord, Long> CREATE_USER_ID = createField("create_user_id", org.jooq.impl.SQLDataType.BIGINT, this, "创建者ID");
 
     /**
-     * The column <code>distribution.sys_user.create_time</code>. 创建时间
+     * The column <code>distribution_dev.sys_user.create_time</code>. 创建时间
      */
     public final TableField<SysUserRecord, Timestamp> CREATE_TIME = createField("create_time", org.jooq.impl.SQLDataType.TIMESTAMP, this, "创建时间");
 
     /**
-     * Create a <code>distribution.sys_user</code> table reference
+     * Create a <code>distribution_dev.sys_user</code> table reference
      */
     public SysUser() {
         this(DSL.name("sys_user"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.sys_user</code> table reference
+     * Create an aliased <code>distribution_dev.sys_user</code> table reference
      */
     public SysUser(String alias) {
         this(DSL.name(alias), SYS_USER);
     }
 
     /**
-     * Create an aliased <code>distribution.sys_user</code> table reference
+     * Create an aliased <code>distribution_dev.sys_user</code> table reference
      */
     public SysUser(Name alias) {
         this(alias, SYS_USER);
@@ -134,7 +134,7 @@ public class SysUser extends TableImpl<SysUserRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

@@ -28,143 +28,143 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DisProfiParamRecord extends UpdatableRecordImpl<DisProfiParamRecord> implements Record10<String, String, String, String, Double, String, String, String, String, String> {
 
-    private static final long serialVersionUID = 1409454856;
+    private static final long serialVersionUID = 289248816;
 
     /**
-     * Setter for <code>distribution.dis_profi_param.id</code>.
+     * Setter for <code>distribution_dev.dis_profi_param.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profi_param.id</code>.
+     * Getter for <code>distribution_dev.dis_profi_param.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution.dis_profi_param.dis_platform_id</code>. 平台id
+     * Setter for <code>distribution_dev.dis_profi_param.dis_platform_id</code>. 平台id
      */
     public void setDisPlatformId(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profi_param.dis_platform_id</code>. 平台id
+     * Getter for <code>distribution_dev.dis_profi_param.dis_platform_id</code>. 平台id
      */
     public String getDisPlatformId() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.dis_profi_param.dis_pro_mode</code>. 分润模型，如 百分比和固定金额
+     * Setter for <code>distribution_dev.dis_profi_param.dis_pro_mode</code>. 分润模型，如 百分比和固定金额
      */
     public void setDisProMode(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profi_param.dis_pro_mode</code>. 分润模型，如 百分比和固定金额
+     * Getter for <code>distribution_dev.dis_profi_param.dis_pro_mode</code>. 分润模型，如 百分比和固定金额
      */
     public String getDisProMode() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.dis_profi_param.dis_pro_type</code>. 分润类别，如上级发展下级分润 ，交易分润。。。。
+     * Setter for <code>distribution_dev.dis_profi_param.dis_pro_type</code>. 分润类别，如上级发展下级分润 ，交易分润。。。。
      */
     public void setDisProType(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profi_param.dis_pro_type</code>. 分润类别，如上级发展下级分润 ，交易分润。。。。
+     * Getter for <code>distribution_dev.dis_profi_param.dis_pro_type</code>. 分润类别，如上级发展下级分润 ，交易分润。。。。
      */
     public String getDisProType() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.dis_profi_param.dis_pro_value</code>. 分润值
+     * Setter for <code>distribution_dev.dis_profi_param.dis_pro_value</code>. 分润值
      */
     public void setDisProValue(Double value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profi_param.dis_pro_value</code>. 分润值
+     * Getter for <code>distribution_dev.dis_profi_param.dis_pro_value</code>. 分润值
      */
     public Double getDisProValue() {
         return (Double) get(4);
     }
 
     /**
-     * Setter for <code>distribution.dis_profi_param.dis_pro_level</code>. 从下往上对应的级别关系
+     * Setter for <code>distribution_dev.dis_profi_param.dis_pro_level</code>. 从下往上对应的级别关系
      */
     public void setDisProLevel(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profi_param.dis_pro_level</code>. 从下往上对应的级别关系
+     * Getter for <code>distribution_dev.dis_profi_param.dis_pro_level</code>. 从下往上对应的级别关系
      */
     public String getDisProLevel() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution.dis_profi_param.dis_user_type</code>. 会员类型（0:非会员 1：会员）
+     * Setter for <code>distribution_dev.dis_profi_param.dis_user_type</code>. 会员类型（0:非会员 1：会员）
      */
     public void setDisUserType(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profi_param.dis_user_type</code>. 会员类型（0:非会员 1：会员）
+     * Getter for <code>distribution_dev.dis_profi_param.dis_user_type</code>. 会员类型（0:非会员 1：会员）
      */
     public String getDisUserType() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution.dis_profi_param.is_delete</code>.
+     * Setter for <code>distribution_dev.dis_profi_param.is_delete</code>.
      */
     public void setIsDelete(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profi_param.is_delete</code>.
+     * Getter for <code>distribution_dev.dis_profi_param.is_delete</code>.
      */
     public String getIsDelete() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>distribution.dis_profi_param.update_time</code>.
+     * Setter for <code>distribution_dev.dis_profi_param.update_time</code>.
      */
     public void setUpdateTime(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profi_param.update_time</code>.
+     * Getter for <code>distribution_dev.dis_profi_param.update_time</code>.
      */
     public String getUpdateTime() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>distribution.dis_profi_param.add_time</code>.
+     * Setter for <code>distribution_dev.dis_profi_param.add_time</code>.
      */
     public void setAddTime(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profi_param.add_time</code>.
+     * Getter for <code>distribution_dev.dis_profi_param.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(9);

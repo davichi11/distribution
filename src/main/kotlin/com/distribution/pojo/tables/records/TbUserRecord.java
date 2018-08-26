@@ -30,24 +30,24 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TbUserRecord extends UpdatableRecordImpl<TbUserRecord> implements Record5<String, String, String, String, Timestamp> {
 
-    private static final long serialVersionUID = 104790551;
+    private static final long serialVersionUID = -754392085;
 
     /**
-     * Setter for <code>distribution.tb_user.user_id</code>.
+     * Setter for <code>distribution_dev.tb_user.user_id</code>.
      */
     public void setUserId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.tb_user.user_id</code>.
+     * Getter for <code>distribution_dev.tb_user.user_id</code>.
      */
     public String getUserId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution.tb_user.username</code>. ???
+     * Setter for <code>distribution_dev.tb_user.username</code>. ???
 
      */
     public void setUsername(String value) {
@@ -55,7 +55,7 @@ public class TbUserRecord extends UpdatableRecordImpl<TbUserRecord> implements R
     }
 
     /**
-     * Getter for <code>distribution.tb_user.username</code>. ???
+     * Getter for <code>distribution_dev.tb_user.username</code>. ???
 
      */
     public String getUsername() {
@@ -63,42 +63,42 @@ public class TbUserRecord extends UpdatableRecordImpl<TbUserRecord> implements R
     }
 
     /**
-     * Setter for <code>distribution.tb_user.mobile</code>. ???
+     * Setter for <code>distribution_dev.tb_user.mobile</code>. ???
      */
     public void setMobile(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.tb_user.mobile</code>. ???
+     * Getter for <code>distribution_dev.tb_user.mobile</code>. ???
      */
     public String getMobile() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.tb_user.password</code>. ??
+     * Setter for <code>distribution_dev.tb_user.password</code>. ??
      */
     public void setPassword(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.tb_user.password</code>. ??
+     * Getter for <code>distribution_dev.tb_user.password</code>. ??
      */
     public String getPassword() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.tb_user.create_time</code>. ????
+     * Setter for <code>distribution_dev.tb_user.create_time</code>. ????
      */
     public void setCreateTime(Timestamp value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.tb_user.create_time</code>. ????
+     * Getter for <code>distribution_dev.tb_user.create_time</code>. ????
      */
     public Timestamp getCreateTime() {
         return (Timestamp) get(4);

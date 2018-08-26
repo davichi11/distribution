@@ -78,8 +78,8 @@
                c.open_id       "c_open_id",
                c.add_time      "c_add_time",
                c.dis_user_name "c_name"
-        from distribution.dis_member_info m
-                 left join distribution.tb_user u on u.user_id = m.dis_user_id
+        from dis_member_info m
+                 left join tb_user u on u.user_id = m.dis_user_id
                  left join dis_member_info p on m.dis_model_id = p.id
                  left join dis_member_info c on c.dis_model_id = m.id
         where m.id = #{value}
@@ -103,8 +103,8 @@
         m.is_delete,
         u.mobile,
         p.dis_user_name "p_name"
-        from distribution.dis_member_info m
-        left join distribution.tb_user u on u.user_id = m.dis_user_id
+        from dis_member_info m
+        left join tb_user u on u.user_id = m.dis_user_id
         left join dis_member_info p on m.dis_model_id = p.id
         <where>
             <if test="disUserName !=null">
@@ -176,8 +176,8 @@
         c.dis_level "c_dis_level",
         c.add_time "c_add_time",
         c.dis_user_name "c_name"
-        from distribution.dis_member_info m
-        left join distribution.tb_user u on u.user_id = m.dis_user_id
+        from dis_member_info m
+        left join tb_user u on u.user_id = m.dis_user_id
         left join dis_member_info p on m.dis_model_id = p.id
         left join dis_member_info c on c.dis_model_id = m.id
         <where>
@@ -218,7 +218,7 @@
     </select>
 
     <insert id="save" parameterType="com.distribution.modules.dis.entity.DisMemberInfoEntity">
-        insert into distribution.dis_member_info
+        insert into dis_member_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
                 `id`,
@@ -310,7 +310,7 @@
     </insert>
 
     <update id="update" parameterType="com.distribution.modules.dis.entity.DisMemberInfoEntity">
-        update distribution.dis_member_info
+        update dis_member_info
         <set>
             <if test="disPlatformId != null">
                 `dis_platform_id` = #{disPlatformId}
@@ -363,12 +363,12 @@
 
     <delete id="delete">
         delete
-        from distribution.dis_member_info
+        from dis_member_info
         where id = #{value}
     </delete>
 
     <delete id="deleteBatch">
-        delete from distribution.dis_member_info where id in
+        delete from dis_member_info where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>
@@ -391,8 +391,8 @@
                u.user_id as "u_id",
                u.username,
                u.mobile
-        from distribution.dis_member_info m
-                 left join distribution.tb_user u on u.user_id = m.dis_user_id
+        from dis_member_info m
+                 left join tb_user u on u.user_id = m.dis_user_id
         where m.open_id = #{openId}
     </select>
     <select id="queryByMobile" resultMap="disMemberInfoMap">
@@ -428,8 +428,8 @@
                c.dis_level     "c_dis_level",
                c.add_time      "c_add_time",
                c.dis_user_name "c_name"
-        from distribution.dis_member_info m
-                 left join distribution.tb_user u on u.user_id = m.dis_user_id
+        from dis_member_info m
+                 left join tb_user u on u.user_id = m.dis_user_id
                  left join dis_member_info p on m.dis_model_id = p.id
                  left join dis_member_info c on c.dis_model_id = m.id
         where u.mobile = #{mobile}

@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.SysUserRoleRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysUserRole extends TableImpl<SysUserRoleRecord> {
 
-    private static final long serialVersionUID = 509167470;
+    private static final long serialVersionUID = -1487316952;
 
     /**
-     * The reference instance of <code>distribution.sys_user_role</code>
+     * The reference instance of <code>distribution_dev.sys_user_role</code>
      */
     public static final SysUserRole SYS_USER_ROLE = new SysUserRole();
 
@@ -55,36 +55,36 @@ public class SysUserRole extends TableImpl<SysUserRoleRecord> {
     }
 
     /**
-     * The column <code>distribution.sys_user_role.id</code>.
+     * The column <code>distribution_dev.sys_user_role.id</code>.
      */
     public final TableField<SysUserRoleRecord, Long> ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution.sys_user_role.user_id</code>. 用户ID
+     * The column <code>distribution_dev.sys_user_role.user_id</code>. 用户ID
      */
     public final TableField<SysUserRoleRecord, Long> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.BIGINT, this, "用户ID");
 
     /**
-     * The column <code>distribution.sys_user_role.role_id</code>. 角色ID
+     * The column <code>distribution_dev.sys_user_role.role_id</code>. 角色ID
      */
     public final TableField<SysUserRoleRecord, Long> ROLE_ID = createField("role_id", org.jooq.impl.SQLDataType.BIGINT, this, "角色ID");
 
     /**
-     * Create a <code>distribution.sys_user_role</code> table reference
+     * Create a <code>distribution_dev.sys_user_role</code> table reference
      */
     public SysUserRole() {
         this(DSL.name("sys_user_role"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.sys_user_role</code> table reference
+     * Create an aliased <code>distribution_dev.sys_user_role</code> table reference
      */
     public SysUserRole(String alias) {
         this(DSL.name(alias), SYS_USER_ROLE);
     }
 
     /**
-     * Create an aliased <code>distribution.sys_user_role</code> table reference
+     * Create an aliased <code>distribution_dev.sys_user_role</code> table reference
      */
     public SysUserRole(Name alias) {
         this(alias, SYS_USER_ROLE);
@@ -103,7 +103,7 @@ public class SysUserRole extends TableImpl<SysUserRoleRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

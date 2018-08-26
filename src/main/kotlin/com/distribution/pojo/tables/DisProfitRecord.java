@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.DisProfitRecordRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DisProfitRecord extends TableImpl<DisProfitRecordRecord> {
 
-    private static final long serialVersionUID = -1166548015;
+    private static final long serialVersionUID = 552432183;
 
     /**
-     * The reference instance of <code>distribution.dis_profit_record</code>
+     * The reference instance of <code>distribution_dev.dis_profit_record</code>
      */
     public static final DisProfitRecord DIS_PROFIT_RECORD = new DisProfitRecord();
 
@@ -55,81 +55,81 @@ public class DisProfitRecord extends TableImpl<DisProfitRecordRecord> {
     }
 
     /**
-     * The column <code>distribution.dis_profit_record.id</code>.
+     * The column <code>distribution_dev.dis_profit_record.id</code>.
      */
     public final TableField<DisProfitRecordRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution.dis_profit_record.dis_platform_id</code>.
+     * The column <code>distribution_dev.dis_profit_record.dis_platform_id</code>.
      */
     public final TableField<DisProfitRecordRecord, String> DIS_PLATFORM_ID = createField("dis_platform_id", org.jooq.impl.SQLDataType.VARCHAR(100).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>distribution.dis_profit_record.dis_get_user_id</code>.
+     * The column <code>distribution_dev.dis_profit_record.dis_get_user_id</code>.
      */
     public final TableField<DisProfitRecordRecord, String> DIS_GET_USER_ID = createField("dis_get_user_id", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.dis_profit_record.dis_set_user_id</code>.
+     * The column <code>distribution_dev.dis_profit_record.dis_set_user_id</code>.
      */
     public final TableField<DisProfitRecordRecord, String> DIS_SET_USER_ID = createField("dis_set_user_id", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.dis_profit_record.dis_amount</code>.
+     * The column <code>distribution_dev.dis_profit_record.dis_amount</code>.
      */
     public final TableField<DisProfitRecordRecord, BigDecimal> DIS_AMOUNT = createField("dis_amount", org.jooq.impl.SQLDataType.DECIMAL(12, 2), this, "");
 
     /**
-     * The column <code>distribution.dis_profit_record.dis_pro_type</code>. 交易类型
+     * The column <code>distribution_dev.dis_profit_record.dis_pro_type</code>. 交易类型
      */
     public final TableField<DisProfitRecordRecord, String> DIS_PRO_TYPE = createField("dis_pro_type", org.jooq.impl.SQLDataType.VARCHAR(100), this, "交易类型");
 
     /**
-     * The column <code>distribution.dis_profit_record.dis_note</code>. 备注
+     * The column <code>distribution_dev.dis_profit_record.dis_note</code>. 备注
      */
     public final TableField<DisProfitRecordRecord, String> DIS_NOTE = createField("dis_note", org.jooq.impl.SQLDataType.VARCHAR(400), this, "备注");
 
     /**
-     * The column <code>distribution.dis_profit_record.account</code>. 账号
+     * The column <code>distribution_dev.dis_profit_record.account</code>. 账号
      */
     public final TableField<DisProfitRecordRecord, String> ACCOUNT = createField("account", org.jooq.impl.SQLDataType.VARCHAR(200), this, "账号");
 
     /**
-     * The column <code>distribution.dis_profit_record.dis_order_id</code>. 对应第三方订单编号
+     * The column <code>distribution_dev.dis_profit_record.dis_order_id</code>. 对应第三方订单编号
      */
     public final TableField<DisProfitRecordRecord, String> DIS_ORDER_ID = createField("dis_order_id", org.jooq.impl.SQLDataType.VARCHAR(20), this, "对应第三方订单编号");
 
     /**
-     * The column <code>distribution.dis_profit_record.is_delete</code>.
+     * The column <code>distribution_dev.dis_profit_record.is_delete</code>.
      */
     public final TableField<DisProfitRecordRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.VARCHAR(1).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.VARCHAR)), this, "");
 
     /**
-     * The column <code>distribution.dis_profit_record.add_time</code>.
+     * The column <code>distribution_dev.dis_profit_record.add_time</code>.
      */
     public final TableField<DisProfitRecordRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution.dis_profit_record.update_time</code>.
+     * The column <code>distribution_dev.dis_profit_record.update_time</code>.
      */
     public final TableField<DisProfitRecordRecord, String> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * Create a <code>distribution.dis_profit_record</code> table reference
+     * Create a <code>distribution_dev.dis_profit_record</code> table reference
      */
     public DisProfitRecord() {
         this(DSL.name("dis_profit_record"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.dis_profit_record</code> table reference
+     * Create an aliased <code>distribution_dev.dis_profit_record</code> table reference
      */
     public DisProfitRecord(String alias) {
         this(DSL.name(alias), DIS_PROFIT_RECORD);
     }
 
     /**
-     * Create an aliased <code>distribution.dis_profit_record</code> table reference
+     * Create an aliased <code>distribution_dev.dis_profit_record</code> table reference
      */
     public DisProfitRecord(Name alias) {
         this(alias, DIS_PROFIT_RECORD);
@@ -148,7 +148,7 @@ public class DisProfitRecord extends TableImpl<DisProfitRecordRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

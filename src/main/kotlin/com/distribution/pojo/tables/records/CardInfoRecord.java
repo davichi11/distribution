@@ -28,171 +28,171 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CardInfoRecord extends UpdatableRecordImpl<CardInfoRecord> implements Record12<String, String, String, String, String, String, String, String, String, String, Double, Integer> {
 
-    private static final long serialVersionUID = 1563240868;
+    private static final long serialVersionUID = 1625595448;
 
     /**
-     * Setter for <code>distribution.card_info.id</code>.
+     * Setter for <code>distribution_dev.card_info.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.card_info.id</code>.
+     * Getter for <code>distribution_dev.card_info.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution.card_info.bank_num</code>. 银行代号
+     * Setter for <code>distribution_dev.card_info.bank_num</code>. 银行代号
      */
     public void setBankNum(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.card_info.bank_num</code>. 银行代号
+     * Getter for <code>distribution_dev.card_info.bank_num</code>. 银行代号
      */
     public String getBankNum() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.card_info.card_num</code>. 信用卡代号
+     * Setter for <code>distribution_dev.card_info.card_num</code>. 信用卡代号
      */
     public void setCardNum(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.card_info.card_num</code>. 信用卡代号
+     * Getter for <code>distribution_dev.card_info.card_num</code>. 信用卡代号
      */
     public String getCardNum() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.card_info.card_name</code>. 信用卡名称
+     * Setter for <code>distribution_dev.card_info.card_name</code>. 信用卡名称
      */
     public void setCardName(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.card_info.card_name</code>. 信用卡名称
+     * Getter for <code>distribution_dev.card_info.card_name</code>. 信用卡名称
      */
     public String getCardName() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.card_info.card_img</code>. 信用卡图片
+     * Setter for <code>distribution_dev.card_info.card_img</code>. 信用卡图片
      */
     public void setCardImg(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.card_info.card_img</code>. 信用卡图片
+     * Getter for <code>distribution_dev.card_info.card_img</code>. 信用卡图片
      */
     public String getCardImg() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution.card_info.card_info</code>. 信用卡详情
+     * Setter for <code>distribution_dev.card_info.card_info</code>. 信用卡详情
      */
     public void setCardInfo(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.card_info.card_info</code>. 信用卡详情
+     * Getter for <code>distribution_dev.card_info.card_info</code>. 信用卡详情
      */
     public String getCardInfo() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution.card_info.card_url</code>. 信用卡办理链接
+     * Setter for <code>distribution_dev.card_info.card_url</code>. 信用卡办理链接
      */
     public void setCardUrl(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.card_info.card_url</code>. 信用卡办理链接
+     * Getter for <code>distribution_dev.card_info.card_url</code>. 信用卡办理链接
      */
     public String getCardUrl() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution.card_info.update_time</code>.
+     * Setter for <code>distribution_dev.card_info.update_time</code>.
      */
     public void setUpdateTime(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.card_info.update_time</code>.
+     * Getter for <code>distribution_dev.card_info.update_time</code>.
      */
     public String getUpdateTime() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>distribution.card_info.add_time</code>.
+     * Setter for <code>distribution_dev.card_info.add_time</code>.
      */
     public void setAddTime(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>distribution.card_info.add_time</code>.
+     * Getter for <code>distribution_dev.card_info.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>distribution.card_info.is_delete</code>.
+     * Setter for <code>distribution_dev.card_info.is_delete</code>.
      */
     public void setIsDelete(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>distribution.card_info.is_delete</code>.
+     * Getter for <code>distribution_dev.card_info.is_delete</code>.
      */
     public String getIsDelete() {
         return (String) get(9);
     }
 
     /**
-     * Setter for <code>distribution.card_info.rebate</code>. 信用卡返利
+     * Setter for <code>distribution_dev.card_info.rebate</code>. 信用卡返利
      */
     public void setRebate(Double value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>distribution.card_info.rebate</code>. 信用卡返利
+     * Getter for <code>distribution_dev.card_info.rebate</code>. 信用卡返利
      */
     public Double getRebate() {
         return (Double) get(10);
     }
 
     /**
-     * Setter for <code>distribution.card_info.use_third_part</code>. 是否启用推送第三方数据 0否 1是
+     * Setter for <code>distribution_dev.card_info.use_third_part</code>. 是否启用推送第三方数据 0否 1是
      */
     public void setUseThirdPart(Integer value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>distribution.card_info.use_third_part</code>. 是否启用推送第三方数据 0否 1是
+     * Getter for <code>distribution_dev.card_info.use_third_part</code>. 是否启用推送第三方数据 0否 1是
      */
     public Integer getUseThirdPart() {
         return (Integer) get(11);

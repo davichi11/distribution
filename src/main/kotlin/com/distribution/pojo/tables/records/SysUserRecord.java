@@ -30,129 +30,129 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysUserRecord extends UpdatableRecordImpl<SysUserRecord> implements Record9<Long, String, String, String, String, String, Integer, Long, Timestamp> {
 
-    private static final long serialVersionUID = -1496780011;
+    private static final long serialVersionUID = -1675339751;
 
     /**
-     * Setter for <code>distribution.sys_user.user_id</code>.
+     * Setter for <code>distribution_dev.sys_user.user_id</code>.
      */
     public void setUserId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user.user_id</code>.
+     * Getter for <code>distribution_dev.sys_user.user_id</code>.
      */
     public Long getUserId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>distribution.sys_user.username</code>. 用户名
+     * Setter for <code>distribution_dev.sys_user.username</code>. 用户名
      */
     public void setUsername(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user.username</code>. 用户名
+     * Getter for <code>distribution_dev.sys_user.username</code>. 用户名
      */
     public String getUsername() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.sys_user.password</code>. 密码
+     * Setter for <code>distribution_dev.sys_user.password</code>. 密码
      */
     public void setPassword(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user.password</code>. 密码
+     * Getter for <code>distribution_dev.sys_user.password</code>. 密码
      */
     public String getPassword() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.sys_user.salt</code>. 盐
+     * Setter for <code>distribution_dev.sys_user.salt</code>. 盐
      */
     public void setSalt(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user.salt</code>. 盐
+     * Getter for <code>distribution_dev.sys_user.salt</code>. 盐
      */
     public String getSalt() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.sys_user.email</code>. 邮箱
+     * Setter for <code>distribution_dev.sys_user.email</code>. 邮箱
      */
     public void setEmail(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user.email</code>. 邮箱
+     * Getter for <code>distribution_dev.sys_user.email</code>. 邮箱
      */
     public String getEmail() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution.sys_user.mobile</code>. 手机号
+     * Setter for <code>distribution_dev.sys_user.mobile</code>. 手机号
      */
     public void setMobile(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user.mobile</code>. 手机号
+     * Getter for <code>distribution_dev.sys_user.mobile</code>. 手机号
      */
     public String getMobile() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution.sys_user.status</code>. 状态  0：禁用   1：正常
+     * Setter for <code>distribution_dev.sys_user.status</code>. 状态  0：禁用   1：正常
      */
     public void setStatus(Integer value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user.status</code>. 状态  0：禁用   1：正常
+     * Getter for <code>distribution_dev.sys_user.status</code>. 状态  0：禁用   1：正常
      */
     public Integer getStatus() {
         return (Integer) get(6);
     }
 
     /**
-     * Setter for <code>distribution.sys_user.create_user_id</code>. 创建者ID
+     * Setter for <code>distribution_dev.sys_user.create_user_id</code>. 创建者ID
      */
     public void setCreateUserId(Long value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user.create_user_id</code>. 创建者ID
+     * Getter for <code>distribution_dev.sys_user.create_user_id</code>. 创建者ID
      */
     public Long getCreateUserId() {
         return (Long) get(7);
     }
 
     /**
-     * Setter for <code>distribution.sys_user.create_time</code>. 创建时间
+     * Setter for <code>distribution_dev.sys_user.create_time</code>. 创建时间
      */
     public void setCreateTime(Timestamp value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user.create_time</code>. 创建时间
+     * Getter for <code>distribution_dev.sys_user.create_time</code>. 创建时间
      */
     public Timestamp getCreateTime() {
         return (Timestamp) get(8);

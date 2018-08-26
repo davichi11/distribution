@@ -30,115 +30,115 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MemberAccountRecord extends UpdatableRecordImpl<MemberAccountRecord> implements Record8<String, String, String, BigDecimal, String, String, String, String> {
 
-    private static final long serialVersionUID = 1891197000;
+    private static final long serialVersionUID = -803935672;
 
     /**
-     * Setter for <code>distribution.member_account.account_id</code>.
+     * Setter for <code>distribution_dev.member_account.account_id</code>.
      */
     public void setAccountId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.member_account.account_id</code>.
+     * Getter for <code>distribution_dev.member_account.account_id</code>.
      */
     public String getAccountId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution.member_account.member_id</code>. 会员管理ID
+     * Setter for <code>distribution_dev.member_account.member_id</code>. 会员管理ID
      */
     public void setMemberId(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.member_account.member_id</code>. 会员管理ID
+     * Getter for <code>distribution_dev.member_account.member_id</code>. 会员管理ID
      */
     public String getMemberId() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.member_account.member_type</code>. 账户类型
+     * Setter for <code>distribution_dev.member_account.member_type</code>. 账户类型
      */
     public void setMemberType(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.member_account.member_type</code>. 账户类型
+     * Getter for <code>distribution_dev.member_account.member_type</code>. 账户类型
      */
     public String getMemberType() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.member_account.member_amount</code>.
+     * Setter for <code>distribution_dev.member_account.member_amount</code>.
      */
     public void setMemberAmount(BigDecimal value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.member_account.member_amount</code>.
+     * Getter for <code>distribution_dev.member_account.member_amount</code>.
      */
     public BigDecimal getMemberAmount() {
         return (BigDecimal) get(3);
     }
 
     /**
-     * Setter for <code>distribution.member_account.alipay_account</code>. 用户支付宝账号
+     * Setter for <code>distribution_dev.member_account.alipay_account</code>. 用户支付宝账号
      */
     public void setAlipayAccount(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.member_account.alipay_account</code>. 用户支付宝账号
+     * Getter for <code>distribution_dev.member_account.alipay_account</code>. 用户支付宝账号
      */
     public String getAlipayAccount() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution.member_account.is_delete</code>.
+     * Setter for <code>distribution_dev.member_account.is_delete</code>.
      */
     public void setIsDelete(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.member_account.is_delete</code>.
+     * Getter for <code>distribution_dev.member_account.is_delete</code>.
      */
     public String getIsDelete() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution.member_account.add_time</code>.
+     * Setter for <code>distribution_dev.member_account.add_time</code>.
      */
     public void setAddTime(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.member_account.add_time</code>.
+     * Getter for <code>distribution_dev.member_account.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution.member_account.update_time</code>.
+     * Setter for <code>distribution_dev.member_account.update_time</code>.
      */
     public void setUpdateTime(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.member_account.update_time</code>.
+     * Getter for <code>distribution_dev.member_account.update_time</code>.
      */
     public String getUpdateTime() {
         return (String) get(7);

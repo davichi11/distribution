@@ -28,73 +28,73 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysConfigRecord extends UpdatableRecordImpl<SysConfigRecord> implements Record5<Long, String, String, Integer, String> {
 
-    private static final long serialVersionUID = 238151515;
+    private static final long serialVersionUID = -96919161;
 
     /**
-     * Setter for <code>distribution.sys_config.id</code>.
+     * Setter for <code>distribution_dev.sys_config.id</code>.
      */
     public void setId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_config.id</code>.
+     * Getter for <code>distribution_dev.sys_config.id</code>.
      */
     public Long getId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>distribution.sys_config.key</code>. key
+     * Setter for <code>distribution_dev.sys_config.key</code>. key
      */
     public void setKey(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_config.key</code>. key
+     * Getter for <code>distribution_dev.sys_config.key</code>. key
      */
     public String getKey() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.sys_config.value</code>. value
+     * Setter for <code>distribution_dev.sys_config.value</code>. value
      */
     public void setValue(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_config.value</code>. value
+     * Getter for <code>distribution_dev.sys_config.value</code>. value
      */
     public String getValue() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.sys_config.status</code>. ??   0???   1???
+     * Setter for <code>distribution_dev.sys_config.status</code>. ??   0???   1???
      */
     public void setStatus(Integer value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_config.status</code>. ??   0???   1???
+     * Getter for <code>distribution_dev.sys_config.status</code>. ??   0???   1???
      */
     public Integer getStatus() {
         return (Integer) get(3);
     }
 
     /**
-     * Setter for <code>distribution.sys_config.remark</code>. ??
+     * Setter for <code>distribution_dev.sys_config.remark</code>. ??
      */
     public void setRemark(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_config.remark</code>. ??
+     * Getter for <code>distribution_dev.sys_config.remark</code>. ??
      */
     public String getRemark() {
         return (String) get(4);

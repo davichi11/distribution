@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.ArticleInfoRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ArticleInfo extends TableImpl<ArticleInfoRecord> {
 
-    private static final long serialVersionUID = -486331530;
+    private static final long serialVersionUID = -1501284422;
 
     /**
-     * The reference instance of <code>distribution.article_info</code>
+     * The reference instance of <code>distribution_dev.article_info</code>
      */
     public static final ArticleInfo ARTICLE_INFO = new ArticleInfo();
 
@@ -55,56 +55,56 @@ public class ArticleInfo extends TableImpl<ArticleInfoRecord> {
     }
 
     /**
-     * The column <code>distribution.article_info.id</code>.
+     * The column <code>distribution_dev.article_info.id</code>.
      */
     public final TableField<ArticleInfoRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution.article_info.title</code>. 文章标题
+     * The column <code>distribution_dev.article_info.title</code>. 文章标题
      */
     public final TableField<ArticleInfoRecord, String> TITLE = createField("title", org.jooq.impl.SQLDataType.VARCHAR(50).nullable(false), this, "文章标题");
 
     /**
-     * The column <code>distribution.article_info.detail</code>. 文章内容
+     * The column <code>distribution_dev.article_info.detail</code>. 文章内容
      */
     public final TableField<ArticleInfoRecord, String> DETAIL = createField("detail", org.jooq.impl.SQLDataType.CLOB.nullable(false), this, "文章内容");
 
     /**
-     * The column <code>distribution.article_info.type</code>. 文章类别 0:客户推广 1:热门活动
+     * The column <code>distribution_dev.article_info.type</code>. 文章类别 0:客户推广 1:热门活动
      */
     public final TableField<ArticleInfoRecord, String> TYPE = createField("type", org.jooq.impl.SQLDataType.CHAR(1).nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.CHAR)), this, "文章类别 0:客户推广 1:热门活动");
 
     /**
-     * The column <code>distribution.article_info.order_num</code>.
+     * The column <code>distribution_dev.article_info.order_num</code>.
      */
     public final TableField<ArticleInfoRecord, Integer> ORDER_NUM = createField("order_num", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>distribution.article_info.add_time</code>.
+     * The column <code>distribution_dev.article_info.add_time</code>.
      */
     public final TableField<ArticleInfoRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(50), this, "");
 
     /**
-     * The column <code>distribution.article_info.is_delete</code>.
+     * The column <code>distribution_dev.article_info.is_delete</code>.
      */
     public final TableField<ArticleInfoRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.CHAR(1).nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.CHAR)), this, "");
 
     /**
-     * Create a <code>distribution.article_info</code> table reference
+     * Create a <code>distribution_dev.article_info</code> table reference
      */
     public ArticleInfo() {
         this(DSL.name("article_info"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.article_info</code> table reference
+     * Create an aliased <code>distribution_dev.article_info</code> table reference
      */
     public ArticleInfo(String alias) {
         this(DSL.name(alias), ARTICLE_INFO);
     }
 
     /**
-     * Create an aliased <code>distribution.article_info</code> table reference
+     * Create an aliased <code>distribution_dev.article_info</code> table reference
      */
     public ArticleInfo(Name alias) {
         this(alias, ARTICLE_INFO);
@@ -123,7 +123,7 @@ public class ArticleInfo extends TableImpl<ArticleInfoRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

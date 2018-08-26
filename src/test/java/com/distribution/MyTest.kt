@@ -38,12 +38,11 @@ class MyTest {
 
     @Test
     fun test6() {
-        var list = LinkedList<Int>()
+        val list = LinkedList<Int>()
         for (i in 1..5) {
             list.add(i)
         }
-
-        var l = LinkedList<Int>()
+        val l = LinkedList<Int>()
 //        for (i in list) {
 //            val pop = list.pop()
 //            l.addFirst(pop)

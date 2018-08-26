@@ -87,4 +87,8 @@ interface MemberAccountMapper {
 
     fun selectByUserName(@Param("name") name: String): List<MemberAccount>?
 
+    fun queryObject(id: String): MemberAccount?
+
+    fun queryList(param: Map<String, Any>): List<MemberAccount>?
+
 }

@@ -28,199 +28,199 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DisMemberInfoRecord extends UpdatableRecordImpl<DisMemberInfoRecord> implements Record14<String, Long, String, String, String, String, Integer, String, String, String, String, String, String, String> {
 
-    private static final long serialVersionUID = 975070779;
+    private static final long serialVersionUID = -1747664217;
 
     /**
-     * Setter for <code>distribution.dis_member_info.id</code>. 主键
+     * Setter for <code>distribution_dev.dis_member_info.id</code>. 主键
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_member_info.id</code>. 主键
+     * Getter for <code>distribution_dev.dis_member_info.id</code>. 主键
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution.dis_member_info.dis_platform_id</code>. 工号
+     * Setter for <code>distribution_dev.dis_member_info.dis_platform_id</code>. 工号
      */
     public void setDisPlatformId(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_member_info.dis_platform_id</code>. 工号
+     * Getter for <code>distribution_dev.dis_member_info.dis_platform_id</code>. 工号
      */
     public Long getDisPlatformId() {
         return (Long) get(1);
     }
 
     /**
-     * Setter for <code>distribution.dis_member_info.dis_user_id</code>. 用户id
+     * Setter for <code>distribution_dev.dis_member_info.dis_user_id</code>. 用户id
      */
     public void setDisUserId(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_member_info.dis_user_id</code>. 用户id
+     * Getter for <code>distribution_dev.dis_member_info.dis_user_id</code>. 用户id
      */
     public String getDisUserId() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.dis_member_info.dis_model_id</code>. 上级id
+     * Setter for <code>distribution_dev.dis_member_info.dis_model_id</code>. 上级id
      */
     public void setDisModelId(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_member_info.dis_model_id</code>. 上级id
+     * Getter for <code>distribution_dev.dis_member_info.dis_model_id</code>. 上级id
      */
     public String getDisModelId() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.dis_member_info.dis_full_index</code>. 全路径
+     * Setter for <code>distribution_dev.dis_member_info.dis_full_index</code>. 全路径
      */
     public void setDisFullIndex(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_member_info.dis_full_index</code>. 全路径
+     * Getter for <code>distribution_dev.dis_member_info.dis_full_index</code>. 全路径
      */
     public String getDisFullIndex() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution.dis_member_info.dis_user_name</code>.
+     * Setter for <code>distribution_dev.dis_member_info.dis_user_name</code>.
      */
     public void setDisUserName(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_member_info.dis_user_name</code>.
+     * Getter for <code>distribution_dev.dis_member_info.dis_user_name</code>.
      */
     public String getDisUserName() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution.dis_member_info.dis_level</code>. 级别
+     * Setter for <code>distribution_dev.dis_member_info.dis_level</code>. 级别
      */
     public void setDisLevel(Integer value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_member_info.dis_level</code>. 级别
+     * Getter for <code>distribution_dev.dis_member_info.dis_level</code>. 级别
      */
     public Integer getDisLevel() {
         return (Integer) get(6);
     }
 
     /**
-     * Setter for <code>distribution.dis_member_info.dis_user_type</code>. 身份类型(0 非会员 1会员)
+     * Setter for <code>distribution_dev.dis_member_info.dis_user_type</code>. 身份类型(0 非会员 1会员)
      */
     public void setDisUserType(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_member_info.dis_user_type</code>. 身份类型(0 非会员 1会员)
+     * Getter for <code>distribution_dev.dis_member_info.dis_user_type</code>. 身份类型(0 非会员 1会员)
      */
     public String getDisUserType() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>distribution.dis_member_info.dis_user_id_code</code>. 身份证号
+     * Setter for <code>distribution_dev.dis_member_info.dis_user_id_code</code>. 身份证号
      */
     public void setDisUserIdCode(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_member_info.dis_user_id_code</code>. 身份证号
+     * Getter for <code>distribution_dev.dis_member_info.dis_user_id_code</code>. 身份证号
      */
     public String getDisUserIdCode() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>distribution.dis_member_info.dis_note</code>. 备注
+     * Setter for <code>distribution_dev.dis_member_info.dis_note</code>. 备注
      */
     public void setDisNote(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_member_info.dis_note</code>. 备注
+     * Getter for <code>distribution_dev.dis_member_info.dis_note</code>. 备注
      */
     public String getDisNote() {
         return (String) get(9);
     }
 
     /**
-     * Setter for <code>distribution.dis_member_info.add_time</code>. 添加时间
+     * Setter for <code>distribution_dev.dis_member_info.add_time</code>. 添加时间
      */
     public void setAddTime(String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_member_info.add_time</code>. 添加时间
+     * Getter for <code>distribution_dev.dis_member_info.add_time</code>. 添加时间
      */
     public String getAddTime() {
         return (String) get(10);
     }
 
     /**
-     * Setter for <code>distribution.dis_member_info.update_time</code>. 更新时间
+     * Setter for <code>distribution_dev.dis_member_info.update_time</code>. 更新时间
      */
     public void setUpdateTime(String value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_member_info.update_time</code>. 更新时间
+     * Getter for <code>distribution_dev.dis_member_info.update_time</code>. 更新时间
      */
     public String getUpdateTime() {
         return (String) get(11);
     }
 
     /**
-     * Setter for <code>distribution.dis_member_info.is_delete</code>. 删除状态
+     * Setter for <code>distribution_dev.dis_member_info.is_delete</code>. 删除状态
      */
     public void setIsDelete(String value) {
         set(12, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_member_info.is_delete</code>. 删除状态
+     * Getter for <code>distribution_dev.dis_member_info.is_delete</code>. 删除状态
      */
     public String getIsDelete() {
         return (String) get(12);
     }
 
     /**
-     * Setter for <code>distribution.dis_member_info.open_id</code>. 微信openID
+     * Setter for <code>distribution_dev.dis_member_info.open_id</code>. 微信openID
      */
     public void setOpenId(String value) {
         set(13, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_member_info.open_id</code>. 微信openID
+     * Getter for <code>distribution_dev.dis_member_info.open_id</code>. 微信openID
      */
     public String getOpenId() {
         return (String) get(13);

@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.MemberAccountHistoryRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MemberAccountHistory extends TableImpl<MemberAccountHistoryRecord> {
 
-    private static final long serialVersionUID = 2033891812;
+    private static final long serialVersionUID = 1548849918;
 
     /**
-     * The reference instance of <code>distribution.member_account_history</code>
+     * The reference instance of <code>distribution_dev.member_account_history</code>
      */
     public static final MemberAccountHistory MEMBER_ACCOUNT_HISTORY = new MemberAccountHistory();
 
@@ -55,61 +55,61 @@ public class MemberAccountHistory extends TableImpl<MemberAccountHistoryRecord> 
     }
 
     /**
-     * The column <code>distribution.member_account_history.id</code>.
+     * The column <code>distribution_dev.member_account_history.id</code>.
      */
     public final TableField<MemberAccountHistoryRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution.member_account_history.his_type</code>. 收入类型，0:支出,1:收入
+     * The column <code>distribution_dev.member_account_history.his_type</code>. 收入类型，0:支出,1:收入
      */
     public final TableField<MemberAccountHistoryRecord, Integer> HIS_TYPE = createField("his_type", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "收入类型，0:支出,1:收入");
 
     /**
-     * The column <code>distribution.member_account_history.account_id</code>. 关联的订单ID
+     * The column <code>distribution_dev.member_account_history.account_id</code>. 关联的订单ID
      */
     public final TableField<MemberAccountHistoryRecord, String> ACCOUNT_ID = createField("account_id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "关联的订单ID");
 
     /**
-     * The column <code>distribution.member_account_history.his_amount</code>.
+     * The column <code>distribution_dev.member_account_history.his_amount</code>.
      */
     public final TableField<MemberAccountHistoryRecord, BigDecimal> HIS_AMOUNT = createField("his_amount", org.jooq.impl.SQLDataType.DECIMAL(12, 2), this, "");
 
     /**
-     * The column <code>distribution.member_account_history.his_note</code>.
+     * The column <code>distribution_dev.member_account_history.his_note</code>.
      */
     public final TableField<MemberAccountHistoryRecord, String> HIS_NOTE = createField("his_note", org.jooq.impl.SQLDataType.VARCHAR(800), this, "");
 
     /**
-     * The column <code>distribution.member_account_history.is_delete</code>.
+     * The column <code>distribution_dev.member_account_history.is_delete</code>.
      */
     public final TableField<MemberAccountHistoryRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.VARCHAR(1), this, "");
 
     /**
-     * The column <code>distribution.member_account_history.add_time</code>.
+     * The column <code>distribution_dev.member_account_history.add_time</code>.
      */
     public final TableField<MemberAccountHistoryRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution.member_account_history.update_time</code>.
+     * The column <code>distribution_dev.member_account_history.update_time</code>.
      */
     public final TableField<MemberAccountHistoryRecord, String> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * Create a <code>distribution.member_account_history</code> table reference
+     * Create a <code>distribution_dev.member_account_history</code> table reference
      */
     public MemberAccountHistory() {
         this(DSL.name("member_account_history"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.member_account_history</code> table reference
+     * Create an aliased <code>distribution_dev.member_account_history</code> table reference
      */
     public MemberAccountHistory(String alias) {
         this(DSL.name(alias), MEMBER_ACCOUNT_HISTORY);
     }
 
     /**
-     * Create an aliased <code>distribution.member_account_history</code> table reference
+     * Create an aliased <code>distribution_dev.member_account_history</code> table reference
      */
     public MemberAccountHistory(Name alias) {
         this(alias, MEMBER_ACCOUNT_HISTORY);
@@ -128,7 +128,7 @@ public class MemberAccountHistory extends TableImpl<MemberAccountHistoryRecord> 
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

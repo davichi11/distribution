@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.IntegralOrderRecord;
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
 
-    private static final long serialVersionUID = -1420510928;
+    private static final long serialVersionUID = -1850136826;
 
     /**
-     * The reference instance of <code>distribution.integral_order</code>
+     * The reference instance of <code>distribution_dev.integral_order</code>
      */
     public static final IntegralOrder INTEGRAL_ORDER = new IntegralOrder();
 
@@ -54,61 +54,61 @@ public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
     }
 
     /**
-     * The column <code>distribution.integral_order.id</code>.
+     * The column <code>distribution_dev.integral_order.id</code>.
      */
     public final TableField<IntegralOrderRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution.integral_order.mobile</code>. 兑换人手机号
+     * The column <code>distribution_dev.integral_order.mobile</code>. 兑换人手机号
      */
     public final TableField<IntegralOrderRecord, Long> MOBILE = createField("mobile", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "兑换人手机号");
 
     /**
-     * The column <code>distribution.integral_order.detail_id</code>. 兑换产品ID
+     * The column <code>distribution_dev.integral_order.detail_id</code>. 兑换产品ID
      */
     public final TableField<IntegralOrderRecord, String> DETAIL_ID = createField("detail_id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "兑换产品ID");
 
     /**
-     * The column <code>distribution.integral_order.img</code>. 卷码图片,可以逗号分隔
+     * The column <code>distribution_dev.integral_order.img</code>. 卷码图片,可以逗号分隔
      */
     public final TableField<IntegralOrderRecord, String> IMG = createField("img", org.jooq.impl.SQLDataType.VARCHAR(2000), this, "卷码图片,可以逗号分隔");
 
     /**
-     * The column <code>distribution.integral_order.add_time</code>. 申请时间
+     * The column <code>distribution_dev.integral_order.add_time</code>. 申请时间
      */
     public final TableField<IntegralOrderRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(50).nullable(false), this, "申请时间");
 
     /**
-     * The column <code>distribution.integral_order.status</code>. 审核状态:0失败,1成功,2审核中
+     * The column <code>distribution_dev.integral_order.status</code>. 审核状态:0失败,1成功,2审核中
      */
     public final TableField<IntegralOrderRecord, String> STATUS = createField("status", org.jooq.impl.SQLDataType.CHAR(1).nullable(false).defaultValue(org.jooq.impl.DSL.inline("2", org.jooq.impl.SQLDataType.CHAR)), this, "审核状态:0失败,1成功,2审核中");
 
     /**
-     * The column <code>distribution.integral_order.record</code>. 上传短信记录
+     * The column <code>distribution_dev.integral_order.record</code>. 上传短信记录
      */
     public final TableField<IntegralOrderRecord, String> RECORD = createField("record", org.jooq.impl.SQLDataType.VARCHAR(500), this, "上传短信记录");
 
     /**
-     * The column <code>distribution.integral_order.profi_money</code>. 分润金额
+     * The column <code>distribution_dev.integral_order.profi_money</code>. 分润金额
      */
     public final TableField<IntegralOrderRecord, Double> PROFI_MONEY = createField("profi_money", org.jooq.impl.SQLDataType.DOUBLE.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.DOUBLE)), this, "分润金额");
 
     /**
-     * Create a <code>distribution.integral_order</code> table reference
+     * Create a <code>distribution_dev.integral_order</code> table reference
      */
     public IntegralOrder() {
         this(DSL.name("integral_order"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.integral_order</code> table reference
+     * Create an aliased <code>distribution_dev.integral_order</code> table reference
      */
     public IntegralOrder(String alias) {
         this(DSL.name(alias), INTEGRAL_ORDER);
     }
 
     /**
-     * Create an aliased <code>distribution.integral_order</code> table reference
+     * Create an aliased <code>distribution_dev.integral_order</code> table reference
      */
     public IntegralOrder(Name alias) {
         this(alias, INTEGRAL_ORDER);
@@ -127,7 +127,7 @@ public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

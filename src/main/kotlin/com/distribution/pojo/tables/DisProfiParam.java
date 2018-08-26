@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.DisProfiParamRecord;
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DisProfiParam extends TableImpl<DisProfiParamRecord> {
 
-    private static final long serialVersionUID = -558915088;
+    private static final long serialVersionUID = 435465468;
 
     /**
-     * The reference instance of <code>distribution.dis_profi_param</code>
+     * The reference instance of <code>distribution_dev.dis_profi_param</code>
      */
     public static final DisProfiParam DIS_PROFI_PARAM = new DisProfiParam();
 
@@ -54,71 +54,71 @@ public class DisProfiParam extends TableImpl<DisProfiParamRecord> {
     }
 
     /**
-     * The column <code>distribution.dis_profi_param.id</code>.
+     * The column <code>distribution_dev.dis_profi_param.id</code>.
      */
     public final TableField<DisProfiParamRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution.dis_profi_param.dis_platform_id</code>. 平台id
+     * The column <code>distribution_dev.dis_profi_param.dis_platform_id</code>. 平台id
      */
     public final TableField<DisProfiParamRecord, String> DIS_PLATFORM_ID = createField("dis_platform_id", org.jooq.impl.SQLDataType.VARCHAR(100), this, "平台id");
 
     /**
-     * The column <code>distribution.dis_profi_param.dis_pro_mode</code>. 分润模型，如 百分比和固定金额
+     * The column <code>distribution_dev.dis_profi_param.dis_pro_mode</code>. 分润模型，如 百分比和固定金额
      */
     public final TableField<DisProfiParamRecord, String> DIS_PRO_MODE = createField("dis_pro_mode", org.jooq.impl.SQLDataType.VARCHAR(100).nullable(false), this, "分润模型，如 百分比和固定金额");
 
     /**
-     * The column <code>distribution.dis_profi_param.dis_pro_type</code>. 分润类别，如上级发展下级分润 ，交易分润。。。。
+     * The column <code>distribution_dev.dis_profi_param.dis_pro_type</code>. 分润类别，如上级发展下级分润 ，交易分润。。。。
      */
     public final TableField<DisProfiParamRecord, String> DIS_PRO_TYPE = createField("dis_pro_type", org.jooq.impl.SQLDataType.VARCHAR(100), this, "分润类别，如上级发展下级分润 ，交易分润。。。。");
 
     /**
-     * The column <code>distribution.dis_profi_param.dis_pro_value</code>. 分润值
+     * The column <code>distribution_dev.dis_profi_param.dis_pro_value</code>. 分润值
      */
     public final TableField<DisProfiParamRecord, Double> DIS_PRO_VALUE = createField("dis_pro_value", org.jooq.impl.SQLDataType.DOUBLE, this, "分润值");
 
     /**
-     * The column <code>distribution.dis_profi_param.dis_pro_level</code>. 从下往上对应的级别关系
+     * The column <code>distribution_dev.dis_profi_param.dis_pro_level</code>. 从下往上对应的级别关系
      */
     public final TableField<DisProfiParamRecord, String> DIS_PRO_LEVEL = createField("dis_pro_level", org.jooq.impl.SQLDataType.VARCHAR(100), this, "从下往上对应的级别关系");
 
     /**
-     * The column <code>distribution.dis_profi_param.dis_user_type</code>. 会员类型（0:非会员 1：会员）
+     * The column <code>distribution_dev.dis_profi_param.dis_user_type</code>. 会员类型（0:非会员 1：会员）
      */
     public final TableField<DisProfiParamRecord, String> DIS_USER_TYPE = createField("dis_user_type", org.jooq.impl.SQLDataType.VARCHAR(100), this, "会员类型（0:非会员 1：会员）");
 
     /**
-     * The column <code>distribution.dis_profi_param.is_delete</code>.
+     * The column <code>distribution_dev.dis_profi_param.is_delete</code>.
      */
     public final TableField<DisProfiParamRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.VARCHAR(1), this, "");
 
     /**
-     * The column <code>distribution.dis_profi_param.update_time</code>.
+     * The column <code>distribution_dev.dis_profi_param.update_time</code>.
      */
     public final TableField<DisProfiParamRecord, String> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution.dis_profi_param.add_time</code>.
+     * The column <code>distribution_dev.dis_profi_param.add_time</code>.
      */
     public final TableField<DisProfiParamRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * Create a <code>distribution.dis_profi_param</code> table reference
+     * Create a <code>distribution_dev.dis_profi_param</code> table reference
      */
     public DisProfiParam() {
         this(DSL.name("dis_profi_param"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.dis_profi_param</code> table reference
+     * Create an aliased <code>distribution_dev.dis_profi_param</code> table reference
      */
     public DisProfiParam(String alias) {
         this(DSL.name(alias), DIS_PROFI_PARAM);
     }
 
     /**
-     * Create an aliased <code>distribution.dis_profi_param</code> table reference
+     * Create an aliased <code>distribution_dev.dis_profi_param</code> table reference
      */
     public DisProfiParam(Name alias) {
         this(alias, DIS_PROFI_PARAM);
@@ -137,7 +137,7 @@ public class DisProfiParam extends TableImpl<DisProfiParamRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

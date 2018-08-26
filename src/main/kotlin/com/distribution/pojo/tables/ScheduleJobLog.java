@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.ScheduleJobLogRecord;
@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ScheduleJobLog extends TableImpl<ScheduleJobLogRecord> {
 
-    private static final long serialVersionUID = 2015380929;
+    private static final long serialVersionUID = 1520418413;
 
     /**
-     * The reference instance of <code>distribution.schedule_job_log</code>
+     * The reference instance of <code>distribution_dev.schedule_job_log</code>
      */
     public static final ScheduleJobLog SCHEDULE_JOB_LOG = new ScheduleJobLog();
 
@@ -56,67 +56,67 @@ public class ScheduleJobLog extends TableImpl<ScheduleJobLogRecord> {
     }
 
     /**
-     * The column <code>distribution.schedule_job_log.log_id</code>. ????ID
+     * The column <code>distribution_dev.schedule_job_log.log_id</code>. ????ID
      */
     public final TableField<ScheduleJobLogRecord, Long> LOG_ID = createField("log_id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "????ID");
 
     /**
-     * The column <code>distribution.schedule_job_log.job_id</code>. ??ID
+     * The column <code>distribution_dev.schedule_job_log.job_id</code>. ??ID
 
      */
     public final TableField<ScheduleJobLogRecord, Long> JOB_ID = createField("job_id", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "??ID\n");
 
     /**
-     * The column <code>distribution.schedule_job_log.bean_name</code>. spring bean ??
+     * The column <code>distribution_dev.schedule_job_log.bean_name</code>. spring bean ??
      */
     public final TableField<ScheduleJobLogRecord, String> BEAN_NAME = createField("bean_name", org.jooq.impl.SQLDataType.VARCHAR(200), this, "spring bean ??");
 
     /**
-     * The column <code>distribution.schedule_job_log.method_name</code>. ???
+     * The column <code>distribution_dev.schedule_job_log.method_name</code>. ???
      */
     public final TableField<ScheduleJobLogRecord, String> METHOD_NAME = createField("method_name", org.jooq.impl.SQLDataType.VARCHAR(100), this, "???");
 
     /**
-     * The column <code>distribution.schedule_job_log.params</code>. ??
+     * The column <code>distribution_dev.schedule_job_log.params</code>. ??
      */
     public final TableField<ScheduleJobLogRecord, String> PARAMS = createField("params", org.jooq.impl.SQLDataType.VARCHAR(2000), this, "??");
 
     /**
-     * The column <code>distribution.schedule_job_log.status</code>. ????    0???    1???
+     * The column <code>distribution_dev.schedule_job_log.status</code>. ????    0???    1???
      */
     public final TableField<ScheduleJobLogRecord, Integer> STATUS = createField("status", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "????    0???    1???");
 
     /**
-     * The column <code>distribution.schedule_job_log.error</code>. ????
+     * The column <code>distribution_dev.schedule_job_log.error</code>. ????
      */
     public final TableField<ScheduleJobLogRecord, String> ERROR = createField("error", org.jooq.impl.SQLDataType.VARCHAR(2000), this, "????");
 
     /**
-     * The column <code>distribution.schedule_job_log.times</code>. ??(?????)
+     * The column <code>distribution_dev.schedule_job_log.times</code>. ??(?????)
      */
     public final TableField<ScheduleJobLogRecord, Integer> TIMES = createField("times", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "??(?????)");
 
     /**
-     * The column <code>distribution.schedule_job_log.create_time</code>. ????
+     * The column <code>distribution_dev.schedule_job_log.create_time</code>. ????
      */
     public final TableField<ScheduleJobLogRecord, Timestamp> CREATE_TIME = createField("create_time", org.jooq.impl.SQLDataType.TIMESTAMP, this, "????");
 
     /**
-     * Create a <code>distribution.schedule_job_log</code> table reference
+     * Create a <code>distribution_dev.schedule_job_log</code> table reference
      */
     public ScheduleJobLog() {
         this(DSL.name("schedule_job_log"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.schedule_job_log</code> table reference
+     * Create an aliased <code>distribution_dev.schedule_job_log</code> table reference
      */
     public ScheduleJobLog(String alias) {
         this(DSL.name(alias), SCHEDULE_JOB_LOG);
     }
 
     /**
-     * Create an aliased <code>distribution.schedule_job_log</code> table reference
+     * Create an aliased <code>distribution_dev.schedule_job_log</code> table reference
      */
     public ScheduleJobLog(Name alias) {
         this(alias, SCHEDULE_JOB_LOG);
@@ -135,7 +135,7 @@ public class ScheduleJobLog extends TableImpl<ScheduleJobLogRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

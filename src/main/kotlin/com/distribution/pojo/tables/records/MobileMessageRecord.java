@@ -28,115 +28,115 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MobileMessageRecord extends UpdatableRecordImpl<MobileMessageRecord> implements Record8<String, String, String, String, Integer, String, String, String> {
 
-    private static final long serialVersionUID = 1934459044;
+    private static final long serialVersionUID = -1031695304;
 
     /**
-     * Setter for <code>distribution.mobile_message.id</code>.
+     * Setter for <code>distribution_dev.mobile_message.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.mobile_message.id</code>.
+     * Getter for <code>distribution_dev.mobile_message.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution.mobile_message.mobile</code>.
+     * Setter for <code>distribution_dev.mobile_message.mobile</code>.
      */
     public void setMobile(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.mobile_message.mobile</code>.
+     * Getter for <code>distribution_dev.mobile_message.mobile</code>.
      */
     public String getMobile() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.mobile_message.code</code>.
+     * Setter for <code>distribution_dev.mobile_message.code</code>.
      */
     public void setCode(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.mobile_message.code</code>.
+     * Getter for <code>distribution_dev.mobile_message.code</code>.
      */
     public String getCode() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.mobile_message.send_time</code>.
+     * Setter for <code>distribution_dev.mobile_message.send_time</code>.
      */
     public void setSendTime(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.mobile_message.send_time</code>.
+     * Getter for <code>distribution_dev.mobile_message.send_time</code>.
      */
     public String getSendTime() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.mobile_message.count</code>.
+     * Setter for <code>distribution_dev.mobile_message.count</code>.
      */
     public void setCount(Integer value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.mobile_message.count</code>.
+     * Getter for <code>distribution_dev.mobile_message.count</code>.
      */
     public Integer getCount() {
         return (Integer) get(4);
     }
 
     /**
-     * Setter for <code>distribution.mobile_message.add_time</code>.
+     * Setter for <code>distribution_dev.mobile_message.add_time</code>.
      */
     public void setAddTime(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.mobile_message.add_time</code>.
+     * Getter for <code>distribution_dev.mobile_message.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution.mobile_message.is_delete</code>.
+     * Setter for <code>distribution_dev.mobile_message.is_delete</code>.
      */
     public void setIsDelete(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.mobile_message.is_delete</code>.
+     * Getter for <code>distribution_dev.mobile_message.is_delete</code>.
      */
     public String getIsDelete() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution.mobile_message.update_time</code>.
+     * Setter for <code>distribution_dev.mobile_message.update_time</code>.
      */
     public void setUpdateTime(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.mobile_message.update_time</code>.
+     * Getter for <code>distribution_dev.mobile_message.update_time</code>.
      */
     public String getUpdateTime() {
         return (String) get(7);

@@ -30,171 +30,171 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DisProfitRecordRecord extends UpdatableRecordImpl<DisProfitRecordRecord> implements Record12<String, String, String, String, BigDecimal, String, String, String, String, String, String, String> {
 
-    private static final long serialVersionUID = -1986756318;
+    private static final long serialVersionUID = 1803550922;
 
     /**
-     * Setter for <code>distribution.dis_profit_record.id</code>.
+     * Setter for <code>distribution_dev.dis_profit_record.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profit_record.id</code>.
+     * Getter for <code>distribution_dev.dis_profit_record.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution.dis_profit_record.dis_platform_id</code>.
+     * Setter for <code>distribution_dev.dis_profit_record.dis_platform_id</code>.
      */
     public void setDisPlatformId(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profit_record.dis_platform_id</code>.
+     * Getter for <code>distribution_dev.dis_profit_record.dis_platform_id</code>.
      */
     public String getDisPlatformId() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.dis_profit_record.dis_get_user_id</code>.
+     * Setter for <code>distribution_dev.dis_profit_record.dis_get_user_id</code>.
      */
     public void setDisGetUserId(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profit_record.dis_get_user_id</code>.
+     * Getter for <code>distribution_dev.dis_profit_record.dis_get_user_id</code>.
      */
     public String getDisGetUserId() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.dis_profit_record.dis_set_user_id</code>.
+     * Setter for <code>distribution_dev.dis_profit_record.dis_set_user_id</code>.
      */
     public void setDisSetUserId(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profit_record.dis_set_user_id</code>.
+     * Getter for <code>distribution_dev.dis_profit_record.dis_set_user_id</code>.
      */
     public String getDisSetUserId() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.dis_profit_record.dis_amount</code>.
+     * Setter for <code>distribution_dev.dis_profit_record.dis_amount</code>.
      */
     public void setDisAmount(BigDecimal value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profit_record.dis_amount</code>.
+     * Getter for <code>distribution_dev.dis_profit_record.dis_amount</code>.
      */
     public BigDecimal getDisAmount() {
         return (BigDecimal) get(4);
     }
 
     /**
-     * Setter for <code>distribution.dis_profit_record.dis_pro_type</code>. 交易类型
+     * Setter for <code>distribution_dev.dis_profit_record.dis_pro_type</code>. 交易类型
      */
     public void setDisProType(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profit_record.dis_pro_type</code>. 交易类型
+     * Getter for <code>distribution_dev.dis_profit_record.dis_pro_type</code>. 交易类型
      */
     public String getDisProType() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution.dis_profit_record.dis_note</code>. 备注
+     * Setter for <code>distribution_dev.dis_profit_record.dis_note</code>. 备注
      */
     public void setDisNote(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profit_record.dis_note</code>. 备注
+     * Getter for <code>distribution_dev.dis_profit_record.dis_note</code>. 备注
      */
     public String getDisNote() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution.dis_profit_record.account</code>. 账号
+     * Setter for <code>distribution_dev.dis_profit_record.account</code>. 账号
      */
     public void setAccount(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profit_record.account</code>. 账号
+     * Getter for <code>distribution_dev.dis_profit_record.account</code>. 账号
      */
     public String getAccount() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>distribution.dis_profit_record.dis_order_id</code>. 对应第三方订单编号
+     * Setter for <code>distribution_dev.dis_profit_record.dis_order_id</code>. 对应第三方订单编号
      */
     public void setDisOrderId(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profit_record.dis_order_id</code>. 对应第三方订单编号
+     * Getter for <code>distribution_dev.dis_profit_record.dis_order_id</code>. 对应第三方订单编号
      */
     public String getDisOrderId() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>distribution.dis_profit_record.is_delete</code>.
+     * Setter for <code>distribution_dev.dis_profit_record.is_delete</code>.
      */
     public void setIsDelete(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profit_record.is_delete</code>.
+     * Getter for <code>distribution_dev.dis_profit_record.is_delete</code>.
      */
     public String getIsDelete() {
         return (String) get(9);
     }
 
     /**
-     * Setter for <code>distribution.dis_profit_record.add_time</code>.
+     * Setter for <code>distribution_dev.dis_profit_record.add_time</code>.
      */
     public void setAddTime(String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profit_record.add_time</code>.
+     * Getter for <code>distribution_dev.dis_profit_record.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(10);
     }
 
     /**
-     * Setter for <code>distribution.dis_profit_record.update_time</code>.
+     * Setter for <code>distribution_dev.dis_profit_record.update_time</code>.
      */
     public void setUpdateTime(String value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_profit_record.update_time</code>.
+     * Getter for <code>distribution_dev.dis_profit_record.update_time</code>.
      */
     public String getUpdateTime() {
         return (String) get(11);

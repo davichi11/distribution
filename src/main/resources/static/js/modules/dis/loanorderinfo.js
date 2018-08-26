@@ -4,9 +4,9 @@ $(function () {
         datatype: "json",
         colModel: [
             // { label: 'id', name: 'id', index: 'id', width: 50, key: true },
-            {label: '订单编号', name: 'orderId', index: 'order_id', width: 80},
-            {label: '下单手机号', name: 'orderMobile', index: 'order_mobile', width: 80},
-            {label: '身份证号', name: 'orderIdcardno', index: 'order_idcardno', width: 160},
+            {label: '订单编号', name: 'orderId', index: 'order_id', width: 180},
+            {label: '下单手机号', name: 'orderMobile', index: 'order_mobile', width: 90},
+            {label: '身份证号', name: 'orderIdcardno', index: 'order_idcardno', width: 100},
             {
                 label: '订单状态',
                 name: 'orderStatus',
@@ -24,11 +24,9 @@ $(function () {
                     }
                 }
             },
-            {label: '订单状态', name: 'orderStatus', index: 'order_statusnum', width: 80, hidden: true},
-            {label: '用户', name: 'memberId', index: 'member_id', width: 80},
-            {label: '贷款产品', name: 'loanId', index: 'loan_id', width: 80},
-            {label: '本金', name: 'loanAmount', index: 'loan_amount', width: 80},
-            {label: '数据状态', name: 'isDelete', index: 'is_delete', width: 80},
+            {label: '用户', name: 'userName', index: 'member_id', width: 80},
+            {label: '贷款产品', name: 'loanName', index: 'loan_id', width: 90},
+            {label: '本金', name: 'loanAmount', index: 'loan_amount', width: 90},
             {label: '下单时间', name: 'addTime', index: 'add_time', width: 160},
             {
                 label: '分润金额',
@@ -83,6 +81,10 @@ var vm = new Vue({
     methods: {
         query: function () {
             vm.reload();
+        },
+        reset: function () {
+            this.mobile = "";
+            this.title = "";
         },
         update: function (event) {
             //页面层-自定义

@@ -28,115 +28,115 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IntegralOrderRecord extends UpdatableRecordImpl<IntegralOrderRecord> implements Record8<String, Long, String, String, String, String, String, Double> {
 
-    private static final long serialVersionUID = 1135965785;
+    private static final long serialVersionUID = 1945680217;
 
     /**
-     * Setter for <code>distribution.integral_order.id</code>.
+     * Setter for <code>distribution_dev.integral_order.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.integral_order.id</code>.
+     * Getter for <code>distribution_dev.integral_order.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution.integral_order.mobile</code>. 兑换人手机号
+     * Setter for <code>distribution_dev.integral_order.mobile</code>. 兑换人手机号
      */
     public void setMobile(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.integral_order.mobile</code>. 兑换人手机号
+     * Getter for <code>distribution_dev.integral_order.mobile</code>. 兑换人手机号
      */
     public Long getMobile() {
         return (Long) get(1);
     }
 
     /**
-     * Setter for <code>distribution.integral_order.detail_id</code>. 兑换产品ID
+     * Setter for <code>distribution_dev.integral_order.detail_id</code>. 兑换产品ID
      */
     public void setDetailId(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.integral_order.detail_id</code>. 兑换产品ID
+     * Getter for <code>distribution_dev.integral_order.detail_id</code>. 兑换产品ID
      */
     public String getDetailId() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.integral_order.img</code>. 卷码图片,可以逗号分隔
+     * Setter for <code>distribution_dev.integral_order.img</code>. 卷码图片,可以逗号分隔
      */
     public void setImg(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.integral_order.img</code>. 卷码图片,可以逗号分隔
+     * Getter for <code>distribution_dev.integral_order.img</code>. 卷码图片,可以逗号分隔
      */
     public String getImg() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.integral_order.add_time</code>. 申请时间
+     * Setter for <code>distribution_dev.integral_order.add_time</code>. 申请时间
      */
     public void setAddTime(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.integral_order.add_time</code>. 申请时间
+     * Getter for <code>distribution_dev.integral_order.add_time</code>. 申请时间
      */
     public String getAddTime() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution.integral_order.status</code>. 审核状态:0失败,1成功,2审核中
+     * Setter for <code>distribution_dev.integral_order.status</code>. 审核状态:0失败,1成功,2审核中
      */
     public void setStatus(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.integral_order.status</code>. 审核状态:0失败,1成功,2审核中
+     * Getter for <code>distribution_dev.integral_order.status</code>. 审核状态:0失败,1成功,2审核中
      */
     public String getStatus() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution.integral_order.record</code>. 上传短信记录
+     * Setter for <code>distribution_dev.integral_order.record</code>. 上传短信记录
      */
     public void setRecord(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.integral_order.record</code>. 上传短信记录
+     * Getter for <code>distribution_dev.integral_order.record</code>. 上传短信记录
      */
     public String getRecord() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution.integral_order.profi_money</code>. 分润金额
+     * Setter for <code>distribution_dev.integral_order.profi_money</code>. 分润金额
      */
     public void setProfiMoney(Double value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.integral_order.profi_money</code>. 分润金额
+     * Getter for <code>distribution_dev.integral_order.profi_money</code>. 分润金额
      */
     public Double getProfiMoney() {
         return (Double) get(7);

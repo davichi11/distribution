@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.tables.records.OrderHistoryRecord;
 
 import java.sql.Timestamp;
@@ -33,10 +33,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class OrderHistory extends TableImpl<OrderHistoryRecord> {
 
-    private static final long serialVersionUID = 2040579893;
+    private static final long serialVersionUID = -2009390577;
 
     /**
-     * The reference instance of <code>distribution.order_history</code>
+     * The reference instance of <code>distribution_dev.order_history</code>
      */
     public static final OrderHistory ORDER_HISTORY = new OrderHistory();
 
@@ -49,56 +49,56 @@ public class OrderHistory extends TableImpl<OrderHistoryRecord> {
     }
 
     /**
-     * The column <code>distribution.order_history.order_id</code>. 订单号
+     * The column <code>distribution_dev.order_history.order_id</code>. 订单号
      */
     public final TableField<OrderHistoryRecord, String> ORDER_ID = createField("order_id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "订单号");
 
     /**
-     * The column <code>distribution.order_history.mobile</code>. 交易手机号
+     * The column <code>distribution_dev.order_history.mobile</code>. 交易手机号
      */
     public final TableField<OrderHistoryRecord, String> MOBILE = createField("mobile", org.jooq.impl.SQLDataType.VARCHAR(18).nullable(false), this, "交易手机号");
 
     /**
-     * The column <code>distribution.order_history.account</code>. 交易账号 支付宝账号
+     * The column <code>distribution_dev.order_history.account</code>. 交易账号 支付宝账号
      */
     public final TableField<OrderHistoryRecord, String> ACCOUNT = createField("account", org.jooq.impl.SQLDataType.VARCHAR(32), this, "交易账号 支付宝账号");
 
     /**
-     * The column <code>distribution.order_history.amount</code>. 订单金额
+     * The column <code>distribution_dev.order_history.amount</code>. 订单金额
      */
     public final TableField<OrderHistoryRecord, Double> AMOUNT = createField("amount", org.jooq.impl.SQLDataType.DOUBLE.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.DOUBLE)), this, "订单金额");
 
     /**
-     * The column <code>distribution.order_history.order_status</code>. 订单状态 0:失败,1:成功,2:未支付
+     * The column <code>distribution_dev.order_history.order_status</code>. 订单状态 0:失败,1:成功,2:未支付
      */
     public final TableField<OrderHistoryRecord, Integer> ORDER_STATUS = createField("order_status", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("2", org.jooq.impl.SQLDataType.INTEGER)), this, "订单状态 0:失败,1:成功,2:未支付");
 
     /**
-     * The column <code>distribution.order_history.add_time</code>.
+     * The column <code>distribution_dev.order_history.add_time</code>.
      */
     public final TableField<OrderHistoryRecord, Timestamp> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
 
     /**
-     * The column <code>distribution.order_history.finish_time</code>. 订单完成时间,支付成功时间
+     * The column <code>distribution_dev.order_history.finish_time</code>. 订单完成时间,支付成功时间
      */
     public final TableField<OrderHistoryRecord, Timestamp> FINISH_TIME = createField("finish_time", org.jooq.impl.SQLDataType.TIMESTAMP, this, "订单完成时间,支付成功时间");
 
     /**
-     * Create a <code>distribution.order_history</code> table reference
+     * Create a <code>distribution_dev.order_history</code> table reference
      */
     public OrderHistory() {
         this(DSL.name("order_history"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.order_history</code> table reference
+     * Create an aliased <code>distribution_dev.order_history</code> table reference
      */
     public OrderHistory(String alias) {
         this(DSL.name(alias), ORDER_HISTORY);
     }
 
     /**
-     * Create an aliased <code>distribution.order_history</code> table reference
+     * Create an aliased <code>distribution_dev.order_history</code> table reference
      */
     public OrderHistory(Name alias) {
         this(alias, ORDER_HISTORY);
@@ -117,7 +117,7 @@ public class OrderHistory extends TableImpl<OrderHistoryRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

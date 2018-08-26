@@ -22,6 +22,18 @@ data class MemberAccountHistory(
          * 用户金额ID
          */
         var accountId: String = "",
+        /**
+         * 支付宝账号
+         */
+        var aliPayAccount: String = "",
+        /**
+         * 用户姓名
+         */
+        var userName: String = "",
+        /**
+         * 手机号
+         */
+        var mobile: String = "",
 
         /**  */
         var hisAmount: BigDecimal = BigDecimal.ZERO,

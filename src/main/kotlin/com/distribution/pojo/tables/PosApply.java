@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.PosApplyRecord;
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PosApply extends TableImpl<PosApplyRecord> {
 
-    private static final long serialVersionUID = 1690261492;
+    private static final long serialVersionUID = -2012970822;
 
     /**
-     * The reference instance of <code>distribution.pos_apply</code>
+     * The reference instance of <code>distribution_dev.pos_apply</code>
      */
     public static final PosApply POS_APPLY = new PosApply();
 
@@ -54,61 +54,61 @@ public class PosApply extends TableImpl<PosApplyRecord> {
     }
 
     /**
-     * The column <code>distribution.pos_apply.id</code>.
+     * The column <code>distribution_dev.pos_apply.id</code>.
      */
     public final TableField<PosApplyRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution.pos_apply.name</code>.
+     * The column <code>distribution_dev.pos_apply.name</code>.
      */
     public final TableField<PosApplyRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution.pos_apply.mobile</code>.
+     * The column <code>distribution_dev.pos_apply.mobile</code>.
      */
     public final TableField<PosApplyRecord, Long> MOBILE = createField("mobile", org.jooq.impl.SQLDataType.BIGINT, this, "");
 
     /**
-     * The column <code>distribution.pos_apply.merchants</code>. 商户名称
+     * The column <code>distribution_dev.pos_apply.merchants</code>. 商户名称
      */
     public final TableField<PosApplyRecord, String> MERCHANTS = createField("merchants", org.jooq.impl.SQLDataType.VARCHAR(150), this, "商户名称");
 
     /**
-     * The column <code>distribution.pos_apply.area_code</code>. 区域编码
+     * The column <code>distribution_dev.pos_apply.area_code</code>. 区域编码
      */
     public final TableField<PosApplyRecord, String> AREA_CODE = createField("area_code", org.jooq.impl.SQLDataType.VARCHAR(10), this, "区域编码");
 
     /**
-     * The column <code>distribution.pos_apply.attribute</code>. 连锁属性 0:非连锁,1:连锁
+     * The column <code>distribution_dev.pos_apply.attribute</code>. 连锁属性 0:非连锁,1:连锁
      */
     public final TableField<PosApplyRecord, Integer> ATTRIBUTE = createField("attribute", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "连锁属性 0:非连锁,1:连锁");
 
     /**
-     * The column <code>distribution.pos_apply.add_time</code>. 申请时间
+     * The column <code>distribution_dev.pos_apply.add_time</code>. 申请时间
      */
     public final TableField<PosApplyRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "申请时间");
 
     /**
-     * The column <code>distribution.pos_apply.is_delete</code>. 是否启用 0否 1是
+     * The column <code>distribution_dev.pos_apply.is_delete</code>. 是否启用 0否 1是
      */
     public final TableField<PosApplyRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.CHAR(1).nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.CHAR)), this, "是否启用 0否 1是");
 
     /**
-     * Create a <code>distribution.pos_apply</code> table reference
+     * Create a <code>distribution_dev.pos_apply</code> table reference
      */
     public PosApply() {
         this(DSL.name("pos_apply"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.pos_apply</code> table reference
+     * Create an aliased <code>distribution_dev.pos_apply</code> table reference
      */
     public PosApply(String alias) {
         this(DSL.name(alias), POS_APPLY);
     }
 
     /**
-     * Create an aliased <code>distribution.pos_apply</code> table reference
+     * Create an aliased <code>distribution_dev.pos_apply</code> table reference
      */
     public PosApply(Name alias) {
         this(alias, POS_APPLY);
@@ -127,7 +127,7 @@ public class PosApply extends TableImpl<PosApplyRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

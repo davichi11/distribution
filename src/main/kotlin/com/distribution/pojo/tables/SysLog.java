@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.SysLogRecord;
@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysLog extends TableImpl<SysLogRecord> {
 
-    private static final long serialVersionUID = -594857810;
+    private static final long serialVersionUID = -1293983880;
 
     /**
-     * The reference instance of <code>distribution.sys_log</code>
+     * The reference instance of <code>distribution_dev.sys_log</code>
      */
     public static final SysLog SYS_LOG = new SysLog();
 
@@ -56,56 +56,56 @@ public class SysLog extends TableImpl<SysLogRecord> {
     }
 
     /**
-     * The column <code>distribution.sys_log.id</code>.
+     * The column <code>distribution_dev.sys_log.id</code>.
      */
     public final TableField<SysLogRecord, Long> ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution.sys_log.username</code>. 用户名
+     * The column <code>distribution_dev.sys_log.username</code>. 用户名
      */
     public final TableField<SysLogRecord, String> USERNAME = createField("username", org.jooq.impl.SQLDataType.VARCHAR(50), this, "用户名");
 
     /**
-     * The column <code>distribution.sys_log.operation</code>. 用户操作
+     * The column <code>distribution_dev.sys_log.operation</code>. 用户操作
      */
     public final TableField<SysLogRecord, String> OPERATION = createField("operation", org.jooq.impl.SQLDataType.VARCHAR(50), this, "用户操作");
 
     /**
-     * The column <code>distribution.sys_log.method</code>. 请求方法
+     * The column <code>distribution_dev.sys_log.method</code>. 请求方法
      */
     public final TableField<SysLogRecord, String> METHOD = createField("method", org.jooq.impl.SQLDataType.VARCHAR(200), this, "请求方法");
 
     /**
-     * The column <code>distribution.sys_log.params</code>. 请求参数
+     * The column <code>distribution_dev.sys_log.params</code>. 请求参数
      */
     public final TableField<SysLogRecord, String> PARAMS = createField("params", org.jooq.impl.SQLDataType.VARCHAR(5000), this, "请求参数");
 
     /**
-     * The column <code>distribution.sys_log.ip</code>. IP地址
+     * The column <code>distribution_dev.sys_log.ip</code>. IP地址
      */
     public final TableField<SysLogRecord, String> IP = createField("ip", org.jooq.impl.SQLDataType.VARCHAR(64), this, "IP地址");
 
     /**
-     * The column <code>distribution.sys_log.create_date</code>. 创建时间
+     * The column <code>distribution_dev.sys_log.create_date</code>. 创建时间
      */
     public final TableField<SysLogRecord, Timestamp> CREATE_DATE = createField("create_date", org.jooq.impl.SQLDataType.TIMESTAMP, this, "创建时间");
 
     /**
-     * Create a <code>distribution.sys_log</code> table reference
+     * Create a <code>distribution_dev.sys_log</code> table reference
      */
     public SysLog() {
         this(DSL.name("sys_log"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.sys_log</code> table reference
+     * Create an aliased <code>distribution_dev.sys_log</code> table reference
      */
     public SysLog(String alias) {
         this(DSL.name(alias), SYS_LOG);
     }
 
     /**
-     * Create an aliased <code>distribution.sys_log</code> table reference
+     * Create an aliased <code>distribution_dev.sys_log</code> table reference
      */
     public SysLog(Name alias) {
         this(alias, SYS_LOG);
@@ -124,7 +124,7 @@ public class SysLog extends TableImpl<SysLogRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

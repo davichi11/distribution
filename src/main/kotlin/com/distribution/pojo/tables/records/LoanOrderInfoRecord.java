@@ -28,171 +28,171 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LoanOrderInfoRecord extends UpdatableRecordImpl<LoanOrderInfoRecord> implements Record12<String, String, String, String, String, String, String, Double, Integer, String, String, Double> {
 
-    private static final long serialVersionUID = 1499097736;
+    private static final long serialVersionUID = 463010056;
 
     /**
-     * Setter for <code>distribution.loan_order_info.id</code>.
+     * Setter for <code>distribution_dev.loan_order_info.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_order_info.id</code>.
+     * Getter for <code>distribution_dev.loan_order_info.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution.loan_order_info.order_id</code>. 订单编号
+     * Setter for <code>distribution_dev.loan_order_info.order_id</code>. 订单编号
      */
     public void setOrderId(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_order_info.order_id</code>. 订单编号
+     * Getter for <code>distribution_dev.loan_order_info.order_id</code>. 订单编号
      */
     public String getOrderId() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.loan_order_info.order_mobile</code>.
+     * Setter for <code>distribution_dev.loan_order_info.order_mobile</code>.
      */
     public void setOrderMobile(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_order_info.order_mobile</code>.
+     * Getter for <code>distribution_dev.loan_order_info.order_mobile</code>.
      */
     public String getOrderMobile() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.loan_order_info.order_idcardno</code>.
+     * Setter for <code>distribution_dev.loan_order_info.order_idcardno</code>.
      */
     public void setOrderIdcardno(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_order_info.order_idcardno</code>.
+     * Getter for <code>distribution_dev.loan_order_info.order_idcardno</code>.
      */
     public String getOrderIdcardno() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.loan_order_info.order_status</code>. 订单状态 0失败 1成功 2申请中
+     * Setter for <code>distribution_dev.loan_order_info.order_status</code>. 订单状态 0失败 1成功 2申请中
      */
     public void setOrderStatus(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_order_info.order_status</code>. 订单状态 0失败 1成功 2申请中
+     * Getter for <code>distribution_dev.loan_order_info.order_status</code>. 订单状态 0失败 1成功 2申请中
      */
     public String getOrderStatus() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution.loan_order_info.member_id</code>.
+     * Setter for <code>distribution_dev.loan_order_info.member_id</code>.
      */
     public void setMemberId(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_order_info.member_id</code>.
+     * Getter for <code>distribution_dev.loan_order_info.member_id</code>.
      */
     public String getMemberId() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution.loan_order_info.loan_id</code>. 借款产品ID
+     * Setter for <code>distribution_dev.loan_order_info.loan_id</code>. 借款产品ID
      */
     public void setLoanId(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_order_info.loan_id</code>. 借款产品ID
+     * Getter for <code>distribution_dev.loan_order_info.loan_id</code>. 借款产品ID
      */
     public String getLoanId() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution.loan_order_info.loan_amount</code>. 本金
+     * Setter for <code>distribution_dev.loan_order_info.loan_amount</code>. 本金
      */
     public void setLoanAmount(Double value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_order_info.loan_amount</code>. 本金
+     * Getter for <code>distribution_dev.loan_order_info.loan_amount</code>. 本金
      */
     public Double getLoanAmount() {
         return (Double) get(7);
     }
 
     /**
-     * Setter for <code>distribution.loan_order_info.is_delete</code>.
+     * Setter for <code>distribution_dev.loan_order_info.is_delete</code>.
      */
     public void setIsDelete(Integer value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_order_info.is_delete</code>.
+     * Getter for <code>distribution_dev.loan_order_info.is_delete</code>.
      */
     public Integer getIsDelete() {
         return (Integer) get(8);
     }
 
     /**
-     * Setter for <code>distribution.loan_order_info.add_time</code>.
+     * Setter for <code>distribution_dev.loan_order_info.add_time</code>.
      */
     public void setAddTime(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_order_info.add_time</code>.
+     * Getter for <code>distribution_dev.loan_order_info.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(9);
     }
 
     /**
-     * Setter for <code>distribution.loan_order_info.update_time</code>.
+     * Setter for <code>distribution_dev.loan_order_info.update_time</code>.
      */
     public void setUpdateTime(String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_order_info.update_time</code>.
+     * Getter for <code>distribution_dev.loan_order_info.update_time</code>.
      */
     public String getUpdateTime() {
         return (String) get(10);
     }
 
     /**
-     * Setter for <code>distribution.loan_order_info.loan_money</code>. 分润金额
+     * Setter for <code>distribution_dev.loan_order_info.loan_money</code>. 分润金额
      */
     public void setLoanMoney(Double value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>distribution.loan_order_info.loan_money</code>. 分润金额
+     * Getter for <code>distribution_dev.loan_order_info.loan_money</code>. 分润金额
      */
     public Double getLoanMoney() {
         return (Double) get(11);

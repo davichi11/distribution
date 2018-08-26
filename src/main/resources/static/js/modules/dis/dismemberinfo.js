@@ -91,11 +91,21 @@ let vm = new Vue({
             vm.parentId = id
             let page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
+                postData: ""
+            });
+            $("#jqGrid").jqGrid('setGridParam', {
                 postData: {
                     'parent_id': vm.parentId
                 },
                 page: page
             }).trigger("reloadGrid");
+            // layer.open({
+            //     type:2,
+            //     title: '查看图片',
+            //     shadeClose: true,
+            //     area: ['500px', '500px'],
+            //     content: `http://localhost:8088/dis/modules/dis/dismemberinfo.html?parent_id=${vm.parentId}`
+            // });
         },
         reset: () => {
             vm.q.disLevel = null;

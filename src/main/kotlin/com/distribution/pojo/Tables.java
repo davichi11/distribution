@@ -48,7 +48,7 @@ import javax.annotation.Generated;
 
 
 /**
- * Convenience access to all tables in distribution
+ * Convenience access to all tables in distribution_dev
  */
 @Generated(
     value = {
@@ -81,7 +81,7 @@ public class Tables {
     public static final CardOrderInfo CARD_ORDER_INFO = com.distribution.pojo.tables.CardOrderInfo.CARD_ORDER_INFO;
 
     /**
-     * The table <code>distribution.district</code>.
+     * The table <code>distribution_dev.district</code>.
      */
     public static final District DISTRICT = com.distribution.pojo.tables.District.DISTRICT;
 
@@ -116,12 +116,12 @@ public class Tables {
     public static final IntegralOrder INTEGRAL_ORDER = com.distribution.pojo.tables.IntegralOrder.INTEGRAL_ORDER;
 
     /**
-     * The table <code>distribution.integral_tutorial</code>.
+     * The table <code>distribution_dev.integral_tutorial</code>.
      */
     public static final IntegralTutorial INTEGRAL_TUTORIAL = com.distribution.pojo.tables.IntegralTutorial.INTEGRAL_TUTORIAL;
 
     /**
-     * The table <code>distribution.loan_info</code>.
+     * The table <code>distribution_dev.loan_info</code>.
      */
     public static final LoanInfo LOAN_INFO = com.distribution.pojo.tables.LoanInfo.LOAN_INFO;
 
@@ -161,7 +161,7 @@ public class Tables {
     public static final PosApply POS_APPLY = com.distribution.pojo.tables.PosApply.POS_APPLY;
 
     /**
-     * The table <code>distribution.pos_order_info</code>.
+     * The table <code>distribution_dev.pos_order_info</code>.
      */
     public static final PosOrderInfo POS_ORDER_INFO = com.distribution.pojo.tables.PosOrderInfo.POS_ORDER_INFO;
 
@@ -171,7 +171,7 @@ public class Tables {
     public static final ProductDetail PRODUCT_DETAIL = com.distribution.pojo.tables.ProductDetail.PRODUCT_DETAIL;
 
     /**
-     * The table <code>distribution.product_detail_params</code>.
+     * The table <code>distribution_dev.product_detail_params</code>.
      */
     public static final ProductDetailParams PRODUCT_DETAIL_PARAMS = com.distribution.pojo.tables.ProductDetailParams.PRODUCT_DETAIL_PARAMS;
 
@@ -181,7 +181,7 @@ public class Tables {
     public static final ProductType PRODUCT_TYPE = com.distribution.pojo.tables.ProductType.PRODUCT_TYPE;
 
     /**
-     * The table <code>distribution.product_type_params</code>.
+     * The table <code>distribution_dev.product_type_params</code>.
      */
     public static final ProductTypeParams PRODUCT_TYPE_PARAMS = com.distribution.pojo.tables.ProductTypeParams.PRODUCT_TYPE_PARAMS;
 

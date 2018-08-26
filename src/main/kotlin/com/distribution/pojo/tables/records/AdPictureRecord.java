@@ -28,87 +28,87 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AdPictureRecord extends UpdatableRecordImpl<AdPictureRecord> implements Record6<Integer, String, Integer, Integer, String, String> {
 
-    private static final long serialVersionUID = 1593134907;
+    private static final long serialVersionUID = -1305667781;
 
     /**
-     * Setter for <code>distribution.ad_picture.id</code>.
+     * Setter for <code>distribution_dev.ad_picture.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.ad_picture.id</code>.
+     * Getter for <code>distribution_dev.ad_picture.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>distribution.ad_picture.img_url</code>.
+     * Setter for <code>distribution_dev.ad_picture.img_url</code>.
      */
     public void setImgUrl(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.ad_picture.img_url</code>.
+     * Getter for <code>distribution_dev.ad_picture.img_url</code>.
      */
     public String getImgUrl() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.ad_picture.article_id</code>. 对应的文章编号
+     * Setter for <code>distribution_dev.ad_picture.article_id</code>. 对应的文章编号
      */
     public void setArticleId(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.ad_picture.article_id</code>. 对应的文章编号
+     * Getter for <code>distribution_dev.ad_picture.article_id</code>. 对应的文章编号
      */
     public Integer getArticleId() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>distribution.ad_picture.order_num</code>. 排序
+     * Setter for <code>distribution_dev.ad_picture.order_num</code>. 排序
      */
     public void setOrderNum(Integer value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.ad_picture.order_num</code>. 排序
+     * Getter for <code>distribution_dev.ad_picture.order_num</code>. 排序
      */
     public Integer getOrderNum() {
         return (Integer) get(3);
     }
 
     /**
-     * Setter for <code>distribution.ad_picture.add_time</code>.
+     * Setter for <code>distribution_dev.ad_picture.add_time</code>.
      */
     public void setAddTime(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.ad_picture.add_time</code>.
+     * Getter for <code>distribution_dev.ad_picture.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution.ad_picture.is_delete</code>. 是否启用 0否 1是
+     * Setter for <code>distribution_dev.ad_picture.is_delete</code>. 是否启用 0否 1是
      */
     public void setIsDelete(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.ad_picture.is_delete</code>. 是否启用 0否 1是
+     * Getter for <code>distribution_dev.ad_picture.is_delete</code>. 是否启用 0否 1是
      */
     public String getIsDelete() {
         return (String) get(5);

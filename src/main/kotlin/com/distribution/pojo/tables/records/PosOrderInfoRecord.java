@@ -28,171 +28,171 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PosOrderInfoRecord extends UpdatableRecordImpl<PosOrderInfoRecord> implements Record12<String, String, String, String, String, String, String, String, String, Integer, String, String> {
 
-    private static final long serialVersionUID = 998864959;
+    private static final long serialVersionUID = 1178030911;
 
     /**
-     * Setter for <code>distribution.pos_order_info.id</code>.
+     * Setter for <code>distribution_dev.pos_order_info.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_order_info.id</code>.
+     * Getter for <code>distribution_dev.pos_order_info.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution.pos_order_info.order_name</code>.
+     * Setter for <code>distribution_dev.pos_order_info.order_name</code>.
      */
     public void setOrderName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_order_info.order_name</code>.
+     * Getter for <code>distribution_dev.pos_order_info.order_name</code>.
      */
     public String getOrderName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.pos_order_info.order_id</code>.
+     * Setter for <code>distribution_dev.pos_order_info.order_id</code>.
      */
     public void setOrderId(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_order_info.order_id</code>.
+     * Getter for <code>distribution_dev.pos_order_info.order_id</code>.
      */
     public String getOrderId() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.pos_order_info.member_id</code>.
+     * Setter for <code>distribution_dev.pos_order_info.member_id</code>.
      */
     public void setMemberId(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_order_info.member_id</code>.
+     * Getter for <code>distribution_dev.pos_order_info.member_id</code>.
      */
     public String getMemberId() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.pos_order_info.person_name</code>.
+     * Setter for <code>distribution_dev.pos_order_info.person_name</code>.
      */
     public void setPersonName(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_order_info.person_name</code>.
+     * Getter for <code>distribution_dev.pos_order_info.person_name</code>.
      */
     public String getPersonName() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution.pos_order_info.person_mobile</code>.
+     * Setter for <code>distribution_dev.pos_order_info.person_mobile</code>.
      */
     public void setPersonMobile(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_order_info.person_mobile</code>.
+     * Getter for <code>distribution_dev.pos_order_info.person_mobile</code>.
      */
     public String getPersonMobile() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution.pos_order_info.store_name</code>.
+     * Setter for <code>distribution_dev.pos_order_info.store_name</code>.
      */
     public void setStoreName(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_order_info.store_name</code>.
+     * Getter for <code>distribution_dev.pos_order_info.store_name</code>.
      */
     public String getStoreName() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution.pos_order_info.province_name</code>.
+     * Setter for <code>distribution_dev.pos_order_info.province_name</code>.
      */
     public void setProvinceName(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_order_info.province_name</code>.
+     * Getter for <code>distribution_dev.pos_order_info.province_name</code>.
      */
     public String getProvinceName() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>distribution.pos_order_info.city_name</code>.
+     * Setter for <code>distribution_dev.pos_order_info.city_name</code>.
      */
     public void setCityName(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_order_info.city_name</code>.
+     * Getter for <code>distribution_dev.pos_order_info.city_name</code>.
      */
     public String getCityName() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>distribution.pos_order_info.if_chain</code>.
+     * Setter for <code>distribution_dev.pos_order_info.if_chain</code>.
      */
     public void setIfChain(Integer value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_order_info.if_chain</code>.
+     * Getter for <code>distribution_dev.pos_order_info.if_chain</code>.
      */
     public Integer getIfChain() {
         return (Integer) get(9);
     }
 
     /**
-     * Setter for <code>distribution.pos_order_info.add_time</code>.
+     * Setter for <code>distribution_dev.pos_order_info.add_time</code>.
      */
     public void setAddTime(String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_order_info.add_time</code>.
+     * Getter for <code>distribution_dev.pos_order_info.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(10);
     }
 
     /**
-     * Setter for <code>distribution.pos_order_info.update_time</code>.
+     * Setter for <code>distribution_dev.pos_order_info.update_time</code>.
      */
     public void setUpdateTime(String value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_order_info.update_time</code>.
+     * Getter for <code>distribution_dev.pos_order_info.update_time</code>.
      */
     public String getUpdateTime() {
         return (String) get(11);

@@ -28,45 +28,45 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysUserRoleRecord extends UpdatableRecordImpl<SysUserRoleRecord> implements Record3<Long, Long, Long> {
 
-    private static final long serialVersionUID = 689066137;
+    private static final long serialVersionUID = -229817491;
 
     /**
-     * Setter for <code>distribution.sys_user_role.id</code>.
+     * Setter for <code>distribution_dev.sys_user_role.id</code>.
      */
     public void setId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user_role.id</code>.
+     * Getter for <code>distribution_dev.sys_user_role.id</code>.
      */
     public Long getId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>distribution.sys_user_role.user_id</code>. 用户ID
+     * Setter for <code>distribution_dev.sys_user_role.user_id</code>. 用户ID
      */
     public void setUserId(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user_role.user_id</code>. 用户ID
+     * Getter for <code>distribution_dev.sys_user_role.user_id</code>. 用户ID
      */
     public Long getUserId() {
         return (Long) get(1);
     }
 
     /**
-     * Setter for <code>distribution.sys_user_role.role_id</code>. 角色ID
+     * Setter for <code>distribution_dev.sys_user_role.role_id</code>. 角色ID
      */
     public void setRoleId(Long value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_user_role.role_id</code>. 角色ID
+     * Getter for <code>distribution_dev.sys_user_role.role_id</code>. 角色ID
      */
     public Long getRoleId() {
         return (Long) get(2);

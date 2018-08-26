@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.WithdrawalInfoRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class WithdrawalInfo extends TableImpl<WithdrawalInfoRecord> {
 
-    private static final long serialVersionUID = 1327429337;
+    private static final long serialVersionUID = 1235802197;
 
     /**
-     * The reference instance of <code>distribution.withdrawal_info</code>
+     * The reference instance of <code>distribution_dev.withdrawal_info</code>
      */
     public static final WithdrawalInfo WITHDRAWAL_INFO = new WithdrawalInfo();
 
@@ -55,86 +55,86 @@ public class WithdrawalInfo extends TableImpl<WithdrawalInfoRecord> {
     }
 
     /**
-     * The column <code>distribution.withdrawal_info.id</code>.
+     * The column <code>distribution_dev.withdrawal_info.id</code>.
      */
     public final TableField<WithdrawalInfoRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution.withdrawal_info.withdraw_num</code>. 提现订单号
+     * The column <code>distribution_dev.withdrawal_info.withdraw_num</code>. 提现订单号
      */
     public final TableField<WithdrawalInfoRecord, String> WITHDRAW_NUM = createField("withdraw_num", org.jooq.impl.SQLDataType.VARCHAR(100), this, "提现订单号");
 
     /**
-     * The column <code>distribution.withdrawal_info.withdraw_type</code>. 提现状态 0:失败,1:成功
+     * The column <code>distribution_dev.withdrawal_info.withdraw_type</code>. 提现状态 0:失败,1:成功
      */
     public final TableField<WithdrawalInfoRecord, String> WITHDRAW_TYPE = createField("withdraw_type", org.jooq.impl.SQLDataType.VARCHAR(20), this, "提现状态 0:失败,1:成功");
 
     /**
-     * The column <code>distribution.withdrawal_info.withdraw_name</code>. 提现用户名
+     * The column <code>distribution_dev.withdrawal_info.withdraw_name</code>. 提现用户名
      */
     public final TableField<WithdrawalInfoRecord, String> WITHDRAW_NAME = createField("withdraw_name", org.jooq.impl.SQLDataType.VARCHAR(100), this, "提现用户名");
 
     /**
-     * The column <code>distribution.withdrawal_info.withdraw_mobile</code>. 提现用户手机号
+     * The column <code>distribution_dev.withdrawal_info.withdraw_mobile</code>. 提现用户手机号
      */
     public final TableField<WithdrawalInfoRecord, String> WITHDRAW_MOBILE = createField("withdraw_mobile", org.jooq.impl.SQLDataType.VARCHAR(20), this, "提现用户手机号");
 
     /**
-     * The column <code>distribution.withdrawal_info.withdraw_card</code>.
+     * The column <code>distribution_dev.withdrawal_info.withdraw_card</code>.
      */
     public final TableField<WithdrawalInfoRecord, String> WITHDRAW_CARD = createField("withdraw_card", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution.withdrawal_info.withdraw_amount</code>. 提现金额
+     * The column <code>distribution_dev.withdrawal_info.withdraw_amount</code>. 提现金额
      */
     public final TableField<WithdrawalInfoRecord, BigDecimal> WITHDRAW_AMOUNT = createField("withdraw_amount", org.jooq.impl.SQLDataType.DECIMAL(12, 2), this, "提现金额");
 
     /**
-     * The column <code>distribution.withdrawal_info.withdraw_poundage</code>. 提现手续费 默认0
+     * The column <code>distribution_dev.withdrawal_info.withdraw_poundage</code>. 提现手续费 默认0
      */
     public final TableField<WithdrawalInfoRecord, BigDecimal> WITHDRAW_POUNDAGE = createField("withdraw_poundage", org.jooq.impl.SQLDataType.DECIMAL(12, 2).defaultValue(org.jooq.impl.DSL.inline("0.00", org.jooq.impl.SQLDataType.DECIMAL)), this, "提现手续费 默认0");
 
     /**
-     * The column <code>distribution.withdrawal_info.real_amount</code>. 实际到账金额
+     * The column <code>distribution_dev.withdrawal_info.real_amount</code>. 实际到账金额
      */
     public final TableField<WithdrawalInfoRecord, BigDecimal> REAL_AMOUNT = createField("real_amount", org.jooq.impl.SQLDataType.DECIMAL(12, 2), this, "实际到账金额");
 
     /**
-     * The column <code>distribution.withdrawal_info.alipay_account</code>. 支付宝账号
+     * The column <code>distribution_dev.withdrawal_info.alipay_account</code>. 支付宝账号
      */
     public final TableField<WithdrawalInfoRecord, String> ALIPAY_ACCOUNT = createField("alipay_account", org.jooq.impl.SQLDataType.VARCHAR(25), this, "支付宝账号");
 
     /**
-     * The column <code>distribution.withdrawal_info.is_delete</code>.
+     * The column <code>distribution_dev.withdrawal_info.is_delete</code>.
      */
     public final TableField<WithdrawalInfoRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.VARCHAR(1), this, "");
 
     /**
-     * The column <code>distribution.withdrawal_info.add_time</code>.
+     * The column <code>distribution_dev.withdrawal_info.add_time</code>.
      */
     public final TableField<WithdrawalInfoRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution.withdrawal_info.update_time</code>.
+     * The column <code>distribution_dev.withdrawal_info.update_time</code>.
      */
     public final TableField<WithdrawalInfoRecord, String> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * Create a <code>distribution.withdrawal_info</code> table reference
+     * Create a <code>distribution_dev.withdrawal_info</code> table reference
      */
     public WithdrawalInfo() {
         this(DSL.name("withdrawal_info"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.withdrawal_info</code> table reference
+     * Create an aliased <code>distribution_dev.withdrawal_info</code> table reference
      */
     public WithdrawalInfo(String alias) {
         this(DSL.name(alias), WITHDRAWAL_INFO);
     }
 
     /**
-     * Create an aliased <code>distribution.withdrawal_info</code> table reference
+     * Create an aliased <code>distribution_dev.withdrawal_info</code> table reference
      */
     public WithdrawalInfo(Name alias) {
         this(alias, WITHDRAWAL_INFO);
@@ -153,7 +153,7 @@ public class WithdrawalInfo extends TableImpl<WithdrawalInfoRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

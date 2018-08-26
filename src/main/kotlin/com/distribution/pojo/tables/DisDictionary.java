@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.DisDictionaryRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DisDictionary extends TableImpl<DisDictionaryRecord> {
 
-    private static final long serialVersionUID = -1721019833;
+    private static final long serialVersionUID = -1578170429;
 
     /**
-     * The reference instance of <code>distribution.dis_dictionary</code>
+     * The reference instance of <code>distribution_dev.dis_dictionary</code>
      */
     public static final DisDictionary DIS_DICTIONARY = new DisDictionary();
 
@@ -55,66 +55,66 @@ public class DisDictionary extends TableImpl<DisDictionaryRecord> {
     }
 
     /**
-     * The column <code>distribution.dis_dictionary.id</code>.
+     * The column <code>distribution_dev.dis_dictionary.id</code>.
      */
     public final TableField<DisDictionaryRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution.dis_dictionary.dis_code</code>. 字典编码
+     * The column <code>distribution_dev.dis_dictionary.dis_code</code>. 字典编码
      */
     public final TableField<DisDictionaryRecord, String> DIS_CODE = createField("dis_code", org.jooq.impl.SQLDataType.VARCHAR(20), this, "字典编码");
 
     /**
-     * The column <code>distribution.dis_dictionary.dis_type</code>. 字典隐藏字段
+     * The column <code>distribution_dev.dis_dictionary.dis_type</code>. 字典隐藏字段
      */
     public final TableField<DisDictionaryRecord, String> DIS_TYPE = createField("dis_type", org.jooq.impl.SQLDataType.VARCHAR(100), this, "字典隐藏字段");
 
     /**
-     * The column <code>distribution.dis_dictionary.dis_value</code>. 字典值，为前台显示用
+     * The column <code>distribution_dev.dis_dictionary.dis_value</code>. 字典值，为前台显示用
      */
     public final TableField<DisDictionaryRecord, String> DIS_VALUE = createField("dis_value", org.jooq.impl.SQLDataType.VARCHAR(100), this, "字典值，为前台显示用");
 
     /**
-     * The column <code>distribution.dis_dictionary.dis_sort</code>. 排序
+     * The column <code>distribution_dev.dis_dictionary.dis_sort</code>. 排序
      */
     public final TableField<DisDictionaryRecord, Integer> DIS_SORT = createField("dis_sort", org.jooq.impl.SQLDataType.INTEGER, this, "排序");
 
     /**
-     * The column <code>distribution.dis_dictionary.dis_sys_id</code>.
+     * The column <code>distribution_dev.dis_dictionary.dis_sys_id</code>.
      */
     public final TableField<DisDictionaryRecord, String> DIS_SYS_ID = createField("dis_sys_id", org.jooq.impl.SQLDataType.VARCHAR(1), this, "");
 
     /**
-     * The column <code>distribution.dis_dictionary.is_delete</code>.
+     * The column <code>distribution_dev.dis_dictionary.is_delete</code>.
      */
     public final TableField<DisDictionaryRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.VARCHAR(1), this, "");
 
     /**
-     * The column <code>distribution.dis_dictionary.add_time</code>.
+     * The column <code>distribution_dev.dis_dictionary.add_time</code>.
      */
     public final TableField<DisDictionaryRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.dis_dictionary.update_time</code>.
+     * The column <code>distribution_dev.dis_dictionary.update_time</code>.
      */
     public final TableField<DisDictionaryRecord, String> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * Create a <code>distribution.dis_dictionary</code> table reference
+     * Create a <code>distribution_dev.dis_dictionary</code> table reference
      */
     public DisDictionary() {
         this(DSL.name("dis_dictionary"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.dis_dictionary</code> table reference
+     * Create an aliased <code>distribution_dev.dis_dictionary</code> table reference
      */
     public DisDictionary(String alias) {
         this(DSL.name(alias), DIS_DICTIONARY);
     }
 
     /**
-     * Create an aliased <code>distribution.dis_dictionary</code> table reference
+     * Create an aliased <code>distribution_dev.dis_dictionary</code> table reference
      */
     public DisDictionary(Name alias) {
         this(alias, DIS_DICTIONARY);
@@ -133,7 +133,7 @@ public class DisDictionary extends TableImpl<DisDictionaryRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

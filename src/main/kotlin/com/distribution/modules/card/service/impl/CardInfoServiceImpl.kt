@@ -92,9 +92,11 @@ class CardInfoServiceImpl : CardInfoService {
             return
         }
         val apiResponse = getProductInfo(cardInfo.bankNum)
-        if (apiResponse.isSuccess) {
+        if (apiResponse.status == "1") {
             cardInfo.cardImg = apiResponse.results.icon
-            cardInfo.cardUrl = apiResponse.results.link
+            if (cardInfo.useThirdPart == 1) {
+                cardInfo.cardUrl = apiResponse.results.link
+            }
             cardInfoMapper.updateByPrimaryKeySelective(cardInfo)
         }
     }

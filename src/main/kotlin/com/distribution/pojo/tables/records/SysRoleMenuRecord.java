@@ -28,45 +28,45 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysRoleMenuRecord extends UpdatableRecordImpl<SysRoleMenuRecord> implements Record3<Long, Long, Long> {
 
-    private static final long serialVersionUID = 176711159;
+    private static final long serialVersionUID = -1641659445;
 
     /**
-     * Setter for <code>distribution.sys_role_menu.id</code>.
+     * Setter for <code>distribution_dev.sys_role_menu.id</code>.
      */
     public void setId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_role_menu.id</code>.
+     * Getter for <code>distribution_dev.sys_role_menu.id</code>.
      */
     public Long getId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>distribution.sys_role_menu.role_id</code>. 角色ID
+     * Setter for <code>distribution_dev.sys_role_menu.role_id</code>. 角色ID
      */
     public void setRoleId(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_role_menu.role_id</code>. 角色ID
+     * Getter for <code>distribution_dev.sys_role_menu.role_id</code>. 角色ID
      */
     public Long getRoleId() {
         return (Long) get(1);
     }
 
     /**
-     * Setter for <code>distribution.sys_role_menu.menu_id</code>. 菜单ID
+     * Setter for <code>distribution_dev.sys_role_menu.menu_id</code>. 菜单ID
      */
     public void setMenuId(Long value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_role_menu.menu_id</code>. 菜单ID
+     * Getter for <code>distribution_dev.sys_role_menu.menu_id</code>. 菜单ID
      */
     public Long getMenuId() {
         return (Long) get(2);

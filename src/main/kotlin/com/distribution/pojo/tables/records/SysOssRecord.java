@@ -30,45 +30,45 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysOssRecord extends UpdatableRecordImpl<SysOssRecord> implements Record3<Long, String, Timestamp> {
 
-    private static final long serialVersionUID = -136961620;
+    private static final long serialVersionUID = -720738196;
 
     /**
-     * Setter for <code>distribution.sys_oss.id</code>.
+     * Setter for <code>distribution_dev.sys_oss.id</code>.
      */
     public void setId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_oss.id</code>.
+     * Getter for <code>distribution_dev.sys_oss.id</code>.
      */
     public Long getId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>distribution.sys_oss.url</code>. URL地址
+     * Setter for <code>distribution_dev.sys_oss.url</code>. URL地址
      */
     public void setUrl(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_oss.url</code>. URL地址
+     * Getter for <code>distribution_dev.sys_oss.url</code>. URL地址
      */
     public String getUrl() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.sys_oss.create_date</code>. 创建时间
+     * Setter for <code>distribution_dev.sys_oss.create_date</code>. 创建时间
      */
     public void setCreateDate(Timestamp value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.sys_oss.create_date</code>. 创建时间
+     * Getter for <code>distribution_dev.sys_oss.create_date</code>. 创建时间
      */
     public Timestamp getCreateDate() {
         return (Timestamp) get(2);

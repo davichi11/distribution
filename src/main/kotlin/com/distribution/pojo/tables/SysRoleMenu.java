@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.SysRoleMenuRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysRoleMenu extends TableImpl<SysRoleMenuRecord> {
 
-    private static final long serialVersionUID = -421713152;
+    private static final long serialVersionUID = 1623504654;
 
     /**
-     * The reference instance of <code>distribution.sys_role_menu</code>
+     * The reference instance of <code>distribution_dev.sys_role_menu</code>
      */
     public static final SysRoleMenu SYS_ROLE_MENU = new SysRoleMenu();
 
@@ -55,36 +55,36 @@ public class SysRoleMenu extends TableImpl<SysRoleMenuRecord> {
     }
 
     /**
-     * The column <code>distribution.sys_role_menu.id</code>.
+     * The column <code>distribution_dev.sys_role_menu.id</code>.
      */
     public final TableField<SysRoleMenuRecord, Long> ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution.sys_role_menu.role_id</code>. 角色ID
+     * The column <code>distribution_dev.sys_role_menu.role_id</code>. 角色ID
      */
     public final TableField<SysRoleMenuRecord, Long> ROLE_ID = createField("role_id", org.jooq.impl.SQLDataType.BIGINT, this, "角色ID");
 
     /**
-     * The column <code>distribution.sys_role_menu.menu_id</code>. 菜单ID
+     * The column <code>distribution_dev.sys_role_menu.menu_id</code>. 菜单ID
      */
     public final TableField<SysRoleMenuRecord, Long> MENU_ID = createField("menu_id", org.jooq.impl.SQLDataType.BIGINT, this, "菜单ID");
 
     /**
-     * Create a <code>distribution.sys_role_menu</code> table reference
+     * Create a <code>distribution_dev.sys_role_menu</code> table reference
      */
     public SysRoleMenu() {
         this(DSL.name("sys_role_menu"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.sys_role_menu</code> table reference
+     * Create an aliased <code>distribution_dev.sys_role_menu</code> table reference
      */
     public SysRoleMenu(String alias) {
         this(DSL.name(alias), SYS_ROLE_MENU);
     }
 
     /**
-     * Create an aliased <code>distribution.sys_role_menu</code> table reference
+     * Create an aliased <code>distribution_dev.sys_role_menu</code> table reference
      */
     public SysRoleMenu(Name alias) {
         this(alias, SYS_ROLE_MENU);
@@ -103,7 +103,7 @@ public class SysRoleMenu extends TableImpl<SysRoleMenuRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

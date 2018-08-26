@@ -205,7 +205,7 @@
         where id = #{id,jdbcType=VARCHAR}
     </update>
     <delete id="deleteBatch">
-        delete from distribution.dis_profi_param where id in
+        delete from dis_profi_param where id in
         <foreach item="id" collection="array" open="(" separator="," close=")">
             #{id}
         </foreach>

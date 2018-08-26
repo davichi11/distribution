@@ -28,115 +28,115 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductTypeRecord extends UpdatableRecordImpl<ProductTypeRecord> implements Record8<String, String, String, String, String, String, Double, String> {
 
-    private static final long serialVersionUID = 1939154889;
+    private static final long serialVersionUID = 483611593;
 
     /**
-     * Setter for <code>distribution.product_type.id</code>.
+     * Setter for <code>distribution_dev.product_type.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.product_type.id</code>.
+     * Getter for <code>distribution_dev.product_type.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution.product_type.prod_name</code>. 产品类型名称
+     * Setter for <code>distribution_dev.product_type.prod_name</code>. 产品类型名称
      */
     public void setProdName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.product_type.prod_name</code>. 产品类型名称
+     * Getter for <code>distribution_dev.product_type.prod_name</code>. 产品类型名称
      */
     public String getProdName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.product_type.prod_rate</code>. 结算周期
+     * Setter for <code>distribution_dev.product_type.prod_rate</code>. 结算周期
      */
     public void setProdRate(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.product_type.prod_rate</code>. 结算周期
+     * Getter for <code>distribution_dev.product_type.prod_rate</code>. 结算周期
      */
     public String getProdRate() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.product_type.prod_remark</code>. 产品描述
+     * Setter for <code>distribution_dev.product_type.prod_remark</code>. 产品描述
      */
     public void setProdRemark(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.product_type.prod_remark</code>. 产品描述
+     * Getter for <code>distribution_dev.product_type.prod_remark</code>. 产品描述
      */
     public String getProdRemark() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.product_type.prod_img</code>. 图标
+     * Setter for <code>distribution_dev.product_type.prod_img</code>. 图标
      */
     public void setProdImg(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.product_type.prod_img</code>. 图标
+     * Getter for <code>distribution_dev.product_type.prod_img</code>. 图标
      */
     public String getProdImg() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution.product_type.prod_type</code>. 提单类型 0:短信,1:图片
+     * Setter for <code>distribution_dev.product_type.prod_type</code>. 提单类型 0:短信,1:图片
      */
     public void setProdType(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.product_type.prod_type</code>. 提单类型 0:短信,1:图片
+     * Getter for <code>distribution_dev.product_type.prod_type</code>. 提单类型 0:短信,1:图片
      */
     public String getProdType() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution.product_type.exchange_percent</code>. 积分兑换比率
+     * Setter for <code>distribution_dev.product_type.exchange_percent</code>. 积分兑换比率
      */
     public void setExchangePercent(Double value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.product_type.exchange_percent</code>. 积分兑换比率
+     * Getter for <code>distribution_dev.product_type.exchange_percent</code>. 积分兑换比率
      */
     public Double getExchangePercent() {
         return (Double) get(6);
     }
 
     /**
-     * Setter for <code>distribution.product_type.is_delete</code>. 是否启用 0:否,1:是
+     * Setter for <code>distribution_dev.product_type.is_delete</code>. 是否启用 0:否,1:是
      */
     public void setIsDelete(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.product_type.is_delete</code>. 是否启用 0:否,1:是
+     * Getter for <code>distribution_dev.product_type.is_delete</code>. 是否启用 0:否,1:是
      */
     public String getIsDelete() {
         return (String) get(7);

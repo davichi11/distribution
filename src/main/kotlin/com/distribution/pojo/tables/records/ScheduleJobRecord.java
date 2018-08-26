@@ -30,115 +30,115 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ScheduleJobRecord extends UpdatableRecordImpl<ScheduleJobRecord> implements Record8<Long, String, String, String, String, Integer, String, Timestamp> {
 
-    private static final long serialVersionUID = -1988365386;
+    private static final long serialVersionUID = -1969827678;
 
     /**
-     * Setter for <code>distribution.schedule_job.job_id</code>. 任务id
+     * Setter for <code>distribution_dev.schedule_job.job_id</code>. 任务id
      */
     public void setJobId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job.job_id</code>. 任务id
+     * Getter for <code>distribution_dev.schedule_job.job_id</code>. 任务id
      */
     public Long getJobId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>distribution.schedule_job.bean_name</code>. spring bean名称
+     * Setter for <code>distribution_dev.schedule_job.bean_name</code>. spring bean名称
      */
     public void setBeanName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job.bean_name</code>. spring bean名称
+     * Getter for <code>distribution_dev.schedule_job.bean_name</code>. spring bean名称
      */
     public String getBeanName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.schedule_job.method_name</code>. 方法名
+     * Setter for <code>distribution_dev.schedule_job.method_name</code>. 方法名
      */
     public void setMethodName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job.method_name</code>. 方法名
+     * Getter for <code>distribution_dev.schedule_job.method_name</code>. 方法名
      */
     public String getMethodName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.schedule_job.params</code>. 参数
+     * Setter for <code>distribution_dev.schedule_job.params</code>. 参数
      */
     public void setParams(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job.params</code>. 参数
+     * Getter for <code>distribution_dev.schedule_job.params</code>. 参数
      */
     public String getParams() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.schedule_job.cron_expression</code>. cron ???
+     * Setter for <code>distribution_dev.schedule_job.cron_expression</code>. cron ???
      */
     public void setCronExpression(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job.cron_expression</code>. cron ???
+     * Getter for <code>distribution_dev.schedule_job.cron_expression</code>. cron ???
      */
     public String getCronExpression() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution.schedule_job.status</code>. ????  0???  1???
+     * Setter for <code>distribution_dev.schedule_job.status</code>. ????  0???  1???
      */
     public void setStatus(Integer value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job.status</code>. ????  0???  1???
+     * Getter for <code>distribution_dev.schedule_job.status</code>. ????  0???  1???
      */
     public Integer getStatus() {
         return (Integer) get(5);
     }
 
     /**
-     * Setter for <code>distribution.schedule_job.remark</code>. 备注
+     * Setter for <code>distribution_dev.schedule_job.remark</code>. 备注
      */
     public void setRemark(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job.remark</code>. 备注
+     * Getter for <code>distribution_dev.schedule_job.remark</code>. 备注
      */
     public String getRemark() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution.schedule_job.create_time</code>. 创建时间
+     * Setter for <code>distribution_dev.schedule_job.create_time</code>. 创建时间
      */
     public void setCreateTime(Timestamp value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.schedule_job.create_time</code>. 创建时间
+     * Getter for <code>distribution_dev.schedule_job.create_time</code>. 创建时间
      */
     public Timestamp getCreateTime() {
         return (Timestamp) get(7);

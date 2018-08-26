@@ -10,9 +10,25 @@ import org.springframework.stereotype.Service
 class MemberAccountServiceImpl : MemberAccountService {
 
 
-
     @Autowired
     private lateinit var memberAccountMapper: MemberAccountMapper
+
+    /**
+     * 根据ID查询
+     * @return
+     */
+    override fun queryObject(accountId: String): MemberAccount? {
+        return memberAccountMapper.queryObject(accountId)
+    }
+
+    /**
+     * 查询列表
+     * @param map
+     * @return
+     */
+    override fun queryList(map: Map<String, Any>): List<MemberAccount>? {
+        return memberAccountMapper.queryList(map)
+    }
 
     /**
      * 根据userId查询其账户信息

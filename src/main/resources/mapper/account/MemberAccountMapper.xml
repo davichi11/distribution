@@ -26,6 +26,12 @@
             <result property="addTime" column="add_time"/>
             <result property="updateTime" column="update_time"/>
             <result property="isDelete" column="is_delete"/>
+            <association property="userEntity" column="dis_user_id"
+                         javaType="com.distribution.modules.api.entity.UserEntity">
+                <id property="userId" column="u_id"/>
+                <result property="username" column="username"/>
+                <result property="mobile" column="mobile"/>
+            </association>
         </association>
     </resultMap>
     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -275,6 +281,69 @@
         from member_account a
                  left join dis_member_info m on a.member_id = m.id
         where m.dis_user_name = #{name}
+    </select>
+
+    <select id="queryObject" resultMap="BaseResultMap">
+        select account_id,
+               member_id,
+               member_type,
+               member_amount,
+               alipay_account,
+               is_delete,
+               add_time,
+               update_time
+        from member_account
+        where account_id = #{value}
+    </select>
+
+    <select id="queryList" resultMap="BaseResultMap">
+        select account_id,
+        member_type,
+        member_amount,
+        alipay_account,
+        a.is_delete,
+        a.add_time,
+        a.update_time,
+        id as "m_id",
+        dis_platform_id,
+        dis_user_id,
+        dis_model_id,
+        dis_full_index,
+        dis_user_name,
+        dis_level,
+        open_id,
+        dis_user_type,
+        dis_note,
+        t.user_id as "u_id",
+        t.mobile,
+        m.add_time,
+        m.update_time,
+        m.is_delete
+        from member_account a
+        left join dis_member_info m on a.member_id = m.id
+        left join tb_user t on t.user_id = m.dis_user_id
+        <where>
+            <if test="username != null and username !=''">
+                and m.dis_user_name like concat('%',#{username},'%')
+            </if>
+            <if test="alipayAccount != null and alipayAccount != ''">
+                and a.alipay_account = #{alipayAccount}
+            </if>
+            <if test="mobile != null and mobile!=''">
+                and t.mobile concat('%',#{mobile},'%')
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by a.add_time desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
     </select>
 
     <update id="updateByUserName" parameterType="string">

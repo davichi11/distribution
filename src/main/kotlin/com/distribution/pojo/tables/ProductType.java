@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.ProductTypeRecord;
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductType extends TableImpl<ProductTypeRecord> {
 
-    private static final long serialVersionUID = -1446768077;
+    private static final long serialVersionUID = 1852093091;
 
     /**
-     * The reference instance of <code>distribution.product_type</code>
+     * The reference instance of <code>distribution_dev.product_type</code>
      */
     public static final ProductType PRODUCT_TYPE = new ProductType();
 
@@ -54,61 +54,61 @@ public class ProductType extends TableImpl<ProductTypeRecord> {
     }
 
     /**
-     * The column <code>distribution.product_type.id</code>.
+     * The column <code>distribution_dev.product_type.id</code>.
      */
     public final TableField<ProductTypeRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution.product_type.prod_name</code>. 产品类型名称
+     * The column <code>distribution_dev.product_type.prod_name</code>. 产品类型名称
      */
     public final TableField<ProductTypeRecord, String> PROD_NAME = createField("prod_name", org.jooq.impl.SQLDataType.VARCHAR(20).nullable(false), this, "产品类型名称");
 
     /**
-     * The column <code>distribution.product_type.prod_rate</code>. 结算周期
+     * The column <code>distribution_dev.product_type.prod_rate</code>. 结算周期
      */
     public final TableField<ProductTypeRecord, String> PROD_RATE = createField("prod_rate", org.jooq.impl.SQLDataType.VARCHAR(50).nullable(false), this, "结算周期");
 
     /**
-     * The column <code>distribution.product_type.prod_remark</code>. 产品描述
+     * The column <code>distribution_dev.product_type.prod_remark</code>. 产品描述
      */
     public final TableField<ProductTypeRecord, String> PROD_REMARK = createField("prod_remark", org.jooq.impl.SQLDataType.VARCHAR(1000), this, "产品描述");
 
     /**
-     * The column <code>distribution.product_type.prod_img</code>. 图标
+     * The column <code>distribution_dev.product_type.prod_img</code>. 图标
      */
     public final TableField<ProductTypeRecord, String> PROD_IMG = createField("prod_img", org.jooq.impl.SQLDataType.VARCHAR(1000), this, "图标");
 
     /**
-     * The column <code>distribution.product_type.prod_type</code>. 提单类型 0:短信,1:图片
+     * The column <code>distribution_dev.product_type.prod_type</code>. 提单类型 0:短信,1:图片
      */
     public final TableField<ProductTypeRecord, String> PROD_TYPE = createField("prod_type", org.jooq.impl.SQLDataType.CHAR(1).nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.CHAR)), this, "提单类型 0:短信,1:图片");
 
     /**
-     * The column <code>distribution.product_type.exchange_percent</code>. 积分兑换比率
+     * The column <code>distribution_dev.product_type.exchange_percent</code>. 积分兑换比率
      */
     public final TableField<ProductTypeRecord, Double> EXCHANGE_PERCENT = createField("exchange_percent", org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "积分兑换比率");
 
     /**
-     * The column <code>distribution.product_type.is_delete</code>. 是否启用 0:否,1:是
+     * The column <code>distribution_dev.product_type.is_delete</code>. 是否启用 0:否,1:是
      */
     public final TableField<ProductTypeRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.CHAR(1).nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.CHAR)), this, "是否启用 0:否,1:是");
 
     /**
-     * Create a <code>distribution.product_type</code> table reference
+     * Create a <code>distribution_dev.product_type</code> table reference
      */
     public ProductType() {
         this(DSL.name("product_type"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.product_type</code> table reference
+     * Create an aliased <code>distribution_dev.product_type</code> table reference
      */
     public ProductType(String alias) {
         this(DSL.name(alias), PRODUCT_TYPE);
     }
 
     /**
-     * Create an aliased <code>distribution.product_type</code> table reference
+     * Create an aliased <code>distribution_dev.product_type</code> table reference
      */
     public ProductType(Name alias) {
         this(alias, PRODUCT_TYPE);
@@ -127,7 +127,7 @@ public class ProductType extends TableImpl<ProductTypeRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

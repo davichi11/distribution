@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.tables.records.DistrictRecord;
 
 import javax.annotation.Generated;
@@ -31,10 +31,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class District extends TableImpl<DistrictRecord> {
 
-    private static final long serialVersionUID = 1105727950;
+    private static final long serialVersionUID = 299333064;
 
     /**
-     * The reference instance of <code>distribution.district</code>
+     * The reference instance of <code>distribution_dev.district</code>
      */
     public static final District DISTRICT = new District();
 
@@ -47,46 +47,46 @@ public class District extends TableImpl<DistrictRecord> {
     }
 
     /**
-     * The column <code>distribution.district.id</code>.
+     * The column <code>distribution_dev.district.id</code>.
      */
     public final TableField<DistrictRecord, Short> ID = createField("id", org.jooq.impl.SQLDataType.SMALLINT, this, "");
 
     /**
-     * The column <code>distribution.district.name</code>.
+     * The column <code>distribution_dev.district.name</code>.
      */
     public final TableField<DistrictRecord, String> NAME = createField("name", org.jooq.impl.SQLDataType.VARCHAR(270), this, "");
 
     /**
-     * The column <code>distribution.district.parent_id</code>.
+     * The column <code>distribution_dev.district.parent_id</code>.
      */
     public final TableField<DistrictRecord, Short> PARENT_ID = createField("parent_id", org.jooq.impl.SQLDataType.SMALLINT, this, "");
 
     /**
-     * The column <code>distribution.district.code</code>.
+     * The column <code>distribution_dev.district.code</code>.
      */
     public final TableField<DistrictRecord, String> CODE = createField("code", org.jooq.impl.SQLDataType.CHAR(30), this, "");
 
     /**
-     * The column <code>distribution.district.order</code>.
+     * The column <code>distribution_dev.district.order</code>.
      */
     public final TableField<DistrictRecord, Integer> ORDER = createField("order", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * Create a <code>distribution.district</code> table reference
+     * Create a <code>distribution_dev.district</code> table reference
      */
     public District() {
         this(DSL.name("district"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.district</code> table reference
+     * Create an aliased <code>distribution_dev.district</code> table reference
      */
     public District(String alias) {
         this(DSL.name(alias), DISTRICT);
     }
 
     /**
-     * Create an aliased <code>distribution.district</code> table reference
+     * Create an aliased <code>distribution_dev.district</code> table reference
      */
     public District(Name alias) {
         this(alias, DISTRICT);
@@ -105,7 +105,7 @@ public class District extends TableImpl<DistrictRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

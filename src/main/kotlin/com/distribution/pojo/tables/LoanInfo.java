@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.LoanInfoRecord;
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LoanInfo extends TableImpl<LoanInfoRecord> {
 
-    private static final long serialVersionUID = 1852392837;
+    private static final long serialVersionUID = -1684556263;
 
     /**
-     * The reference instance of <code>distribution.loan_info</code>
+     * The reference instance of <code>distribution_dev.loan_info</code>
      */
     public static final LoanInfo LOAN_INFO = new LoanInfo();
 
@@ -54,61 +54,61 @@ public class LoanInfo extends TableImpl<LoanInfoRecord> {
     }
 
     /**
-     * The column <code>distribution.loan_info.id</code>.
+     * The column <code>distribution_dev.loan_info.id</code>.
      */
     public final TableField<LoanInfoRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution.loan_info.loan_name</code>. 贷款产品名称
+     * The column <code>distribution_dev.loan_info.loan_name</code>. 贷款产品名称
      */
     public final TableField<LoanInfoRecord, String> LOAN_NAME = createField("loan_name", org.jooq.impl.SQLDataType.VARCHAR(50).nullable(false), this, "贷款产品名称");
 
     /**
-     * The column <code>distribution.loan_info.loan_url</code>. 产品链接
+     * The column <code>distribution_dev.loan_info.loan_url</code>. 产品链接
      */
     public final TableField<LoanInfoRecord, String> LOAN_URL = createField("loan_url", org.jooq.impl.SQLDataType.VARCHAR(1000).nullable(false), this, "产品链接");
 
     /**
-     * The column <code>distribution.loan_info.loan_img</code>.
+     * The column <code>distribution_dev.loan_info.loan_img</code>.
      */
     public final TableField<LoanInfoRecord, String> LOAN_IMG = createField("loan_img", org.jooq.impl.SQLDataType.VARCHAR(1000), this, "");
 
     /**
-     * The column <code>distribution.loan_info.add_time</code>.
+     * The column <code>distribution_dev.loan_info.add_time</code>.
      */
     public final TableField<LoanInfoRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(50), this, "");
 
     /**
-     * The column <code>distribution.loan_info.update_time</code>.
+     * The column <code>distribution_dev.loan_info.update_time</code>.
      */
     public final TableField<LoanInfoRecord, String> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.VARCHAR(50), this, "");
 
     /**
-     * The column <code>distribution.loan_info.is_delete</code>. 是否启用 0否 1是
+     * The column <code>distribution_dev.loan_info.is_delete</code>. 是否启用 0否 1是
      */
     public final TableField<LoanInfoRecord, Integer> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.INTEGER)), this, "是否启用 0否 1是");
 
     /**
-     * The column <code>distribution.loan_info.remark</code>.
+     * The column <code>distribution_dev.loan_info.remark</code>.
      */
     public final TableField<LoanInfoRecord, String> REMARK = createField("remark", org.jooq.impl.SQLDataType.VARCHAR(500), this, "");
 
     /**
-     * Create a <code>distribution.loan_info</code> table reference
+     * Create a <code>distribution_dev.loan_info</code> table reference
      */
     public LoanInfo() {
         this(DSL.name("loan_info"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.loan_info</code> table reference
+     * Create an aliased <code>distribution_dev.loan_info</code> table reference
      */
     public LoanInfo(String alias) {
         this(DSL.name(alias), LOAN_INFO);
     }
 
     /**
-     * Create an aliased <code>distribution.loan_info</code> table reference
+     * Create an aliased <code>distribution_dev.loan_info</code> table reference
      */
     public LoanInfo(Name alias) {
         this(alias, LOAN_INFO);
@@ -127,7 +127,7 @@ public class LoanInfo extends TableImpl<LoanInfoRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

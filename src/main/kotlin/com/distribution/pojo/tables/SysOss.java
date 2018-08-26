@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.SysOssRecord;
@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysOss extends TableImpl<SysOssRecord> {
 
-    private static final long serialVersionUID = 1692546377;
+    private static final long serialVersionUID = 344333737;
 
     /**
-     * The reference instance of <code>distribution.sys_oss</code>
+     * The reference instance of <code>distribution_dev.sys_oss</code>
      */
     public static final SysOss SYS_OSS = new SysOss();
 
@@ -56,36 +56,36 @@ public class SysOss extends TableImpl<SysOssRecord> {
     }
 
     /**
-     * The column <code>distribution.sys_oss.id</code>.
+     * The column <code>distribution_dev.sys_oss.id</code>.
      */
     public final TableField<SysOssRecord, Long> ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution.sys_oss.url</code>. URL地址
+     * The column <code>distribution_dev.sys_oss.url</code>. URL地址
      */
     public final TableField<SysOssRecord, String> URL = createField("url", org.jooq.impl.SQLDataType.VARCHAR(200), this, "URL地址");
 
     /**
-     * The column <code>distribution.sys_oss.create_date</code>. 创建时间
+     * The column <code>distribution_dev.sys_oss.create_date</code>. 创建时间
      */
     public final TableField<SysOssRecord, Timestamp> CREATE_DATE = createField("create_date", org.jooq.impl.SQLDataType.TIMESTAMP, this, "创建时间");
 
     /**
-     * Create a <code>distribution.sys_oss</code> table reference
+     * Create a <code>distribution_dev.sys_oss</code> table reference
      */
     public SysOss() {
         this(DSL.name("sys_oss"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.sys_oss</code> table reference
+     * Create an aliased <code>distribution_dev.sys_oss</code> table reference
      */
     public SysOss(String alias) {
         this(DSL.name(alias), SYS_OSS);
     }
 
     /**
-     * Create an aliased <code>distribution.sys_oss</code> table reference
+     * Create an aliased <code>distribution_dev.sys_oss</code> table reference
      */
     public SysOss(Name alias) {
         this(alias, SYS_OSS);
@@ -104,7 +104,7 @@ public class SysOss extends TableImpl<SysOssRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

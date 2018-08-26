@@ -28,59 +28,59 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductDetailParamsRecord extends UpdatableRecordImpl<ProductDetailParamsRecord> implements Record4<Integer, String, Integer, Double> {
 
-    private static final long serialVersionUID = 532112753;
+    private static final long serialVersionUID = -1325386747;
 
     /**
-     * Setter for <code>distribution.product_detail_params.id</code>.
+     * Setter for <code>distribution_dev.product_detail_params.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.product_detail_params.id</code>.
+     * Getter for <code>distribution_dev.product_detail_params.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>distribution.product_detail_params.detail_id</code>.
+     * Setter for <code>distribution_dev.product_detail_params.detail_id</code>.
      */
     public void setDetailId(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.product_detail_params.detail_id</code>.
+     * Getter for <code>distribution_dev.product_detail_params.detail_id</code>.
      */
     public String getDetailId() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.product_detail_params.level</code>.
+     * Setter for <code>distribution_dev.product_detail_params.level</code>.
      */
     public void setLevel(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.product_detail_params.level</code>.
+     * Getter for <code>distribution_dev.product_detail_params.level</code>.
      */
     public Integer getLevel() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>distribution.product_detail_params.buy_back_price</code>.
+     * Setter for <code>distribution_dev.product_detail_params.buy_back_price</code>.
      */
     public void setBuyBackPrice(Double value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.product_detail_params.buy_back_price</code>.
+     * Getter for <code>distribution_dev.product_detail_params.buy_back_price</code>.
      */
     public Double getBuyBackPrice() {
         return (Double) get(3);

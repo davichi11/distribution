@@ -27,73 +27,73 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DistrictRecord extends TableRecordImpl<DistrictRecord> implements Record5<Short, String, Short, String, Integer> {
 
-    private static final long serialVersionUID = 842405491;
+    private static final long serialVersionUID = 1565032075;
 
     /**
-     * Setter for <code>distribution.district.id</code>.
+     * Setter for <code>distribution_dev.district.id</code>.
      */
     public void setId(Short value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.district.id</code>.
+     * Getter for <code>distribution_dev.district.id</code>.
      */
     public Short getId() {
         return (Short) get(0);
     }
 
     /**
-     * Setter for <code>distribution.district.name</code>.
+     * Setter for <code>distribution_dev.district.name</code>.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.district.name</code>.
+     * Getter for <code>distribution_dev.district.name</code>.
      */
     public String getName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.district.parent_id</code>.
+     * Setter for <code>distribution_dev.district.parent_id</code>.
      */
     public void setParentId(Short value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.district.parent_id</code>.
+     * Getter for <code>distribution_dev.district.parent_id</code>.
      */
     public Short getParentId() {
         return (Short) get(2);
     }
 
     /**
-     * Setter for <code>distribution.district.code</code>.
+     * Setter for <code>distribution_dev.district.code</code>.
      */
     public void setCode(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.district.code</code>.
+     * Getter for <code>distribution_dev.district.code</code>.
      */
     public String getCode() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.district.order</code>.
+     * Setter for <code>distribution_dev.district.order</code>.
      */
     public void setOrder(Integer value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.district.order</code>.
+     * Getter for <code>distribution_dev.district.order</code>.
      */
     public Integer getOrder() {
         return (Integer) get(4);

@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.PosOrderInfoRecord;
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PosOrderInfo extends TableImpl<PosOrderInfoRecord> {
 
-    private static final long serialVersionUID = -1214842565;
+    private static final long serialVersionUID = 1739466607;
 
     /**
-     * The reference instance of <code>distribution.pos_order_info</code>
+     * The reference instance of <code>distribution_dev.pos_order_info</code>
      */
     public static final PosOrderInfo POS_ORDER_INFO = new PosOrderInfo();
 
@@ -54,81 +54,81 @@ public class PosOrderInfo extends TableImpl<PosOrderInfoRecord> {
     }
 
     /**
-     * The column <code>distribution.pos_order_info.id</code>.
+     * The column <code>distribution_dev.pos_order_info.id</code>.
      */
     public final TableField<PosOrderInfoRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution.pos_order_info.order_name</code>.
+     * The column <code>distribution_dev.pos_order_info.order_name</code>.
      */
     public final TableField<PosOrderInfoRecord, String> ORDER_NAME = createField("order_name", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.pos_order_info.order_id</code>.
+     * The column <code>distribution_dev.pos_order_info.order_id</code>.
      */
     public final TableField<PosOrderInfoRecord, String> ORDER_ID = createField("order_id", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.pos_order_info.member_id</code>.
+     * The column <code>distribution_dev.pos_order_info.member_id</code>.
      */
     public final TableField<PosOrderInfoRecord, String> MEMBER_ID = createField("member_id", org.jooq.impl.SQLDataType.VARCHAR(32), this, "");
 
     /**
-     * The column <code>distribution.pos_order_info.person_name</code>.
+     * The column <code>distribution_dev.pos_order_info.person_name</code>.
      */
     public final TableField<PosOrderInfoRecord, String> PERSON_NAME = createField("person_name", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.pos_order_info.person_mobile</code>.
+     * The column <code>distribution_dev.pos_order_info.person_mobile</code>.
      */
     public final TableField<PosOrderInfoRecord, String> PERSON_MOBILE = createField("person_mobile", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.pos_order_info.store_name</code>.
+     * The column <code>distribution_dev.pos_order_info.store_name</code>.
      */
     public final TableField<PosOrderInfoRecord, String> STORE_NAME = createField("store_name", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.pos_order_info.province_name</code>.
+     * The column <code>distribution_dev.pos_order_info.province_name</code>.
      */
     public final TableField<PosOrderInfoRecord, String> PROVINCE_NAME = createField("province_name", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.pos_order_info.city_name</code>.
+     * The column <code>distribution_dev.pos_order_info.city_name</code>.
      */
     public final TableField<PosOrderInfoRecord, String> CITY_NAME = createField("city_name", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.pos_order_info.if_chain</code>.
+     * The column <code>distribution_dev.pos_order_info.if_chain</code>.
      */
     public final TableField<PosOrderInfoRecord, Integer> IF_CHAIN = createField("if_chain", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>distribution.pos_order_info.add_time</code>.
+     * The column <code>distribution_dev.pos_order_info.add_time</code>.
      */
     public final TableField<PosOrderInfoRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution.pos_order_info.update_time</code>.
+     * The column <code>distribution_dev.pos_order_info.update_time</code>.
      */
     public final TableField<PosOrderInfoRecord, String> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * Create a <code>distribution.pos_order_info</code> table reference
+     * Create a <code>distribution_dev.pos_order_info</code> table reference
      */
     public PosOrderInfo() {
         this(DSL.name("pos_order_info"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.pos_order_info</code> table reference
+     * Create an aliased <code>distribution_dev.pos_order_info</code> table reference
      */
     public PosOrderInfo(String alias) {
         this(DSL.name(alias), POS_ORDER_INFO);
     }
 
     /**
-     * Create an aliased <code>distribution.pos_order_info</code> table reference
+     * Create an aliased <code>distribution_dev.pos_order_info</code> table reference
      */
     public PosOrderInfo(Name alias) {
         this(alias, POS_ORDER_INFO);
@@ -147,7 +147,7 @@ public class PosOrderInfo extends TableImpl<PosOrderInfoRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

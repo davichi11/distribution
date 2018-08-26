@@ -28,115 +28,115 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class PosApplyRecord extends UpdatableRecordImpl<PosApplyRecord> implements Record8<String, String, Long, String, String, Integer, String, String> {
 
-    private static final long serialVersionUID = 1650276735;
+    private static final long serialVersionUID = 806603687;
 
     /**
-     * Setter for <code>distribution.pos_apply.id</code>.
+     * Setter for <code>distribution_dev.pos_apply.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_apply.id</code>.
+     * Getter for <code>distribution_dev.pos_apply.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution.pos_apply.name</code>.
+     * Setter for <code>distribution_dev.pos_apply.name</code>.
      */
     public void setName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_apply.name</code>.
+     * Getter for <code>distribution_dev.pos_apply.name</code>.
      */
     public String getName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.pos_apply.mobile</code>.
+     * Setter for <code>distribution_dev.pos_apply.mobile</code>.
      */
     public void setMobile(Long value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_apply.mobile</code>.
+     * Getter for <code>distribution_dev.pos_apply.mobile</code>.
      */
     public Long getMobile() {
         return (Long) get(2);
     }
 
     /**
-     * Setter for <code>distribution.pos_apply.merchants</code>. 商户名称
+     * Setter for <code>distribution_dev.pos_apply.merchants</code>. 商户名称
      */
     public void setMerchants(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_apply.merchants</code>. 商户名称
+     * Getter for <code>distribution_dev.pos_apply.merchants</code>. 商户名称
      */
     public String getMerchants() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.pos_apply.area_code</code>. 区域编码
+     * Setter for <code>distribution_dev.pos_apply.area_code</code>. 区域编码
      */
     public void setAreaCode(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_apply.area_code</code>. 区域编码
+     * Getter for <code>distribution_dev.pos_apply.area_code</code>. 区域编码
      */
     public String getAreaCode() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution.pos_apply.attribute</code>. 连锁属性 0:非连锁,1:连锁
+     * Setter for <code>distribution_dev.pos_apply.attribute</code>. 连锁属性 0:非连锁,1:连锁
      */
     public void setAttribute(Integer value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_apply.attribute</code>. 连锁属性 0:非连锁,1:连锁
+     * Getter for <code>distribution_dev.pos_apply.attribute</code>. 连锁属性 0:非连锁,1:连锁
      */
     public Integer getAttribute() {
         return (Integer) get(5);
     }
 
     /**
-     * Setter for <code>distribution.pos_apply.add_time</code>. 申请时间
+     * Setter for <code>distribution_dev.pos_apply.add_time</code>. 申请时间
      */
     public void setAddTime(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_apply.add_time</code>. 申请时间
+     * Getter for <code>distribution_dev.pos_apply.add_time</code>. 申请时间
      */
     public String getAddTime() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution.pos_apply.is_delete</code>. 是否启用 0否 1是
+     * Setter for <code>distribution_dev.pos_apply.is_delete</code>. 是否启用 0否 1是
      */
     public void setIsDelete(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.pos_apply.is_delete</code>. 是否启用 0否 1是
+     * Getter for <code>distribution_dev.pos_apply.is_delete</code>. 是否启用 0否 1是
      */
     public String getIsDelete() {
         return (String) get(7);

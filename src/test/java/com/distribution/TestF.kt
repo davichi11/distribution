@@ -1,8 +1,5 @@
 package com.distribution
 
-import kotlinx.coroutines.experimental.delay
-import kotlinx.coroutines.experimental.launch
-
 /**
  * @Company
  * @Project distribution
@@ -12,13 +9,7 @@ import kotlinx.coroutines.experimental.launch
  * @create 2018/7/30-22:47
  */
 fun main(args: Array<String>) {
-    print("222")
-    launch { // launch new coroutine in background and continue
-        delay(1000L) // non-blocking delay for 1 second (default time unit is ms)
-        aa()
-    }
-}
+    val map = mapOf("1" to "2", "3" to "4", "5" to "")
+    print(map.filterValues { it.isEmpty() })
 
-private suspend fun aa() {
-    print("123123")
 }

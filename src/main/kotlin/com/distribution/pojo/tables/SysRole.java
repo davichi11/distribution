@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.SysRoleRecord;
@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysRole extends TableImpl<SysRoleRecord> {
 
-    private static final long serialVersionUID = 115669688;
+    private static final long serialVersionUID = -334172688;
 
     /**
-     * The reference instance of <code>distribution.sys_role</code>
+     * The reference instance of <code>distribution_dev.sys_role</code>
      */
     public static final SysRole SYS_ROLE = new SysRole();
 
@@ -56,46 +56,46 @@ public class SysRole extends TableImpl<SysRoleRecord> {
     }
 
     /**
-     * The column <code>distribution.sys_role.role_id</code>.
+     * The column <code>distribution_dev.sys_role.role_id</code>.
      */
     public final TableField<SysRoleRecord, Long> ROLE_ID = createField("role_id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution.sys_role.role_name</code>. 角色名称
+     * The column <code>distribution_dev.sys_role.role_name</code>. 角色名称
      */
     public final TableField<SysRoleRecord, String> ROLE_NAME = createField("role_name", org.jooq.impl.SQLDataType.VARCHAR(100), this, "角色名称");
 
     /**
-     * The column <code>distribution.sys_role.remark</code>. 备注
+     * The column <code>distribution_dev.sys_role.remark</code>. 备注
      */
     public final TableField<SysRoleRecord, String> REMARK = createField("remark", org.jooq.impl.SQLDataType.VARCHAR(100), this, "备注");
 
     /**
-     * The column <code>distribution.sys_role.create_user_id</code>. 创建者ID
+     * The column <code>distribution_dev.sys_role.create_user_id</code>. 创建者ID
      */
     public final TableField<SysRoleRecord, Long> CREATE_USER_ID = createField("create_user_id", org.jooq.impl.SQLDataType.BIGINT, this, "创建者ID");
 
     /**
-     * The column <code>distribution.sys_role.create_time</code>. 创建时间
+     * The column <code>distribution_dev.sys_role.create_time</code>. 创建时间
      */
     public final TableField<SysRoleRecord, Timestamp> CREATE_TIME = createField("create_time", org.jooq.impl.SQLDataType.TIMESTAMP, this, "创建时间");
 
     /**
-     * Create a <code>distribution.sys_role</code> table reference
+     * Create a <code>distribution_dev.sys_role</code> table reference
      */
     public SysRole() {
         this(DSL.name("sys_role"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.sys_role</code> table reference
+     * Create an aliased <code>distribution_dev.sys_role</code> table reference
      */
     public SysRole(String alias) {
         this(DSL.name(alias), SYS_ROLE);
     }
 
     /**
-     * Create an aliased <code>distribution.sys_role</code> table reference
+     * Create an aliased <code>distribution_dev.sys_role</code> table reference
      */
     public SysRole(Name alias) {
         this(alias, SYS_ROLE);
@@ -114,7 +114,7 @@ public class SysRole extends TableImpl<SysRoleRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

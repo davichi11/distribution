@@ -37,7 +37,7 @@
         <qcloud.cos.version>4.4</qcloud.cos.version>
         <!--<activiti.version>6.0.0</activiti.version>-->
         <!--<drools.version>7.5.0.Final</drools.version>-->
-        <kotlin.version>1.2.60</kotlin.version>
+        <kotlin.version>1.2.61</kotlin.version>
     </properties>
 
     <dependencies>
@@ -428,48 +428,17 @@
 
     <build>
         <plugins>
-            <!--<plugin>-->
-                <!--<groupId>org.springframework.boot</groupId>-->
-                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
-                <!--<configuration>-->
-                    <!--<fork>true</fork>-->
-                    <!--<executable>true</executable>-->
-                    <!--<classifier>exec</classifier>-->
-                <!--</configuration>-->
-            <!--</plugin>-->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>2.0.3.RELEASE</version>
-                <dependencies>
-                    <dependency>
-                        <!-- 热替换，不支持外部编辑器编辑 -->
-                        <groupId>org.springframework</groupId>
-                        <artifactId>springloaded</artifactId>
-                        <version>1.2.6.RELEASE</version>
-                    </dependency>
-                </dependencies>
                 <configuration>
                     <fork>true</fork>
                     <executable>true</executable>
                     <classifier>exec</classifier>
-                    <mainClass>com.distribution.DistributionApplication</mainClass>
-                    <!-- debug 模式 -->
-                    <profiles>
-                        <profile>dev</profile>
-                    </profiles>
-                    <!-- <jvmArguments> -->
-                    <!-- -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8081 -->
-                    <!-- </jvmArguments> -->
                 </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
@@ -571,7 +540,7 @@
                             <!--inputSchema 输入模式-->
                             <schemata>
                                 <schema>
-                                    <inputSchema>distribution</inputSchema>
+                                    <inputSchema>distribution_dev</inputSchema>
                                 </schema>
                             </schemata>
                             <!--强制类型-->

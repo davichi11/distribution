@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.Distribution;
+import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.CardOrderInfoRecord;
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CardOrderInfo extends TableImpl<CardOrderInfoRecord> {
 
-    private static final long serialVersionUID = 2023957227;
+    private static final long serialVersionUID = 1019982751;
 
     /**
-     * The reference instance of <code>distribution.card_order_info</code>
+     * The reference instance of <code>distribution_dev.card_order_info</code>
      */
     public static final CardOrderInfo CARD_ORDER_INFO = new CardOrderInfo();
 
@@ -54,86 +54,86 @@ public class CardOrderInfo extends TableImpl<CardOrderInfoRecord> {
     }
 
     /**
-     * The column <code>distribution.card_order_info.id</code>.
+     * The column <code>distribution_dev.card_order_info.id</code>.
      */
     public final TableField<CardOrderInfoRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution.card_order_info.order_name</code>.
+     * The column <code>distribution_dev.card_order_info.order_name</code>.
      */
     public final TableField<CardOrderInfoRecord, String> ORDER_NAME = createField("order_name", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.card_order_info.order_id</code>.
+     * The column <code>distribution_dev.card_order_info.order_id</code>.
      */
     public final TableField<CardOrderInfoRecord, String> ORDER_ID = createField("order_id", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.card_order_info.order_mobile</code>.
+     * The column <code>distribution_dev.card_order_info.order_mobile</code>.
      */
     public final TableField<CardOrderInfoRecord, String> ORDER_MOBILE = createField("order_mobile", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.card_order_info.order_idcardno</code>.
+     * The column <code>distribution_dev.card_order_info.order_idcardno</code>.
      */
     public final TableField<CardOrderInfoRecord, String> ORDER_IDCARDNO = createField("order_idcardno", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.card_order_info.order_email</code>.
+     * The column <code>distribution_dev.card_order_info.order_email</code>.
      */
     public final TableField<CardOrderInfoRecord, String> ORDER_EMAIL = createField("order_email", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution.card_order_info.order_status</code>. 订单状态 0:失败,1:成功,2:申请中
+     * The column <code>distribution_dev.card_order_info.order_status</code>. 订单状态 0:失败,1:成功,2:申请中
      */
     public final TableField<CardOrderInfoRecord, Integer> ORDER_STATUS = createField("order_status", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("2", org.jooq.impl.SQLDataType.INTEGER)), this, "订单状态 0:失败,1:成功,2:申请中");
 
     /**
-     * The column <code>distribution.card_order_info.member_id</code>. 用户关联ID
+     * The column <code>distribution_dev.card_order_info.member_id</code>. 用户关联ID
      */
     public final TableField<CardOrderInfoRecord, String> MEMBER_ID = createField("member_id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "用户关联ID");
 
     /**
-     * The column <code>distribution.card_order_info.card_id</code>. 关联信用卡ID
+     * The column <code>distribution_dev.card_order_info.card_id</code>. 关联信用卡ID
      */
     public final TableField<CardOrderInfoRecord, String> CARD_ID = createField("card_id", org.jooq.impl.SQLDataType.VARCHAR(32), this, "关联信用卡ID");
 
     /**
-     * The column <code>distribution.card_order_info.is_delete</code>.
+     * The column <code>distribution_dev.card_order_info.is_delete</code>.
      */
     public final TableField<CardOrderInfoRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.VARCHAR(1), this, "");
 
     /**
-     * The column <code>distribution.card_order_info.add_time</code>.
+     * The column <code>distribution_dev.card_order_info.add_time</code>.
      */
     public final TableField<CardOrderInfoRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution.card_order_info.update_time</code>.
+     * The column <code>distribution_dev.card_order_info.update_time</code>.
      */
     public final TableField<CardOrderInfoRecord, String> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution.card_order_info.order_bank_status</code>. 银行进度查询备用字段 0未查（办卡中）。1己查（申请中）。2己查（通过）
+     * The column <code>distribution_dev.card_order_info.order_bank_status</code>. 银行进度查询备用字段 0未查（办卡中）。1己查（申请中）。2己查（通过）
      */
     public final TableField<CardOrderInfoRecord, Integer> ORDER_BANK_STATUS = createField("order_bank_status", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "银行进度查询备用字段 0未查（办卡中）。1己查（申请中）。2己查（通过）");
 
     /**
-     * Create a <code>distribution.card_order_info</code> table reference
+     * Create a <code>distribution_dev.card_order_info</code> table reference
      */
     public CardOrderInfo() {
         this(DSL.name("card_order_info"), null);
     }
 
     /**
-     * Create an aliased <code>distribution.card_order_info</code> table reference
+     * Create an aliased <code>distribution_dev.card_order_info</code> table reference
      */
     public CardOrderInfo(String alias) {
         this(DSL.name(alias), CARD_ORDER_INFO);
     }
 
     /**
-     * Create an aliased <code>distribution.card_order_info</code> table reference
+     * Create an aliased <code>distribution_dev.card_order_info</code> table reference
      */
     public CardOrderInfo(Name alias) {
         this(alias, CARD_ORDER_INFO);
@@ -152,7 +152,7 @@ public class CardOrderInfo extends TableImpl<CardOrderInfoRecord> {
      */
     @Override
     public Schema getSchema() {
-        return Distribution.DISTRIBUTION;
+        return DistributionDev.DISTRIBUTION_DEV;
     }
 
     /**

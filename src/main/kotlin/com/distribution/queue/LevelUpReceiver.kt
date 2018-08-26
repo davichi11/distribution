@@ -32,9 +32,9 @@ class LevelUpReceiver {
             log.error("消息为空")
             return
         }
-        val memberObject = JSON.parseObject(msg)
-        val memberInfo = disMemberInfoService.queryObject(memberObject.getString("id"))
         try {
+            val memberObject = JSON.parseObject(msg)
+            val memberInfo = disMemberInfoService.queryObject(memberObject.getString("id"))
             memberInfo?.let { disMemberInfoService.levelUp(it) }
         } catch (e: Exception) {
             log.error("会员升级异常", e)

@@ -28,129 +28,129 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DisDictionaryRecord extends UpdatableRecordImpl<DisDictionaryRecord> implements Record9<Integer, String, String, String, Integer, String, String, String, String> {
 
-    private static final long serialVersionUID = 1170749759;
+    private static final long serialVersionUID = -572945301;
 
     /**
-     * Setter for <code>distribution.dis_dictionary.id</code>.
+     * Setter for <code>distribution_dev.dis_dictionary.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_dictionary.id</code>.
+     * Getter for <code>distribution_dev.dis_dictionary.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>distribution.dis_dictionary.dis_code</code>. 字典编码
+     * Setter for <code>distribution_dev.dis_dictionary.dis_code</code>. 字典编码
      */
     public void setDisCode(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_dictionary.dis_code</code>. 字典编码
+     * Getter for <code>distribution_dev.dis_dictionary.dis_code</code>. 字典编码
      */
     public String getDisCode() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.dis_dictionary.dis_type</code>. 字典隐藏字段
+     * Setter for <code>distribution_dev.dis_dictionary.dis_type</code>. 字典隐藏字段
      */
     public void setDisType(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_dictionary.dis_type</code>. 字典隐藏字段
+     * Getter for <code>distribution_dev.dis_dictionary.dis_type</code>. 字典隐藏字段
      */
     public String getDisType() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.dis_dictionary.dis_value</code>. 字典值，为前台显示用
+     * Setter for <code>distribution_dev.dis_dictionary.dis_value</code>. 字典值，为前台显示用
      */
     public void setDisValue(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_dictionary.dis_value</code>. 字典值，为前台显示用
+     * Getter for <code>distribution_dev.dis_dictionary.dis_value</code>. 字典值，为前台显示用
      */
     public String getDisValue() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.dis_dictionary.dis_sort</code>. 排序
+     * Setter for <code>distribution_dev.dis_dictionary.dis_sort</code>. 排序
      */
     public void setDisSort(Integer value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_dictionary.dis_sort</code>. 排序
+     * Getter for <code>distribution_dev.dis_dictionary.dis_sort</code>. 排序
      */
     public Integer getDisSort() {
         return (Integer) get(4);
     }
 
     /**
-     * Setter for <code>distribution.dis_dictionary.dis_sys_id</code>.
+     * Setter for <code>distribution_dev.dis_dictionary.dis_sys_id</code>.
      */
     public void setDisSysId(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_dictionary.dis_sys_id</code>.
+     * Getter for <code>distribution_dev.dis_dictionary.dis_sys_id</code>.
      */
     public String getDisSysId() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution.dis_dictionary.is_delete</code>.
+     * Setter for <code>distribution_dev.dis_dictionary.is_delete</code>.
      */
     public void setIsDelete(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_dictionary.is_delete</code>.
+     * Getter for <code>distribution_dev.dis_dictionary.is_delete</code>.
      */
     public String getIsDelete() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution.dis_dictionary.add_time</code>.
+     * Setter for <code>distribution_dev.dis_dictionary.add_time</code>.
      */
     public void setAddTime(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_dictionary.add_time</code>.
+     * Getter for <code>distribution_dev.dis_dictionary.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>distribution.dis_dictionary.update_time</code>.
+     * Setter for <code>distribution_dev.dis_dictionary.update_time</code>.
      */
     public void setUpdateTime(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>distribution.dis_dictionary.update_time</code>.
+     * Getter for <code>distribution_dev.dis_dictionary.update_time</code>.
      */
     public String getUpdateTime() {
         return (String) get(8);

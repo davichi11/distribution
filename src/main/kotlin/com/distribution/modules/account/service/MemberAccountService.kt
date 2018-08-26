@@ -37,4 +37,17 @@ interface MemberAccountService {
      */
     @Throws(Exception::class)
     fun updateByUserName(name: String)
+
+    /**
+     * 根据ID查询
+     * @return
+     */
+    fun queryObject(accountId: String): MemberAccount?
+
+    /**
+     * 查询列表
+     * @param map
+     * @return
+     */
+    fun queryList(map: Map<String, Any>): List<MemberAccount>?
 }

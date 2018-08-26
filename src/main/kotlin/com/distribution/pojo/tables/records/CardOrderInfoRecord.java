@@ -28,185 +28,185 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CardOrderInfoRecord extends UpdatableRecordImpl<CardOrderInfoRecord> implements Record13<String, String, String, String, String, String, Integer, String, String, String, String, String, Integer> {
 
-    private static final long serialVersionUID = -1922121181;
+    private static final long serialVersionUID = -698634309;
 
     /**
-     * Setter for <code>distribution.card_order_info.id</code>.
+     * Setter for <code>distribution_dev.card_order_info.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution.card_order_info.id</code>.
+     * Getter for <code>distribution_dev.card_order_info.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution.card_order_info.order_name</code>.
+     * Setter for <code>distribution_dev.card_order_info.order_name</code>.
      */
     public void setOrderName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution.card_order_info.order_name</code>.
+     * Getter for <code>distribution_dev.card_order_info.order_name</code>.
      */
     public String getOrderName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution.card_order_info.order_id</code>.
+     * Setter for <code>distribution_dev.card_order_info.order_id</code>.
      */
     public void setOrderId(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution.card_order_info.order_id</code>.
+     * Getter for <code>distribution_dev.card_order_info.order_id</code>.
      */
     public String getOrderId() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution.card_order_info.order_mobile</code>.
+     * Setter for <code>distribution_dev.card_order_info.order_mobile</code>.
      */
     public void setOrderMobile(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution.card_order_info.order_mobile</code>.
+     * Getter for <code>distribution_dev.card_order_info.order_mobile</code>.
      */
     public String getOrderMobile() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution.card_order_info.order_idcardno</code>.
+     * Setter for <code>distribution_dev.card_order_info.order_idcardno</code>.
      */
     public void setOrderIdcardno(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution.card_order_info.order_idcardno</code>.
+     * Getter for <code>distribution_dev.card_order_info.order_idcardno</code>.
      */
     public String getOrderIdcardno() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution.card_order_info.order_email</code>.
+     * Setter for <code>distribution_dev.card_order_info.order_email</code>.
      */
     public void setOrderEmail(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution.card_order_info.order_email</code>.
+     * Getter for <code>distribution_dev.card_order_info.order_email</code>.
      */
     public String getOrderEmail() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution.card_order_info.order_status</code>. 订单状态 0:失败,1:成功,2:申请中
+     * Setter for <code>distribution_dev.card_order_info.order_status</code>. 订单状态 0:失败,1:成功,2:申请中
      */
     public void setOrderStatus(Integer value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution.card_order_info.order_status</code>. 订单状态 0:失败,1:成功,2:申请中
+     * Getter for <code>distribution_dev.card_order_info.order_status</code>. 订单状态 0:失败,1:成功,2:申请中
      */
     public Integer getOrderStatus() {
         return (Integer) get(6);
     }
 
     /**
-     * Setter for <code>distribution.card_order_info.member_id</code>. 用户关联ID
+     * Setter for <code>distribution_dev.card_order_info.member_id</code>. 用户关联ID
      */
     public void setMemberId(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution.card_order_info.member_id</code>. 用户关联ID
+     * Getter for <code>distribution_dev.card_order_info.member_id</code>. 用户关联ID
      */
     public String getMemberId() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>distribution.card_order_info.card_id</code>. 关联信用卡ID
+     * Setter for <code>distribution_dev.card_order_info.card_id</code>. 关联信用卡ID
      */
     public void setCardId(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>distribution.card_order_info.card_id</code>. 关联信用卡ID
+     * Getter for <code>distribution_dev.card_order_info.card_id</code>. 关联信用卡ID
      */
     public String getCardId() {
         return (String) get(8);
     }
 
     /**
-     * Setter for <code>distribution.card_order_info.is_delete</code>.
+     * Setter for <code>distribution_dev.card_order_info.is_delete</code>.
      */
     public void setIsDelete(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>distribution.card_order_info.is_delete</code>.
+     * Getter for <code>distribution_dev.card_order_info.is_delete</code>.
      */
     public String getIsDelete() {
         return (String) get(9);
     }
 
     /**
-     * Setter for <code>distribution.card_order_info.add_time</code>.
+     * Setter for <code>distribution_dev.card_order_info.add_time</code>.
      */
     public void setAddTime(String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>distribution.card_order_info.add_time</code>.
+     * Getter for <code>distribution_dev.card_order_info.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(10);
     }
 
     /**
-     * Setter for <code>distribution.card_order_info.update_time</code>.
+     * Setter for <code>distribution_dev.card_order_info.update_time</code>.
      */
     public void setUpdateTime(String value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>distribution.card_order_info.update_time</code>.
+     * Getter for <code>distribution_dev.card_order_info.update_time</code>.
      */
     public String getUpdateTime() {
         return (String) get(11);
     }
 
     /**
-     * Setter for <code>distribution.card_order_info.order_bank_status</code>. 银行进度查询备用字段 0未查（办卡中）。1己查（申请中）。2己查（通过）
+     * Setter for <code>distribution_dev.card_order_info.order_bank_status</code>. 银行进度查询备用字段 0未查（办卡中）。1己查（申请中）。2己查（通过）
      */
     public void setOrderBankStatus(Integer value) {
         set(12, value);
     }
 
     /**
-     * Getter for <code>distribution.card_order_info.order_bank_status</code>. 银行进度查询备用字段 0未查（办卡中）。1己查（申请中）。2己查（通过）
+     * Getter for <code>distribution_dev.card_order_info.order_bank_status</code>. 银行进度查询备用字段 0未查（办卡中）。1己查（申请中）。2己查（通过）
      */
     public Integer getOrderBankStatus() {
         return (Integer) get(12);

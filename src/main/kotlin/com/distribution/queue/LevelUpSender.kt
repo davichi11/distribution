@@ -15,10 +15,10 @@ import org.springframework.stereotype.Component
 @Component
 class LevelUpSender {
     @Autowired
-    private val amqpTemplate: AmqpTemplate? = null
+    private lateinit var amqpTemplate: AmqpTemplate
 
     fun send(context: String) {
         println("Sender : $context")
-        amqpTemplate!!.convertAndSend("level_up", context)
+        amqpTemplate.convertAndSend("level_up", context)
     }
 }
