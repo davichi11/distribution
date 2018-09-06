@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysUser extends TableImpl<SysUserRecord> {
 
-    private static final long serialVersionUID = -1239590004;
+    private static final long serialVersionUID = -1831166824;
 
     /**
      * The reference instance of <code>distribution_dev.sys_user</code>
@@ -142,7 +142,7 @@ public class SysUser extends TableImpl<SysUserRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.SYS_USER_PRIMARY, Indexes.SYS_USER_USERNAME);
+        return Arrays.<Index>asList(Indexes.SYS_USER_PRIMARY, Indexes.SYS_USER_SYS_USER_USER_ID_INDEX, Indexes.SYS_USER_USERNAME);
     }
 
     /**

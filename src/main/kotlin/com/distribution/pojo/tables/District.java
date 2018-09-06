@@ -5,11 +5,16 @@ package com.distribution.pojo.tables;
 
 
 import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Indexes;
 import com.distribution.pojo.tables.records.DistrictRecord;
+
+import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.Generated;
 
 import org.jooq.Field;
+import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Schema;
 import org.jooq.Table;
@@ -31,7 +36,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class District extends TableImpl<DistrictRecord> {
 
-    private static final long serialVersionUID = 299333064;
+    private static final long serialVersionUID = 1144949412;
 
     /**
      * The reference instance of <code>distribution_dev.district</code>
@@ -106,6 +111,14 @@ public class District extends TableImpl<DistrictRecord> {
     @Override
     public Schema getSchema() {
         return DistributionDev.DISTRIBUTION_DEV;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Index> getIndexes() {
+        return Arrays.<Index>asList(Indexes.DISTRICT_DISTRICT_ID_INDEX, Indexes.DISTRICT_DISTRICT_PARENT_ID_INDEX);
     }
 
     /**

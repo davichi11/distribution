@@ -39,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class WithdrawalInfo extends TableImpl<WithdrawalInfoRecord> {
 
-    private static final long serialVersionUID = 1235802197;
+    private static final long serialVersionUID = 211916542;
 
     /**
      * The reference instance of <code>distribution_dev.withdrawal_info</code>
@@ -161,7 +161,7 @@ public class WithdrawalInfo extends TableImpl<WithdrawalInfoRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.WITHDRAWAL_INFO_PRIMARY);
+        return Arrays.<Index>asList(Indexes.WITHDRAWAL_INFO_PRIMARY, Indexes.WITHDRAWAL_INFO_WITHDRAWAL_INFO_ALIPAY_ACCOUNT_INDEX, Indexes.WITHDRAWAL_INFO_WITHDRAWAL_INFO_ID_INDEX, Indexes.WITHDRAWAL_INFO_WITHDRAWAL_INFO_WITHDRAW_MOBILE_INDEX);
     }
 
     /**

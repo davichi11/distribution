@@ -8,22 +8,13 @@ import com.distribution.pojo.DistributionDev;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.AdPictureRecord;
-
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.Generated;
-
-import org.jooq.Field;
-import org.jooq.Identity;
-import org.jooq.Index;
-import org.jooq.Name;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
+
+import javax.annotation.Generated;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -39,7 +30,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AdPicture extends TableImpl<AdPictureRecord> {
 
-    private static final long serialVersionUID = -144418645;
+    private static final long serialVersionUID = 744511714;
 
     /**
      * The reference instance of <code>distribution_dev.ad_picture</code>
@@ -126,7 +117,7 @@ public class AdPicture extends TableImpl<AdPictureRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.AD_PICTURE_PRIMARY);
+        return Arrays.<Index>asList(Indexes.AD_PICTURE_AD_PICTURE_ARTICLE_ID_INDEX, Indexes.AD_PICTURE_AD_PICTURE_ID_INDEX, Indexes.AD_PICTURE_PRIMARY);
     }
 
     /**

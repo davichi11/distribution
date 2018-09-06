@@ -51,9 +51,9 @@ risk:
     header: token
   open-kaptcha:
     is-open: false
-  url: https://www.qiandaoshou.cn/wx/#/auth
-  return-url: https://www.qiandaoshou.cn/dis/api/getUserInfo
-  file-server: https://47.105.53.69:8088
+  url: https://www.qiandaoshouli.com/wx/#/auth
+  return-url: https://www.qiandaoshouli.com/dis/api/getUserInfo
+  file-server: https://47.104.239.136:8088
   file-path: /Users/huchunliang/Downloads
 swagger:
   enabled: true
@@ -66,13 +66,14 @@ swagger:
       base-package: com.distribution.weixin.mp.controller
 
 wechat:
+  url: http://www.qiandaoshouli.com
   pay:
     appId: wxf89f12ae63042617
     mchId: 1386801502
     mchKey: RmXDEA0hMdZs4AZoCAwLLIg4jQ9gfHJd
     keyPath: 123
   mp:
-    appId: wx167da65db4907b84
-    secret: c872c0b347faec4ed3827d07f40f4206
+    appId: wx1f08f53b44b2bb1f
+    secret: 5c8afa5a3aa30084e3b0c25fae45588b
     token: iapahify0u0mxmq3pv3w4t21bzz4ohib
     aesKey: hqtZyX24b4DJIOrIfcNDAsAtVrrBwwfMMi4QMDCqZe1

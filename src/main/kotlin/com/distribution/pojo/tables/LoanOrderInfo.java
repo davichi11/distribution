@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LoanOrderInfo extends TableImpl<LoanOrderInfoRecord> {
 
-    private static final long serialVersionUID = -345602571;
+    private static final long serialVersionUID = -1255763922;
 
     /**
      * The reference instance of <code>distribution_dev.loan_order_info</code>
@@ -155,7 +155,7 @@ public class LoanOrderInfo extends TableImpl<LoanOrderInfoRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ID_UINDEX, Indexes.LOAN_ORDER_INFO_PRIMARY);
+        return Arrays.<Index>asList(Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ID_UINDEX, Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_LOAN_ID_INDEX, Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_IDCARDNO_INDEX, Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_MOBILE_INDEX, Indexes.LOAN_ORDER_INFO_PRIMARY);
     }
 
     /**

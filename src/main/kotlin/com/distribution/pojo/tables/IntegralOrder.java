@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
 
-    private static final long serialVersionUID = -1850136826;
+    private static final long serialVersionUID = 1071383641;
 
     /**
      * The reference instance of <code>distribution_dev.integral_order</code>
@@ -135,7 +135,7 @@ public class IntegralOrder extends TableImpl<IntegralOrderRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX, Indexes.INTEGRAL_ORDER_PRIMARY);
+        return Arrays.<Index>asList(Indexes.INTEGRAL_ORDER_INTEGRAL_ORDER_DETAIL_ID_INDEX, Indexes.INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX, Indexes.INTEGRAL_ORDER_INTEGRAL_ORDER_MOBILE_INDEX, Indexes.INTEGRAL_ORDER_PRIMARY);
     }
 
     /**

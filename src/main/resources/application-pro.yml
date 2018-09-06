@@ -63,6 +63,7 @@ swagger:
 
 
 wechat:
+  url: http://www.qiandaoshouli.com
   pay:
     appId: wxf89f12ae63042617
     mchId: 1386801502

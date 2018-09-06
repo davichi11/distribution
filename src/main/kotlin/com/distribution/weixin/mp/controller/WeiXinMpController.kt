@@ -72,6 +72,8 @@ class WeiXinMpController {
     private lateinit var redisTemplate: RedisTemplate<String, String>
     @Value("\${risk.url}")
     private lateinit var url: String
+    @Value("\${wechat.url}")
+    private lateinit var weixinUrl:String
     @Value("\${risk.return-url}")
     private lateinit var returnUrl: String
 
@@ -155,9 +157,9 @@ class WeiXinMpController {
         val button = WxMenuButton()
         button.name = "首页"
         button.type = "view"
-        button.url = "http://www.qiandaoshou.cn/wx/#/auth"
+        button.url = weixinUrl
         val menu = WxMenu()
-        menu.buttons = Lists.newArrayList(button)
+        menu.buttons = listOf(button)
         val create: String
         try {
             create = menuService.menuCreate(menu)

@@ -39,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TbUser extends TableImpl<TbUserRecord> {
 
-    private static final long serialVersionUID = 1049108101;
+    private static final long serialVersionUID = 977449854;
 
     /**
      * The reference instance of <code>distribution_dev.tb_user</code>
@@ -122,7 +122,7 @@ public class TbUser extends TableImpl<TbUserRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.TB_USER_PRIMARY);
+        return Arrays.<Index>asList(Indexes.TB_USER_PRIMARY, Indexes.TB_USER_TB_USER_MOBILE_INDEX, Indexes.TB_USER_TB_USER_USER_ID_INDEX);
     }
 
     /**

@@ -60,6 +60,10 @@ spring:
     port: 5672
     username: guest
     password: guest
+    publisher-confirms: true #开启发送确认
+    publisher-returns: true #开启发送失败退回
+    listener:
+      acknowledge-mode: MANUAL #开启消费ACK模式
 
 
 # Mybatis配置

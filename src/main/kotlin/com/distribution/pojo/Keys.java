@@ -13,6 +13,7 @@ import com.distribution.pojo.tables.DisFans;
 import com.distribution.pojo.tables.DisMemberInfo;
 import com.distribution.pojo.tables.DisProfiParam;
 import com.distribution.pojo.tables.DisProfitRecord;
+import com.distribution.pojo.tables.Feedback;
 import com.distribution.pojo.tables.IntegralOrder;
 import com.distribution.pojo.tables.IntegralTutorial;
 import com.distribution.pojo.tables.LoanInfo;
@@ -50,6 +51,7 @@ import com.distribution.pojo.tables.records.DisFansRecord;
 import com.distribution.pojo.tables.records.DisMemberInfoRecord;
 import com.distribution.pojo.tables.records.DisProfiParamRecord;
 import com.distribution.pojo.tables.records.DisProfitRecordRecord;
+import com.distribution.pojo.tables.records.FeedbackRecord;
 import com.distribution.pojo.tables.records.IntegralOrderRecord;
 import com.distribution.pojo.tables.records.IntegralTutorialRecord;
 import com.distribution.pojo.tables.records.LoanInfoRecord;
@@ -107,6 +109,7 @@ public class Keys {
     public static final Identity<AdPictureRecord, Integer> IDENTITY_AD_PICTURE = Identities0.IDENTITY_AD_PICTURE;
     public static final Identity<ArticleInfoRecord, Integer> IDENTITY_ARTICLE_INFO = Identities0.IDENTITY_ARTICLE_INFO;
     public static final Identity<DisDictionaryRecord, Integer> IDENTITY_DIS_DICTIONARY = Identities0.IDENTITY_DIS_DICTIONARY;
+    public static final Identity<FeedbackRecord, Long> IDENTITY_FEEDBACK = Identities0.IDENTITY_FEEDBACK;
     public static final Identity<IntegralTutorialRecord, Integer> IDENTITY_INTEGRAL_TUTORIAL = Identities0.IDENTITY_INTEGRAL_TUTORIAL;
     public static final Identity<ProductDetailParamsRecord, Integer> IDENTITY_PRODUCT_DETAIL_PARAMS = Identities0.IDENTITY_PRODUCT_DETAIL_PARAMS;
     public static final Identity<ProductTypeParamsRecord, Integer> IDENTITY_PRODUCT_TYPE_PARAMS = Identities0.IDENTITY_PRODUCT_TYPE_PARAMS;
@@ -140,6 +143,7 @@ public class Keys {
     public static final UniqueKey<DisProfitRecordRecord> KEY_DIS_PROFIT_RECORD_DIS_PROFIT_RECORD_ID_UINDEX = UniqueKeys0.KEY_DIS_PROFIT_RECORD_DIS_PROFIT_RECORD_ID_UINDEX;
     public static final UniqueKey<DisProfiParamRecord> KEY_DIS_PROFI_PARAM_PRIMARY = UniqueKeys0.KEY_DIS_PROFI_PARAM_PRIMARY;
     public static final UniqueKey<DisProfiParamRecord> KEY_DIS_PROFI_PARAM_DIS_PROFI_PARAM_ID_UINDEX = UniqueKeys0.KEY_DIS_PROFI_PARAM_DIS_PROFI_PARAM_ID_UINDEX;
+    public static final UniqueKey<FeedbackRecord> KEY_FEEDBACK_PRIMARY = UniqueKeys0.KEY_FEEDBACK_PRIMARY;
     public static final UniqueKey<IntegralOrderRecord> KEY_INTEGRAL_ORDER_PRIMARY = UniqueKeys0.KEY_INTEGRAL_ORDER_PRIMARY;
     public static final UniqueKey<IntegralOrderRecord> KEY_INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX = UniqueKeys0.KEY_INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX;
     public static final UniqueKey<IntegralTutorialRecord> KEY_INTEGRAL_TUTORIAL_PRIMARY = UniqueKeys0.KEY_INTEGRAL_TUTORIAL_PRIMARY;
@@ -195,6 +199,7 @@ public class Keys {
         public static Identity<AdPictureRecord, Integer> IDENTITY_AD_PICTURE = Internal.createIdentity(AdPicture.AD_PICTURE, AdPicture.AD_PICTURE.ID);
         public static Identity<ArticleInfoRecord, Integer> IDENTITY_ARTICLE_INFO = Internal.createIdentity(ArticleInfo.ARTICLE_INFO, ArticleInfo.ARTICLE_INFO.ID);
         public static Identity<DisDictionaryRecord, Integer> IDENTITY_DIS_DICTIONARY = Internal.createIdentity(DisDictionary.DIS_DICTIONARY, DisDictionary.DIS_DICTIONARY.ID);
+        public static Identity<FeedbackRecord, Long> IDENTITY_FEEDBACK = Internal.createIdentity(Feedback.FEEDBACK, Feedback.FEEDBACK.ID);
         public static Identity<IntegralTutorialRecord, Integer> IDENTITY_INTEGRAL_TUTORIAL = Internal.createIdentity(IntegralTutorial.INTEGRAL_TUTORIAL, IntegralTutorial.INTEGRAL_TUTORIAL.ID);
         public static Identity<ProductDetailParamsRecord, Integer> IDENTITY_PRODUCT_DETAIL_PARAMS = Internal.createIdentity(ProductDetailParams.PRODUCT_DETAIL_PARAMS, ProductDetailParams.PRODUCT_DETAIL_PARAMS.ID);
         public static Identity<ProductTypeParamsRecord, Integer> IDENTITY_PRODUCT_TYPE_PARAMS = Internal.createIdentity(ProductTypeParams.PRODUCT_TYPE_PARAMS, ProductTypeParams.PRODUCT_TYPE_PARAMS.ID);
@@ -226,6 +231,7 @@ public class Keys {
         public static final UniqueKey<DisProfitRecordRecord> KEY_DIS_PROFIT_RECORD_DIS_PROFIT_RECORD_ID_UINDEX = Internal.createUniqueKey(DisProfitRecord.DIS_PROFIT_RECORD, "KEY_dis_profit_record_dis_profit_record_id_uindex", DisProfitRecord.DIS_PROFIT_RECORD.ID);
         public static final UniqueKey<DisProfiParamRecord> KEY_DIS_PROFI_PARAM_PRIMARY = Internal.createUniqueKey(DisProfiParam.DIS_PROFI_PARAM, "KEY_dis_profi_param_PRIMARY", DisProfiParam.DIS_PROFI_PARAM.ID);
         public static final UniqueKey<DisProfiParamRecord> KEY_DIS_PROFI_PARAM_DIS_PROFI_PARAM_ID_UINDEX = Internal.createUniqueKey(DisProfiParam.DIS_PROFI_PARAM, "KEY_dis_profi_param_dis_profi_param_id_uindex", DisProfiParam.DIS_PROFI_PARAM.ID);
+        public static final UniqueKey<FeedbackRecord> KEY_FEEDBACK_PRIMARY = Internal.createUniqueKey(Feedback.FEEDBACK, "KEY_feedback_PRIMARY", Feedback.FEEDBACK.ID);
         public static final UniqueKey<IntegralOrderRecord> KEY_INTEGRAL_ORDER_PRIMARY = Internal.createUniqueKey(IntegralOrder.INTEGRAL_ORDER, "KEY_integral_order_PRIMARY", IntegralOrder.INTEGRAL_ORDER.ID);
         public static final UniqueKey<IntegralOrderRecord> KEY_INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX = Internal.createUniqueKey(IntegralOrder.INTEGRAL_ORDER, "KEY_integral_order_integral_order_id_uindex", IntegralOrder.INTEGRAL_ORDER.ID);
         public static final UniqueKey<IntegralTutorialRecord> KEY_INTEGRAL_TUTORIAL_PRIMARY = Internal.createUniqueKey(IntegralTutorial.INTEGRAL_TUTORIAL, "KEY_integral_tutorial_PRIMARY", IntegralTutorial.INTEGRAL_TUTORIAL.ID);

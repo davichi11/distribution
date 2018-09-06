@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ScheduleJob extends TableImpl<ScheduleJobRecord> {
 
-    private static final long serialVersionUID = 1990046470;
+    private static final long serialVersionUID = -1375920989;
 
     /**
      * The reference instance of <code>distribution_dev.schedule_job</code>
@@ -137,7 +137,7 @@ public class ScheduleJob extends TableImpl<ScheduleJobRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.SCHEDULE_JOB_PRIMARY);
+        return Arrays.<Index>asList(Indexes.SCHEDULE_JOB_PRIMARY, Indexes.SCHEDULE_JOB_SCHEDULE_JOB_BEAN_NAME_INDEX, Indexes.SCHEDULE_JOB_SCHEDULE_JOB_JOB_ID_INDEX, Indexes.SCHEDULE_JOB_SCHEDULE_JOB_METHOD_NAME_INDEX);
     }
 
     /**

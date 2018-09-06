@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CardInfo extends TableImpl<CardInfoRecord> {
 
-    private static final long serialVersionUID = 1865047297;
+    private static final long serialVersionUID = -487658635;
 
     /**
      * The reference instance of <code>distribution_dev.card_info</code>
@@ -155,7 +155,7 @@ public class CardInfo extends TableImpl<CardInfoRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.CARD_INFO_CARD_INFO_ID_UINDEX, Indexes.CARD_INFO_PRIMARY);
+        return Arrays.<Index>asList(Indexes.CARD_INFO_CARD_INFO_BANK_NUM_INDEX, Indexes.CARD_INFO_CARD_INFO_CARD_NUM_INDEX, Indexes.CARD_INFO_CARD_INFO_ID_UINDEX, Indexes.CARD_INFO_PRIMARY);
     }
 
     /**

@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysRole extends TableImpl<SysRoleRecord> {
 
-    private static final long serialVersionUID = -334172688;
+    private static final long serialVersionUID = 751461663;
 
     /**
      * The reference instance of <code>distribution_dev.sys_role</code>
@@ -122,7 +122,7 @@ public class SysRole extends TableImpl<SysRoleRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.SYS_ROLE_PRIMARY);
+        return Arrays.<Index>asList(Indexes.SYS_ROLE_PRIMARY, Indexes.SYS_ROLE_SYS_ROLE_ROLE_ID_INDEX);
     }
 
     /**

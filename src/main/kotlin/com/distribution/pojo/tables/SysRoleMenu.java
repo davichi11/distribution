@@ -39,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysRoleMenu extends TableImpl<SysRoleMenuRecord> {
 
-    private static final long serialVersionUID = 1623504654;
+    private static final long serialVersionUID = -790539931;
 
     /**
      * The reference instance of <code>distribution_dev.sys_role_menu</code>
@@ -111,7 +111,7 @@ public class SysRoleMenu extends TableImpl<SysRoleMenuRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.SYS_ROLE_MENU_PRIMARY);
+        return Arrays.<Index>asList(Indexes.SYS_ROLE_MENU_PRIMARY, Indexes.SYS_ROLE_MENU_SYS_ROLE_MENU_MENU_ID_INDEX, Indexes.SYS_ROLE_MENU_SYS_ROLE_MENU_ROLE_ID_INDEX);
     }
 
     /**

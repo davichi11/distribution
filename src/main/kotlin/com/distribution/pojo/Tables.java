@@ -14,6 +14,7 @@ import com.distribution.pojo.tables.DisMemberInfo;
 import com.distribution.pojo.tables.DisProfiParam;
 import com.distribution.pojo.tables.DisProfitRecord;
 import com.distribution.pojo.tables.District;
+import com.distribution.pojo.tables.Feedback;
 import com.distribution.pojo.tables.IntegralOrder;
 import com.distribution.pojo.tables.IntegralTutorial;
 import com.distribution.pojo.tables.LoanInfo;
@@ -109,6 +110,11 @@ public class Tables {
      * 分润参数设置
      */
     public static final DisProfiParam DIS_PROFI_PARAM = com.distribution.pojo.tables.DisProfiParam.DIS_PROFI_PARAM;
+
+    /**
+     * 意见反馈表
+     */
+    public static final Feedback FEEDBACK = com.distribution.pojo.tables.Feedback.FEEDBACK;
 
     /**
      * 积分兑换申请表
