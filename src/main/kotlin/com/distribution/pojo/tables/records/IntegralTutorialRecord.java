@@ -28,73 +28,73 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IntegralTutorialRecord extends UpdatableRecordImpl<IntegralTutorialRecord> implements Record5<Integer, String, Integer, String, String> {
 
-    private static final long serialVersionUID = -595579579;
+    private static final long serialVersionUID = -1331565435;
 
     /**
-     * Setter for <code>distribution_dev.integral_tutorial.id</code>.
+     * Setter for <code>distribution.integral_tutorial.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.integral_tutorial.id</code>.
+     * Getter for <code>distribution.integral_tutorial.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>distribution_dev.integral_tutorial.type_id</code>. 产品类型ID
+     * Setter for <code>distribution.integral_tutorial.type_id</code>. 产品类型ID
      */
     public void setTypeId(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.integral_tutorial.type_id</code>. 产品类型ID
+     * Getter for <code>distribution.integral_tutorial.type_id</code>. 产品类型ID
      */
     public String getTypeId() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution_dev.integral_tutorial.step</code>. 步骤
+     * Setter for <code>distribution.integral_tutorial.step</code>. 步骤
      */
     public void setStep(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.integral_tutorial.step</code>. 步骤
+     * Getter for <code>distribution.integral_tutorial.step</code>. 步骤
      */
     public Integer getStep() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>distribution_dev.integral_tutorial.text_describe</code>. 文字描述
+     * Setter for <code>distribution.integral_tutorial.text_describe</code>. 文字描述
      */
     public void setTextDescribe(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.integral_tutorial.text_describe</code>. 文字描述
+     * Getter for <code>distribution.integral_tutorial.text_describe</code>. 文字描述
      */
     public String getTextDescribe() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution_dev.integral_tutorial.img_describe</code>. 图片描述
+     * Setter for <code>distribution.integral_tutorial.img_describe</code>. 图片描述
      */
     public void setImgDescribe(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.integral_tutorial.img_describe</code>. 图片描述
+     * Getter for <code>distribution.integral_tutorial.img_describe</code>. 图片描述
      */
     public String getImgDescribe() {
         return (String) get(4);

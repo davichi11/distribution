@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.LoanOrderInfoRecord;
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class LoanOrderInfo extends TableImpl<LoanOrderInfoRecord> {
 
-    private static final long serialVersionUID = -1255763922;
+    private static final long serialVersionUID = -253685680;
 
     /**
-     * The reference instance of <code>distribution_dev.loan_order_info</code>
+     * The reference instance of <code>distribution.loan_order_info</code>
      */
     public static final LoanOrderInfo LOAN_ORDER_INFO = new LoanOrderInfo();
 
@@ -54,81 +54,81 @@ public class LoanOrderInfo extends TableImpl<LoanOrderInfoRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.loan_order_info.id</code>.
+     * The column <code>distribution.loan_order_info.id</code>.
      */
     public final TableField<LoanOrderInfoRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.loan_order_info.order_id</code>. 订单编号
+     * The column <code>distribution.loan_order_info.order_id</code>. 订单编号
      */
     public final TableField<LoanOrderInfoRecord, String> ORDER_ID = createField("order_id", org.jooq.impl.SQLDataType.VARCHAR(100).nullable(false), this, "订单编号");
 
     /**
-     * The column <code>distribution_dev.loan_order_info.order_mobile</code>.
+     * The column <code>distribution.loan_order_info.order_mobile</code>.
      */
     public final TableField<LoanOrderInfoRecord, String> ORDER_MOBILE = createField("order_mobile", org.jooq.impl.SQLDataType.VARCHAR(18).nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.loan_order_info.order_idcardno</code>.
+     * The column <code>distribution.loan_order_info.order_idcardno</code>.
      */
     public final TableField<LoanOrderInfoRecord, String> ORDER_IDCARDNO = createField("order_idcardno", org.jooq.impl.SQLDataType.VARCHAR(18).nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.loan_order_info.order_status</code>. 订单状态 0失败 1成功 2申请中
+     * The column <code>distribution.loan_order_info.order_status</code>. 订单状态 0失败 1成功 2申请中
      */
     public final TableField<LoanOrderInfoRecord, String> ORDER_STATUS = createField("order_status", org.jooq.impl.SQLDataType.CHAR(1).nullable(false).defaultValue(org.jooq.impl.DSL.inline("2", org.jooq.impl.SQLDataType.CHAR)), this, "订单状态 0失败 1成功 2申请中");
 
     /**
-     * The column <code>distribution_dev.loan_order_info.member_id</code>.
+     * The column <code>distribution.loan_order_info.member_id</code>.
      */
     public final TableField<LoanOrderInfoRecord, String> MEMBER_ID = createField("member_id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.loan_order_info.loan_id</code>. 借款产品ID
+     * The column <code>distribution.loan_order_info.loan_id</code>. 借款产品ID
      */
     public final TableField<LoanOrderInfoRecord, String> LOAN_ID = createField("loan_id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "借款产品ID");
 
     /**
-     * The column <code>distribution_dev.loan_order_info.loan_amount</code>. 本金
+     * The column <code>distribution.loan_order_info.loan_amount</code>. 本金
      */
     public final TableField<LoanOrderInfoRecord, Double> LOAN_AMOUNT = createField("loan_amount", org.jooq.impl.SQLDataType.DOUBLE.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.DOUBLE)), this, "本金");
 
     /**
-     * The column <code>distribution_dev.loan_order_info.is_delete</code>.
+     * The column <code>distribution.loan_order_info.is_delete</code>.
      */
     public final TableField<LoanOrderInfoRecord, Integer> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
-     * The column <code>distribution_dev.loan_order_info.add_time</code>.
+     * The column <code>distribution.loan_order_info.add_time</code>.
      */
     public final TableField<LoanOrderInfoRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution_dev.loan_order_info.update_time</code>.
+     * The column <code>distribution.loan_order_info.update_time</code>.
      */
     public final TableField<LoanOrderInfoRecord, String> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution_dev.loan_order_info.loan_money</code>. 分润金额
+     * The column <code>distribution.loan_order_info.loan_money</code>. 分润金额
      */
     public final TableField<LoanOrderInfoRecord, Double> LOAN_MONEY = createField("loan_money", org.jooq.impl.SQLDataType.DOUBLE, this, "分润金额");
 
     /**
-     * Create a <code>distribution_dev.loan_order_info</code> table reference
+     * Create a <code>distribution.loan_order_info</code> table reference
      */
     public LoanOrderInfo() {
         this(DSL.name("loan_order_info"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.loan_order_info</code> table reference
+     * Create an aliased <code>distribution.loan_order_info</code> table reference
      */
     public LoanOrderInfo(String alias) {
         this(DSL.name(alias), LOAN_ORDER_INFO);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.loan_order_info</code> table reference
+     * Create an aliased <code>distribution.loan_order_info</code> table reference
      */
     public LoanOrderInfo(Name alias) {
         this(alias, LOAN_ORDER_INFO);
@@ -147,7 +147,7 @@ public class LoanOrderInfo extends TableImpl<LoanOrderInfoRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**
@@ -155,7 +155,7 @@ public class LoanOrderInfo extends TableImpl<LoanOrderInfoRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ID_UINDEX, Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_LOAN_ID_INDEX, Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_IDCARDNO_INDEX, Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_MOBILE_INDEX, Indexes.LOAN_ORDER_INFO_PRIMARY);
+        return Arrays.<Index>asList(Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ID_UINDEX, Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_LOAN_ID_INDEX, Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_MEMBER_ID_INDEX, Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_IDCARDNO_INDEX, Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_ID_INDEX, Indexes.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_MOBILE_INDEX, Indexes.LOAN_ORDER_INFO_PRIMARY);
     }
 
     /**

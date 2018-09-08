@@ -540,7 +540,7 @@
                             <!--inputSchema 输入模式-->
                             <schemata>
                                 <schema>
-                                    <inputSchema>distribution_dev</inputSchema>
+                                    <inputSchema>distribution</inputSchema>
                                 </schema>
                             </schemata>
                             <!--强制类型-->

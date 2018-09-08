@@ -28,101 +28,101 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ArticleInfoRecord extends UpdatableRecordImpl<ArticleInfoRecord> implements Record7<Integer, String, String, String, Integer, String, String> {
 
-    private static final long serialVersionUID = -329083069;
+    private static final long serialVersionUID = -1577958357;
 
     /**
-     * Setter for <code>distribution_dev.article_info.id</code>.
+     * Setter for <code>distribution.article_info.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.article_info.id</code>.
+     * Getter for <code>distribution.article_info.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>distribution_dev.article_info.title</code>. 文章标题
+     * Setter for <code>distribution.article_info.title</code>. 文章标题
      */
     public void setTitle(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.article_info.title</code>. 文章标题
+     * Getter for <code>distribution.article_info.title</code>. 文章标题
      */
     public String getTitle() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution_dev.article_info.detail</code>. 文章内容
+     * Setter for <code>distribution.article_info.detail</code>. 文章内容
      */
     public void setDetail(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.article_info.detail</code>. 文章内容
+     * Getter for <code>distribution.article_info.detail</code>. 文章内容
      */
     public String getDetail() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution_dev.article_info.type</code>. 文章类别 0:客户推广 1:热门活动
+     * Setter for <code>distribution.article_info.type</code>. 文章类别 0:客户推广 1:热门活动
      */
     public void setType(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.article_info.type</code>. 文章类别 0:客户推广 1:热门活动
+     * Getter for <code>distribution.article_info.type</code>. 文章类别 0:客户推广 1:热门活动
      */
     public String getType() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution_dev.article_info.order_num</code>.
+     * Setter for <code>distribution.article_info.order_num</code>.
      */
     public void setOrderNum(Integer value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.article_info.order_num</code>.
+     * Getter for <code>distribution.article_info.order_num</code>.
      */
     public Integer getOrderNum() {
         return (Integer) get(4);
     }
 
     /**
-     * Setter for <code>distribution_dev.article_info.add_time</code>.
+     * Setter for <code>distribution.article_info.add_time</code>.
      */
     public void setAddTime(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.article_info.add_time</code>.
+     * Getter for <code>distribution.article_info.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution_dev.article_info.is_delete</code>.
+     * Setter for <code>distribution.article_info.is_delete</code>.
      */
     public void setIsDelete(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.article_info.is_delete</code>.
+     * Getter for <code>distribution.article_info.is_delete</code>.
      */
     public String getIsDelete() {
         return (String) get(6);

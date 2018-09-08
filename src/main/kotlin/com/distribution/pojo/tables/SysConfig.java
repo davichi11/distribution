@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.SysConfigRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysConfig extends TableImpl<SysConfigRecord> {
 
-    private static final long serialVersionUID = -1571146170;
+    private static final long serialVersionUID = -774298640;
 
     /**
-     * The reference instance of <code>distribution_dev.sys_config</code>
+     * The reference instance of <code>distribution.sys_config</code>
      */
     public static final SysConfig SYS_CONFIG = new SysConfig();
 
@@ -55,46 +55,46 @@ public class SysConfig extends TableImpl<SysConfigRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.sys_config.id</code>.
+     * The column <code>distribution.sys_config.id</code>.
      */
     public final TableField<SysConfigRecord, Long> ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution_dev.sys_config.key</code>. key
+     * The column <code>distribution.sys_config.key</code>. key
      */
     public final TableField<SysConfigRecord, String> KEY = createField("key", org.jooq.impl.SQLDataType.VARCHAR(50), this, "key");
 
     /**
-     * The column <code>distribution_dev.sys_config.value</code>. value
+     * The column <code>distribution.sys_config.value</code>. value
      */
     public final TableField<SysConfigRecord, String> VALUE = createField("value", org.jooq.impl.SQLDataType.VARCHAR(2000), this, "value");
 
     /**
-     * The column <code>distribution_dev.sys_config.status</code>. ??   0???   1???
+     * The column <code>distribution.sys_config.status</code>. ??   0???   1???
      */
     public final TableField<SysConfigRecord, Integer> STATUS = createField("status", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.INTEGER)), this, "??   0???   1???");
 
     /**
-     * The column <code>distribution_dev.sys_config.remark</code>. ??
+     * The column <code>distribution.sys_config.remark</code>. ??
      */
     public final TableField<SysConfigRecord, String> REMARK = createField("remark", org.jooq.impl.SQLDataType.VARCHAR(500), this, "??");
 
     /**
-     * Create a <code>distribution_dev.sys_config</code> table reference
+     * Create a <code>distribution.sys_config</code> table reference
      */
     public SysConfig() {
         this(DSL.name("sys_config"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.sys_config</code> table reference
+     * Create an aliased <code>distribution.sys_config</code> table reference
      */
     public SysConfig(String alias) {
         this(DSL.name(alias), SYS_CONFIG);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.sys_config</code> table reference
+     * Create an aliased <code>distribution.sys_config</code> table reference
      */
     public SysConfig(Name alias) {
         this(alias, SYS_CONFIG);
@@ -113,7 +113,7 @@ public class SysConfig extends TableImpl<SysConfigRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**

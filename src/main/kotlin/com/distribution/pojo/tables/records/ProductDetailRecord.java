@@ -28,115 +28,115 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductDetailRecord extends UpdatableRecordImpl<ProductDetailRecord> implements Record8<String, String, Integer, String, Long, String, String, String> {
 
-    private static final long serialVersionUID = 1006409303;
+    private static final long serialVersionUID = -1812483369;
 
     /**
-     * Setter for <code>distribution_dev.product_detail.id</code>.
+     * Setter for <code>distribution.product_detail.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.product_detail.id</code>.
+     * Getter for <code>distribution.product_detail.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution_dev.product_detail.prod_detail_name</code>. 产品名称
+     * Setter for <code>distribution.product_detail.prod_detail_name</code>. 产品名称
      */
     public void setProdDetailName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.product_detail.prod_detail_name</code>. 产品名称
+     * Getter for <code>distribution.product_detail.prod_detail_name</code>. 产品名称
      */
     public String getProdDetailName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution_dev.product_detail.prod_detail_buy_back</code>. 回购价
+     * Setter for <code>distribution.product_detail.prod_detail_buy_back</code>. 回购价
      */
     public void setProdDetailBuyBack(Integer value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.product_detail.prod_detail_buy_back</code>. 回购价
+     * Getter for <code>distribution.product_detail.prod_detail_buy_back</code>. 回购价
      */
     public Integer getProdDetailBuyBack() {
         return (Integer) get(2);
     }
 
     /**
-     * Setter for <code>distribution_dev.product_detail.prod_type_id</code>. 产品类型关联ID
+     * Setter for <code>distribution.product_detail.prod_type_id</code>. 产品类型关联ID
      */
     public void setProdTypeId(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.product_detail.prod_type_id</code>. 产品类型关联ID
+     * Getter for <code>distribution.product_detail.prod_type_id</code>. 产品类型关联ID
      */
     public String getProdTypeId() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution_dev.product_detail.prod_detail_value</code>. 产品积分数
+     * Setter for <code>distribution.product_detail.prod_detail_value</code>. 产品积分数
      */
     public void setProdDetailValue(Long value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.product_detail.prod_detail_value</code>. 产品积分数
+     * Getter for <code>distribution.product_detail.prod_detail_value</code>. 产品积分数
      */
     public Long getProdDetailValue() {
         return (Long) get(4);
     }
 
     /**
-     * Setter for <code>distribution_dev.product_detail.prod_detail_count</code>. 兑换次数
+     * Setter for <code>distribution.product_detail.prod_detail_count</code>. 兑换次数
      */
     public void setProdDetailCount(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.product_detail.prod_detail_count</code>. 兑换次数
+     * Getter for <code>distribution.product_detail.prod_detail_count</code>. 兑换次数
      */
     public String getProdDetailCount() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution_dev.product_detail.prod_detail_url</code>. 快捷入口
+     * Setter for <code>distribution.product_detail.prod_detail_url</code>. 快捷入口
      */
     public void setProdDetailUrl(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.product_detail.prod_detail_url</code>. 快捷入口
+     * Getter for <code>distribution.product_detail.prod_detail_url</code>. 快捷入口
      */
     public String getProdDetailUrl() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution_dev.product_detail.is_delete</code>. 使用启用 0:否 1:是
+     * Setter for <code>distribution.product_detail.is_delete</code>. 使用启用 0:否 1:是
      */
     public void setIsDelete(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.product_detail.is_delete</code>. 使用启用 0:否 1:是
+     * Getter for <code>distribution.product_detail.is_delete</code>. 使用启用 0:否 1:是
      */
     public String getIsDelete() {
         return (String) get(7);

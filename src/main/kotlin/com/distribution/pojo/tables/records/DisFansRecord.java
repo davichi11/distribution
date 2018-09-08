@@ -28,87 +28,87 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DisFansRecord extends UpdatableRecordImpl<DisFansRecord> implements Record6<String, String, String, String, String, Long> {
 
-    private static final long serialVersionUID = -496848559;
+    private static final long serialVersionUID = -1674209583;
 
     /**
-     * Setter for <code>distribution_dev.dis_fans.id</code>.
+     * Setter for <code>distribution.dis_fans.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.dis_fans.id</code>.
+     * Getter for <code>distribution.dis_fans.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution_dev.dis_fans.member_id</code>. 关联的推荐人ID
+     * Setter for <code>distribution.dis_fans.member_id</code>. 关联的推荐人ID
      */
     public void setMemberId(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.dis_fans.member_id</code>. 关联的推荐人ID
+     * Getter for <code>distribution.dis_fans.member_id</code>. 关联的推荐人ID
      */
     public String getMemberId() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution_dev.dis_fans.wechat_id</code>. 微信ID
+     * Setter for <code>distribution.dis_fans.wechat_id</code>. 微信ID
      */
     public void setWechatId(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.dis_fans.wechat_id</code>. 微信ID
+     * Getter for <code>distribution.dis_fans.wechat_id</code>. 微信ID
      */
     public String getWechatId() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution_dev.dis_fans.wechat_img</code>. 微信头像
+     * Setter for <code>distribution.dis_fans.wechat_img</code>. 微信头像
      */
     public void setWechatImg(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.dis_fans.wechat_img</code>. 微信头像
+     * Getter for <code>distribution.dis_fans.wechat_img</code>. 微信头像
      */
     public String getWechatImg() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution_dev.dis_fans.wechat_nickname</code>. 微信昵称
+     * Setter for <code>distribution.dis_fans.wechat_nickname</code>. 微信昵称
      */
     public void setWechatNickname(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.dis_fans.wechat_nickname</code>. 微信昵称
+     * Getter for <code>distribution.dis_fans.wechat_nickname</code>. 微信昵称
      */
     public String getWechatNickname() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution_dev.dis_fans.worker_id</code>. 工号
+     * Setter for <code>distribution.dis_fans.worker_id</code>. 工号
      */
     public void setWorkerId(Long value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.dis_fans.worker_id</code>. 工号
+     * Getter for <code>distribution.dis_fans.worker_id</code>. 工号
      */
     public Long getWorkerId() {
         return (Long) get(5);

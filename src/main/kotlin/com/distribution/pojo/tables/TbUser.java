@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.TbUserRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TbUser extends TableImpl<TbUserRecord> {
 
-    private static final long serialVersionUID = 977449854;
+    private static final long serialVersionUID = 820257480;
 
     /**
-     * The reference instance of <code>distribution_dev.tb_user</code>
+     * The reference instance of <code>distribution.tb_user</code>
      */
     public static final TbUser TB_USER = new TbUser();
 
@@ -55,47 +55,47 @@ public class TbUser extends TableImpl<TbUserRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.tb_user.user_id</code>.
+     * The column <code>distribution.tb_user.user_id</code>.
      */
     public final TableField<TbUserRecord, String> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.tb_user.username</code>. ???
+     * The column <code>distribution.tb_user.username</code>. ???
 
      */
     public final TableField<TbUserRecord, String> USERNAME = createField("username", org.jooq.impl.SQLDataType.VARCHAR(50).nullable(false), this, "???\n");
 
     /**
-     * The column <code>distribution_dev.tb_user.mobile</code>. ???
+     * The column <code>distribution.tb_user.mobile</code>. ???
      */
     public final TableField<TbUserRecord, String> MOBILE = createField("mobile", org.jooq.impl.SQLDataType.VARCHAR(20).nullable(false), this, "???");
 
     /**
-     * The column <code>distribution_dev.tb_user.password</code>. ??
+     * The column <code>distribution.tb_user.password</code>. ??
      */
     public final TableField<TbUserRecord, String> PASSWORD = createField("password", org.jooq.impl.SQLDataType.VARCHAR(64), this, "??");
 
     /**
-     * The column <code>distribution_dev.tb_user.create_time</code>. ????
+     * The column <code>distribution.tb_user.create_time</code>. ????
      */
     public final TableField<TbUserRecord, Timestamp> CREATE_TIME = createField("create_time", org.jooq.impl.SQLDataType.TIMESTAMP, this, "????");
 
     /**
-     * Create a <code>distribution_dev.tb_user</code> table reference
+     * Create a <code>distribution.tb_user</code> table reference
      */
     public TbUser() {
         this(DSL.name("tb_user"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.tb_user</code> table reference
+     * Create an aliased <code>distribution.tb_user</code> table reference
      */
     public TbUser(String alias) {
         this(DSL.name(alias), TB_USER);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.tb_user</code> table reference
+     * Create an aliased <code>distribution.tb_user</code> table reference
      */
     public TbUser(Name alias) {
         this(alias, TB_USER);
@@ -114,7 +114,7 @@ public class TbUser extends TableImpl<TbUserRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**

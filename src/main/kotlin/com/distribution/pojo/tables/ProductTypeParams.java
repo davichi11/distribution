@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.ProductTypeParamsRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductTypeParams extends TableImpl<ProductTypeParamsRecord> {
 
-    private static final long serialVersionUID = -311190271;
+    private static final long serialVersionUID = -600947089;
 
     /**
-     * The reference instance of <code>distribution_dev.product_type_params</code>
+     * The reference instance of <code>distribution.product_type_params</code>
      */
     public static final ProductTypeParams PRODUCT_TYPE_PARAMS = new ProductTypeParams();
 
@@ -55,41 +55,41 @@ public class ProductTypeParams extends TableImpl<ProductTypeParamsRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.product_type_params.id</code>.
+     * The column <code>distribution.product_type_params.id</code>.
      */
     public final TableField<ProductTypeParamsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution_dev.product_type_params.level</code>. 会员等级
+     * The column <code>distribution.product_type_params.level</code>. 会员等级
      */
     public final TableField<ProductTypeParamsRecord, Integer> LEVEL = createField("level", org.jooq.impl.SQLDataType.INTEGER.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "会员等级");
 
     /**
-     * The column <code>distribution_dev.product_type_params.exchange_percent</code>. 积分兑换百分比
+     * The column <code>distribution.product_type_params.exchange_percent</code>. 积分兑换百分比
      */
     public final TableField<ProductTypeParamsRecord, Double> EXCHANGE_PERCENT = createField("exchange_percent", org.jooq.impl.SQLDataType.DOUBLE, this, "积分兑换百分比");
 
     /**
-     * The column <code>distribution_dev.product_type_params.type_id</code>.
+     * The column <code>distribution.product_type_params.type_id</code>.
      */
     public final TableField<ProductTypeParamsRecord, String> TYPE_ID = createField("type_id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * Create a <code>distribution_dev.product_type_params</code> table reference
+     * Create a <code>distribution.product_type_params</code> table reference
      */
     public ProductTypeParams() {
         this(DSL.name("product_type_params"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.product_type_params</code> table reference
+     * Create an aliased <code>distribution.product_type_params</code> table reference
      */
     public ProductTypeParams(String alias) {
         this(DSL.name(alias), PRODUCT_TYPE_PARAMS);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.product_type_params</code> table reference
+     * Create an aliased <code>distribution.product_type_params</code> table reference
      */
     public ProductTypeParams(Name alias) {
         this(alias, PRODUCT_TYPE_PARAMS);
@@ -108,7 +108,7 @@ public class ProductTypeParams extends TableImpl<ProductTypeParamsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**

@@ -28,129 +28,129 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MemeberInfoRecord extends UpdatableRecordImpl<MemeberInfoRecord> implements Record9<String, String, String, String, String, String, String, String, String> {
 
-    private static final long serialVersionUID = -727494329;
+    private static final long serialVersionUID = 831144711;
 
     /**
-     * Setter for <code>distribution_dev.memeber_info.id</code>.
+     * Setter for <code>distribution.memeber_info.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.memeber_info.id</code>.
+     * Getter for <code>distribution.memeber_info.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution_dev.memeber_info.member_code</code>.
+     * Setter for <code>distribution.memeber_info.member_code</code>.
      */
     public void setMemberCode(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.memeber_info.member_code</code>.
+     * Getter for <code>distribution.memeber_info.member_code</code>.
      */
     public String getMemberCode() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution_dev.memeber_info.open_id</code>.
+     * Setter for <code>distribution.memeber_info.open_id</code>.
      */
     public void setOpenId(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.memeber_info.open_id</code>.
+     * Getter for <code>distribution.memeber_info.open_id</code>.
      */
     public String getOpenId() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution_dev.memeber_info.member_name</code>.
+     * Setter for <code>distribution.memeber_info.member_name</code>.
      */
     public void setMemberName(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.memeber_info.member_name</code>.
+     * Getter for <code>distribution.memeber_info.member_name</code>.
      */
     public String getMemberName() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution_dev.memeber_info.member_pwd</code>.
+     * Setter for <code>distribution.memeber_info.member_pwd</code>.
      */
     public void setMemberPwd(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.memeber_info.member_pwd</code>.
+     * Getter for <code>distribution.memeber_info.member_pwd</code>.
      */
     public String getMemberPwd() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution_dev.memeber_info.member_source</code>.
+     * Setter for <code>distribution.memeber_info.member_source</code>.
      */
     public void setMemberSource(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.memeber_info.member_source</code>.
+     * Getter for <code>distribution.memeber_info.member_source</code>.
      */
     public String getMemberSource() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution_dev.memeber_info.is_delete</code>.
+     * Setter for <code>distribution.memeber_info.is_delete</code>.
      */
     public void setIsDelete(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.memeber_info.is_delete</code>.
+     * Getter for <code>distribution.memeber_info.is_delete</code>.
      */
     public String getIsDelete() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution_dev.memeber_info.add_time</code>.
+     * Setter for <code>distribution.memeber_info.add_time</code>.
      */
     public void setAddTime(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.memeber_info.add_time</code>.
+     * Getter for <code>distribution.memeber_info.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(7);
     }
 
     /**
-     * Setter for <code>distribution_dev.memeber_info.update_time</code>.
+     * Setter for <code>distribution.memeber_info.update_time</code>.
      */
     public void setUpdateTime(String value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.memeber_info.update_time</code>.
+     * Getter for <code>distribution.memeber_info.update_time</code>.
      */
     public String getUpdateTime() {
         return (String) get(8);

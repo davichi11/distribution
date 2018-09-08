@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.TbTokenRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TbToken extends TableImpl<TbTokenRecord> {
 
-    private static final long serialVersionUID = 342857616;
+    private static final long serialVersionUID = -2009941332;
 
     /**
-     * The reference instance of <code>distribution_dev.tb_token</code>
+     * The reference instance of <code>distribution.tb_token</code>
      */
     public static final TbToken TB_TOKEN = new TbToken();
 
@@ -55,41 +55,41 @@ public class TbToken extends TableImpl<TbTokenRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.tb_token.user_id</code>.
+     * The column <code>distribution.tb_token.user_id</code>.
      */
     public final TableField<TbTokenRecord, Long> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.tb_token.token</code>. token
+     * The column <code>distribution.tb_token.token</code>. token
      */
     public final TableField<TbTokenRecord, String> TOKEN = createField("token", org.jooq.impl.SQLDataType.VARCHAR(100).nullable(false), this, "token");
 
     /**
-     * The column <code>distribution_dev.tb_token.expire_time</code>. ????
+     * The column <code>distribution.tb_token.expire_time</code>. ????
      */
     public final TableField<TbTokenRecord, Timestamp> EXPIRE_TIME = createField("expire_time", org.jooq.impl.SQLDataType.TIMESTAMP, this, "????");
 
     /**
-     * The column <code>distribution_dev.tb_token.update_time</code>. ????
+     * The column <code>distribution.tb_token.update_time</code>. ????
      */
     public final TableField<TbTokenRecord, Timestamp> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.TIMESTAMP, this, "????");
 
     /**
-     * Create a <code>distribution_dev.tb_token</code> table reference
+     * Create a <code>distribution.tb_token</code> table reference
      */
     public TbToken() {
         this(DSL.name("tb_token"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.tb_token</code> table reference
+     * Create an aliased <code>distribution.tb_token</code> table reference
      */
     public TbToken(String alias) {
         this(DSL.name(alias), TB_TOKEN);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.tb_token</code> table reference
+     * Create an aliased <code>distribution.tb_token</code> table reference
      */
     public TbToken(Name alias) {
         this(alias, TB_TOKEN);
@@ -108,7 +108,7 @@ public class TbToken extends TableImpl<TbTokenRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**

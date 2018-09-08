@@ -90,7 +90,7 @@ import org.jooq.impl.Internal;
 
 /**
  * A class modelling foreign key relationships and constraints of tables of 
- * the <code>distribution_dev</code> schema.
+ * the <code>distribution</code> schema.
  */
 @Generated(
     value = {

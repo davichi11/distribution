@@ -4,17 +4,26 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.AdPictureRecord;
-import org.jooq.*;
-import org.jooq.impl.DSL;
-import org.jooq.impl.TableImpl;
 
-import javax.annotation.Generated;
 import java.util.Arrays;
 import java.util.List;
+
+import javax.annotation.Generated;
+
+import org.jooq.Field;
+import org.jooq.Identity;
+import org.jooq.Index;
+import org.jooq.Name;
+import org.jooq.Schema;
+import org.jooq.Table;
+import org.jooq.TableField;
+import org.jooq.UniqueKey;
+import org.jooq.impl.DSL;
+import org.jooq.impl.TableImpl;
 
 
 /**
@@ -30,10 +39,10 @@ import java.util.List;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class AdPicture extends TableImpl<AdPictureRecord> {
 
-    private static final long serialVersionUID = 744511714;
+    private static final long serialVersionUID = 1033956408;
 
     /**
-     * The reference instance of <code>distribution_dev.ad_picture</code>
+     * The reference instance of <code>distribution.ad_picture</code>
      */
     public static final AdPicture AD_PICTURE = new AdPicture();
 
@@ -46,51 +55,51 @@ public class AdPicture extends TableImpl<AdPictureRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.ad_picture.id</code>.
+     * The column <code>distribution.ad_picture.id</code>.
      */
     public final TableField<AdPictureRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution_dev.ad_picture.img_url</code>.
+     * The column <code>distribution.ad_picture.img_url</code>.
      */
     public final TableField<AdPictureRecord, String> IMG_URL = createField("img_url", org.jooq.impl.SQLDataType.VARCHAR(500).nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.ad_picture.article_id</code>. 对应的文章编号
+     * The column <code>distribution.ad_picture.article_id</code>. 对应的文章编号
      */
     public final TableField<AdPictureRecord, Integer> ARTICLE_ID = createField("article_id", org.jooq.impl.SQLDataType.INTEGER, this, "对应的文章编号");
 
     /**
-     * The column <code>distribution_dev.ad_picture.order_num</code>. 排序
+     * The column <code>distribution.ad_picture.order_num</code>. 排序
      */
     public final TableField<AdPictureRecord, Integer> ORDER_NUM = createField("order_num", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "排序");
 
     /**
-     * The column <code>distribution_dev.ad_picture.add_time</code>.
+     * The column <code>distribution.ad_picture.add_time</code>.
      */
     public final TableField<AdPictureRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution_dev.ad_picture.is_delete</code>. 是否启用 0否 1是
+     * The column <code>distribution.ad_picture.is_delete</code>. 是否启用 0否 1是
      */
     public final TableField<AdPictureRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.CHAR(1).nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.CHAR)), this, "是否启用 0否 1是");
 
     /**
-     * Create a <code>distribution_dev.ad_picture</code> table reference
+     * Create a <code>distribution.ad_picture</code> table reference
      */
     public AdPicture() {
         this(DSL.name("ad_picture"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.ad_picture</code> table reference
+     * Create an aliased <code>distribution.ad_picture</code> table reference
      */
     public AdPicture(String alias) {
         this(DSL.name(alias), AD_PICTURE);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.ad_picture</code> table reference
+     * Create an aliased <code>distribution.ad_picture</code> table reference
      */
     public AdPicture(Name alias) {
         this(alias, AD_PICTURE);
@@ -109,7 +118,7 @@ public class AdPicture extends TableImpl<AdPictureRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**

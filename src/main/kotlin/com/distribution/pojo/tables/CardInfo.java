@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.CardInfoRecord;
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class CardInfo extends TableImpl<CardInfoRecord> {
 
-    private static final long serialVersionUID = -487658635;
+    private static final long serialVersionUID = 888886781;
 
     /**
-     * The reference instance of <code>distribution_dev.card_info</code>
+     * The reference instance of <code>distribution.card_info</code>
      */
     public static final CardInfo CARD_INFO = new CardInfo();
 
@@ -54,81 +54,81 @@ public class CardInfo extends TableImpl<CardInfoRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.card_info.id</code>.
+     * The column <code>distribution.card_info.id</code>.
      */
     public final TableField<CardInfoRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.card_info.bank_num</code>. 银行代号
+     * The column <code>distribution.card_info.bank_num</code>. 银行代号
      */
     public final TableField<CardInfoRecord, String> BANK_NUM = createField("bank_num", org.jooq.impl.SQLDataType.VARCHAR(100), this, "银行代号");
 
     /**
-     * The column <code>distribution_dev.card_info.card_num</code>. 信用卡代号
+     * The column <code>distribution.card_info.card_num</code>. 信用卡代号
      */
     public final TableField<CardInfoRecord, String> CARD_NUM = createField("card_num", org.jooq.impl.SQLDataType.VARCHAR(100), this, "信用卡代号");
 
     /**
-     * The column <code>distribution_dev.card_info.card_name</code>. 信用卡名称
+     * The column <code>distribution.card_info.card_name</code>. 信用卡名称
      */
     public final TableField<CardInfoRecord, String> CARD_NAME = createField("card_name", org.jooq.impl.SQLDataType.VARCHAR(100), this, "信用卡名称");
 
     /**
-     * The column <code>distribution_dev.card_info.card_img</code>. 信用卡图片
+     * The column <code>distribution.card_info.card_img</code>. 信用卡图片
      */
     public final TableField<CardInfoRecord, String> CARD_IMG = createField("card_img", org.jooq.impl.SQLDataType.VARCHAR(100), this, "信用卡图片");
 
     /**
-     * The column <code>distribution_dev.card_info.card_info</code>. 信用卡详情
+     * The column <code>distribution.card_info.card_info</code>. 信用卡详情
      */
     public final TableField<CardInfoRecord, String> CARD_INFO_ = createField("card_info", org.jooq.impl.SQLDataType.VARCHAR(800), this, "信用卡详情");
 
     /**
-     * The column <code>distribution_dev.card_info.card_url</code>. 信用卡办理链接
+     * The column <code>distribution.card_info.card_url</code>. 信用卡办理链接
      */
     public final TableField<CardInfoRecord, String> CARD_URL = createField("card_url", org.jooq.impl.SQLDataType.VARCHAR(500), this, "信用卡办理链接");
 
     /**
-     * The column <code>distribution_dev.card_info.update_time</code>.
+     * The column <code>distribution.card_info.update_time</code>.
      */
     public final TableField<CardInfoRecord, String> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution_dev.card_info.add_time</code>.
+     * The column <code>distribution.card_info.add_time</code>.
      */
     public final TableField<CardInfoRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution_dev.card_info.is_delete</code>.
+     * The column <code>distribution.card_info.is_delete</code>.
      */
     public final TableField<CardInfoRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.VARCHAR(1), this, "");
 
     /**
-     * The column <code>distribution_dev.card_info.rebate</code>. 信用卡返利
+     * The column <code>distribution.card_info.rebate</code>. 信用卡返利
      */
     public final TableField<CardInfoRecord, Double> REBATE = createField("rebate", org.jooq.impl.SQLDataType.DOUBLE.nullable(false), this, "信用卡返利");
 
     /**
-     * The column <code>distribution_dev.card_info.use_third_part</code>. 是否启用推送第三方数据 0否 1是
+     * The column <code>distribution.card_info.use_third_part</code>. 是否启用推送第三方数据 0否 1是
      */
     public final TableField<CardInfoRecord, Integer> USE_THIRD_PART = createField("use_third_part", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.INTEGER)), this, "是否启用推送第三方数据 0否 1是");
 
     /**
-     * Create a <code>distribution_dev.card_info</code> table reference
+     * Create a <code>distribution.card_info</code> table reference
      */
     public CardInfo() {
         this(DSL.name("card_info"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.card_info</code> table reference
+     * Create an aliased <code>distribution.card_info</code> table reference
      */
     public CardInfo(String alias) {
         this(DSL.name(alias), CARD_INFO);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.card_info</code> table reference
+     * Create an aliased <code>distribution.card_info</code> table reference
      */
     public CardInfo(Name alias) {
         this(alias, CARD_INFO);
@@ -147,7 +147,7 @@ public class CardInfo extends TableImpl<CardInfoRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**

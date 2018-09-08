@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.ScheduleJobRecord;
@@ -40,10 +40,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ScheduleJob extends TableImpl<ScheduleJobRecord> {
 
-    private static final long serialVersionUID = -1375920989;
+    private static final long serialVersionUID = -789820854;
 
     /**
-     * The reference instance of <code>distribution_dev.schedule_job</code>
+     * The reference instance of <code>distribution.schedule_job</code>
      */
     public static final ScheduleJob SCHEDULE_JOB = new ScheduleJob();
 
@@ -56,61 +56,61 @@ public class ScheduleJob extends TableImpl<ScheduleJobRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.schedule_job.job_id</code>. 任务id
+     * The column <code>distribution.schedule_job.job_id</code>. 任务id
      */
     public final TableField<ScheduleJobRecord, Long> JOB_ID = createField("job_id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "任务id");
 
     /**
-     * The column <code>distribution_dev.schedule_job.bean_name</code>. spring bean名称
+     * The column <code>distribution.schedule_job.bean_name</code>. spring bean名称
      */
     public final TableField<ScheduleJobRecord, String> BEAN_NAME = createField("bean_name", org.jooq.impl.SQLDataType.VARCHAR(200), this, "spring bean名称");
 
     /**
-     * The column <code>distribution_dev.schedule_job.method_name</code>. 方法名
+     * The column <code>distribution.schedule_job.method_name</code>. 方法名
      */
     public final TableField<ScheduleJobRecord, String> METHOD_NAME = createField("method_name", org.jooq.impl.SQLDataType.VARCHAR(100), this, "方法名");
 
     /**
-     * The column <code>distribution_dev.schedule_job.params</code>. 参数
+     * The column <code>distribution.schedule_job.params</code>. 参数
      */
     public final TableField<ScheduleJobRecord, String> PARAMS = createField("params", org.jooq.impl.SQLDataType.VARCHAR(2000), this, "参数");
 
     /**
-     * The column <code>distribution_dev.schedule_job.cron_expression</code>. cron ???
+     * The column <code>distribution.schedule_job.cron_expression</code>. cron ???
      */
     public final TableField<ScheduleJobRecord, String> CRON_EXPRESSION = createField("cron_expression", org.jooq.impl.SQLDataType.VARCHAR(100), this, "cron ???");
 
     /**
-     * The column <code>distribution_dev.schedule_job.status</code>. ????  0???  1???
+     * The column <code>distribution.schedule_job.status</code>. ????  0???  1???
      */
     public final TableField<ScheduleJobRecord, Integer> STATUS = createField("status", org.jooq.impl.SQLDataType.INTEGER, this, "????  0???  1???");
 
     /**
-     * The column <code>distribution_dev.schedule_job.remark</code>. 备注
+     * The column <code>distribution.schedule_job.remark</code>. 备注
      */
     public final TableField<ScheduleJobRecord, String> REMARK = createField("remark", org.jooq.impl.SQLDataType.VARCHAR(255), this, "备注");
 
     /**
-     * The column <code>distribution_dev.schedule_job.create_time</code>. 创建时间
+     * The column <code>distribution.schedule_job.create_time</code>. 创建时间
      */
     public final TableField<ScheduleJobRecord, Timestamp> CREATE_TIME = createField("create_time", org.jooq.impl.SQLDataType.TIMESTAMP, this, "创建时间");
 
     /**
-     * Create a <code>distribution_dev.schedule_job</code> table reference
+     * Create a <code>distribution.schedule_job</code> table reference
      */
     public ScheduleJob() {
         this(DSL.name("schedule_job"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.schedule_job</code> table reference
+     * Create an aliased <code>distribution.schedule_job</code> table reference
      */
     public ScheduleJob(String alias) {
         this(DSL.name(alias), SCHEDULE_JOB);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.schedule_job</code> table reference
+     * Create an aliased <code>distribution.schedule_job</code> table reference
      */
     public ScheduleJob(Name alias) {
         this(alias, SCHEDULE_JOB);
@@ -129,7 +129,7 @@ public class ScheduleJob extends TableImpl<ScheduleJobRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**
@@ -137,7 +137,7 @@ public class ScheduleJob extends TableImpl<ScheduleJobRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.SCHEDULE_JOB_PRIMARY, Indexes.SCHEDULE_JOB_SCHEDULE_JOB_BEAN_NAME_INDEX, Indexes.SCHEDULE_JOB_SCHEDULE_JOB_JOB_ID_INDEX, Indexes.SCHEDULE_JOB_SCHEDULE_JOB_METHOD_NAME_INDEX);
+        return Arrays.<Index>asList(Indexes.SCHEDULE_JOB_PRIMARY);
     }
 
     /**

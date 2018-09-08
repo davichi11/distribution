@@ -30,59 +30,59 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class TbTokenRecord extends UpdatableRecordImpl<TbTokenRecord> implements Record4<Long, String, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = 140622941;
+    private static final long serialVersionUID = 1500495905;
 
     /**
-     * Setter for <code>distribution_dev.tb_token.user_id</code>.
+     * Setter for <code>distribution.tb_token.user_id</code>.
      */
     public void setUserId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.tb_token.user_id</code>.
+     * Getter for <code>distribution.tb_token.user_id</code>.
      */
     public Long getUserId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>distribution_dev.tb_token.token</code>. token
+     * Setter for <code>distribution.tb_token.token</code>. token
      */
     public void setToken(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.tb_token.token</code>. token
+     * Getter for <code>distribution.tb_token.token</code>. token
      */
     public String getToken() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution_dev.tb_token.expire_time</code>. ????
+     * Setter for <code>distribution.tb_token.expire_time</code>. ????
      */
     public void setExpireTime(Timestamp value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.tb_token.expire_time</code>. ????
+     * Getter for <code>distribution.tb_token.expire_time</code>. ????
      */
     public Timestamp getExpireTime() {
         return (Timestamp) get(2);
     }
 
     /**
-     * Setter for <code>distribution_dev.tb_token.update_time</code>. ????
+     * Setter for <code>distribution.tb_token.update_time</code>. ????
      */
     public void setUpdateTime(Timestamp value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.tb_token.update_time</code>. ????
+     * Getter for <code>distribution.tb_token.update_time</code>. ????
      */
     public Timestamp getUpdateTime() {
         return (Timestamp) get(3);

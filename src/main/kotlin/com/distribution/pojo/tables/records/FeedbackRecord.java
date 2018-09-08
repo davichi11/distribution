@@ -28,87 +28,87 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FeedbackRecord extends UpdatableRecordImpl<FeedbackRecord> implements Record6<Long, String, String, String, String, Integer> {
 
-    private static final long serialVersionUID = -894078177;
+    private static final long serialVersionUID = 1397893151;
 
     /**
-     * Setter for <code>distribution_dev.feedback.id</code>.
+     * Setter for <code>distribution.feedback.id</code>.
      */
     public void setId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.feedback.id</code>.
+     * Getter for <code>distribution.feedback.id</code>.
      */
     public Long getId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>distribution_dev.feedback.member_id</code>. 会员id
+     * Setter for <code>distribution.feedback.member_id</code>. 会员id
      */
     public void setMemberId(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.feedback.member_id</code>. 会员id
+     * Getter for <code>distribution.feedback.member_id</code>. 会员id
      */
     public String getMemberId() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution_dev.feedback.title</code>. 反馈标题
+     * Setter for <code>distribution.feedback.title</code>. 反馈标题
      */
     public void setTitle(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.feedback.title</code>. 反馈标题
+     * Getter for <code>distribution.feedback.title</code>. 反馈标题
      */
     public String getTitle() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution_dev.feedback.content</code>. 反馈内容
+     * Setter for <code>distribution.feedback.content</code>. 反馈内容
      */
     public void setContent(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.feedback.content</code>. 反馈内容
+     * Getter for <code>distribution.feedback.content</code>. 反馈内容
      */
     public String getContent() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution_dev.feedback.add_time</code>.
+     * Setter for <code>distribution.feedback.add_time</code>.
      */
     public void setAddTime(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.feedback.add_time</code>.
+     * Getter for <code>distribution.feedback.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution_dev.feedback.is_delete</code>. 是否显示 0否 1是
+     * Setter for <code>distribution.feedback.is_delete</code>. 是否显示 0否 1是
      */
     public void setIsDelete(Integer value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.feedback.is_delete</code>. 是否显示 0否 1是
+     * Getter for <code>distribution.feedback.is_delete</code>. 是否显示 0否 1是
      */
     public Integer getIsDelete() {
         return (Integer) get(5);

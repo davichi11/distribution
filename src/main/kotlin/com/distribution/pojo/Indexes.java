@@ -13,7 +13,6 @@ import com.distribution.pojo.tables.DisFans;
 import com.distribution.pojo.tables.DisMemberInfo;
 import com.distribution.pojo.tables.DisProfiParam;
 import com.distribution.pojo.tables.DisProfitRecord;
-import com.distribution.pojo.tables.District;
 import com.distribution.pojo.tables.Feedback;
 import com.distribution.pojo.tables.IntegralOrder;
 import com.distribution.pojo.tables.IntegralTutorial;
@@ -52,8 +51,7 @@ import org.jooq.impl.Internal;
 
 
 /**
- * A class modelling indexes of tables of the <code>distribution_dev</code> 
- * schema.
+ * A class modelling indexes of tables of the <code>distribution</code> schema.
  */
 @Generated(
     value = {
@@ -83,8 +81,6 @@ public class Indexes {
     public static final Index CARD_ORDER_INFO_CARD_ORDER_INFO__INDEX_2 = Indexes0.CARD_ORDER_INFO_CARD_ORDER_INFO__INDEX_2;
     public static final Index CARD_ORDER_INFO_CARD_ORDER_INFO__INDEX_3 = Indexes0.CARD_ORDER_INFO_CARD_ORDER_INFO__INDEX_3;
     public static final Index CARD_ORDER_INFO_PRIMARY = Indexes0.CARD_ORDER_INFO_PRIMARY;
-    public static final Index DISTRICT_DISTRICT_ID_INDEX = Indexes0.DISTRICT_DISTRICT_ID_INDEX;
-    public static final Index DISTRICT_DISTRICT_PARENT_ID_INDEX = Indexes0.DISTRICT_DISTRICT_PARENT_ID_INDEX;
     public static final Index DIS_DICTIONARY_PRIMARY = Indexes0.DIS_DICTIONARY_PRIMARY;
     public static final Index DIS_FANS_DIS_FANS_ID_UINDEX = Indexes0.DIS_FANS_DIS_FANS_ID_UINDEX;
     public static final Index DIS_FANS_DIS_FANS__INDEX_1 = Indexes0.DIS_FANS_DIS_FANS__INDEX_1;
@@ -97,6 +93,8 @@ public class Indexes {
     public static final Index DIS_MEMBER_INFO_DIS_MEMBER_INFO__INDEX_4 = Indexes0.DIS_MEMBER_INFO_DIS_MEMBER_INFO__INDEX_4;
     public static final Index DIS_MEMBER_INFO_DIS_MEMBER_INFO__INDEX_5 = Indexes0.DIS_MEMBER_INFO_DIS_MEMBER_INFO__INDEX_5;
     public static final Index DIS_MEMBER_INFO_PRIMARY = Indexes0.DIS_MEMBER_INFO_PRIMARY;
+    public static final Index DIS_PROFIT_RECORD_DIS_PROFIT_RECORD_ACCOUNT_INDEX = Indexes0.DIS_PROFIT_RECORD_DIS_PROFIT_RECORD_ACCOUNT_INDEX;
+    public static final Index DIS_PROFIT_RECORD_DIS_PROFIT_RECORD_DIS_ORDER_ID_INDEX = Indexes0.DIS_PROFIT_RECORD_DIS_PROFIT_RECORD_DIS_ORDER_ID_INDEX;
     public static final Index DIS_PROFIT_RECORD_DIS_PROFIT_RECORD_ID_UINDEX = Indexes0.DIS_PROFIT_RECORD_DIS_PROFIT_RECORD_ID_UINDEX;
     public static final Index DIS_PROFIT_RECORD_PRIMARY = Indexes0.DIS_PROFIT_RECORD_PRIMARY;
     public static final Index DIS_PROFI_PARAM_DIS_PROFI_PARAM_ID_UINDEX = Indexes0.DIS_PROFI_PARAM_DIS_PROFI_PARAM_ID_UINDEX;
@@ -106,14 +104,17 @@ public class Indexes {
     public static final Index FEEDBACK_PRIMARY = Indexes0.FEEDBACK_PRIMARY;
     public static final Index INTEGRAL_ORDER_INTEGRAL_ORDER_DETAIL_ID_INDEX = Indexes0.INTEGRAL_ORDER_INTEGRAL_ORDER_DETAIL_ID_INDEX;
     public static final Index INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX = Indexes0.INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX;
-    public static final Index INTEGRAL_ORDER_INTEGRAL_ORDER_MOBILE_INDEX = Indexes0.INTEGRAL_ORDER_INTEGRAL_ORDER_MOBILE_INDEX;
     public static final Index INTEGRAL_ORDER_PRIMARY = Indexes0.INTEGRAL_ORDER_PRIMARY;
+    public static final Index INTEGRAL_TUTORIAL_INTEGRAL_TUTORIAL_ID_INDEX = Indexes0.INTEGRAL_TUTORIAL_INTEGRAL_TUTORIAL_ID_INDEX;
+    public static final Index INTEGRAL_TUTORIAL_INTEGRAL_TUTORIAL_TYPE_ID_INDEX = Indexes0.INTEGRAL_TUTORIAL_INTEGRAL_TUTORIAL_TYPE_ID_INDEX;
     public static final Index INTEGRAL_TUTORIAL_PRIMARY = Indexes0.INTEGRAL_TUTORIAL_PRIMARY;
     public static final Index LOAN_INFO_LOAN_INFO_ID_UINDEX = Indexes0.LOAN_INFO_LOAN_INFO_ID_UINDEX;
     public static final Index LOAN_INFO_PRIMARY = Indexes0.LOAN_INFO_PRIMARY;
     public static final Index LOAN_ORDER_INFO_LOAN_ORDER_INFO_ID_UINDEX = Indexes0.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ID_UINDEX;
     public static final Index LOAN_ORDER_INFO_LOAN_ORDER_INFO_LOAN_ID_INDEX = Indexes0.LOAN_ORDER_INFO_LOAN_ORDER_INFO_LOAN_ID_INDEX;
+    public static final Index LOAN_ORDER_INFO_LOAN_ORDER_INFO_MEMBER_ID_INDEX = Indexes0.LOAN_ORDER_INFO_LOAN_ORDER_INFO_MEMBER_ID_INDEX;
     public static final Index LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_IDCARDNO_INDEX = Indexes0.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_IDCARDNO_INDEX;
+    public static final Index LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_ID_INDEX = Indexes0.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_ID_INDEX;
     public static final Index LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_MOBILE_INDEX = Indexes0.LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_MOBILE_INDEX;
     public static final Index LOAN_ORDER_INFO_PRIMARY = Indexes0.LOAN_ORDER_INFO_PRIMARY;
     public static final Index MEMBER_ACCOUNT_MEMBER_ACCOUNT__INDEX_1 = Indexes0.MEMBER_ACCOUNT_MEMBER_ACCOUNT__INDEX_1;
@@ -136,9 +137,6 @@ public class Indexes {
     public static final Index PRODUCT_TYPE_PRODUCT_TYPE_ID_UINDEX = Indexes0.PRODUCT_TYPE_PRODUCT_TYPE_ID_UINDEX;
     public static final Index PRODUCT_TYPE_PARAMS_PRIMARY = Indexes0.PRODUCT_TYPE_PARAMS_PRIMARY;
     public static final Index SCHEDULE_JOB_PRIMARY = Indexes0.SCHEDULE_JOB_PRIMARY;
-    public static final Index SCHEDULE_JOB_SCHEDULE_JOB_BEAN_NAME_INDEX = Indexes0.SCHEDULE_JOB_SCHEDULE_JOB_BEAN_NAME_INDEX;
-    public static final Index SCHEDULE_JOB_SCHEDULE_JOB_JOB_ID_INDEX = Indexes0.SCHEDULE_JOB_SCHEDULE_JOB_JOB_ID_INDEX;
-    public static final Index SCHEDULE_JOB_SCHEDULE_JOB_METHOD_NAME_INDEX = Indexes0.SCHEDULE_JOB_SCHEDULE_JOB_METHOD_NAME_INDEX;
     public static final Index SCHEDULE_JOB_LOG_JOB_ID = Indexes0.SCHEDULE_JOB_LOG_JOB_ID;
     public static final Index SCHEDULE_JOB_LOG_PRIMARY = Indexes0.SCHEDULE_JOB_LOG_PRIMARY;
     public static final Index SYS_CONFIG_KEY = Indexes0.SYS_CONFIG_KEY;
@@ -153,12 +151,11 @@ public class Indexes {
     public static final Index SYS_ROLE_MENU_PRIMARY = Indexes0.SYS_ROLE_MENU_PRIMARY;
     public static final Index SYS_ROLE_MENU_SYS_ROLE_MENU_MENU_ID_INDEX = Indexes0.SYS_ROLE_MENU_SYS_ROLE_MENU_MENU_ID_INDEX;
     public static final Index SYS_ROLE_MENU_SYS_ROLE_MENU_ROLE_ID_INDEX = Indexes0.SYS_ROLE_MENU_SYS_ROLE_MENU_ROLE_ID_INDEX;
+    public static final Index SYS_ROLE_MENU_SYS_ROLE_MENU_ROLE_ID_INDEX_1 = Indexes0.SYS_ROLE_MENU_SYS_ROLE_MENU_ROLE_ID_INDEX_1;
+    public static final Index SYS_ROLE_MENU_SYS_ROLE_MENU__INDEX_2 = Indexes0.SYS_ROLE_MENU_SYS_ROLE_MENU__INDEX_2;
     public static final Index SYS_USER_PRIMARY = Indexes0.SYS_USER_PRIMARY;
-    public static final Index SYS_USER_SYS_USER_USER_ID_INDEX = Indexes0.SYS_USER_SYS_USER_USER_ID_INDEX;
     public static final Index SYS_USER_USERNAME = Indexes0.SYS_USER_USERNAME;
     public static final Index SYS_USER_ROLE_PRIMARY = Indexes0.SYS_USER_ROLE_PRIMARY;
-    public static final Index SYS_USER_ROLE_SYS_USER_ROLE_ROLE_ID_INDEX = Indexes0.SYS_USER_ROLE_SYS_USER_ROLE_ROLE_ID_INDEX;
-    public static final Index SYS_USER_ROLE_SYS_USER_ROLE_USER_ID_INDEX = Indexes0.SYS_USER_ROLE_SYS_USER_ROLE_USER_ID_INDEX;
     public static final Index SYS_USER_TOKEN_PRIMARY = Indexes0.SYS_USER_TOKEN_PRIMARY;
     public static final Index SYS_USER_TOKEN_TOKEN = Indexes0.SYS_USER_TOKEN_TOKEN;
     public static final Index TB_TOKEN_PRIMARY = Indexes0.TB_TOKEN_PRIMARY;
@@ -190,8 +187,6 @@ public class Indexes {
         public static Index CARD_ORDER_INFO_CARD_ORDER_INFO__INDEX_2 = Internal.createIndex("card_order_info__index_2", CardOrderInfo.CARD_ORDER_INFO, new OrderField[] { CardOrderInfo.CARD_ORDER_INFO.MEMBER_ID }, false);
         public static Index CARD_ORDER_INFO_CARD_ORDER_INFO__INDEX_3 = Internal.createIndex("card_order_info__index_3", CardOrderInfo.CARD_ORDER_INFO, new OrderField[] { CardOrderInfo.CARD_ORDER_INFO.ORDER_ID }, false);
         public static Index CARD_ORDER_INFO_PRIMARY = Internal.createIndex("PRIMARY", CardOrderInfo.CARD_ORDER_INFO, new OrderField[] { CardOrderInfo.CARD_ORDER_INFO.ID }, true);
-        public static Index DISTRICT_DISTRICT_ID_INDEX = Internal.createIndex("district_id_index", District.DISTRICT, new OrderField[] { District.DISTRICT.ID }, false);
-        public static Index DISTRICT_DISTRICT_PARENT_ID_INDEX = Internal.createIndex("district_parent_id_index", District.DISTRICT, new OrderField[] { District.DISTRICT.PARENT_ID }, false);
         public static Index DIS_DICTIONARY_PRIMARY = Internal.createIndex("PRIMARY", DisDictionary.DIS_DICTIONARY, new OrderField[] { DisDictionary.DIS_DICTIONARY.ID }, true);
         public static Index DIS_FANS_DIS_FANS_ID_UINDEX = Internal.createIndex("dis_fans_id_uindex", DisFans.DIS_FANS, new OrderField[] { DisFans.DIS_FANS.ID }, true);
         public static Index DIS_FANS_DIS_FANS__INDEX_1 = Internal.createIndex("dis_fans__index_1", DisFans.DIS_FANS, new OrderField[] { DisFans.DIS_FANS.WORKER_ID }, false);
@@ -204,6 +199,8 @@ public class Indexes {
         public static Index DIS_MEMBER_INFO_DIS_MEMBER_INFO__INDEX_4 = Internal.createIndex("dis_member_info__index_4", DisMemberInfo.DIS_MEMBER_INFO, new OrderField[] { DisMemberInfo.DIS_MEMBER_INFO.DIS_USER_TYPE }, false);
         public static Index DIS_MEMBER_INFO_DIS_MEMBER_INFO__INDEX_5 = Internal.createIndex("dis_member_info__index_5", DisMemberInfo.DIS_MEMBER_INFO, new OrderField[] { DisMemberInfo.DIS_MEMBER_INFO.DIS_LEVEL }, false);
         public static Index DIS_MEMBER_INFO_PRIMARY = Internal.createIndex("PRIMARY", DisMemberInfo.DIS_MEMBER_INFO, new OrderField[] { DisMemberInfo.DIS_MEMBER_INFO.ID }, true);
+        public static Index DIS_PROFIT_RECORD_DIS_PROFIT_RECORD_ACCOUNT_INDEX = Internal.createIndex("dis_profit_record_account_index", DisProfitRecord.DIS_PROFIT_RECORD, new OrderField[] { DisProfitRecord.DIS_PROFIT_RECORD.ACCOUNT }, false);
+        public static Index DIS_PROFIT_RECORD_DIS_PROFIT_RECORD_DIS_ORDER_ID_INDEX = Internal.createIndex("dis_profit_record_dis_order_id_index", DisProfitRecord.DIS_PROFIT_RECORD, new OrderField[] { DisProfitRecord.DIS_PROFIT_RECORD.DIS_ORDER_ID }, false);
         public static Index DIS_PROFIT_RECORD_DIS_PROFIT_RECORD_ID_UINDEX = Internal.createIndex("dis_profit_record_id_uindex", DisProfitRecord.DIS_PROFIT_RECORD, new OrderField[] { DisProfitRecord.DIS_PROFIT_RECORD.ID }, true);
         public static Index DIS_PROFIT_RECORD_PRIMARY = Internal.createIndex("PRIMARY", DisProfitRecord.DIS_PROFIT_RECORD, new OrderField[] { DisProfitRecord.DIS_PROFIT_RECORD.ID }, true);
         public static Index DIS_PROFI_PARAM_DIS_PROFI_PARAM_ID_UINDEX = Internal.createIndex("dis_profi_param_id_uindex", DisProfiParam.DIS_PROFI_PARAM, new OrderField[] { DisProfiParam.DIS_PROFI_PARAM.ID }, true);
@@ -213,14 +210,17 @@ public class Indexes {
         public static Index FEEDBACK_PRIMARY = Internal.createIndex("PRIMARY", Feedback.FEEDBACK, new OrderField[] { Feedback.FEEDBACK.ID }, true);
         public static Index INTEGRAL_ORDER_INTEGRAL_ORDER_DETAIL_ID_INDEX = Internal.createIndex("integral_order_detail_id_index", IntegralOrder.INTEGRAL_ORDER, new OrderField[] { IntegralOrder.INTEGRAL_ORDER.DETAIL_ID }, false);
         public static Index INTEGRAL_ORDER_INTEGRAL_ORDER_ID_UINDEX = Internal.createIndex("integral_order_id_uindex", IntegralOrder.INTEGRAL_ORDER, new OrderField[] { IntegralOrder.INTEGRAL_ORDER.ID }, true);
-        public static Index INTEGRAL_ORDER_INTEGRAL_ORDER_MOBILE_INDEX = Internal.createIndex("integral_order_mobile_index", IntegralOrder.INTEGRAL_ORDER, new OrderField[] { IntegralOrder.INTEGRAL_ORDER.MOBILE }, false);
         public static Index INTEGRAL_ORDER_PRIMARY = Internal.createIndex("PRIMARY", IntegralOrder.INTEGRAL_ORDER, new OrderField[] { IntegralOrder.INTEGRAL_ORDER.ID }, true);
+        public static Index INTEGRAL_TUTORIAL_INTEGRAL_TUTORIAL_ID_INDEX = Internal.createIndex("integral_tutorial_id_index", IntegralTutorial.INTEGRAL_TUTORIAL, new OrderField[] { IntegralTutorial.INTEGRAL_TUTORIAL.ID }, false);
+        public static Index INTEGRAL_TUTORIAL_INTEGRAL_TUTORIAL_TYPE_ID_INDEX = Internal.createIndex("integral_tutorial_type_id_index", IntegralTutorial.INTEGRAL_TUTORIAL, new OrderField[] { IntegralTutorial.INTEGRAL_TUTORIAL.TYPE_ID }, false);
         public static Index INTEGRAL_TUTORIAL_PRIMARY = Internal.createIndex("PRIMARY", IntegralTutorial.INTEGRAL_TUTORIAL, new OrderField[] { IntegralTutorial.INTEGRAL_TUTORIAL.ID }, true);
         public static Index LOAN_INFO_LOAN_INFO_ID_UINDEX = Internal.createIndex("loan_info_id_uindex", LoanInfo.LOAN_INFO, new OrderField[] { LoanInfo.LOAN_INFO.ID }, true);
         public static Index LOAN_INFO_PRIMARY = Internal.createIndex("PRIMARY", LoanInfo.LOAN_INFO, new OrderField[] { LoanInfo.LOAN_INFO.ID }, true);
         public static Index LOAN_ORDER_INFO_LOAN_ORDER_INFO_ID_UINDEX = Internal.createIndex("loan_order_info_id_uindex", LoanOrderInfo.LOAN_ORDER_INFO, new OrderField[] { LoanOrderInfo.LOAN_ORDER_INFO.ID }, true);
         public static Index LOAN_ORDER_INFO_LOAN_ORDER_INFO_LOAN_ID_INDEX = Internal.createIndex("loan_order_info_loan_id_index", LoanOrderInfo.LOAN_ORDER_INFO, new OrderField[] { LoanOrderInfo.LOAN_ORDER_INFO.LOAN_ID }, false);
+        public static Index LOAN_ORDER_INFO_LOAN_ORDER_INFO_MEMBER_ID_INDEX = Internal.createIndex("loan_order_info_member_id_index", LoanOrderInfo.LOAN_ORDER_INFO, new OrderField[] { LoanOrderInfo.LOAN_ORDER_INFO.MEMBER_ID }, false);
         public static Index LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_IDCARDNO_INDEX = Internal.createIndex("loan_order_info_order_idcardno_index", LoanOrderInfo.LOAN_ORDER_INFO, new OrderField[] { LoanOrderInfo.LOAN_ORDER_INFO.ORDER_IDCARDNO }, false);
+        public static Index LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_ID_INDEX = Internal.createIndex("loan_order_info_order_id_index", LoanOrderInfo.LOAN_ORDER_INFO, new OrderField[] { LoanOrderInfo.LOAN_ORDER_INFO.ORDER_ID }, false);
         public static Index LOAN_ORDER_INFO_LOAN_ORDER_INFO_ORDER_MOBILE_INDEX = Internal.createIndex("loan_order_info_order_mobile_index", LoanOrderInfo.LOAN_ORDER_INFO, new OrderField[] { LoanOrderInfo.LOAN_ORDER_INFO.ORDER_MOBILE }, false);
         public static Index LOAN_ORDER_INFO_PRIMARY = Internal.createIndex("PRIMARY", LoanOrderInfo.LOAN_ORDER_INFO, new OrderField[] { LoanOrderInfo.LOAN_ORDER_INFO.ID }, true);
         public static Index MEMBER_ACCOUNT_MEMBER_ACCOUNT__INDEX_1 = Internal.createIndex("member_account__index_1", MemberAccount.MEMBER_ACCOUNT, new OrderField[] { MemberAccount.MEMBER_ACCOUNT.MEMBER_ID }, false);
@@ -243,9 +243,6 @@ public class Indexes {
         public static Index PRODUCT_TYPE_PRODUCT_TYPE_ID_UINDEX = Internal.createIndex("product_type_id_uindex", ProductType.PRODUCT_TYPE, new OrderField[] { ProductType.PRODUCT_TYPE.ID }, true);
         public static Index PRODUCT_TYPE_PARAMS_PRIMARY = Internal.createIndex("PRIMARY", ProductTypeParams.PRODUCT_TYPE_PARAMS, new OrderField[] { ProductTypeParams.PRODUCT_TYPE_PARAMS.ID }, true);
         public static Index SCHEDULE_JOB_PRIMARY = Internal.createIndex("PRIMARY", ScheduleJob.SCHEDULE_JOB, new OrderField[] { ScheduleJob.SCHEDULE_JOB.JOB_ID }, true);
-        public static Index SCHEDULE_JOB_SCHEDULE_JOB_BEAN_NAME_INDEX = Internal.createIndex("schedule_job_bean_name_index", ScheduleJob.SCHEDULE_JOB, new OrderField[] { ScheduleJob.SCHEDULE_JOB.BEAN_NAME }, false);
-        public static Index SCHEDULE_JOB_SCHEDULE_JOB_JOB_ID_INDEX = Internal.createIndex("schedule_job_job_id_index", ScheduleJob.SCHEDULE_JOB, new OrderField[] { ScheduleJob.SCHEDULE_JOB.JOB_ID }, false);
-        public static Index SCHEDULE_JOB_SCHEDULE_JOB_METHOD_NAME_INDEX = Internal.createIndex("schedule_job_method_name_index", ScheduleJob.SCHEDULE_JOB, new OrderField[] { ScheduleJob.SCHEDULE_JOB.METHOD_NAME }, false);
         public static Index SCHEDULE_JOB_LOG_JOB_ID = Internal.createIndex("job_id", ScheduleJobLog.SCHEDULE_JOB_LOG, new OrderField[] { ScheduleJobLog.SCHEDULE_JOB_LOG.JOB_ID }, false);
         public static Index SCHEDULE_JOB_LOG_PRIMARY = Internal.createIndex("PRIMARY", ScheduleJobLog.SCHEDULE_JOB_LOG, new OrderField[] { ScheduleJobLog.SCHEDULE_JOB_LOG.LOG_ID }, true);
         public static Index SYS_CONFIG_KEY = Internal.createIndex("key", SysConfig.SYS_CONFIG, new OrderField[] { SysConfig.SYS_CONFIG.KEY }, true);
@@ -260,12 +257,11 @@ public class Indexes {
         public static Index SYS_ROLE_MENU_PRIMARY = Internal.createIndex("PRIMARY", SysRoleMenu.SYS_ROLE_MENU, new OrderField[] { SysRoleMenu.SYS_ROLE_MENU.ID }, true);
         public static Index SYS_ROLE_MENU_SYS_ROLE_MENU_MENU_ID_INDEX = Internal.createIndex("sys_role_menu_menu_id_index", SysRoleMenu.SYS_ROLE_MENU, new OrderField[] { SysRoleMenu.SYS_ROLE_MENU.MENU_ID }, false);
         public static Index SYS_ROLE_MENU_SYS_ROLE_MENU_ROLE_ID_INDEX = Internal.createIndex("sys_role_menu_role_id_index", SysRoleMenu.SYS_ROLE_MENU, new OrderField[] { SysRoleMenu.SYS_ROLE_MENU.ROLE_ID }, false);
+        public static Index SYS_ROLE_MENU_SYS_ROLE_MENU_ROLE_ID_INDEX_1 = Internal.createIndex("sys_role_menu_role_id_index_1", SysRoleMenu.SYS_ROLE_MENU, new OrderField[] { SysRoleMenu.SYS_ROLE_MENU.ROLE_ID }, false);
+        public static Index SYS_ROLE_MENU_SYS_ROLE_MENU__INDEX_2 = Internal.createIndex("sys_role_menu__index_2", SysRoleMenu.SYS_ROLE_MENU, new OrderField[] { SysRoleMenu.SYS_ROLE_MENU.MENU_ID }, false);
         public static Index SYS_USER_PRIMARY = Internal.createIndex("PRIMARY", SysUser.SYS_USER, new OrderField[] { SysUser.SYS_USER.USER_ID }, true);
-        public static Index SYS_USER_SYS_USER_USER_ID_INDEX = Internal.createIndex("sys_user_user_id_index", SysUser.SYS_USER, new OrderField[] { SysUser.SYS_USER.USER_ID }, false);
         public static Index SYS_USER_USERNAME = Internal.createIndex("username", SysUser.SYS_USER, new OrderField[] { SysUser.SYS_USER.USERNAME }, true);
         public static Index SYS_USER_ROLE_PRIMARY = Internal.createIndex("PRIMARY", SysUserRole.SYS_USER_ROLE, new OrderField[] { SysUserRole.SYS_USER_ROLE.ID }, true);
-        public static Index SYS_USER_ROLE_SYS_USER_ROLE_ROLE_ID_INDEX = Internal.createIndex("sys_user_role_role_id_index", SysUserRole.SYS_USER_ROLE, new OrderField[] { SysUserRole.SYS_USER_ROLE.ROLE_ID }, false);
-        public static Index SYS_USER_ROLE_SYS_USER_ROLE_USER_ID_INDEX = Internal.createIndex("sys_user_role_user_id_index", SysUserRole.SYS_USER_ROLE, new OrderField[] { SysUserRole.SYS_USER_ROLE.USER_ID }, false);
         public static Index SYS_USER_TOKEN_PRIMARY = Internal.createIndex("PRIMARY", SysUserToken.SYS_USER_TOKEN, new OrderField[] { SysUserToken.SYS_USER_TOKEN.USER_ID }, true);
         public static Index SYS_USER_TOKEN_TOKEN = Internal.createIndex("token", SysUserToken.SYS_USER_TOKEN, new OrderField[] { SysUserToken.SYS_USER_TOKEN.TOKEN }, true);
         public static Index TB_TOKEN_PRIMARY = Internal.createIndex("PRIMARY", TbToken.TB_TOKEN, new OrderField[] { TbToken.TB_TOKEN.USER_ID }, true);
