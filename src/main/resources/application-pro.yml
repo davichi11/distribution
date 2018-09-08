@@ -1,39 +1,76 @@
 spring:
-    datasource:
-        type: com.alibaba.druid.pool.DruidDataSource
-        driverClassName: com.mysql.jdbc.Driver
-        druid:
-            first:  #数据源1
-               url: jdbc:mysql://localhost:3306/renren_fast?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8
-               username: root
-               password: admin
-            initial-size: 10
-            max-active: 100
-            min-idle: 10
-            max-wait: 60000
-            pool-prepared-statements: true
-            max-pool-prepared-statement-per-connection-size: 20
-            time-between-eviction-runs-millis: 60000
-            min-evictable-idle-time-millis: 300000
-            validation-query: SELECT 1 FROM DUAL
-            test-while-idle: true
-            test-on-borrow: false
-            test-on-return: false
-            stat-view-servlet:
-                enabled: true
-                url-pattern: /druid/*
-                #login-username: admin
-                #login-password: admin
-            filter:
-                stat:
-                    log-slow-sql: true
-                    slow-sql-millis: 1000
-                    merge-sql: true
-                wall:
-                    config:
-                        multi-statement-allow: true
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.105.53.69:3306/distribution?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=true
+    username: root
+    password: root
+    druid:
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        #login-username: admin
+        #login-password: admin
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+      connection-init-sqls: set names 'utf8mb4'
+
+
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://localhost:8461/eureka/
+#  instance:
+#    prefer-ip-address: true
+
+risk:
+  # APP模块，是通过jwt认证的，如果要使用APP模块，则需要修改【加密秘钥】
+  jwt:
+    # 加密秘钥
+    secret: f4e2e52034348f86b67cde581c0f9eb5[com.distribution]
+    # token有效时长，7天，单位秒
+    expire: 604800
+    header: token
+  open-kaptcha:
+    is-open: false
+  url: https://www.qiandaoshou.cn/wx/#/auth
+  return-url: https://www.qiandaoshou.cn/dis/api/getUserInfo
+  file-server: https://47.105.53.69:8088
+  file-path: /home/distribution/upload
 swagger:
   base-package: com.distribution.modules.api.controller
-  enabled: false
+  enabled: true
   title: API接口文档
   description: API接口文档
+
+
+wechat:
+  url: http://www.qiandaoshouli.com
+  pay:
+    appId: wxf89f12ae63042617
+    mchId: 1386801502
+    mchKey: RmXDEA0hMdZs4AZoCAwLLIg4jQ9gfHJd
+    keyPath: 123
+  mp:
+    appId: wx167da65db4907b84
+    secret: c872c0b347faec4ed3827d07f40f4206
+    token: cfe6112227094086817c92f36984ee88
+    aesKey: hkhoCLA7FcrZwXTWsVWGl8Osqz7twJPdMLi2EemKg8o

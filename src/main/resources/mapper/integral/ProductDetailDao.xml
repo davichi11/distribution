@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.distribution.modules.integral.dao.ProductDetailDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.distribution.modules.integral.entity.ProductDetailEntity" id="productDetailMap">
+        <result property="id" column="id"/>
+        <result property="prodDetailName" column="prod_detail_name"/>
+        <result property="prodDetailBuyBack" column="prod_detail_buy_back"/>
+        <result property="prodTypeId" column="prod_type_id"/>
+        <result property="prodDetailValue" column="prod_detail_value"/>
+        <result property="prodDetailUrl" column="prod_detail_url"/>
+        <result property="prodDetailCount" column="prod_detail_count"/>
+        <result property="typeName" column="type_name"/>
+        <result property="isDelete" column="is_delete"/>
+    </resultMap>
+
+    <select id="queryObject" resultMap="productDetailMap">
+        select *
+        from product_detail
+        where id = #{value}
+    </select>
+
+    <select id="queryList" resultMap="productDetailMap">
+        select d.id, prod_detail_name, prod_detail_buy_back, prod_type_id, prod_detail_value, prod_detail_count,
+        prod_detail_url,
+        t.prod_name as 'type_name'
+        from product_detail d
+        left join product_type t on d.prod_type_id=t.id
+        where d.is_delete = '1'
+        <if test="prodDetailName != null">
+            and d.prod_detail_name like concat('%',#{prodDetailName},'%')
+        </if>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by d.id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.distribution.modules.integral.entity.ProductDetailEntity">
+        insert into product_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
+            <if test="prodDetailName != null">
+                `prod_detail_name`,
+            </if>
+            <if test="prodDetailBuyBack != null">
+                `prod_detail_buy_back`,
+            </if>
+            <if test="prodTypeId != null">
+                `prod_type_id`,
+            </if>
+            <if test="prodDetailValue != null">
+                `prod_detail_value`,
+            </if>
+            <if test="prodDetailCount != null">
+                `prod_detail_count`,
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                `is_delete`
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="prodDetailName != null">
+                #{prodDetailName},
+            </if>
+            <if test="prodDetailBuyBack != null">
+                #{prodDetailBuyBack},
+            </if>
+            <if test="prodTypeId != null">
+                #{prodTypeId},
+            </if>
+            <if test="prodDetailValue != null">
+                #{prodDetailValue},
+            </if>
+            <if test="prodDetailCount != null">
+                #{prodDetailCount},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                #{isDelete}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.distribution.modules.integral.entity.ProductDetailEntity">
+        update product_detail
+        <set>
+            <if test="prodDetailName != null">
+                `prod_detail_name` = #{prodDetailName}
+                ,
+            </if>
+            <if test="prodDetailBuyBack != null">
+                `prod_detail_buy_back` = #{prodDetailBuyBack}
+                ,
+            </if>
+            <if test="prodTypeId != null">
+                `prod_type_id` = #{prodTypeId}
+                ,
+            </if>
+            <if test="prodDetailValue != null">
+                `prod_detail_value` = #{prodDetailValue}
+                ,
+            </if>
+            <if test="prodDetailCount != null">
+                `prod_detail_count` = #{prodDetailCount},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                `is_delete` = #{isDelete}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from product_detail
+        where id = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from product_detail where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

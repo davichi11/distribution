@@ -14,41 +14,41 @@ import ${package}.service.${className}Service;
 @Service("${lowClassName}Service")
 public class ${className}ServiceImpl implements ${className}Service {
     @Autowired
-    private ${className}Dao ${className}Dao;
+    private ${className}Dao ${lowClassName}Dao;
 
     @Override
     public ${className}Entity queryObject(${pk.attrType} ${pk.lowAttrName}) {
-        return ${className}Dao.queryObject(${pk.lowAttrName});
+        return ${lowClassName}Dao.queryObject(${pk.lowAttrName});
     }
 
     @Override
     public List<${className}Entity> queryList(Map<String, Object> map) {
-        return ${className}Dao.queryList(map);
+        return ${lowClassName}Dao.queryList(map);
     }
 
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void save(${className}Entity ${className}) throws Exception{
-            ${className}Dao.save(${className});
+    public void save(${className}Entity ${lowClassName}) throws Exception{
+            ${lowClassName}Dao.save(${lowClassName});
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(${className}Entity ${className}) throws Exception{
-            ${className}Dao.update(${className});
+    public void update(${className}Entity ${lowClassName}) throws Exception{
+            ${lowClassName}Dao.update(${lowClassName});
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void delete(${pk.attrType} ${pk.lowAttrName}) throws Exception{
-            ${className}Dao.delete(${pk.lowAttrName});
+            ${lowClassName}Dao.delete(${pk.lowAttrName});
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteBatch(${pk.attrType}[]${pk.lowAttrName}s) throws Exception{
-            ${className}Dao.deleteBatch(${pk.lowAttrName}s);
+            ${lowClassName}Dao.deleteBatch(${pk.lowAttrName}s);
     }
 
 }

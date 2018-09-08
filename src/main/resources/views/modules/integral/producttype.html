@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>积分兑换产品类型表</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="../../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../css/font-awesome.min.css">
+    <link rel="stylesheet" href="../../plugins/jqgrid/ui.jqgrid-bootstrap.css">
+    <link rel="stylesheet" href="../../plugins/ztree/css/metroStyle/metroStyle.css">
+    <link rel="stylesheet" href="../../css/main.css">
+    <script src="../../libs/jquery.min.js"></script>
+    <script src="../../plugins/layer/layer.js"></script>
+    <script src="../../libs/bootstrap.min.js"></script>
+    <script src="../../libs/vue.min.js"></script>
+    <script src="../../plugins/jqgrid/grid.locale-cn.js"></script>
+    <script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
+    <script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
+    <script src="../../js/common.js"></script>
+    <style>
+        .ui-jqgrid-btable tr.jqgrow td {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow : ellipsis;
+        }
+    </style>
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <form class="form-inline" role="form">
+            <div class="form-group">
+                <label for="prodName" class="control-label">产品名称:</label>
+                <input type="tel" id="prodName" class="form-control" v-model="q.prodName"
+                       @keyup.enter="query" placeholder="产品名称" autocomplete="tel-national">
+            </div>
+            <br>
+            <div style="margin-top: 10px;margin-bottom: 10px">
+
+                <a class="btn btn-default" @click="query">查询</a>
+                <a class="btn btn-info" @click="reset">重置</a>
+                <a v-if="hasPermission('producttype:save')" class="btn btn-primary" @click="add">
+                    <i class="fa fa-plus"></i>&nbsp;新增</a>
+                <a v-if="hasPermission('producttype:update')" class="btn btn-primary" @click="update">
+                    <i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+                <a v-if="hasPermission('producttype:delete')" class="btn btn-danger" @click="del">
+                    <i class="fa fa-trash-o"></i>&nbsp;禁用</a>
+            </div>
+        </form>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-2 control-label">产品类型名称</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="productType.prodName"
+                           placeholder="产品类型名称"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">结算周期</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="productType.prodRate"
+                           placeholder="结算周期"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">提单类型</div>
+                <div class="col-sm-10">
+                    <select class="form-control" v-model="productType.prodType">
+                        <option value="" disabled>请选择</option>
+                        <option v-for="option in type" :value="option.value">
+                            {{option.name}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">产品描述</div>
+                <div class="col-sm-10">
+                    <textarea class="form-control" v-model="productType.prodRemark" title="产品描述"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">图标</div>
+                <div class="col-sm-10">
+                    <div v-if="productType.id">
+                        <img :src="productType.prodImg">
+                    </div>
+                    <input type="file" class="form-control"
+                           placeholder="图标" @change="triggerFile($event)"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">积分兑换比率</div>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" v-model="productType.exchangePercent"
+                           placeholder="积分兑换比率"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">图文教程</div>
+                <div class="col-sm-10">
+                    <span style="margin-left: 10px">添加图文教程</span>
+                    <input type="button" class="btn btn-default" @click="addTutorials"
+                           value="+"/>
+                    <table class="table table-striped">
+                        <tr v-for="(item,index) in productType.tutorials">
+                            <td style="width: 20%">
+                                <div class="form-group">
+                                    <label class="control-label">步骤{{index+1}}</label>
+                                    <input type="hidden" name="" v-model="productType.tutorials[index].id" >
+                                </div>
+                            </td>
+                            <td style="width: 40%">
+                                <div class="form-group">
+                                    <label for="textDescribe" class="col-sm-2 control-label"
+                                           style="width: 100px">文字描述:</label>
+                                    <div class="col-sm-10">
+                                        <textarea name="文字描述" id="textDescribe" cols="30" rows="10"
+                                                  v-model="productType.tutorials[index].textDescribe"></textarea>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="width: 40%">
+                                <div class="form-group">
+                                    <label for="imgDescribe" class="col-sm-2 control-label"
+                                           style="width: 100px">图片描述:</label>
+                                    <div class="col-sm-10">
+                                        <div v-if="productType.tutorials[index].id">
+                                            <img :src="productType.tutorials[index].imgDescribe">
+                                        </div>
+                                        <input type="file" class="form-control" id="imgDescribe"
+                                               @change="addFile($event,index)"/>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="../../js/modules/integral/producttype.js"></script>
+</body>
+</html>

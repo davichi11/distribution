@@ -18,6 +18,7 @@
     <script src="../../plugins/jqgrid/jquery.jqGrid.min.js"></script>
     <script src="../../plugins/ztree/jquery.ztree.all.min.js"></script>
     <script src="../../js/common.js"></script>
+    <script src="../../libs/ajaxupload.js"></script>
 </head>
 <body>
 <div id="rrapp" v-cloak>
@@ -44,14 +45,28 @@
                     <input type="radio" name="disLevel" value="3" v-model="q.disLevel"/> 3级
                 </label>
             </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">会员姓名</div>
+                <label class="">
+                    <input type="text" name="disUserName" value="1" v-model="q.disUserName"/>
+                </label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">会员手机号</div>
+                <label class="">
+                    <input type="tel" name="mobile"  v-model="q.mobile"/>
+                </label>
+            </div>
             <a class="btn btn-default" @click="query">查询</a>
-            <a class="btn btn-info" @click="reset">重置</a>
+            <a class="btn btn-warning" @click="queryChildren">查询下级会员</a>
+            <a class="btn btn-danger" @click="reset">重置</a>
             <a v-if="hasPermission('dismemberinfo:save')" class="btn btn-primary" @click="add"><i
                     class="fa fa-plus"></i>&nbsp;新增</a>
             <a v-if="hasPermission('dismemberinfo:update')" class="btn btn-primary" @click="update"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-            <a v-if="hasPermission('dismemberinfo:delete')" class="btn btn-primary" @click="del"><i
+            <a v-if="hasPermission('dismemberinfo:delete')" class="btn btn-danger" @click="del"><i
                     class="fa fa-trash-o"></i>&nbsp;删除</a>
+            <a class="btn btn-primary" id="upload"><i class="fa fa-plus"></i>&nbsp;批量发红包</a>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>

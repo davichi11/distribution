@@ -26,8 +26,8 @@
             <a v-if="hasPermission('cardinfo:save')" class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
             <a v-if="hasPermission('cardinfo:update')" class="btn btn-primary" @click="update"><i
                     class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
-            <a v-if="hasPermission('cardinfo:delete')" class="btn btn-primary" @click="del"><i
-                    class="fa fa-trash-o"></i>&nbsp;删除</a>
+            <a v-if="hasPermission('cardinfo:delete')" class="btn btn-danger" @click="del"><i
+                    class="fa fa-trash-o"></i>&nbsp;禁用</a>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -76,6 +76,26 @@
                 <div class="col-sm-10">
                     <input type="text" class="form-control" v-model="cardInfo.cardUrl"
                            placeholder="信用卡办理链接"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">是否推送第三方</div>
+                <div class="col-sm-10">
+                    <!--<input type="text" class="form-control" v-model="cardInfo.cardUrl"-->
+                           <!--placeholder="信用卡办理链接"/>-->
+                    <select class="form-control" v-model="cardInfo.useThirdPart">
+                        <option value="" disabled>请选择</option>
+                        <option v-for="option in type" :value="option.code">
+                            {{option.value}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">佣金返利</div>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" v-model="cardInfo.rebate"
+                           oninput="this.value=this.value.replace(/[^\d.]/g,'')" placeholder="佣金返利"/>
                 </div>
             </div>
             <div class="form-group">

@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.10.RELEASE</version>
+        <version>2.0.3.RELEASE</version>
     </parent>
 
     <properties>
@@ -23,21 +23,21 @@
         <java.version>1.8</java.version>
         <mybatis.spring.boot.version>1.3.0</mybatis.spring.boot.version>
         <mysql.version>5.1.38</mysql.version>
-        <druid.version>1.1.3</druid.version>
+        <druid.version>1.1.8</druid.version>
         <quartz.version>2.3.0</quartz.version>
         <commons.lang.version>2.6</commons.lang.version>
         <commons.fileupload.version>1.3.1</commons.fileupload.version>
         <commons.io.version>2.5</commons.io.version>
         <commons.codec.version>1.10</commons.codec.version>
         <commons.configuration.version>1.10</commons.configuration.version>
-        <shiro.version>1.3.2</shiro.version>
+        <shiro.version>1.4.0</shiro.version>
         <kaptcha.version>0.0.9</kaptcha.version>
         <qiniu.version>[7.2.0, 7.2.99]</qiniu.version>
         <aliyun.oss.version>2.5.0</aliyun.oss.version>
         <qcloud.cos.version>4.4</qcloud.cos.version>
-        <activiti.version>6.0.0</activiti.version>
-        <drools.version>7.5.0.Final</drools.version>
-        <kotlin.version>1.2.31</kotlin.version>
+        <!--<activiti.version>6.0.0</activiti.version>-->
+        <!--<drools.version>7.5.0.Final</drools.version>-->
+        <kotlin.version>1.2.61</kotlin.version>
     </properties>
 
     <dependencies>
@@ -80,12 +80,26 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <!--jooq-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jooq</artifactId>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
             <version>2.8.5</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-kotlin</artifactId>
+            <version>2.9.6</version>
         </dependency>
 
         <!--数据库依赖-->
@@ -103,17 +117,12 @@
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>1.1.0</version>
+            <version>1.2.5</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis-typehandlers-jsr310</artifactId>
             <version>1.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${druid.version}</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -195,6 +204,32 @@
             <artifactId>aliyun-sdk-oss</artifactId>
             <version>${aliyun.oss.version}</version>
         </dependency>
+        <!--阿里云短信API-->
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-core</artifactId>
+            <version>3.3.1</version>
+            <!--<scope>system</scope>-->
+            <!--<systemPath>${project.basedir}/src/main/resources/lib/aliyun-java-sdk-core-3.3.1.jar</systemPath>-->
+        </dependency>
+        <dependency>
+            <groupId>com.aliyun</groupId>
+            <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
+            <version>1.0.0</version>
+            <!--<scope>system</scope>-->
+            <!--<systemPath>${project.basedir}/src/main/resources/lib/aliyun-java-sdk-dysmsapi-1.0.0.jar</systemPath>-->
+        </dependency>
+        <!--支付宝-->
+        <dependency>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.github.javen205</groupId>-->
+            <!--<artifactId>IJPay</artifactId>-->
+            <!--<version>1.1.3</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.qcloud</groupId>
             <artifactId>cos_api</artifactId>
@@ -236,62 +271,101 @@
             <artifactId>jjwt</artifactId>
             <version>0.8.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
+
+
 
         <!-- activiti -->
+        <!--<dependency>-->
+            <!--<groupId>org.activiti</groupId>-->
+            <!--<artifactId>activiti-spring-boot-starter-basic</artifactId>-->
+            <!--<version>${activiti.version}</version>-->
+        <!--</dependency>-->
+        <!-- modelmapper -->
+        <!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
         <dependency>
-            <groupId>org.activiti</groupId>
-            <artifactId>activiti-spring-boot-starter-basic</artifactId>
-            <version>${activiti.version}</version>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>1.1.3</version>
         </dependency>
-
         <!--规则引擎-->
-        <dependency>
-            <groupId>org.kie</groupId>
-            <artifactId>kie-api</artifactId>
-            <version>${drools.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kie</groupId>
-            <artifactId>kie-spring</artifactId>
-            <version>7.0.0.Final</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kie</groupId>
-            <artifactId>kie-internal</artifactId>
-            <version>${drools.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-core</artifactId>
-            <version>${drools.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-compiler</artifactId>
-            <version>${drools.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.thoughtworks.xstream</groupId>
-                    <artifactId>xstream</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.kie</groupId>-->
+            <!--<artifactId>kie-api</artifactId>-->
+            <!--<version>${drools.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.kie</groupId>-->
+            <!--<artifactId>kie-spring</artifactId>-->
+            <!--<version>7.0.0.Final</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.kie</groupId>-->
+            <!--<artifactId>kie-internal</artifactId>-->
+            <!--<version>${drools.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.drools</groupId>-->
+            <!--<artifactId>drools-core</artifactId>-->
+            <!--<version>${drools.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.drools</groupId>-->
+            <!--<artifactId>drools-compiler</artifactId>-->
+            <!--<version>${drools.version}</version>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>com.thoughtworks.xstream</groupId>-->
+                    <!--<artifactId>xstream</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+        <!--</dependency>-->
+
+        <!--<dependency>-->
+            <!--<groupId>org.drools</groupId>-->
+            <!--<artifactId>drools-decisiontables</artifactId>-->
+            <!--<version>${drools.version}</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.drools</groupId>-->
+            <!--<artifactId>drools-templates</artifactId>-->
+            <!--<version>${drools.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
             <version>1.4.10</version>
         </dependency>
+        <!--微信支付和公众号-->
         <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-decisiontables</artifactId>
-            <version>${drools.version}</version>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-mp</artifactId>
+            <version>3.0.0</version>
         </dependency>
         <dependency>
-            <groupId>org.drools</groupId>
-            <artifactId>drools-templates</artifactId>
-            <version>${drools.version}</version>
+            <groupId>com.github.binarywang</groupId>
+            <artifactId>weixin-java-pay</artifactId>
+            <version>3.0.0</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.jodd</groupId>
+            <artifactId>jodd-all</artifactId>
+            <version>4.3.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.collections</groupId>
+            <artifactId>eclipse-collections</artifactId>
+            <version>9.1.0</version>
+        </dependency>
 
         <!--kotlin-->
         <dependency>
@@ -305,6 +379,19 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-reflect -->
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-core</artifactId>
+            <version>0.24.0</version>
+        </dependency>
+
+
         <dependency>
             <groupId>apache-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
@@ -324,6 +411,19 @@
             <artifactId>core</artifactId>
             <version>3.3.2</version>
         </dependency>
+
+        <!--markdown处理-->
+        <dependency>
+            <groupId>com.atlassian.commonmark</groupId>
+            <artifactId>commonmark</artifactId>
+            <version>0.9.0</version>
+        </dependency>
+        <!--emoji表情处理-->
+        <dependency>
+            <groupId>com.vdurmont</groupId>
+            <artifactId>emoji-java</artifactId>
+            <version>3.2.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -331,10 +431,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.0.3.RELEASE</version>
                 <configuration>
                     <fork>true</fork>
+                    <executable>true</executable>
+                    <classifier>exec</classifier>
                 </configuration>
             </plugin>
+
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
@@ -356,8 +460,19 @@
                     </execution>
                 </executions>
                 <configuration>
+                    <compilerPlugins>
+                        <plugin>spring</plugin>
+                    </compilerPlugins>
                     <jvmTarget>1.8</jvmTarget>
+                    <experimentalCoroutines>enable</experimentalCoroutines>
                 </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-allopen</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -384,6 +499,68 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
+                </configuration>
+            </plugin>
+
+            <!--jooq 构建构建工具-->
+            <plugin>
+                <groupId>org.jooq</groupId>
+                <artifactId>jooq-codegen-maven</artifactId>
+                <version>${jooq.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>${mysql.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <!-- JDBC connection parameters -->
+                    <jdbc>
+                        <driver>com.mysql.jdbc.Driver</driver>
+                        <url>jdbc:mysql://47.105.53.69:3306</url>
+                        <user>root</user>
+                        <password>root</password>
+                    </jdbc>
+                    <generator>
+                        <database>
+                            <name>org.jooq.util.mysql.MySQLDatabase</name>
+                            <includes>.*</includes>
+                            <excludes>
+                                ACT_.* | QRTZ_.*
+                            </excludes>
+                            <!--数据库名-->
+                            <!--inputSchema 输入模式-->
+                            <schemata>
+                                <schema>
+                                    <inputSchema>distribution_dev</inputSchema>
+                                </schema>
+                            </schemata>
+                            <!--强制类型-->
+                            <forcedTypes>
+                                <forcedType>
+                                    <name>INT</name>
+                                    <types>(?i:TINYINT(\s*\(\d+\))?(\s*UNSIGNED)?)</types>
+                                </forcedType>
+                            </forcedTypes>
+                        </database>
+                        <generate>
+                            <pojos>true</pojos>
+                            <!--<daos>true</daos>-->
+                            <deprecated>true</deprecated>
+                        </generate>
+                        <target>
+                            <packageName>com.distribution.pojo</packageName>
+                            <directory>src/main/kotlin</directory>
+                        </target>
+                    </generator>
                 </configuration>
             </plugin>
         </plugins>

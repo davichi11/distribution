@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.distribution.modules.integral.dao.ProductTypeDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.distribution.modules.integral.entity.ProductTypeEntity" id="productTypeMap">
+        <result property="id" column="id"/>
+        <result property="prodName" column="prod_name"/>
+        <result property="prodRate" column="prod_rate"/>
+        <result property="prodRemark" column="prod_remark"/>
+        <result property="prodImg" column="prod_img"/>
+        <result property="prodType" column="prod_type"/>
+        <result property="exchangePercent" column="exchange_percent"/>
+        <result property="isDelete" column="is_delete"/>
+    </resultMap>
+
+    <select id="queryObject" resultMap="productTypeMap">
+        select *
+        from product_type
+        where id = #{value}
+    </select>
+
+    <select id="queryList" resultMap="productTypeMap">
+        select id, prod_name, prod_rate, prod_remark, prod_img, prod_type, exchange_percent from product_type t
+        where t.is_delete='1'
+        <if test="prodName != null">
+            and t.prod_name like concat('%',#{prodName},'%')
+        </if>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.distribution.modules.integral.entity.ProductTypeEntity">
+        insert into product_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
+            <if test="prodName != null">
+                `prod_name`,
+            </if>
+            <if test="prodRate != null">
+                `prod_rate`,
+            </if>
+            <if test="prodRemark != null">
+                `prod_remark`,
+            </if>
+            <if test="prodImg != null">
+                `prod_img`,
+            </if>
+            <if test="prodType != null">
+                `prod_type`,
+            </if>
+            <if test="exchangePercent != null">
+                `exchange_percent`,
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                `is_delete`
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="prodName != null">
+                #{prodName},
+            </if>
+            <if test="prodRate != null">
+                #{prodRate},
+            </if>
+            <if test="prodRemark != null">
+                #{prodRemark},
+            </if>
+            <if test="prodImg != null">
+                #{prodImg},
+            </if>
+            <if test="prodType != null">
+                #{prodType},
+            </if>
+            <if test="exchangePercent != null">
+                #{exchangePercent},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                #{isDelete}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.distribution.modules.integral.entity.ProductTypeEntity">
+        update product_type
+        <set>
+            <if test="prodName != null">
+                `prod_name` = #{prodName}
+                ,
+            </if>
+            <if test="prodRate != null">
+                `prod_rate` = #{prodRate}
+                ,
+            </if>
+            <if test="prodRemark != null">
+                `prod_remark` = #{prodRemark}
+                ,
+            </if>
+            <if test="prodImg != null">
+                `prod_img` = #{prodImg},
+            </if>
+            <if test="prodType != null">
+                `prod_type` = #{prodType},
+            </if>
+            <if test="exchangePercent != null">
+                exchange_percent=#{exchangePercent},
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                `is_delete` = #{isDelete}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from product_type
+        where id = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from product_type where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

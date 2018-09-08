@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.distribution.modules.integral.dao.IntegralOrderDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.distribution.modules.integral.entity.IntegralOrderEntity" id="integralOrderMap">
+        <result property="id" column="id"/>
+        <result property="mobile" column="mobile"/>
+        <result property="detailId" column="detail_id"/>
+        <result property="img" column="img"/>
+        <result property="addTime" column="add_time"/>
+        <result property="prodName" column="prod_name"/>
+        <result property="prodTypeName" column="prod_type_name"/>
+        <result property="record" column="record"/>
+        <result property="status" column="status"/>
+        <result property="disLevel" column="dis_level"/>
+        <result property="profiMoney" column="profi_money"/>
+    </resultMap>
+
+    <select id="queryObject" resultMap="integralOrderMap">
+        select
+            o.id,
+            o.mobile,
+            detail_id,
+            img,
+            o.add_time,
+            record,
+            status,
+            profi_money,
+            d.prod_detail_name as 'prod_name',
+            t.prod_name        as 'prod_type_name',
+            m.dis_user_name    as 'user_name',
+            m.dis_user_id_code as 'id_code',
+            m.dis_level
+        from integral_order o
+            left join product_detail d on o.detail_id = d.id
+            left join product_type t on d.prod_type_id = t.id
+            left join tb_user u on o.mobile = u.mobile
+            left join dis_member_info m on u.user_id = m.dis_user_id
+        where o.id = #{value}
+    </select>
+
+    <select id="queryList" resultMap="integralOrderMap">
+        select o.id,
+        o.mobile,
+        detail_id,
+        img,
+        o.add_time,
+        record,
+        status,
+        profi_money,
+        d.prod_detail_name as 'prod_name',
+        t.prod_name as 'prod_type_name',
+        m.dis_user_name as 'user_name',
+        m.dis_user_id_code as 'id_code',
+        m.dis_level
+        from integral_order o
+        left join product_detail d on o.detail_id=d.id
+        left join product_type t on d.prod_type_id = t.id
+        left join tb_user u on o.mobile = u.mobile
+        left join dis_member_info m on u.user_id=m.dis_user_id
+        <where>
+            <if test="prodName != null and prodName!= ''">
+                and d.prod_detail_name like concat('%',#{prodName},'%')
+            </if>
+            <if test="mobile != null and mobile !=''">
+                and o.mobile like concat('%',#{mobile},'%')
+            </if>
+            <if test="status != null">
+                and o.status = #{status}
+            </if>
+            <if test="memberIds != null">
+                and m.id in
+                <foreach item="item" collection="memberIds" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by o.add_time desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.distribution.modules.integral.entity.IntegralOrderEntity">
+        insert into integral_order
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
+            <if test="mobile != null">
+                `mobile`,
+            </if>
+            <if test="detailId != null">
+                `detail_id`,
+            </if>
+            <if test="img != null">
+                `img`,
+            </if>
+            <if test="addTime != null">
+                `add_time`,
+            </if>
+            <if test="record != null">
+                `record`
+            </if>
+            <if test="status != null">
+                `status`
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="mobile != null">
+                #{mobile},
+            </if>
+            <if test="detailId != null">
+                #{detailId},
+            </if>
+            <if test="img != null">
+                #{img},
+            </if>
+            <if test="addTime != null">
+                #{addTime},
+            </if>
+            <if test="record != null">
+                #{record}
+            </if>
+            <if test="status != null">
+                #{status}
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.distribution.modules.integral.entity.IntegralOrderEntity">
+        update integral_order
+        <set>
+            <if test="mobile != null">
+                `mobile` = #{mobile}
+                ,
+            </if>
+            <if test="detailId != null">
+                `detail_id` = #{detailId}
+                ,
+            </if>
+            <if test="img != null">
+                `img` = #{img}
+                ,
+            </if>
+            <if test="addTime != null">
+                `add_time` = #{addTime},
+            </if>
+            <if test="record != null">
+                record = #{record},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from integral_order
+        where id = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from integral_order where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

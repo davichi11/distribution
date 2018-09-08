@@ -98,6 +98,12 @@ function getSelectedRow() {
     return selectedIDs[0];
 }
 
+//获取选中的一条记录的数据对象
+function getSelectedRowData() {
+    var rowDataId = getSelectedRow();
+    return $("#jqGrid").jqGrid('getRowData', rowDataId);
+}
+
 //选择多条记录
 function getSelectedRows() {
     let grid = $("#jqGrid");
@@ -126,4 +132,28 @@ function isNull(param) {
  */
 function isNotNull(param) {
     return !isNull(param);
+}
+
+function showImg(url) {
+    let arr = url.split(",")
+    let content = ""
+    arr.forEach(img => {
+        content += `<img src="${img}" class="img-responsive"/>`
+    })
+    layer.open({
+        title: '查看图片',
+        shadeClose: true,
+        area: ['500px', '500px'],
+        content: content
+    });
+}
+
+
+function showImgByHTML(content) {
+    layer.open({
+        title: '查看图片',
+        shadeClose: true,
+        area: ['500px', '500px'],
+        content: content
+    });
 }

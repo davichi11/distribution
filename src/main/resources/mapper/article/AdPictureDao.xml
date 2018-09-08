@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.distribution.modules.article.dao.AdPictureDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.distribution.modules.article.entity.AdPictureEntity" id="adPictureMap">
+        <result property="id" column="id"/>
+        <result property="imgUrl" column="img_url"/>
+        <result property="articleId" column="article_id"/>
+        <result property="articleTitle" column="article_title"/>
+        <result property="articleType" column="article_type"/>
+        <result property="order" column="order_num"/>
+        <result property="addTime" column="add_time"/>
+        <result property="isDelete" column="is_delete"/>
+    </resultMap>
+
+    <select id="queryObject" resultMap="adPictureMap">
+        select a.*,
+               t.title as "article_title",
+               t.type as "article_type"
+        from ad_picture a
+        left join article_info t on a.article_id = t.id
+        where a.id = #{value}
+    </select>
+
+    <select id="queryList" resultMap="adPictureMap">
+        select a.*,
+        t.title as "article_title",
+        t.type as "article_type"
+        from ad_picture a
+        left join article_info t on a.article_id = t.id
+        where a.is_delete='1'
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by order_num asc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.distribution.modules.article.entity.AdPictureEntity" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into ad_picture
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
+            <if test="imgUrl != null">
+                `img_url`,
+            </if>
+            <if test="articleId != null">
+                `article_id`,
+            </if>
+            <if test="order != null">
+                `order_num`,
+            </if>
+            <if test="addTime != null">
+                `add_time`,
+            </if>
+            <if test="isDelete != null">
+                `is_delete`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="imgUrl != null">
+                #{imgUrl},
+            </if>
+            <if test="articleId != null">
+                #{articleId},
+            </if>
+            <if test="order != null">
+                #{order},
+            </if>
+            <if test="addTime != null">
+                #{addTime},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.distribution.modules.article.entity.AdPictureEntity">
+        update ad_picture
+        <set>
+            <if test="imgUrl != null">
+                `img_url` = #{imgUrl}
+                ,
+            </if>
+            <if test="articleId != null">
+                `article_id` = #{articleId}
+                ,
+            </if>
+            <if test="order != null">
+                `order_num` = #{order}
+                ,
+            </if>
+            <if test="addTime != null">
+                `add_time` = #{addTime}
+                ,
+            </if>
+            <if test="isDelete != null">
+                `is_delete` = #{isDelete}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from ad_picture
+        where id = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from ad_picture where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

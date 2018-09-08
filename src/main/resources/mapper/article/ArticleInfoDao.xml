@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.distribution.modules.article.dao.ArticleInfoDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.distribution.modules.article.entity.ArticleInfoEntity" id="articleInfoMap">
+        <result property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="detail" column="detail" jdbcType="LONGVARCHAR" javaType="string"/>
+        <result property="type" column="type"/>
+        <result property="order" column="order_num"/>
+        <result property="addTime" column="add_time"/>
+        <result property="isDelete" column="is_delete"/>
+    </resultMap>
+
+    <select id="queryObject" resultMap="articleInfoMap">
+        select id, title, detail, type, order_num, add_time, is_delete
+        from article_info
+        where id = #{value}
+    </select>
+
+    <select id="queryList" resultMap="articleInfoMap">
+        select id, title, detail, type, order_num, add_time, is_delete
+        from article_info
+        where is_delete = '1'
+        <if test="type != null and type != ''">
+            and type = #{type}
+        </if>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by order_num asc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.distribution.modules.article.entity.ArticleInfoEntity" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into article_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
+            <if test="title != null">
+                `title`,
+            </if>
+            <if test="detail != null">
+                `detail`,
+            </if>
+            <if test="type != null">
+                `type`,
+            </if>
+            <if test="order != null">
+                `order_num`,
+            </if>
+            <if test="addTime != null">
+                `add_time`,
+            </if>
+            <if test="isDelete != null">
+                `is_delete`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="detail != null">
+                #{detail,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="order != null">
+                #{order},
+            </if>
+            <if test="addTime != null">
+                #{addTime},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.distribution.modules.article.entity.ArticleInfoEntity">
+        update article_info
+        <set>
+            <if test="title != null">
+                `title` = #{title}
+                ,
+            </if>
+            <if test="detail != null">
+                `detail` = #{detail,jdbcType=LONGVARCHAR}
+                ,
+            </if>
+            <if test="type != null">
+                `type` = #{type}
+                ,
+            </if>
+            <if test="order != null">
+                `order_num` = #{order}
+                ,
+            </if>
+            <if test="addTime != null">
+                `add_time` = #{addTime}
+                ,
+            </if>
+            <if test="isDelete != null">
+                `is_delete` = #{isDelete}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from article_info
+        where id = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from article_info where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -1,41 +1,37 @@
 spring:
-    datasource:
-        type: com.alibaba.druid.pool.DruidDataSource
-        driverClassName: com.mysql.jdbc.Driver
-        druid:
-            first:  #数据源1
-                url: jdbc:mysql://127.0.0.1:3306/distribution?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=true
-                username: root
-                password: admin
-            second:  #数据源2
-                url: jdbc:mysql://101.201.150.50:3306/risk?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=true
-                username: root
-                password: 123456
-            initial-size: 10
-            max-active: 100
-            min-idle: 10
-            max-wait: 60000
-            pool-prepared-statements: true
-            max-pool-prepared-statement-per-connection-size: 20
-            time-between-eviction-runs-millis: 60000
-            min-evictable-idle-time-millis: 300000
-            validation-query: SELECT 1 FROM DUAL
-            test-while-idle: true
-            test-on-borrow: false
-            test-on-return: false
-            stat-view-servlet:
-                enabled: true
-                url-pattern: /druid/*
-                #login-username: admin
-                #login-password: admin
-            filter:
-                stat:
-                    log-slow-sql: true
-                    slow-sql-millis: 1000
-                    merge-sql: true
-                wall:
-                    config:
-                        multi-statement-allow: true
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://47.105.53.69:3306/distribution_dev?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=true
+    username: root
+    password: root
+    druid:
+      initial-size: 10
+      max-active: 100
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 1 FROM DUAL
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        #login-username: admin
+        #login-password: admin
+      filter:
+        stat:
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+      connection-init-sqls: set names 'utf8mb4'
 
 
 #eureka:
@@ -46,35 +42,38 @@ spring:
 #    prefer-ip-address: true
 
 risk:
-    # APP模块，是通过jwt认证的，如果要使用APP模块，则需要修改【加密秘钥】
-    jwt:
-        # 加密秘钥
-        secret: f4e2e52034348f86b67cde581c0f9eb5[com.distribution]
-        # token有效时长，7天，单位秒
-        expire: 604800
-        header: token
-    open-kaptcha:
-        is-open: false
+  # APP模块，是通过jwt认证的，如果要使用APP模块，则需要修改【加密秘钥】
+  jwt:
+    # 加密秘钥
+    secret: f4e2e52034348f86b67cde581c0f9eb5[com.distribution]
+    # token有效时长，7天，单位秒
+    expire: 604800
+    header: token
+  open-kaptcha:
+    is-open: false
+  url: https://www.qiandaoshouli.com/wx/#/auth
+  return-url: https://www.qiandaoshouli.com/dis/api/getUserInfo
+  file-server: https://47.104.239.136:8088
+  file-path: /Users/huchunliang/Downloads
 swagger:
-  base-package: com.distribution.modules.api.controller
   enabled: true
-  title: API接口文档
-  description: API接口文档
+  docket:
+    api:
+      title: 基础API文档
+      base-package: com.distribution.modules.api.controller
+    weixin:
+      title: 微信接口
+      base-package: com.distribution.weixin.mp.controller
 
-pay:
-    alipay:
-        server-url: https://openapi.alipay.com/gateway.do
-        partner: 2088321024021951
-        app-id: 2016090101835950
-        seller-email: 2088321024021951
-        privateKey: MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBAOPGjaD71qVdY+ONAVVKlDrJ7ZIvAZ7F67iUXli1yvDvExYBLACv4Dio6o1oZrfwYMcGuOWIuBjZdFmXZr6UlUK6wqV/TjtuQfvOmuXUUTMzkPCpPzFYTdDh6p3qrBgLfZ6abQIjSUY/pcRU/MDSh8b2p4ydhziXj8OTukmuPKURAgMBAAECgYEAnLYlB1d9rLR+XzbKbgYrye7YNzWEJdsCfTIHX31kLTQvq3oO7kITQKhnB/eGhJMr4oMrfzD7iI1EUceq9wB/V+cVraSYn8uNTzYdRqMiLmjoVjpTQInlzgc6x+39DDqeX0WGbrjoD70b89nkGJYSs+vsK+bHLatJIrEMs7zq/EkCQQD/zryItPkEAmJJi2OTBceP7YFkIYCy395jBfCJ74OcYVv7Z15gM4ZnpCSp59Ccok2fsNdyZiy0a/DnManZOnjXAkEA4/JrGiZd2/aSJ1Jc+VsJSWsM3+N00jkocA8X3IBXBxg1BLVV0xo+CY/FuFJ1Fim6tRAHziXNOjS9++XPl/iMVwJBAOmFHaEirAwX7Qe8QlsttH7UTwFMgENKkKYO/wW8a4XvbtuzAnmJr9GfC4U7RLoog/oaoqMhWQAfZZx4Ptg6Q6MCQAGf0ZmPGm4d1K7JDHaOaoOGasIRqdxxodMimGXu2C/pwT72V9U4Q6bnyl3k4Ia252iw441ZgZvfklcALTmFAOMCQQD3NJFMgZ52BTGvGGcK3bmdcdsijpqPe+m8HZfL+faRDKRhdWz4vjBgXSmChq2VsERpP9L6tF2txTinE7P2l0E+
-        publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB
-        RSA2PublicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsuWIj0J9QQygWW9F9Xt8a88C/3b2ZssWMUcdA2kgRmNxpG+m1GddEx04ScY868zwqg9kyl0h43ASXC8a332UPkkwlHuLSLuLcjpHguAQ3TdNULtfjkRNhfmTJn0iirVV+l9rYxYWnOhXQW1h6cCmtH//mDjl+L4BOJKOtXzL5QQdpqD54ifuJugZmQO3/RiUWs000eA/IlMukBizoRK8fElxAnGB8E1PLAZIJkgqmtzr0PZOA3cRFlgb7gw6B8Jqirc5vY9EoiI/0A4+HafIRAc7MKTokaeT+CMWlotxnFJwPVMDTKqYipFqCTAqBvNeOLqRxC/mVq0a3xJcP/C6rQIDAQAB
-        RSA2privateKey: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCZmKmMEe1rNl6hR2dodFYhjyIt9hlCavOLLM0dqiHHjQB2QwY+Uyx/AKDM2vTdGTKveUuoY9hRIO5q17tPPbGSLnP92/77uLLqkKbU78/hqqKPCvVwlLFN/V8tcXJVf+7LcQDnc2dCclAawbQssc4G90m9U4u6CIuG2PpcYoi6i+z+fhhz8mLysAXCt3YH582C0HUtt5GVpAB8hzFAAI6GRbzZvvLMN4a+leLc7N5sFT+eL6mICPjzWKXQIRnkW7/XRXKwSxrffDU2/IjPZbNK7nUdKo7nIqeifNZsIII9k2HlfV5eWs+K3bkjHkhcLAc/kgd5Y/H47wfN+do9YofJAgMBAAECggEAZXbIwePx37op5waBVCpN35trK8t/wjVerxioYylJaUZHANij3jYZlcg3cTxPN2N27R4GkbVrZ6SGewQKE32guP2A2DklBuprHrLx0oac3+lVu4K0wmsneWqgHifsLHj3qWL8AulkVCupqRM+z6uhe06OYsg27GzKpwjc0nyw7/GLPzZnIZbNunhqytrtg0y8fZgZB7hLxEL1L7Yquf2Ue3Nw7rk49IzlHctH5vlz9prjzJt5wXFZX7eumMku8s0XRd1ZCo6HPW8rYX4ONhySTuOT7gJJ5bWB4VU6dQ+gCKapIkycUNA8oX/ztexoEBUqA7vtxlbOjY6VlqgYlXSNxQKBgQDMlLBL98rsqFcS9fEA8LrdFootHTmq6c9e6epUttA47+f6Q2qcHt7OCoZ15mPmtx5nt42sciuIwZkwDPtMf6P3+En6TTNa6qIxcHccqs5TpTNGXmkLZPXnbuCv9ihv//WecKY8sWiI4QoAw/pPGW7aRgMbRKiVY6Ad8ibMxzfcdwKBgQDAM3zDJekbBMQZk7hvXX5pk5N5fnCZco6XtJ4QrvXisBhTORhc6TZwUl81UX7hS6gwhmNRg7a8yyFEsRuZA7Gl+I8imVfNgnzspSH4WwwV91uMr0MVjvx+4STVwv/vbBJ3tWby27jwZbcj9oYIQ/eysMdtGanrGdcERYHGN1UNvwKBgHD4kroApcA13Y+M3H8mcCnybm8nOlcVMfw5s7sAEM/AOxvJ6q83pNWmnkWw6e3XpSSlCcj2au/j6JHOOV8vBP7DzyY3R2qnMtWWQ1BDShiKm1v6eotePySD5/ODPSVL9Ph/QG03koAztPBjSHAxnTNPghumuGl2UE75D0/5mvFVAoGAKddLksQfAfXApvzEiuHkkiFBWpKO+qi4qAf23RTpjGbfdMaaKifO5RbZiSbroyowPBgVaPpufp0N6gFQS7hFJSd+KX8OYTvF7FJqmcFgWSvXL0I8LWZKS2jB9xMTWlDBmHPSLI5urU7HVrnlJcl+E9VuJK8QkZC3gUOMY9VJ28sCgYEAsCXFxUMVoULw9cTQl/ru7m2QlIHzhx8j0UW6HsuPKunlrepMAK8LC3LPjSLdYFPSuPILzjabDql2YGE8v6AkY39D4UYjFRH8ZyS9nNB3smk3STuf068q1PhYXf+J3jHvRsAMNOjne0Dyc+PR/GRHxcuM/ZpaIZhiYYfB1YsHX5A=
-        notify-url: http://106.0.5.96:8086/api/alipay/notify.shtml
-    wxpay:
-        app-id: wxf89f12ae63042617
-        mch-id: 1386801502
-        key: RmXDEA0hMdZs4AZoCAwLLIg4jQ9gfHJd
-        notify-url: http://106.0.5.96:8086/api/wxpay/notify.shtml
-
+wechat:
+  url: http://www.qiandaoshouli.com
+  pay:
+    appId: wxf89f12ae63042617
+    mchId: 1386801502
+    mchKey: RmXDEA0hMdZs4AZoCAwLLIg4jQ9gfHJd
+    keyPath: 123
+  mp:
+    appId: wx1f08f53b44b2bb1f
+    secret: 5c8afa5a3aa30084e3b0c25fae45588b
+    token: iapahify0u0mxmq3pv3w4t21bzz4ohib
+    aesKey: hqtZyX24b4DJIOrIfcNDAsAtVrrBwwfMMi4QMDCqZe1

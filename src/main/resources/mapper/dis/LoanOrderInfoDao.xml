@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.distribution.modules.dis.dao.LoanOrderInfoDao">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.distribution.modules.dis.entity.LoanOrderInfoEntity" id="loanOrderInfoMap">
+        <result property="id" column="id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="orderMobile" column="order_mobile"/>
+        <result property="orderIdcardno" column="order_idcardno"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="memberId" column="member_id"/>
+        <result property="loanId" column="loan_id"/>
+        <result property="loanAmount" column="loan_amount"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="addTime" column="add_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="queryObject" resultMap="loanOrderInfoMap">
+        select
+            o.id,
+            order_id,
+            order_mobile,
+            order_idcardno,
+            order_status,
+            member_id,
+            loan_id,
+            loan_amount,
+            o.is_delete,
+            o.add_time,
+            o.update_time,
+            loan_money,
+            l.loan_name,
+            m.dis_user_name as 'user_name'
+        from loan_order_info o
+            left join loan_info l on o.loan_id = l.id
+            left join dis_member_info m on m.id = o.member_id
+        where o.id = #{value}
+    </select>
+
+    <select id="queryList" resultMap="loanOrderInfoMap">
+        select
+        o.id,
+        order_id,
+        order_mobile,
+        order_idcardno,
+        order_status,
+        member_id,
+        loan_id,
+        loan_amount,
+        o.is_delete,
+        o.add_time,
+        o.update_time,
+        loan_money,
+        l.loan_name,
+        m.dis_user_name as 'user_name'
+        from loan_order_info o
+        left join loan_info l on o.loan_id = l.id
+        left join dis_member_info m on m.id = o.member_id
+        <where>
+            <if test="mobile != null and mobile != ''">
+                and o.order_mobile = #{mobile}
+            </if>
+            <if test="status != null">
+                and o.order_status = #{status}
+            </if>
+            <if test="memberIds != null">
+                and o.member_id in
+                <foreach item="item" collection="memberIds" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by o.add_time desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <insert id="save" parameterType="com.distribution.modules.dis.entity.LoanOrderInfoEntity">
+        insert into loan_order_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                `id`,
+            </if>
+            <if test="orderId != null">
+                `order_id`,
+            </if>
+            <if test="orderMobile != null">
+                `order_mobile`,
+            </if>
+            <if test="orderIdcardno != null">
+                `order_idcardno`,
+            </if>
+            <if test="orderStatus != null">
+                `order_status`,
+            </if>
+            <if test="memberId != null">
+                `member_id`,
+            </if>
+            <if test="loanId != null">
+                `loan_id`,
+            </if>
+            <if test="loanAmount != null">
+                `loan_amount`,
+            </if>
+            <if test="isDelete != null">
+                `is_delete`,
+            </if>
+            <if test="addTime != null">
+                `add_time`,
+            </if>
+            <if test="updateTime != null">
+                `update_time`,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="orderId != null">
+                #{orderId},
+            </if>
+            <if test="orderMobile != null">
+                #{orderMobile},
+            </if>
+            <if test="orderIdcardno != null">
+                #{orderIdcardno},
+            </if>
+            <if test="orderStatus != null">
+                #{orderStatus},
+            </if>
+            <if test="memberId != null">
+                #{memberId},
+            </if>
+            <if test="loanId != null">
+                #{loanId},
+            </if>
+            <if test="loanAmount != null">
+                #{loanAmount},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete},
+            </if>
+            <if test="addTime != null">
+                #{addTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="com.distribution.modules.dis.entity.LoanOrderInfoEntity">
+        update loan_order_info
+        <set>
+            <if test="orderId != null">
+                `order_id` = #{orderId}
+                ,
+            </if>
+            <if test="orderMobile != null">
+                `order_mobile` = #{orderMobile}
+                ,
+            </if>
+            <if test="orderIdcardno != null">
+                `order_idcardno` = #{orderIdcardno}
+                ,
+            </if>
+            <if test="orderStatus != null">
+                `order_status` = #{orderStatus}
+                ,
+            </if>
+            <if test="loanMoney != null">
+                `loan_money` = #{loanMoney}
+                ,
+            </if>
+            <if test="memberId != null">
+                `member_id` = #{memberId}
+                ,
+            </if>
+            <if test="loanId != null">
+                `loan_id` = #{loanId}
+                ,
+            </if>
+            <if test="loanAmount != null">
+                `loan_amount` = #{loanAmount}
+                ,
+            </if>
+            <if test="isDelete != null">
+                `is_delete` = #{isDelete}
+                ,
+            </if>
+            <if test="addTime != null">
+                `add_time` = #{addTime}
+                ,
+            </if>
+            <if test="updateTime != null">
+                `update_time` = #{updateTime}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from loan_order_info
+        where id = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from loan_order_info where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
