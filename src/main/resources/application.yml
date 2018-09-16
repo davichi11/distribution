@@ -63,7 +63,24 @@ spring:
     publisher-confirms: true #开启发送确认
     publisher-returns: true #开启发送失败退回
     listener:
-      acknowledge-mode: MANUAL #开启消费ACK模式
+      simple:
+        acknowledge-mode: manual
+        retry:
+          enabled: true
+
+
+jetcache:
+  statIntervalMinutes: 15
+  areaInCacheName: false
+  local:
+    default:
+      type: caffeine
+      keyConvertor: fastjson
+  remote:
+    default:
+      type: redis.lettuce
+      keyConvertor: fastjson
+      uri: redis://127.0.0.1:6379/
 
 
 # Mybatis配置

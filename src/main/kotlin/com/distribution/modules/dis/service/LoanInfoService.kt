@@ -1,7 +1,11 @@
 package com.distribution.modules.dis.service
 
+import com.alicp.jetcache.anno.CacheType
+import com.alicp.jetcache.anno.CacheUpdate
+import com.alicp.jetcache.anno.Cached
 import com.distribution.modules.dis.entity.DisMemberInfoEntity
 import com.distribution.modules.dis.entity.LoanInfoEntity
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -23,6 +27,7 @@ interface LoanInfoService {
      * @param map
      * @return
      */
+    @Cached(name = "LoanInfoService.list",localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryList(map: Map<String, Any>): List<LoanInfoEntity>
 
     /**
@@ -30,6 +35,7 @@ interface LoanInfoService {
      *
      * @throws Exception
      */
+    @CacheUpdate(name = "LoanInfoService.list",key = "#loanInfo.id",value = "#loanInfo")
     @Throws(Exception::class)
     fun save(loanInfo: LoanInfoEntity)
 
@@ -38,6 +44,7 @@ interface LoanInfoService {
      *
      * @throws Exception
      */
+    @CacheUpdate(name = "LoanInfoService.list",key = "#loanInfo.id",value = "#loanInfo")
     @Throws(Exception::class)
     fun update(loanInfo: LoanInfoEntity)
 

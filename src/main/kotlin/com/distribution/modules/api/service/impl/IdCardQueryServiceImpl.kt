@@ -7,7 +7,6 @@ import com.distribution.modules.api.service.IdCardQueryService
 import okhttp3.Request
 import org.springframework.stereotype.Service
 import java.io.IOException
-import java.util.*
 
 /**
  * @author ChunLiang Hu
@@ -22,10 +21,7 @@ class IdCardQueryServiceImpl : IdCardQueryService {
     @Throws(IOException::class)
     override fun isMatched(idCard: String, name: String): Boolean {
         val appKey = "aa3c7957d52abc30bf5b3b0f80fea3d5"
-        val map = HashMap<String, String>()
-        map["idcard"] = idCard
-        map["realname"] = name
-        map["key"] = appKey
+        val map = mapOf("idcard" to idCard, "realname" to name, "key" to appKey)
         val url = OkHttpUtil.attachHttpGetParams("http://op.juhe.cn/idcard/query", map)
         val request = Request.Builder().url(url).get().build()
         val response = OkHttpUtil.execute(request)

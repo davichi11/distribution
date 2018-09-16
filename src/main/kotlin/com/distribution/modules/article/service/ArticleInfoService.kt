@@ -1,6 +1,10 @@
 package com.distribution.modules.article.service
 
+import com.alicp.jetcache.anno.CacheType
+import com.alicp.jetcache.anno.CacheUpdate
+import com.alicp.jetcache.anno.Cached
 import com.distribution.modules.article.entity.ArticleInfoEntity
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -22,12 +26,14 @@ interface ArticleInfoService {
      * @param map
      * @return
      */
+    @Cached(name = "ArticleInfoService.list",localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryList(map: Map<String, Any>): List<ArticleInfoEntity>
 
     /**
      * 保存
      * @throws Exception
      */
+    @CacheUpdate(name = "ArticleInfoService.list",key = "#articleInfo.id",value = "#articleInfo")
     @Throws(Exception::class)
     fun save(articleInfo: ArticleInfoEntity)
 
@@ -35,6 +41,7 @@ interface ArticleInfoService {
      * 更新
      * @throws Exception
      */
+    @CacheUpdate(name = "ArticleInfoService.list",key = "#articleInfo.id",value = "#articleInfo")
     @Throws(Exception::class)
     fun update(articleInfo: ArticleInfoEntity)
 

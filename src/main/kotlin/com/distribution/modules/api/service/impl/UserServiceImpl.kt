@@ -12,7 +12,6 @@ import com.distribution.modules.dis.dao.DisFansMapper
 import com.distribution.modules.dis.dao.DisMemberInfoDao
 import com.distribution.modules.dis.entity.DisMemberInfoEntity
 import org.apache.commons.codec.digest.DigestUtils
-import org.apache.commons.collections.CollectionUtils
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.math.NumberUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -69,11 +68,9 @@ class UserServiceImpl : UserService {
         member.userEntity = user
         member.openId = openId
         //是否已是锁粉
-        val fansParam = HashMap<String, Any>(2)
-        fansParam["openId"] = openId!!
-        val disFansList = fansMapper.selectList(fansParam)
+        val disFansList = fansMapper.selectList(if (openId == null) mapOf() else mapOf("openId" to openId))
         when {
-            CollectionUtils.isNotEmpty(disFansList) -> {
+            disFansList.isNotEmpty() -> {
                 val fans = disFansList[0]
                 member.parentId = fans.disMemberInfo!!.parentId
                 member.disMemberParent = fans.disMemberInfo!!

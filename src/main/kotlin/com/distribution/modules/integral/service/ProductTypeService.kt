@@ -1,6 +1,10 @@
 package com.distribution.modules.integral.service
 
+import com.alicp.jetcache.anno.CacheType
+import com.alicp.jetcache.anno.CacheUpdate
+import com.alicp.jetcache.anno.Cached
 import com.distribution.modules.integral.entity.ProductTypeEntity
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -24,6 +28,7 @@ interface ProductTypeService {
      * @param map
      * @return
      */
+    @Cached(name = "ProductTypeService.ProductTypeList", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryList(map: Map<String, Any>): List<ProductTypeEntity>
 
     /**
@@ -31,6 +36,7 @@ interface ProductTypeService {
      *
      * @throws Exception
      */
+    @CacheUpdate(name = "ProductTypeService.ProductTypeList",key = "#productType.id",value = "#productType")
     @Throws(Exception::class)
     fun save(productType: ProductTypeEntity)
 
@@ -39,6 +45,7 @@ interface ProductTypeService {
      *
      * @throws Exception
      */
+    @CacheUpdate(name = "ProductTypeService.ProductTypeList",key = "#productType.id",value = "#productType")
     @Throws(Exception::class)
     fun update(productType: ProductTypeEntity)
 

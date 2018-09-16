@@ -85,9 +85,9 @@ class ApiRegisterController {
             return Result().error(msg = "验证码不正确")
         }
 
-        if (StringUtils.isBlank(openId)) {
-            return Result().error(msg = "openid不能为空")
-        }
+//        if (StringUtils.isBlank(openId)) {
+//            return Result().error(msg = "openid不能为空")
+//        }
         try {
             //身份证号码实名认证
             if (!idCardQueryService.isMatched(idCode ?: "", name ?: "")) {

@@ -16,29 +16,29 @@ import java.util.concurrent.TimeUnit
 @Service("tokenService")
 class TokenServiceImpl : TokenService {
     @Autowired
-    private val tokenDao: TokenDao? = null
+    private lateinit var tokenDao: TokenDao
 
     @Autowired
-    private val redisTemplate: RedisTemplate<String, Any>? = null
+    private lateinit var redisTemplate: RedisTemplate<String, Any>
 
     override fun queryByUserId(userId: Long?): TokenEntity {
-        return tokenDao!!.queryByUserId(userId)
+        return tokenDao.queryByUserId(userId)
     }
 
     override fun queryByToken(token: String): TokenEntity {
-        return tokenDao!!.queryByToken(token)
+        return tokenDao.queryByToken(token)
     }
 
     @Transactional(rollbackFor = [(Exception::class)])
     @Throws(Exception::class)
     override fun save(token: TokenEntity) {
-        tokenDao!!.save(token)
+        tokenDao.save(token)
     }
 
     @Transactional(rollbackFor = [(Exception::class)])
     @Throws(Exception::class)
     override fun update(token: TokenEntity) {
-        tokenDao!!.update(token)
+        tokenDao.update(token)
     }
 
     @Transactional(rollbackFor = [(Exception::class)])
@@ -54,7 +54,7 @@ class TokenServiceImpl : TokenService {
 
         //判断是否生成过token
         //从Redis中根据token获取用户ID
-        val user = redisTemplate!!.opsForValue().get(token) as String
+        val user = redisTemplate.opsForValue().get(token) as String
         //        TokenEntity tokenEntity = queryByUserId(userId);
         if (StringUtils.isBlank(user)) {
             val tokenEntity = TokenEntity()
@@ -68,20 +68,9 @@ class TokenServiceImpl : TokenService {
             val operations = redisTemplate.opsForValue()
             operations.set(token, userId.toString(), EXPIRE.toLong(), TimeUnit.SECONDS)
             save(tokenEntity)
-            //        } else {
-            //            tokenEntity.setToken(token);
-            //            tokenEntity.setUpdateTime(now);
-            //            tokenEntity.setExpireTime(expireTime);
-            //
-            //            //更新token
-            //            update(tokenEntity);
         }
 
-        val map = HashMap<String, Any>(16)
-        map["token"] = token
-        map["expire"] = EXPIRE
-
-        return map
+        return mapOf("token" to token,"expire" to EXPIRE)
     }
 
     companion object {
