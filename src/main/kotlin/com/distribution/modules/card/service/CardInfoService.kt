@@ -1,8 +1,12 @@
 package com.distribution.modules.card.service
 
+import com.alicp.jetcache.anno.CacheType
+import com.alicp.jetcache.anno.CacheUpdate
+import com.alicp.jetcache.anno.Cached
 import com.distribution.modules.card.entity.CardApiResponse
 import com.distribution.modules.card.entity.CardInfo
 import com.distribution.modules.dis.entity.DisMemberInfoEntity
+import java.util.concurrent.TimeUnit
 
 /**
  * @author ChunLiang Hu
@@ -29,6 +33,7 @@ interface CardInfoService {
      * @param map
      * @return
      */
+    @Cached(name = "CardInfoService.list", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryList(map: Map<String, Any>): List<CardInfo>
 
     /**
@@ -36,6 +41,7 @@ interface CardInfoService {
      *
      * @throws Exception
      */
+    @CacheUpdate(name = "CardInfoService.list",key = "#cardInfo.id",value = "#cardInfo")
     @Throws(Exception::class)
     fun save(cardInfo: CardInfo)
 
@@ -44,6 +50,7 @@ interface CardInfoService {
      *
      * @throws Exception
      */
+    @CacheUpdate(name = "CardInfoService.list",key = "#cardInfo.id",value = "#cardInfo")
     @Throws(Exception::class)
     fun update(cardInfo: CardInfo)
 

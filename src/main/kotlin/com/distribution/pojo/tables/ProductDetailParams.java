@@ -39,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductDetailParams extends TableImpl<ProductDetailParamsRecord> {
 
-    private static final long serialVersionUID = 568595648;
+    private static final long serialVersionUID = 1100409856;
 
     /**
      * The reference instance of <code>distribution.product_detail_params</code>
@@ -116,7 +116,7 @@ public class ProductDetailParams extends TableImpl<ProductDetailParamsRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PRODUCT_DETAIL_PARAMS_PRIMARY);
+        return Arrays.<Index>asList(Indexes.PRODUCT_DETAIL_PARAMS_PRIMARY, Indexes.PRODUCT_DETAIL_PARAMS_PRODUCT_DETAIL_PARAMS_DETAIL_ID_INDEX, Indexes.PRODUCT_DETAIL_PARAMS_PRODUCT_DETAIL_PARAMS_ID_INDEX);
     }
 
     /**

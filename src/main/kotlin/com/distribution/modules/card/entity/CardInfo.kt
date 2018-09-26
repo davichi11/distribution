@@ -1,6 +1,7 @@
 package com.distribution.modules.card.entity
 
 import com.distribution.common.utils.DateUtils
+import java.io.Serializable
 import java.time.LocalDateTime
 
 /**
@@ -11,6 +12,7 @@ import java.time.LocalDateTime
  */
 
 data class CardInfo(
+        private val serialVersionUID: Long = 1L,
         /**  */
         var id: String = "",
 
@@ -72,4 +74,4 @@ data class CardInfo(
         var useThirdPart: Int = 1
 
 
-)
+) : Serializable

@@ -8,21 +8,13 @@ import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.ProductDetailRecord;
-
-import java.util.Arrays;
-import java.util.List;
-
-import javax.annotation.Generated;
-
-import org.jooq.Field;
-import org.jooq.Index;
-import org.jooq.Name;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.UniqueKey;
+import org.jooq.*;
 import org.jooq.impl.DSL;
 import org.jooq.impl.TableImpl;
+
+import javax.annotation.Generated;
+import java.util.Arrays;
+import java.util.List;
 
 
 /**
@@ -38,7 +30,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductDetail extends TableImpl<ProductDetailRecord> {
 
-    private static final long serialVersionUID = 700977851;
+    private static final long serialVersionUID = 1068593672;
 
     /**
      * The reference instance of <code>distribution.product_detail</code>
@@ -135,7 +127,7 @@ public class ProductDetail extends TableImpl<ProductDetailRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PRODUCT_DETAIL_PRIMARY, Indexes.PRODUCT_DETAIL_PRODUCT_DETAIL_ID_UINDEX);
+        return Arrays.<Index>asList(Indexes.PRODUCT_DETAIL_PRIMARY, Indexes.PRODUCT_DETAIL_PRODUCT_DETAIL_ID_UINDEX, Indexes.PRODUCT_DETAIL_PRODUCT_DETAIL_PROD_TYPE_ID_INDEX);
     }
 
     /**
