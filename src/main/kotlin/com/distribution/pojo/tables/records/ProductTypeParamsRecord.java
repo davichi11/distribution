@@ -28,59 +28,59 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductTypeParamsRecord extends UpdatableRecordImpl<ProductTypeParamsRecord> implements Record4<Integer, Integer, Double, String> {
 
-    private static final long serialVersionUID = 1178901056;
+    private static final long serialVersionUID = 591780140;
 
     /**
-     * Setter for <code>distribution_dev.product_type_params.id</code>.
+     * Setter for <code>distribution.product_type_params.id</code>.
      */
     public void setId(Integer value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.product_type_params.id</code>.
+     * Getter for <code>distribution.product_type_params.id</code>.
      */
     public Integer getId() {
         return (Integer) get(0);
     }
 
     /**
-     * Setter for <code>distribution_dev.product_type_params.level</code>. 会员等级
+     * Setter for <code>distribution.product_type_params.level</code>. 会员等级
      */
     public void setLevel(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.product_type_params.level</code>. 会员等级
+     * Getter for <code>distribution.product_type_params.level</code>. 会员等级
      */
     public Integer getLevel() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>distribution_dev.product_type_params.exchange_percent</code>. 积分兑换百分比
+     * Setter for <code>distribution.product_type_params.exchange_percent</code>. 积分兑换百分比
      */
     public void setExchangePercent(Double value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.product_type_params.exchange_percent</code>. 积分兑换百分比
+     * Getter for <code>distribution.product_type_params.exchange_percent</code>. 积分兑换百分比
      */
     public Double getExchangePercent() {
         return (Double) get(2);
     }
 
     /**
-     * Setter for <code>distribution_dev.product_type_params.type_id</code>.
+     * Setter for <code>distribution.product_type_params.type_id</code>.
      */
     public void setTypeId(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.product_type_params.type_id</code>.
+     * Getter for <code>distribution.product_type_params.type_id</code>.
      */
     public String getTypeId() {
         return (String) get(3);

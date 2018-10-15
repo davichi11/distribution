@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.DisMemberInfoRecord;
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DisMemberInfo extends TableImpl<DisMemberInfoRecord> {
 
-    private static final long serialVersionUID = 1433050881;
+    private static final long serialVersionUID = -1530827719;
 
     /**
-     * The reference instance of <code>distribution_dev.dis_member_info</code>
+     * The reference instance of <code>distribution.dis_member_info</code>
      */
     public static final DisMemberInfo DIS_MEMBER_INFO = new DisMemberInfo();
 
@@ -54,91 +54,91 @@ public class DisMemberInfo extends TableImpl<DisMemberInfoRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.dis_member_info.id</code>. 主键
+     * The column <code>distribution.dis_member_info.id</code>. 主键
      */
     public final TableField<DisMemberInfoRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "主键");
 
     /**
-     * The column <code>distribution_dev.dis_member_info.dis_platform_id</code>. 工号
+     * The column <code>distribution.dis_member_info.dis_platform_id</code>. 工号
      */
     public final TableField<DisMemberInfoRecord, Long> DIS_PLATFORM_ID = createField("dis_platform_id", org.jooq.impl.SQLDataType.BIGINT, this, "工号");
 
     /**
-     * The column <code>distribution_dev.dis_member_info.dis_user_id</code>. 用户id
+     * The column <code>distribution.dis_member_info.dis_user_id</code>. 用户id
      */
     public final TableField<DisMemberInfoRecord, String> DIS_USER_ID = createField("dis_user_id", org.jooq.impl.SQLDataType.VARCHAR(100), this, "用户id");
 
     /**
-     * The column <code>distribution_dev.dis_member_info.dis_model_id</code>. 上级id
+     * The column <code>distribution.dis_member_info.dis_model_id</code>. 上级id
      */
     public final TableField<DisMemberInfoRecord, String> DIS_MODEL_ID = createField("dis_model_id", org.jooq.impl.SQLDataType.VARCHAR(100), this, "上级id");
 
     /**
-     * The column <code>distribution_dev.dis_member_info.dis_full_index</code>. 全路径
+     * The column <code>distribution.dis_member_info.dis_full_index</code>. 全路径
      */
     public final TableField<DisMemberInfoRecord, String> DIS_FULL_INDEX = createField("dis_full_index", org.jooq.impl.SQLDataType.VARCHAR(100), this, "全路径");
 
     /**
-     * The column <code>distribution_dev.dis_member_info.dis_user_name</code>.
+     * The column <code>distribution.dis_member_info.dis_user_name</code>.
      */
     public final TableField<DisMemberInfoRecord, String> DIS_USER_NAME = createField("dis_user_name", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution_dev.dis_member_info.dis_level</code>. 级别
+     * The column <code>distribution.dis_member_info.dis_level</code>. 级别
      */
     public final TableField<DisMemberInfoRecord, Integer> DIS_LEVEL = createField("dis_level", org.jooq.impl.SQLDataType.INTEGER, this, "级别");
 
     /**
-     * The column <code>distribution_dev.dis_member_info.dis_user_type</code>. 身份类型(0 非会员 1会员)
+     * The column <code>distribution.dis_member_info.dis_user_type</code>. 身份类型(0 非会员 1会员)
      */
     public final TableField<DisMemberInfoRecord, String> DIS_USER_TYPE = createField("dis_user_type", org.jooq.impl.SQLDataType.VARCHAR(10).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.VARCHAR)), this, "身份类型(0 非会员 1会员)");
 
     /**
-     * The column <code>distribution_dev.dis_member_info.dis_user_id_code</code>. 身份证号
+     * The column <code>distribution.dis_member_info.dis_user_id_code</code>. 身份证号
      */
     public final TableField<DisMemberInfoRecord, String> DIS_USER_ID_CODE = createField("dis_user_id_code", org.jooq.impl.SQLDataType.VARCHAR(18).nullable(false), this, "身份证号");
 
     /**
-     * The column <code>distribution_dev.dis_member_info.dis_note</code>. 备注
+     * The column <code>distribution.dis_member_info.dis_note</code>. 备注
      */
     public final TableField<DisMemberInfoRecord, String> DIS_NOTE = createField("dis_note", org.jooq.impl.SQLDataType.VARCHAR(100), this, "备注");
 
     /**
-     * The column <code>distribution_dev.dis_member_info.add_time</code>. 添加时间
+     * The column <code>distribution.dis_member_info.add_time</code>. 添加时间
      */
     public final TableField<DisMemberInfoRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "添加时间");
 
     /**
-     * The column <code>distribution_dev.dis_member_info.update_time</code>. 更新时间
+     * The column <code>distribution.dis_member_info.update_time</code>. 更新时间
      */
     public final TableField<DisMemberInfoRecord, String> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "更新时间");
 
     /**
-     * The column <code>distribution_dev.dis_member_info.is_delete</code>. 删除状态
+     * The column <code>distribution.dis_member_info.is_delete</code>. 删除状态
      */
     public final TableField<DisMemberInfoRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.VARCHAR(1).defaultValue(org.jooq.impl.DSL.inline("N", org.jooq.impl.SQLDataType.VARCHAR)), this, "删除状态");
 
     /**
-     * The column <code>distribution_dev.dis_member_info.open_id</code>. 微信openID
+     * The column <code>distribution.dis_member_info.open_id</code>. 微信openID
      */
     public final TableField<DisMemberInfoRecord, String> OPEN_ID = createField("open_id", org.jooq.impl.SQLDataType.VARCHAR(32), this, "微信openID");
 
     /**
-     * Create a <code>distribution_dev.dis_member_info</code> table reference
+     * Create a <code>distribution.dis_member_info</code> table reference
      */
     public DisMemberInfo() {
         this(DSL.name("dis_member_info"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.dis_member_info</code> table reference
+     * Create an aliased <code>distribution.dis_member_info</code> table reference
      */
     public DisMemberInfo(String alias) {
         this(DSL.name(alias), DIS_MEMBER_INFO);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.dis_member_info</code> table reference
+     * Create an aliased <code>distribution.dis_member_info</code> table reference
      */
     public DisMemberInfo(Name alias) {
         this(alias, DIS_MEMBER_INFO);
@@ -157,7 +157,7 @@ public class DisMemberInfo extends TableImpl<DisMemberInfoRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**

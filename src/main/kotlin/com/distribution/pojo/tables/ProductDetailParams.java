@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.ProductDetailParamsRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ProductDetailParams extends TableImpl<ProductDetailParamsRecord> {
 
-    private static final long serialVersionUID = -855025318;
+    private static final long serialVersionUID = 1100409856;
 
     /**
-     * The reference instance of <code>distribution_dev.product_detail_params</code>
+     * The reference instance of <code>distribution.product_detail_params</code>
      */
     public static final ProductDetailParams PRODUCT_DETAIL_PARAMS = new ProductDetailParams();
 
@@ -55,41 +55,41 @@ public class ProductDetailParams extends TableImpl<ProductDetailParamsRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.product_detail_params.id</code>.
+     * The column <code>distribution.product_detail_params.id</code>.
      */
     public final TableField<ProductDetailParamsRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution_dev.product_detail_params.detail_id</code>.
+     * The column <code>distribution.product_detail_params.detail_id</code>.
      */
     public final TableField<ProductDetailParamsRecord, String> DETAIL_ID = createField("detail_id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.product_detail_params.level</code>.
+     * The column <code>distribution.product_detail_params.level</code>.
      */
     public final TableField<ProductDetailParamsRecord, Integer> LEVEL = createField("level", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.product_detail_params.buy_back_price</code>.
+     * The column <code>distribution.product_detail_params.buy_back_price</code>.
      */
     public final TableField<ProductDetailParamsRecord, Double> BUY_BACK_PRICE = createField("buy_back_price", org.jooq.impl.SQLDataType.DOUBLE.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.DOUBLE)), this, "");
 
     /**
-     * Create a <code>distribution_dev.product_detail_params</code> table reference
+     * Create a <code>distribution.product_detail_params</code> table reference
      */
     public ProductDetailParams() {
         this(DSL.name("product_detail_params"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.product_detail_params</code> table reference
+     * Create an aliased <code>distribution.product_detail_params</code> table reference
      */
     public ProductDetailParams(String alias) {
         this(DSL.name(alias), PRODUCT_DETAIL_PARAMS);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.product_detail_params</code> table reference
+     * Create an aliased <code>distribution.product_detail_params</code> table reference
      */
     public ProductDetailParams(Name alias) {
         this(alias, PRODUCT_DETAIL_PARAMS);
@@ -108,7 +108,7 @@ public class ProductDetailParams extends TableImpl<ProductDetailParamsRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**
@@ -116,7 +116,7 @@ public class ProductDetailParams extends TableImpl<ProductDetailParamsRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.PRODUCT_DETAIL_PARAMS_PRIMARY);
+        return Arrays.<Index>asList(Indexes.PRODUCT_DETAIL_PARAMS_PRIMARY, Indexes.PRODUCT_DETAIL_PARAMS_PRODUCT_DETAIL_PARAMS_DETAIL_ID_INDEX, Indexes.PRODUCT_DETAIL_PARAMS_PRODUCT_DETAIL_PARAMS_ID_INDEX);
     }
 
     /**

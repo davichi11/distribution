@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.MemeberInfoRecord;
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MemeberInfo extends TableImpl<MemeberInfoRecord> {
 
-    private static final long serialVersionUID = -1559392944;
+    private static final long serialVersionUID = -1861817150;
 
     /**
-     * The reference instance of <code>distribution_dev.memeber_info</code>
+     * The reference instance of <code>distribution.memeber_info</code>
      */
     public static final MemeberInfo MEMEBER_INFO = new MemeberInfo();
 
@@ -54,66 +54,66 @@ public class MemeberInfo extends TableImpl<MemeberInfoRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.memeber_info.id</code>.
+     * The column <code>distribution.memeber_info.id</code>.
      */
     public final TableField<MemeberInfoRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.memeber_info.member_code</code>.
+     * The column <code>distribution.memeber_info.member_code</code>.
      */
     public final TableField<MemeberInfoRecord, String> MEMBER_CODE = createField("member_code", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution_dev.memeber_info.open_id</code>.
+     * The column <code>distribution.memeber_info.open_id</code>.
      */
     public final TableField<MemeberInfoRecord, String> OPEN_ID = createField("open_id", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution_dev.memeber_info.member_name</code>.
+     * The column <code>distribution.memeber_info.member_name</code>.
      */
     public final TableField<MemeberInfoRecord, String> MEMBER_NAME = createField("member_name", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution_dev.memeber_info.member_pwd</code>.
+     * The column <code>distribution.memeber_info.member_pwd</code>.
      */
     public final TableField<MemeberInfoRecord, String> MEMBER_PWD = createField("member_pwd", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution_dev.memeber_info.member_source</code>.
+     * The column <code>distribution.memeber_info.member_source</code>.
      */
     public final TableField<MemeberInfoRecord, String> MEMBER_SOURCE = createField("member_source", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution_dev.memeber_info.is_delete</code>.
+     * The column <code>distribution.memeber_info.is_delete</code>.
      */
     public final TableField<MemeberInfoRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.VARCHAR(1), this, "");
 
     /**
-     * The column <code>distribution_dev.memeber_info.add_time</code>.
+     * The column <code>distribution.memeber_info.add_time</code>.
      */
     public final TableField<MemeberInfoRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution_dev.memeber_info.update_time</code>.
+     * The column <code>distribution.memeber_info.update_time</code>.
      */
     public final TableField<MemeberInfoRecord, String> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * Create a <code>distribution_dev.memeber_info</code> table reference
+     * Create a <code>distribution.memeber_info</code> table reference
      */
     public MemeberInfo() {
         this(DSL.name("memeber_info"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.memeber_info</code> table reference
+     * Create an aliased <code>distribution.memeber_info</code> table reference
      */
     public MemeberInfo(String alias) {
         this(DSL.name(alias), MEMEBER_INFO);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.memeber_info</code> table reference
+     * Create an aliased <code>distribution.memeber_info</code> table reference
      */
     public MemeberInfo(Name alias) {
         this(alias, MEMEBER_INFO);
@@ -132,7 +132,7 @@ public class MemeberInfo extends TableImpl<MemeberInfoRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**

@@ -76,7 +76,7 @@ class ApiCardController {
     @AuthIgnore
     @GetMapping("/cardList")
     @ApiOperation(value = "信用卡列表")
-    fun list(page: String = "0", limit: String = "0"): Result {
+    fun list(@RequestParam(name = "page", defaultValue = "0") page: String = "0", @RequestParam(name = "limit", defaultValue = "10") limit: String = "10"): Result {
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(NumberUtils.toInt(page, 0), NumberUtils.toInt(limit, 0))
                 .doSelectPageInfo<CardInfo> { cardInfoService.queryList(mapOf()) }

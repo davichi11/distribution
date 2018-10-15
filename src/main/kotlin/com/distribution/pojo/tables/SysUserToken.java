@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.SysUserTokenRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysUserToken extends TableImpl<SysUserTokenRecord> {
 
-    private static final long serialVersionUID = 93726167;
+    private static final long serialVersionUID = 877253115;
 
     /**
-     * The reference instance of <code>distribution_dev.sys_user_token</code>
+     * The reference instance of <code>distribution.sys_user_token</code>
      */
     public static final SysUserToken SYS_USER_TOKEN = new SysUserToken();
 
@@ -55,41 +55,41 @@ public class SysUserToken extends TableImpl<SysUserTokenRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.sys_user_token.user_id</code>.
+     * The column <code>distribution.sys_user_token.user_id</code>.
      */
     public final TableField<SysUserTokenRecord, Long> USER_ID = createField("user_id", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.sys_user_token.token</code>. token
+     * The column <code>distribution.sys_user_token.token</code>. token
      */
     public final TableField<SysUserTokenRecord, String> TOKEN = createField("token", org.jooq.impl.SQLDataType.VARCHAR(100).nullable(false), this, "token");
 
     /**
-     * The column <code>distribution_dev.sys_user_token.expire_time</code>. 过期时间
+     * The column <code>distribution.sys_user_token.expire_time</code>. 过期时间
      */
     public final TableField<SysUserTokenRecord, Timestamp> EXPIRE_TIME = createField("expire_time", org.jooq.impl.SQLDataType.TIMESTAMP, this, "过期时间");
 
     /**
-     * The column <code>distribution_dev.sys_user_token.update_time</code>. 更新时间
+     * The column <code>distribution.sys_user_token.update_time</code>. 更新时间
      */
     public final TableField<SysUserTokenRecord, Timestamp> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.TIMESTAMP, this, "更新时间");
 
     /**
-     * Create a <code>distribution_dev.sys_user_token</code> table reference
+     * Create a <code>distribution.sys_user_token</code> table reference
      */
     public SysUserToken() {
         this(DSL.name("sys_user_token"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.sys_user_token</code> table reference
+     * Create an aliased <code>distribution.sys_user_token</code> table reference
      */
     public SysUserToken(String alias) {
         this(DSL.name(alias), SYS_USER_TOKEN);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.sys_user_token</code> table reference
+     * Create an aliased <code>distribution.sys_user_token</code> table reference
      */
     public SysUserToken(Name alias) {
         this(alias, SYS_USER_TOKEN);
@@ -108,7 +108,7 @@ public class SysUserToken extends TableImpl<SysUserTokenRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**

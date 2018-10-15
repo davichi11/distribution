@@ -28,115 +28,115 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysMenuRecord extends UpdatableRecordImpl<SysMenuRecord> implements Record8<Long, Long, String, String, String, Integer, String, Integer> {
 
-    private static final long serialVersionUID = -412944859;
+    private static final long serialVersionUID = 246662545;
 
     /**
-     * Setter for <code>distribution_dev.sys_menu.menu_id</code>.
+     * Setter for <code>distribution.sys_menu.menu_id</code>.
      */
     public void setMenuId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_menu.menu_id</code>.
+     * Getter for <code>distribution.sys_menu.menu_id</code>.
      */
     public Long getMenuId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_menu.parent_id</code>. 父菜单ID，一级菜单为0
+     * Setter for <code>distribution.sys_menu.parent_id</code>. 父菜单ID，一级菜单为0
      */
     public void setParentId(Long value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_menu.parent_id</code>. 父菜单ID，一级菜单为0
+     * Getter for <code>distribution.sys_menu.parent_id</code>. 父菜单ID，一级菜单为0
      */
     public Long getParentId() {
         return (Long) get(1);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_menu.name</code>. 菜单名称
+     * Setter for <code>distribution.sys_menu.name</code>. 菜单名称
      */
     public void setName(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_menu.name</code>. 菜单名称
+     * Getter for <code>distribution.sys_menu.name</code>. 菜单名称
      */
     public String getName() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_menu.url</code>. 菜单URL
+     * Setter for <code>distribution.sys_menu.url</code>. 菜单URL
      */
     public void setUrl(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_menu.url</code>. 菜单URL
+     * Getter for <code>distribution.sys_menu.url</code>. 菜单URL
      */
     public String getUrl() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_menu.perms</code>. 授权(多个用逗号分隔，如：user:list,user:create)
+     * Setter for <code>distribution.sys_menu.perms</code>. 授权(多个用逗号分隔，如：user:list,user:create)
      */
     public void setPerms(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_menu.perms</code>. 授权(多个用逗号分隔，如：user:list,user:create)
+     * Getter for <code>distribution.sys_menu.perms</code>. 授权(多个用逗号分隔，如：user:list,user:create)
      */
     public String getPerms() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_menu.type</code>. 类型   0：目录   1：菜单   2：按钮
+     * Setter for <code>distribution.sys_menu.type</code>. 类型   0：目录   1：菜单   2：按钮
      */
     public void setType(Integer value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_menu.type</code>. 类型   0：目录   1：菜单   2：按钮
+     * Getter for <code>distribution.sys_menu.type</code>. 类型   0：目录   1：菜单   2：按钮
      */
     public Integer getType() {
         return (Integer) get(5);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_menu.icon</code>. 菜单图标
+     * Setter for <code>distribution.sys_menu.icon</code>. 菜单图标
      */
     public void setIcon(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_menu.icon</code>. 菜单图标
+     * Getter for <code>distribution.sys_menu.icon</code>. 菜单图标
      */
     public String getIcon() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_menu.order_num</code>. 排序
+     * Setter for <code>distribution.sys_menu.order_num</code>. 排序
      */
     public void setOrderNum(Integer value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_menu.order_num</code>. 排序
+     * Getter for <code>distribution.sys_menu.order_num</code>. 排序
      */
     public Integer getOrderNum() {
         return (Integer) get(7);

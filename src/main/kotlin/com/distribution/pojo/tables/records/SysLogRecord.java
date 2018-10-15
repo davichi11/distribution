@@ -30,101 +30,101 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysLogRecord extends UpdatableRecordImpl<SysLogRecord> implements Record7<Long, String, String, String, String, String, Timestamp> {
 
-    private static final long serialVersionUID = -233033878;
+    private static final long serialVersionUID = 673609898;
 
     /**
-     * Setter for <code>distribution_dev.sys_log.id</code>.
+     * Setter for <code>distribution.sys_log.id</code>.
      */
     public void setId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_log.id</code>.
+     * Getter for <code>distribution.sys_log.id</code>.
      */
     public Long getId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_log.username</code>. 用户名
+     * Setter for <code>distribution.sys_log.username</code>. 用户名
      */
     public void setUsername(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_log.username</code>. 用户名
+     * Getter for <code>distribution.sys_log.username</code>. 用户名
      */
     public String getUsername() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_log.operation</code>. 用户操作
+     * Setter for <code>distribution.sys_log.operation</code>. 用户操作
      */
     public void setOperation(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_log.operation</code>. 用户操作
+     * Getter for <code>distribution.sys_log.operation</code>. 用户操作
      */
     public String getOperation() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_log.method</code>. 请求方法
+     * Setter for <code>distribution.sys_log.method</code>. 请求方法
      */
     public void setMethod(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_log.method</code>. 请求方法
+     * Getter for <code>distribution.sys_log.method</code>. 请求方法
      */
     public String getMethod() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_log.params</code>. 请求参数
+     * Setter for <code>distribution.sys_log.params</code>. 请求参数
      */
     public void setParams(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_log.params</code>. 请求参数
+     * Getter for <code>distribution.sys_log.params</code>. 请求参数
      */
     public String getParams() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_log.ip</code>. IP地址
+     * Setter for <code>distribution.sys_log.ip</code>. IP地址
      */
     public void setIp(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_log.ip</code>. IP地址
+     * Getter for <code>distribution.sys_log.ip</code>. IP地址
      */
     public String getIp() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_log.create_date</code>. 创建时间
+     * Setter for <code>distribution.sys_log.create_date</code>. 创建时间
      */
     public void setCreateDate(Timestamp value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_log.create_date</code>. 创建时间
+     * Getter for <code>distribution.sys_log.create_date</code>. 创建时间
      */
     public Timestamp getCreateDate() {
         return (Timestamp) get(6);

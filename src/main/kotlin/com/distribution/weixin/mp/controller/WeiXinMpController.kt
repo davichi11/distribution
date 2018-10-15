@@ -73,7 +73,7 @@ class WeiXinMpController {
     @Value("\${risk.url}")
     private lateinit var url: String
     @Value("\${wechat.url}")
-    private lateinit var weixinUrl:String
+    private lateinit var weixinUrl: String
     @Value("\${risk.return-url}")
     private lateinit var returnUrl: String
 
@@ -273,13 +273,13 @@ class WeiXinMpController {
     @AuthIgnore
     @GetMapping("/weixin/jsConfig")
     @ResponseBody
-    fun jsConfig(url: String): Result? {
-        try {
-            return Result().ok().put("config", wxMpService.createJsapiSignature(url))
+    fun jsConfig(url: String): Result {
+        return try {
+            Result().ok().put("config", wxMpService.createJsapiSignature(url))
         } catch (e: WxErrorException) {
-            e.printStackTrace()
+            log.error("生成jssdk对应配置异常", e)
+            Result().error(msg = "生成jssdk对应配置异常")
         }
 
-        return null
     }
 }

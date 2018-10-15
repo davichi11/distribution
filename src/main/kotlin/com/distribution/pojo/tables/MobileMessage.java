@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.MobileMessageRecord;
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MobileMessage extends TableImpl<MobileMessageRecord> {
 
-    private static final long serialVersionUID = 1261232273;
+    private static final long serialVersionUID = -2055836189;
 
     /**
-     * The reference instance of <code>distribution_dev.mobile_message</code>
+     * The reference instance of <code>distribution.mobile_message</code>
      */
     public static final MobileMessage MOBILE_MESSAGE = new MobileMessage();
 
@@ -54,61 +54,61 @@ public class MobileMessage extends TableImpl<MobileMessageRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.mobile_message.id</code>.
+     * The column <code>distribution.mobile_message.id</code>.
      */
     public final TableField<MobileMessageRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.mobile_message.mobile</code>.
+     * The column <code>distribution.mobile_message.mobile</code>.
      */
     public final TableField<MobileMessageRecord, String> MOBILE = createField("mobile", org.jooq.impl.SQLDataType.VARCHAR(12), this, "");
 
     /**
-     * The column <code>distribution_dev.mobile_message.code</code>.
+     * The column <code>distribution.mobile_message.code</code>.
      */
     public final TableField<MobileMessageRecord, String> CODE = createField("code", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution_dev.mobile_message.send_time</code>.
+     * The column <code>distribution.mobile_message.send_time</code>.
      */
     public final TableField<MobileMessageRecord, String> SEND_TIME = createField("send_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution_dev.mobile_message.count</code>.
+     * The column <code>distribution.mobile_message.count</code>.
      */
     public final TableField<MobileMessageRecord, Integer> COUNT = createField("count", org.jooq.impl.SQLDataType.INTEGER, this, "");
 
     /**
-     * The column <code>distribution_dev.mobile_message.add_time</code>.
+     * The column <code>distribution.mobile_message.add_time</code>.
      */
     public final TableField<MobileMessageRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
-     * The column <code>distribution_dev.mobile_message.is_delete</code>.
+     * The column <code>distribution.mobile_message.is_delete</code>.
      */
     public final TableField<MobileMessageRecord, String> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * The column <code>distribution_dev.mobile_message.update_time</code>.
+     * The column <code>distribution.mobile_message.update_time</code>.
      */
     public final TableField<MobileMessageRecord, String> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
-     * Create a <code>distribution_dev.mobile_message</code> table reference
+     * Create a <code>distribution.mobile_message</code> table reference
      */
     public MobileMessage() {
         this(DSL.name("mobile_message"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.mobile_message</code> table reference
+     * Create an aliased <code>distribution.mobile_message</code> table reference
      */
     public MobileMessage(String alias) {
         this(DSL.name(alias), MOBILE_MESSAGE);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.mobile_message</code> table reference
+     * Create an aliased <code>distribution.mobile_message</code> table reference
      */
     public MobileMessage(Name alias) {
         this(alias, MOBILE_MESSAGE);
@@ -127,7 +127,7 @@ public class MobileMessage extends TableImpl<MobileMessageRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**

@@ -29,101 +29,101 @@ import org.jooq.impl.TableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class OrderHistoryRecord extends TableRecordImpl<OrderHistoryRecord> implements Record7<String, String, String, Double, Integer, Timestamp, Timestamp> {
 
-    private static final long serialVersionUID = -1819718358;
+    private static final long serialVersionUID = -1134252802;
 
     /**
-     * Setter for <code>distribution_dev.order_history.order_id</code>. 订单号
+     * Setter for <code>distribution.order_history.order_id</code>. 订单号
      */
     public void setOrderId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.order_history.order_id</code>. 订单号
+     * Getter for <code>distribution.order_history.order_id</code>. 订单号
      */
     public String getOrderId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution_dev.order_history.mobile</code>. 交易手机号
+     * Setter for <code>distribution.order_history.mobile</code>. 交易手机号
      */
     public void setMobile(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.order_history.mobile</code>. 交易手机号
+     * Getter for <code>distribution.order_history.mobile</code>. 交易手机号
      */
     public String getMobile() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution_dev.order_history.account</code>. 交易账号 支付宝账号
+     * Setter for <code>distribution.order_history.account</code>. 交易账号 支付宝账号
      */
     public void setAccount(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.order_history.account</code>. 交易账号 支付宝账号
+     * Getter for <code>distribution.order_history.account</code>. 交易账号 支付宝账号
      */
     public String getAccount() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution_dev.order_history.amount</code>. 订单金额
+     * Setter for <code>distribution.order_history.amount</code>. 订单金额
      */
     public void setAmount(Double value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.order_history.amount</code>. 订单金额
+     * Getter for <code>distribution.order_history.amount</code>. 订单金额
      */
     public Double getAmount() {
         return (Double) get(3);
     }
 
     /**
-     * Setter for <code>distribution_dev.order_history.order_status</code>. 订单状态 0:失败,1:成功,2:未支付
+     * Setter for <code>distribution.order_history.order_status</code>. 订单状态 0:失败,1:成功,2:未支付
      */
     public void setOrderStatus(Integer value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.order_history.order_status</code>. 订单状态 0:失败,1:成功,2:未支付
+     * Getter for <code>distribution.order_history.order_status</code>. 订单状态 0:失败,1:成功,2:未支付
      */
     public Integer getOrderStatus() {
         return (Integer) get(4);
     }
 
     /**
-     * Setter for <code>distribution_dev.order_history.add_time</code>.
+     * Setter for <code>distribution.order_history.add_time</code>.
      */
     public void setAddTime(Timestamp value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.order_history.add_time</code>.
+     * Getter for <code>distribution.order_history.add_time</code>.
      */
     public Timestamp getAddTime() {
         return (Timestamp) get(5);
     }
 
     /**
-     * Setter for <code>distribution_dev.order_history.finish_time</code>. 订单完成时间,支付成功时间
+     * Setter for <code>distribution.order_history.finish_time</code>. 订单完成时间,支付成功时间
      */
     public void setFinishTime(Timestamp value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.order_history.finish_time</code>. 订单完成时间,支付成功时间
+     * Getter for <code>distribution.order_history.finish_time</code>. 订单完成时间,支付成功时间
      */
     public Timestamp getFinishTime() {
         return (Timestamp) get(6);

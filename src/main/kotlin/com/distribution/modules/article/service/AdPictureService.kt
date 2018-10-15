@@ -1,6 +1,10 @@
 package com.distribution.modules.article.service
 
+import com.alicp.jetcache.anno.CacheType
+import com.alicp.jetcache.anno.CacheUpdate
+import com.alicp.jetcache.anno.Cached
 import com.distribution.modules.article.entity.AdPictureEntity
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -22,12 +26,14 @@ interface AdPictureService {
      * @param map
      * @return
      */
+    @Cached(name = "AdPictureService.list",localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryList(map: Map<String, Any>): List<AdPictureEntity>
 
     /**
      * 保存
      * @throws Exception
      */
+    @CacheUpdate(name = "AdPictureService.list",key = "#adPicture.id",value = "#adPicture")
     @Throws(Exception::class)
     fun save(adPicture: AdPictureEntity)
 
@@ -35,6 +41,7 @@ interface AdPictureService {
      * 更新
      * @throws Exception
      */
+    @CacheUpdate(name = "AdPictureService.list",key = "#adPicture.id",value = "#adPicture")
     @Throws(Exception::class)
     fun update(adPicture: AdPictureEntity)
 

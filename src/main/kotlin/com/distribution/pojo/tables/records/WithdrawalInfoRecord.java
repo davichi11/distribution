@@ -30,185 +30,185 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class WithdrawalInfoRecord extends UpdatableRecordImpl<WithdrawalInfoRecord> implements Record13<String, String, String, String, String, String, BigDecimal, BigDecimal, BigDecimal, String, String, String, String> {
 
-    private static final long serialVersionUID = -1500948799;
+    private static final long serialVersionUID = 1107640165;
 
     /**
-     * Setter for <code>distribution_dev.withdrawal_info.id</code>.
+     * Setter for <code>distribution.withdrawal_info.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.withdrawal_info.id</code>.
+     * Getter for <code>distribution.withdrawal_info.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution_dev.withdrawal_info.withdraw_num</code>. 提现订单号
+     * Setter for <code>distribution.withdrawal_info.withdraw_num</code>. 提现订单号
      */
     public void setWithdrawNum(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.withdrawal_info.withdraw_num</code>. 提现订单号
+     * Getter for <code>distribution.withdrawal_info.withdraw_num</code>. 提现订单号
      */
     public String getWithdrawNum() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution_dev.withdrawal_info.withdraw_type</code>. 提现状态 0:失败,1:成功
+     * Setter for <code>distribution.withdrawal_info.withdraw_type</code>. 提现状态 0:失败,1:成功
      */
     public void setWithdrawType(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.withdrawal_info.withdraw_type</code>. 提现状态 0:失败,1:成功
+     * Getter for <code>distribution.withdrawal_info.withdraw_type</code>. 提现状态 0:失败,1:成功
      */
     public String getWithdrawType() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution_dev.withdrawal_info.withdraw_name</code>. 提现用户名
+     * Setter for <code>distribution.withdrawal_info.withdraw_name</code>. 提现用户名
      */
     public void setWithdrawName(String value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.withdrawal_info.withdraw_name</code>. 提现用户名
+     * Getter for <code>distribution.withdrawal_info.withdraw_name</code>. 提现用户名
      */
     public String getWithdrawName() {
         return (String) get(3);
     }
 
     /**
-     * Setter for <code>distribution_dev.withdrawal_info.withdraw_mobile</code>. 提现用户手机号
+     * Setter for <code>distribution.withdrawal_info.withdraw_mobile</code>. 提现用户手机号
      */
     public void setWithdrawMobile(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.withdrawal_info.withdraw_mobile</code>. 提现用户手机号
+     * Getter for <code>distribution.withdrawal_info.withdraw_mobile</code>. 提现用户手机号
      */
     public String getWithdrawMobile() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution_dev.withdrawal_info.withdraw_card</code>.
+     * Setter for <code>distribution.withdrawal_info.withdraw_card</code>.
      */
     public void setWithdrawCard(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.withdrawal_info.withdraw_card</code>.
+     * Getter for <code>distribution.withdrawal_info.withdraw_card</code>.
      */
     public String getWithdrawCard() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution_dev.withdrawal_info.withdraw_amount</code>. 提现金额
+     * Setter for <code>distribution.withdrawal_info.withdraw_amount</code>. 提现金额
      */
     public void setWithdrawAmount(BigDecimal value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.withdrawal_info.withdraw_amount</code>. 提现金额
+     * Getter for <code>distribution.withdrawal_info.withdraw_amount</code>. 提现金额
      */
     public BigDecimal getWithdrawAmount() {
         return (BigDecimal) get(6);
     }
 
     /**
-     * Setter for <code>distribution_dev.withdrawal_info.withdraw_poundage</code>. 提现手续费 默认0
+     * Setter for <code>distribution.withdrawal_info.withdraw_poundage</code>. 提现手续费 默认0
      */
     public void setWithdrawPoundage(BigDecimal value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.withdrawal_info.withdraw_poundage</code>. 提现手续费 默认0
+     * Getter for <code>distribution.withdrawal_info.withdraw_poundage</code>. 提现手续费 默认0
      */
     public BigDecimal getWithdrawPoundage() {
         return (BigDecimal) get(7);
     }
 
     /**
-     * Setter for <code>distribution_dev.withdrawal_info.real_amount</code>. 实际到账金额
+     * Setter for <code>distribution.withdrawal_info.real_amount</code>. 实际到账金额
      */
     public void setRealAmount(BigDecimal value) {
         set(8, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.withdrawal_info.real_amount</code>. 实际到账金额
+     * Getter for <code>distribution.withdrawal_info.real_amount</code>. 实际到账金额
      */
     public BigDecimal getRealAmount() {
         return (BigDecimal) get(8);
     }
 
     /**
-     * Setter for <code>distribution_dev.withdrawal_info.alipay_account</code>. 支付宝账号
+     * Setter for <code>distribution.withdrawal_info.alipay_account</code>. 支付宝账号
      */
     public void setAlipayAccount(String value) {
         set(9, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.withdrawal_info.alipay_account</code>. 支付宝账号
+     * Getter for <code>distribution.withdrawal_info.alipay_account</code>. 支付宝账号
      */
     public String getAlipayAccount() {
         return (String) get(9);
     }
 
     /**
-     * Setter for <code>distribution_dev.withdrawal_info.is_delete</code>.
+     * Setter for <code>distribution.withdrawal_info.is_delete</code>.
      */
     public void setIsDelete(String value) {
         set(10, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.withdrawal_info.is_delete</code>.
+     * Getter for <code>distribution.withdrawal_info.is_delete</code>.
      */
     public String getIsDelete() {
         return (String) get(10);
     }
 
     /**
-     * Setter for <code>distribution_dev.withdrawal_info.add_time</code>.
+     * Setter for <code>distribution.withdrawal_info.add_time</code>.
      */
     public void setAddTime(String value) {
         set(11, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.withdrawal_info.add_time</code>.
+     * Getter for <code>distribution.withdrawal_info.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(11);
     }
 
     /**
-     * Setter for <code>distribution_dev.withdrawal_info.update_time</code>.
+     * Setter for <code>distribution.withdrawal_info.update_time</code>.
      */
     public void setUpdateTime(String value) {
         set(12, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.withdrawal_info.update_time</code>.
+     * Getter for <code>distribution.withdrawal_info.update_time</code>.
      */
     public String getUpdateTime() {
         return (String) get(12);

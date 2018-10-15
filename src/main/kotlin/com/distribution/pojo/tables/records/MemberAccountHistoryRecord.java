@@ -30,115 +30,115 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MemberAccountHistoryRecord extends UpdatableRecordImpl<MemberAccountHistoryRecord> implements Record8<String, Integer, String, BigDecimal, String, String, String, String> {
 
-    private static final long serialVersionUID = -655817509;
+    private static final long serialVersionUID = 95860591;
 
     /**
-     * Setter for <code>distribution_dev.member_account_history.id</code>.
+     * Setter for <code>distribution.member_account_history.id</code>.
      */
     public void setId(String value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.member_account_history.id</code>.
+     * Getter for <code>distribution.member_account_history.id</code>.
      */
     public String getId() {
         return (String) get(0);
     }
 
     /**
-     * Setter for <code>distribution_dev.member_account_history.his_type</code>. 收入类型，0:支出,1:收入
+     * Setter for <code>distribution.member_account_history.his_type</code>. 收入类型，0:支出,1:收入
      */
     public void setHisType(Integer value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.member_account_history.his_type</code>. 收入类型，0:支出,1:收入
+     * Getter for <code>distribution.member_account_history.his_type</code>. 收入类型，0:支出,1:收入
      */
     public Integer getHisType() {
         return (Integer) get(1);
     }
 
     /**
-     * Setter for <code>distribution_dev.member_account_history.account_id</code>. 关联的订单ID
+     * Setter for <code>distribution.member_account_history.account_id</code>. 关联的订单ID
      */
     public void setAccountId(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.member_account_history.account_id</code>. 关联的订单ID
+     * Getter for <code>distribution.member_account_history.account_id</code>. 关联的订单ID
      */
     public String getAccountId() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution_dev.member_account_history.his_amount</code>.
+     * Setter for <code>distribution.member_account_history.his_amount</code>.
      */
     public void setHisAmount(BigDecimal value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.member_account_history.his_amount</code>.
+     * Getter for <code>distribution.member_account_history.his_amount</code>.
      */
     public BigDecimal getHisAmount() {
         return (BigDecimal) get(3);
     }
 
     /**
-     * Setter for <code>distribution_dev.member_account_history.his_note</code>.
+     * Setter for <code>distribution.member_account_history.his_note</code>.
      */
     public void setHisNote(String value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.member_account_history.his_note</code>.
+     * Getter for <code>distribution.member_account_history.his_note</code>.
      */
     public String getHisNote() {
         return (String) get(4);
     }
 
     /**
-     * Setter for <code>distribution_dev.member_account_history.is_delete</code>.
+     * Setter for <code>distribution.member_account_history.is_delete</code>.
      */
     public void setIsDelete(String value) {
         set(5, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.member_account_history.is_delete</code>.
+     * Getter for <code>distribution.member_account_history.is_delete</code>.
      */
     public String getIsDelete() {
         return (String) get(5);
     }
 
     /**
-     * Setter for <code>distribution_dev.member_account_history.add_time</code>.
+     * Setter for <code>distribution.member_account_history.add_time</code>.
      */
     public void setAddTime(String value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.member_account_history.add_time</code>.
+     * Getter for <code>distribution.member_account_history.add_time</code>.
      */
     public String getAddTime() {
         return (String) get(6);
     }
 
     /**
-     * Setter for <code>distribution_dev.member_account_history.update_time</code>.
+     * Setter for <code>distribution.member_account_history.update_time</code>.
      */
     public void setUpdateTime(String value) {
         set(7, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.member_account_history.update_time</code>.
+     * Getter for <code>distribution.member_account_history.update_time</code>.
      */
     public String getUpdateTime() {
         return (String) get(7);

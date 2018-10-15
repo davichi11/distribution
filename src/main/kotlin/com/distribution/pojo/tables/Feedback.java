@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.FeedbackRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Feedback extends TableImpl<FeedbackRecord> {
 
-    private static final long serialVersionUID = 1153471799;
+    private static final long serialVersionUID = 972206819;
 
     /**
-     * The reference instance of <code>distribution_dev.feedback</code>
+     * The reference instance of <code>distribution.feedback</code>
      */
     public static final Feedback FEEDBACK = new Feedback();
 
@@ -55,51 +55,51 @@ public class Feedback extends TableImpl<FeedbackRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.feedback.id</code>.
+     * The column <code>distribution.feedback.id</code>.
      */
     public final TableField<FeedbackRecord, Long> ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution_dev.feedback.member_id</code>. 会员id
+     * The column <code>distribution.feedback.member_id</code>. 会员id
      */
     public final TableField<FeedbackRecord, String> MEMBER_ID = createField("member_id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "会员id");
 
     /**
-     * The column <code>distribution_dev.feedback.title</code>. 反馈标题
+     * The column <code>distribution.feedback.title</code>. 反馈标题
      */
     public final TableField<FeedbackRecord, String> TITLE = createField("title", org.jooq.impl.SQLDataType.VARCHAR(200).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "反馈标题");
 
     /**
-     * The column <code>distribution_dev.feedback.content</code>. 反馈内容
+     * The column <code>distribution.feedback.content</code>. 反馈内容
      */
     public final TableField<FeedbackRecord, String> CONTENT = createField("content", org.jooq.impl.SQLDataType.VARCHAR(1000).nullable(false).defaultValue(org.jooq.impl.DSL.inline("", org.jooq.impl.SQLDataType.VARCHAR)), this, "反馈内容");
 
     /**
-     * The column <code>distribution_dev.feedback.add_time</code>.
+     * The column <code>distribution.feedback.add_time</code>.
      */
     public final TableField<FeedbackRecord, String> ADD_TIME = createField("add_time", org.jooq.impl.SQLDataType.VARCHAR(50).nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.feedback.is_delete</code>. 是否显示 0否 1是
+     * The column <code>distribution.feedback.is_delete</code>. 是否显示 0否 1是
      */
     public final TableField<FeedbackRecord, Integer> IS_DELETE = createField("is_delete", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("1", org.jooq.impl.SQLDataType.INTEGER)), this, "是否显示 0否 1是");
 
     /**
-     * Create a <code>distribution_dev.feedback</code> table reference
+     * Create a <code>distribution.feedback</code> table reference
      */
     public Feedback() {
         this(DSL.name("feedback"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.feedback</code> table reference
+     * Create an aliased <code>distribution.feedback</code> table reference
      */
     public Feedback(String alias) {
         this(DSL.name(alias), FEEDBACK);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.feedback</code> table reference
+     * Create an aliased <code>distribution.feedback</code> table reference
      */
     public Feedback(Name alias) {
         this(alias, FEEDBACK);
@@ -118,7 +118,7 @@ public class Feedback extends TableImpl<FeedbackRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**

@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.DisFansRecord;
@@ -38,10 +38,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DisFans extends TableImpl<DisFansRecord> {
 
-    private static final long serialVersionUID = -2037353434;
+    private static final long serialVersionUID = -1269078558;
 
     /**
-     * The reference instance of <code>distribution_dev.dis_fans</code>
+     * The reference instance of <code>distribution.dis_fans</code>
      */
     public static final DisFans DIS_FANS = new DisFans();
 
@@ -54,51 +54,51 @@ public class DisFans extends TableImpl<DisFansRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.dis_fans.id</code>.
+     * The column <code>distribution.dis_fans.id</code>.
      */
     public final TableField<DisFansRecord, String> ID = createField("id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "");
 
     /**
-     * The column <code>distribution_dev.dis_fans.member_id</code>. 关联的推荐人ID
+     * The column <code>distribution.dis_fans.member_id</code>. 关联的推荐人ID
      */
     public final TableField<DisFansRecord, String> MEMBER_ID = createField("member_id", org.jooq.impl.SQLDataType.VARCHAR(32), this, "关联的推荐人ID");
 
     /**
-     * The column <code>distribution_dev.dis_fans.wechat_id</code>. 微信ID
+     * The column <code>distribution.dis_fans.wechat_id</code>. 微信ID
      */
     public final TableField<DisFansRecord, String> WECHAT_ID = createField("wechat_id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "微信ID");
 
     /**
-     * The column <code>distribution_dev.dis_fans.wechat_img</code>. 微信头像
+     * The column <code>distribution.dis_fans.wechat_img</code>. 微信头像
      */
     public final TableField<DisFansRecord, String> WECHAT_IMG = createField("wechat_img", org.jooq.impl.SQLDataType.VARCHAR(250), this, "微信头像");
 
     /**
-     * The column <code>distribution_dev.dis_fans.wechat_nickname</code>. 微信昵称
+     * The column <code>distribution.dis_fans.wechat_nickname</code>. 微信昵称
      */
     public final TableField<DisFansRecord, String> WECHAT_NICKNAME = createField("wechat_nickname", org.jooq.impl.SQLDataType.VARCHAR(200), this, "微信昵称");
 
     /**
-     * The column <code>distribution_dev.dis_fans.worker_id</code>. 工号
+     * The column <code>distribution.dis_fans.worker_id</code>. 工号
      */
     public final TableField<DisFansRecord, Long> WORKER_ID = createField("worker_id", org.jooq.impl.SQLDataType.BIGINT.nullable(false), this, "工号");
 
     /**
-     * Create a <code>distribution_dev.dis_fans</code> table reference
+     * Create a <code>distribution.dis_fans</code> table reference
      */
     public DisFans() {
         this(DSL.name("dis_fans"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.dis_fans</code> table reference
+     * Create an aliased <code>distribution.dis_fans</code> table reference
      */
     public DisFans(String alias) {
         this(DSL.name(alias), DIS_FANS);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.dis_fans</code> table reference
+     * Create an aliased <code>distribution.dis_fans</code> table reference
      */
     public DisFans(Name alias) {
         this(alias, DIS_FANS);
@@ -117,7 +117,7 @@ public class DisFans extends TableImpl<DisFansRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**

@@ -4,7 +4,7 @@
 package com.distribution.pojo.tables;
 
 
-import com.distribution.pojo.DistributionDev;
+import com.distribution.pojo.Distribution;
 import com.distribution.pojo.Indexes;
 import com.distribution.pojo.Keys;
 import com.distribution.pojo.tables.records.IntegralTutorialRecord;
@@ -39,10 +39,10 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class IntegralTutorial extends TableImpl<IntegralTutorialRecord> {
 
-    private static final long serialVersionUID = -576248784;
+    private static final long serialVersionUID = 117504521;
 
     /**
-     * The reference instance of <code>distribution_dev.integral_tutorial</code>
+     * The reference instance of <code>distribution.integral_tutorial</code>
      */
     public static final IntegralTutorial INTEGRAL_TUTORIAL = new IntegralTutorial();
 
@@ -55,46 +55,46 @@ public class IntegralTutorial extends TableImpl<IntegralTutorialRecord> {
     }
 
     /**
-     * The column <code>distribution_dev.integral_tutorial.id</code>.
+     * The column <code>distribution.integral_tutorial.id</code>.
      */
     public final TableField<IntegralTutorialRecord, Integer> ID = createField("id", org.jooq.impl.SQLDataType.INTEGER.nullable(false).identity(true), this, "");
 
     /**
-     * The column <code>distribution_dev.integral_tutorial.type_id</code>. 产品类型ID
+     * The column <code>distribution.integral_tutorial.type_id</code>. 产品类型ID
      */
     public final TableField<IntegralTutorialRecord, String> TYPE_ID = createField("type_id", org.jooq.impl.SQLDataType.VARCHAR(32).nullable(false), this, "产品类型ID");
 
     /**
-     * The column <code>distribution_dev.integral_tutorial.step</code>. 步骤
+     * The column <code>distribution.integral_tutorial.step</code>. 步骤
      */
     public final TableField<IntegralTutorialRecord, Integer> STEP = createField("step", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "步骤");
 
     /**
-     * The column <code>distribution_dev.integral_tutorial.text_describe</code>. 文字描述
+     * The column <code>distribution.integral_tutorial.text_describe</code>. 文字描述
      */
     public final TableField<IntegralTutorialRecord, String> TEXT_DESCRIBE = createField("text_describe", org.jooq.impl.SQLDataType.VARCHAR(200), this, "文字描述");
 
     /**
-     * The column <code>distribution_dev.integral_tutorial.img_describe</code>. 图片描述
+     * The column <code>distribution.integral_tutorial.img_describe</code>. 图片描述
      */
     public final TableField<IntegralTutorialRecord, String> IMG_DESCRIBE = createField("img_describe", org.jooq.impl.SQLDataType.VARCHAR(500).nullable(false), this, "图片描述");
 
     /**
-     * Create a <code>distribution_dev.integral_tutorial</code> table reference
+     * Create a <code>distribution.integral_tutorial</code> table reference
      */
     public IntegralTutorial() {
         this(DSL.name("integral_tutorial"), null);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.integral_tutorial</code> table reference
+     * Create an aliased <code>distribution.integral_tutorial</code> table reference
      */
     public IntegralTutorial(String alias) {
         this(DSL.name(alias), INTEGRAL_TUTORIAL);
     }
 
     /**
-     * Create an aliased <code>distribution_dev.integral_tutorial</code> table reference
+     * Create an aliased <code>distribution.integral_tutorial</code> table reference
      */
     public IntegralTutorial(Name alias) {
         this(alias, INTEGRAL_TUTORIAL);
@@ -113,7 +113,7 @@ public class IntegralTutorial extends TableImpl<IntegralTutorialRecord> {
      */
     @Override
     public Schema getSchema() {
-        return DistributionDev.DISTRIBUTION_DEV;
+        return Distribution.DISTRIBUTION;
     }
 
     /**
@@ -121,7 +121,7 @@ public class IntegralTutorial extends TableImpl<IntegralTutorialRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.INTEGRAL_TUTORIAL_PRIMARY);
+        return Arrays.<Index>asList(Indexes.INTEGRAL_TUTORIAL_INTEGRAL_TUTORIAL_ID_INDEX, Indexes.INTEGRAL_TUTORIAL_INTEGRAL_TUTORIAL_TYPE_ID_INDEX, Indexes.INTEGRAL_TUTORIAL_PRIMARY);
     }
 
     /**

@@ -30,73 +30,73 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class SysRoleRecord extends UpdatableRecordImpl<SysRoleRecord> implements Record5<Long, String, String, Long, Timestamp> {
 
-    private static final long serialVersionUID = 1116188371;
+    private static final long serialVersionUID = -504293937;
 
     /**
-     * Setter for <code>distribution_dev.sys_role.role_id</code>.
+     * Setter for <code>distribution.sys_role.role_id</code>.
      */
     public void setRoleId(Long value) {
         set(0, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_role.role_id</code>.
+     * Getter for <code>distribution.sys_role.role_id</code>.
      */
     public Long getRoleId() {
         return (Long) get(0);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_role.role_name</code>. 角色名称
+     * Setter for <code>distribution.sys_role.role_name</code>. 角色名称
      */
     public void setRoleName(String value) {
         set(1, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_role.role_name</code>. 角色名称
+     * Getter for <code>distribution.sys_role.role_name</code>. 角色名称
      */
     public String getRoleName() {
         return (String) get(1);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_role.remark</code>. 备注
+     * Setter for <code>distribution.sys_role.remark</code>. 备注
      */
     public void setRemark(String value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_role.remark</code>. 备注
+     * Getter for <code>distribution.sys_role.remark</code>. 备注
      */
     public String getRemark() {
         return (String) get(2);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_role.create_user_id</code>. 创建者ID
+     * Setter for <code>distribution.sys_role.create_user_id</code>. 创建者ID
      */
     public void setCreateUserId(Long value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_role.create_user_id</code>. 创建者ID
+     * Getter for <code>distribution.sys_role.create_user_id</code>. 创建者ID
      */
     public Long getCreateUserId() {
         return (Long) get(3);
     }
 
     /**
-     * Setter for <code>distribution_dev.sys_role.create_time</code>. 创建时间
+     * Setter for <code>distribution.sys_role.create_time</code>. 创建时间
      */
     public void setCreateTime(Timestamp value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>distribution_dev.sys_role.create_time</code>. 创建时间
+     * Getter for <code>distribution.sys_role.create_time</code>. 创建时间
      */
     public Timestamp getCreateTime() {
         return (Timestamp) get(4);

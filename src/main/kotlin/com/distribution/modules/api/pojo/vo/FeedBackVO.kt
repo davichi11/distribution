@@ -1,5 +1,6 @@
 package com.distribution.modules.api.pojo.vo
 
+import io.swagger.annotations.ApiModel
 import java.io.Serializable
 
 /**
@@ -10,6 +11,7 @@ import java.io.Serializable
  * @author ChunLiang Hu
  * @create 2018/8/18-23:03
  */
+@ApiModel(description = "意见反馈")
 data class FeedBackVO(
         /**
          *

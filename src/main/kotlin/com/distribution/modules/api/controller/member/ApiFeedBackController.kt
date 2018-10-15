@@ -57,12 +57,12 @@ class ApiFeedBackController {
         }
         val feedback = FeedbackEntity()
         BeanUtils.copyProperties(feedbackVO, feedback)
-        try {
+        return try {
             feedbackService.save(feedback)
-            return Result().ok()
+            Result().ok()
         } catch (e: Exception) {
             log.error("提交意见反馈异常", e)
-            return Result().error(msg = "提交意见反馈异常")
+            Result().error(msg = "提交意见反馈异常")
         }
     }
 }
