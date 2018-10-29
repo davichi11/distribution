@@ -1,6 +1,7 @@
 package com.distribution.modules.dis.entity
 
 import com.distribution.common.utils.DateUtils
+import java.io.Serializable
 import java.math.BigDecimal
 import java.time.LocalDateTime
 
@@ -12,11 +13,12 @@ import java.time.LocalDateTime
  */
 
 data class DisProfitRecord(
+        private val serialVersionUID: Long = 1L,
         /**  */
         var id: String = "",
 
         /**  */
-        var disPlatformId:String = "1",
+        var disPlatformId: String = "1",
 
 
         /**  */
@@ -53,13 +55,13 @@ data class DisProfitRecord(
 
 
         /**  */
-        var isDelete:String = "1",
+        var isDelete: String = "1",
 
         /**  */
-        var addTime: String =  DateUtils.formatDateTime(LocalDateTime.now()),
+        var addTime: String = DateUtils.formatDateTime(LocalDateTime.now()),
 
 
         /**  */
-        var updateTime: String =  DateUtils.formatDateTime(LocalDateTime.now())
-                                    
-)
+        var updateTime: String = DateUtils.formatDateTime(LocalDateTime.now())
+
+) : Serializable

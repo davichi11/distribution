@@ -4,7 +4,6 @@ package com.distribution.modules.api.interceptor
 import com.distribution.common.exception.RRException
 import com.distribution.modules.api.annotation.AuthIgnore
 import com.distribution.modules.api.config.JWTConfig
-import io.jsonwebtoken.Claims
 import org.apache.commons.lang.StringUtils
 import org.apache.commons.lang.math.NumberUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,11 +11,10 @@ import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Component
 import org.springframework.web.method.HandlerMethod
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
-
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
 import java.time.LocalDateTime
 import java.time.ZoneId
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 /**
  * 权限(Token)验证
@@ -28,10 +26,10 @@ import java.time.ZoneId
 @Component
 class AuthorizationInterceptor : HandlerInterceptorAdapter() {
     @Autowired
-    private val jwtConfig: JWTConfig? = null
+    private lateinit var jwtConfig: JWTConfig
 
     @Throws(Exception::class)
-    override fun preHandle(request: HttpServletRequest?, response: HttpServletResponse?, handler: Any?): Boolean {
+    override fun preHandle(request: HttpServletRequest, response: HttpServletResponse?, handler: Any): Boolean {
         val annotation: AuthIgnore?
         if (handler is HandlerMethod) {
             annotation = handler.getMethodAnnotation(AuthIgnore::class.java)
@@ -45,7 +43,7 @@ class AuthorizationInterceptor : HandlerInterceptorAdapter() {
         }
 
         //从header中获取token,如果header中不存在token，则从参数中获取token
-        val token = if (StringUtils.isBlank(request!!.getHeader(jwtConfig!!.header)))
+        val token = if (StringUtils.isBlank(request.getHeader(jwtConfig.header)))
             request.getParameter(jwtConfig.header)
         else
             request.getHeader(jwtConfig.header)
@@ -57,7 +55,8 @@ class AuthorizationInterceptor : HandlerInterceptorAdapter() {
         }
 
         val claims = jwtConfig.getClaimByToken(token)
-        val localDateTime = LocalDateTime.ofInstant(claims!!.expiration.toInstant(), ZoneId.systemDefault())
+                ?: throw RRException(jwtConfig.header!! + "失效，请重新登录", HttpStatus.UNAUTHORIZED.value())
+        val localDateTime = LocalDateTime.ofInstant(claims.expiration.toInstant(), ZoneId.systemDefault())
         if (jwtConfig.isTokenExpired(localDateTime)) {
             throw RRException(jwtConfig.header!! + "失效，请重新登录", HttpStatus.UNAUTHORIZED.value())
         }
@@ -70,6 +69,6 @@ class AuthorizationInterceptor : HandlerInterceptorAdapter() {
 
     companion object {
 
-        val LOGIN_USER_KEY = "LOGIN_USER_KEY"
+        const val LOGIN_USER_KEY = "LOGIN_USER_KEY"
     }
 }

@@ -1,7 +1,11 @@
 package com.distribution.modules.sys.service
 
 
+import com.alicp.jetcache.anno.CacheType
+import com.alicp.jetcache.anno.CacheUpdate
+import com.alicp.jetcache.anno.Cached
 import com.distribution.modules.sys.entity.SysRoleEntity
+import kotlinx.coroutines.experimental.timeunit.TimeUnit
 
 
 /**
@@ -19,6 +23,7 @@ interface SysRoleService {
      * @param roleId
      * @return
      */
+    @Cached(name = "SysRoleService.queryObject", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryObject(roleId: Long): SysRoleEntity
 
     /**
@@ -27,6 +32,7 @@ interface SysRoleService {
      * @param map
      * @return
      */
+    @Cached(name = "SysRoleService.", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryList(map: Map<String, Any>): List<SysRoleEntity>
 
     /**
@@ -43,6 +49,7 @@ interface SysRoleService {
      * @param role
      * @throws Exception
      */
+    @CacheUpdate(name = "SysMenuService.", key = "#role.id", value = "#role")
     @Throws(Exception::class)
     fun save(role: SysRoleEntity)
 
@@ -52,6 +59,7 @@ interface SysRoleService {
      * @param role
      * @throws Exception
      */
+    @CacheUpdate(name = "SysMenuService.", key = "#role.id", value = "#role")
     @Throws(Exception::class)
     fun update(role: SysRoleEntity)
 

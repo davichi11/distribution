@@ -1,5 +1,10 @@
 package com.distribution.modules.sys.service
 
+import com.alicp.jetcache.anno.CacheType
+import com.alicp.jetcache.anno.CacheUpdate
+import com.alicp.jetcache.anno.Cached
+import kotlinx.coroutines.experimental.timeunit.TimeUnit
+
 
 /**
  * 角色与菜单对应关系
@@ -17,6 +22,7 @@ interface SysRoleMenuService {
      * @param menuIdList
      * @throws Exception
      */
+    @CacheUpdate(name = "SysRoleMenuService.", key = "#id", value = "#roleId")
     @Throws(Exception::class)
     fun saveOrUpdate(roleId: Long?, menuIdList: List<Long>)
 
@@ -26,6 +32,7 @@ interface SysRoleMenuService {
      * @param roleId
      * @return
      */
+    @Cached(name = "SysRoleMenuService.", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryMenuIdList(roleId: Long?): List<Long>
 
 }

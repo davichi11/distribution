@@ -8,12 +8,10 @@ import com.distribution.modules.api.entity.UserEntity
 import com.distribution.modules.oss.cloud.OSSFactory
 import com.distribution.modules.oss.entity.SysOssEntity
 import com.distribution.modules.oss.service.SysOssService
+import com.distribution.modules.sys.entity.SysConfigEntity
 import com.distribution.modules.sys.service.DistrictService
 import com.distribution.modules.sys.service.SysConfigService
-import io.swagger.annotations.Api
-import io.swagger.annotations.ApiImplicitParam
-import io.swagger.annotations.ApiOperation
-import io.swagger.annotations.ApiParam
+import io.swagger.annotations.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
@@ -77,6 +75,22 @@ class ApiCommonController {
         val ios = sysConfigService.getValue("ios", "0")
         return mapOf("ios" to ios)
     }
+
+    @AuthIgnore
+    @PutMapping("/config")
+    @ApiOperation("更新配置信息")
+    @ApiImplicitParams(
+            ApiImplicitParam(dataType = "string", name = "key", paramType = "query"),
+            ApiImplicitParam(dataType = "string", name = "value", paramType = "query")
+    )
+    fun updateConfig(key: String, value: String): Result {
+        val config = SysConfigEntity()
+        config.key = key
+        config.value = value
+        sysConfigService.update(config)
+        return Result().ok()
+    }
+
 
 
     /**

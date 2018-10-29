@@ -1,5 +1,6 @@
 package com.distribution.modules.memeber.entity
 
+import java.io.Serializable
 import java.math.BigDecimal
 import javax.validation.constraints.NotNull
 
@@ -12,6 +13,7 @@ import javax.validation.constraints.NotNull
  */
 
 data class WithdrawalInfo(
+        private val serialVersionUID: Long = 1L,
         var id: String? = null,
 
         var withdrawNum: String? = null,
@@ -34,4 +36,4 @@ data class WithdrawalInfo(
         var isDelete: String? = null,
         var addTime: String? = null,
         var updateTime: String? = null
-)
+) : Serializable

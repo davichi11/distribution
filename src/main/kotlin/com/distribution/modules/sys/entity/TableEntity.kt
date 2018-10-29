@@ -1,5 +1,7 @@
 package com.distribution.modules.sys.entity
 
+import java.io.Serializable
+
 /**
  * @author ChunLiang Hu
  * @Company
@@ -9,7 +11,7 @@ package com.distribution.modules.sys.entity
  * @create 2017/8/13-21:04
  */
 data class TableEntity(
-
+        private val serialVersionUID: Long = 1L,
         /**
          * 表的名称
          */
@@ -35,4 +37,4 @@ data class TableEntity(
          * 类名(第一个字母小写)，如：sys_user => sysUser
          */
         var lowClassName: String = ""
-)
+) : Serializable

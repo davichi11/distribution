@@ -3,6 +3,7 @@ package com.distribution
 import com.alibaba.fastjson.JSON
 import com.distribution.modules.api.pojo.vo.LoanOrderVO
 import com.distribution.modules.api.service.IdCardQueryService
+import com.distribution.modules.sys.service.SysConfigService
 import com.distribution.modules.sys.service.SysUserService
 import com.distribution.pojo.Tables
 import com.distribution.pojo.tables.pojos.DisMemberInfo
@@ -37,6 +38,9 @@ class DistributionApplicationTests {
     lateinit var idCardQueryService: IdCardQueryService
     @Autowired
     lateinit var create: DSLContext
+    @Autowired
+    lateinit var sysConfigService: SysConfigService
+
 
     @Autowired
     lateinit var levelUpSender: LevelUpSender
@@ -97,6 +101,14 @@ class DistributionApplicationTests {
                 .fetchOneInto(DisMemberInfo::class.java)
 
         levelUpSender.send(JSON.toJSONString(disMemberInfo))
+    }
+
+    @Test
+    fun testCacheConfig() {
+        //{"level_1":"568","level_2":"368","level_3":"168"}
+        val value = "123"
+        val key = "level_price"
+        sysConfigService.updateValueByKey(key, value)
     }
 
 }

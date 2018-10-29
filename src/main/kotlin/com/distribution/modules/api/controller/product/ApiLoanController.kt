@@ -21,6 +21,7 @@ import com.github.pagehelper.PageHelper
 import com.google.common.collect.Lists
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
+import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import kotlinx.coroutines.experimental.launch
 import me.chanjar.weixin.common.exception.WxErrorException
@@ -83,10 +84,19 @@ class ApiLoanController {
 
     @GetMapping("/loanOrder/{mobile}")
     @ApiOperation("查询用户贷款订单记录")
-    @ApiImplicitParam(paramType = "patch", dataType = "string", name = "用户手机号", value = "mobile")
-    fun getLoanOrderInfo(@PathVariable("mobile") mobile: String, page: Int = 0, limit: Int = 0, status: Int = 0): Result {
+    @AuthIgnore
+    @ApiImplicitParams(
+            ApiImplicitParam(paramType = "path", dataType = "string", name = "用户手机号", value = "mobile"),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "页数", value = "page"),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "每页数", value = "limit"),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "状态", value = "status")
+    )
+    fun getLoanOrderInfo(@PathVariable("mobile") mobile: String,
+                         @RequestParam(name = "page", defaultValue = "0") page: Int = 0,
+                         @RequestParam(name = "limit", defaultValue = "10") limit: Int = 10,
+                         @RequestParam(name = "status", defaultValue = "0") status: Int = 0): Result {
         val member = disMemberInfoService.queryByMobile(mobile)!!
-        val memberIds = member.disMemberChildren!!.map { it.id }.toMutableList()
+        val memberIds = member.disMemberChildren!!.asSequence().map { it.id }.toMutableList()
         memberIds.add(member.id)
         val param = HashMap<String, Any>()
         param["memberIds"] = memberIds

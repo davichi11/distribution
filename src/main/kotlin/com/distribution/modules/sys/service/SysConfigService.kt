@@ -1,6 +1,10 @@
 package com.distribution.modules.sys.service
 
+import com.alicp.jetcache.anno.CacheType
+import com.alicp.jetcache.anno.CacheUpdate
+import com.alicp.jetcache.anno.Cached
 import com.distribution.modules.sys.entity.SysConfigEntity
+import kotlinx.coroutines.experimental.timeunit.TimeUnit
 
 /**
  * 系统配置信息
@@ -26,6 +30,7 @@ interface SysConfigService {
      * @param config
      * @throws Exception
      */
+    @CacheUpdate(name = "SysConfigService.", key = "#config.key", value = "#config.value")
     @Throws(Exception::class)
     fun update(config: SysConfigEntity)
 
@@ -36,6 +41,7 @@ interface SysConfigService {
      * @param value
      * @throws Exception
      */
+    @CacheUpdate(name = "SysConfigService.*.", key = "#key", value = "#value")
     @Throws(Exception::class)
     fun updateValueByKey(key: String, value: String)
 
@@ -79,16 +85,18 @@ interface SysConfigService {
      * @param defaultValue 缺省值
      * @return
      */
+    @Cached(name = "SysConfigService.", key = "#key", localExpire = 600000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun getValue(key: String, defaultValue: String?): String
 
     /**
-     * * 根据key，获取value的Object对象
+     * 根据key，获取value的Object对象
      *
      * @param key   key
      * @param clazz Object对象
      * @param <T>
-     * @return
-    </T> */
+     * @return T
+     */
+    @Cached(name = "SysConfigService.getConfigObject.", key = "#key", localExpire = 600000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun <T> getConfigObject(key: String, clazz: Class<T>): T
 
 }

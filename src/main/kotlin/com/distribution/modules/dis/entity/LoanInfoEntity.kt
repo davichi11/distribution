@@ -9,6 +9,7 @@ import java.io.Serializable
  * @date 2018-07-06
  */
 data class LoanInfoEntity(
+        private val serialVersionUID: Long = 1L,
         /**
          *
          */
@@ -49,8 +50,4 @@ data class LoanInfoEntity(
         var remark: String = ""
 
 
-) : Serializable {
-    companion object {
-        private const val serialVersionUID = 1L
-    }
-}
+) : Serializable

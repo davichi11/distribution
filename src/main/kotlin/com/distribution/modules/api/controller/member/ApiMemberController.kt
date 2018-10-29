@@ -23,7 +23,6 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
-import org.apache.commons.collections.CollectionUtils
 import org.apache.commons.lang3.StringUtils
 import org.modelmapper.ModelMapper
 import org.slf4j.LoggerFactory
@@ -96,29 +95,28 @@ class ApiMemberController {
         if (StringUtils.isBlank(mobile)) {
             return Result().error(msg = "手机号不能为空")
         }
-        val member = disMemberInfoService.queryByMobile(mobile)
+        val member = disMemberInfoService.queryByMobile(mobile) ?: return Result().error(msg = "没有该用户")
         //查询所有锁粉信息
         val fansParam = HashMap<String, Any>(2)
-        fansParam["memberId"] = member!!.id!!
-        val disFansList = disFansService.queryList(fansParam)!!
-                .map { disFans ->
-                    val memberInfo = disMemberInfoService.queryByOpenId(disFans.wechatId) ?: DisMemberInfoEntity()
-                    getDisMemberVO(disFans, memberInfo)
-                }.filter { vo -> "0" == vo.disUserType }.toList()
+        fansParam["memberId"] = member.id!!
+        val disFansList = disFansService.queryList(fansParam)?.asSequence()?.map { disFans ->
+            val memberInfo = disMemberInfoService.queryByOpenId(disFans.wechatId) ?: DisMemberInfoEntity()
+            getDisMemberVO(disFans, memberInfo)
+        }?.filter { vo -> "0" == vo.disUserType }?.toList() ?: listOf()
 
         //所有代理信息
-        val children = member.disMemberChildren?.filter { m -> "1" == m.disUserType }?.map { memberInfo ->
-            val disFans = Optional.ofNullable(disFansService.queryByOpenId(memberInfo.openId!!)).orElse(DisFans())
+        val children = member.disMemberChildren?.asSequence()?.filter { m -> "1" == m.disUserType }?.map { memberInfo ->
+            val disFans = disFansService.queryByOpenId(memberInfo.openId!!) ?: DisFans()
             memberInfo.userEntity = userService.queryByMemberId(memberInfo.id!!)!!
             getDisMemberVO(disFans, memberInfo)
-        }?.toList()
+        }?.toList() ?: listOf()
 
         //返回数据
         val map = HashMap<String, Any>()
-        map["countFans"] = Optional.ofNullable(disFansList).orElse(ArrayList()).size
+        map["countFans"] = disFansList.size
         map["fansList"] = disFansList
-        map["countChirldern"] = Optional.ofNullable(children).orElse(ArrayList()).size
-        map["children"] = children!!
+        map["countChildren"] = children.size
+        map["children"] = children
         return Result().ok().put("results", map)
     }
 
@@ -157,14 +155,9 @@ class ApiMemberController {
     @GetMapping("/disMember/{mobile}")
     @ApiOperation(value = "查询用户信息")
     fun disMember(@PathVariable("mobile") mobile: String): Result {
-        val map = HashMap<String, Any>(2)
-        map["mobile"] = mobile
-        val disMemberInfoEntities = disMemberInfoService.queryList(map)
-        return if (CollectionUtils.isNotEmpty(disMemberInfoEntities)) {
-            Result().ok().put("disMember", disMemberInfoEntities!![0])
-        } else {
-            Result().error(msg = "没有查询到用户信息")
-        }
+        val member = disMemberInfoService.queryByMobile(mobile) ?: return Result().error(msg = "没有查询到用户信息")
+
+        return Result().ok().put("disMember", member)
     }
 
     @AuthIgnore
@@ -172,11 +165,10 @@ class ApiMemberController {
     @ApiOperation(value = "根据工号查询用户信息")
     fun findByWorkerId(@PathVariable("workerId") workerId: String): Result {
         val disMemberInfoEntity = disMemberInfoService.findByWorkerId(workerId)
-        return if (disMemberInfoEntity?.id == null) {
-            Result().error(msg = "没有该用户信息")
-        } else {
-            Result().ok().put("disMember", disMemberInfoEntity)
-        }
+                ?: return Result().error(msg = "没有该用户信息")
+
+        return Result().ok().put("disMember", disMemberInfoEntity)
+
     }
 
     @ApiOperation(value = "根据token获取用户信息")
@@ -329,9 +321,6 @@ class ApiMemberController {
         }
 
     }
-
-
-
 
 
 }
