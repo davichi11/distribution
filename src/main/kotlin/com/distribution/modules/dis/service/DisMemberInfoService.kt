@@ -4,7 +4,8 @@ import com.alicp.jetcache.anno.CacheType
 import com.alicp.jetcache.anno.CacheUpdate
 import com.alicp.jetcache.anno.Cached
 import com.distribution.modules.dis.entity.DisMemberInfoEntity
-import kotlinx.coroutines.experimental.timeunit.TimeUnit
+import org.springframework.transaction.annotation.Transactional
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -36,7 +37,7 @@ interface DisMemberInfoService {
      * @param mobile
      * @return
      */
-    @Cached(name = "DisMemberInfoService.", key = "#mobile", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
+    @Cached(name = "DisMemberInfoService.", key = "#mobile", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryByMobile(mobile: String): DisMemberInfoEntity?
 
     /**
@@ -62,6 +63,7 @@ interface DisMemberInfoService {
      *
      * @throws Exception
      */
+    @Transactional(rollbackFor = [Exception::class])
     @CacheUpdate(name = "DisMemberInfoService.", key = "#result.userEntity.mobile", value = "#disMemberInfo")
     @Throws(Exception::class)
     fun update(disMemberInfo: DisMemberInfoEntity)

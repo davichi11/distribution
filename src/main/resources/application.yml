@@ -58,8 +58,8 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: admin
-    password: admin
+    username: guest
+    password: guest
     publisher-confirms: true #开启发送确认
     publisher-returns: true #开启发送失败退回
     listener:

@@ -23,7 +23,8 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import me.chanjar.weixin.common.exception.WxErrorException
 import me.chanjar.weixin.mp.api.WxMpService
 import me.chanjar.weixin.mp.bean.result.WxMpUser
@@ -161,7 +162,7 @@ class ApiLoanController {
         if (wxMpUser.openId.isEmpty()) {
             return Result().ok().put("url", url)
         }
-        launch {
+        GlobalScope.launch {
             //发送订单信息提醒
             try {
                 buildTemplateMsg(member.openId, member.disUserName, loanInfo.loanName, weiXinService)

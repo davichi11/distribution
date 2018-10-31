@@ -20,6 +20,7 @@ interface ProductDetailService {
      *
      * @return
      */
+    @Cached(name = "ProductDetailService.", key = "#id", localExpire = 600000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryObject(id: String): ProductDetailEntity
 
     /**
@@ -28,7 +29,6 @@ interface ProductDetailService {
      * @param map
      * @return
      */
-    @Cached(name = "ProductDetailService.ProductDetailList",localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryList(map: Map<String, Any>): List<ProductDetailEntity>
 
     /**
@@ -36,7 +36,6 @@ interface ProductDetailService {
      *
      * @throws Exception
      */
-    @CacheUpdate(name = "ProductDetailService.ProductDetailList",key = "#productDetail.id",value = "#productDetail")
     @Throws(Exception::class)
     fun save(productDetail: ProductDetailEntity)
 
@@ -45,7 +44,7 @@ interface ProductDetailService {
      *
      * @throws Exception
      */
-    @CacheUpdate(name = "ProductDetailService.ProductDetailList",key = "#productDetail.id",value = "#productDetail")
+    @CacheUpdate(name = "ProductDetailService.", key = "#productDetail.id", value = "#productDetail")
     @Throws(Exception::class)
     fun update(productDetail: ProductDetailEntity)
 

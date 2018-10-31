@@ -6,7 +6,7 @@ import com.alicp.jetcache.anno.CacheType
 import com.alicp.jetcache.anno.CacheUpdate
 import com.alicp.jetcache.anno.Cached
 import com.distribution.modules.sys.entity.SysUserEntity
-import kotlinx.coroutines.experimental.timeunit.TimeUnit
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -24,7 +24,7 @@ interface SysUserService {
      * @param userId 用户ID
      * @return
      */
-    @Cached(name = "SysUserService.queryAllPerms", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
+    @Cached(name = "SysUserService.queryAllPerms", key = "#userId", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryAllPerms(userId: Long): List<String>
 
     /**
@@ -33,7 +33,7 @@ interface SysUserService {
      * @param userId
      * @return
      */
-    @Cached(name = "SysUserService.queryAllMenuId", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
+    @Cached(name = "SysUserService.queryAllMenuId", key = "#userId", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryAllMenuId(userId: Long): List<Long>
 
     /**
@@ -42,7 +42,7 @@ interface SysUserService {
      * @param username
      * @return
      */
-    @Cached(name = "SysUserService.queryByUserName", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
+    @Cached(name = "SysUserService.queryByUserName", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryByUserName(username: String): SysUserEntity
 
     /**
@@ -51,7 +51,7 @@ interface SysUserService {
      * @param userId
      * @return
      */
-    @Cached(name = "SysUserService.queryObject", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
+    @Cached(name = "SysUserService.", key = "#userId", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryObject(userId: Long): SysUserEntity
 
     /**
@@ -60,7 +60,6 @@ interface SysUserService {
      * @param map
      * @return
      */
-    @Cached(name = "SysUserService.", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryList(map: Map<String, Any>): List<SysUserEntity>
 
     /**
@@ -77,7 +76,6 @@ interface SysUserService {
      * @param user
      * @throws Exception
      */
-    @CacheUpdate(name = "SysUserService.", key = "#user.id", value = "#user")
     @Throws(Exception::class)
     fun save(user: SysUserEntity)
 

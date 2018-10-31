@@ -4,7 +4,7 @@ import com.alicp.jetcache.anno.CacheInvalidate
 import com.alicp.jetcache.anno.CacheType
 import com.alicp.jetcache.anno.CacheUpdate
 import com.alicp.jetcache.anno.Cached
-import kotlinx.coroutines.experimental.timeunit.TimeUnit
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -22,7 +22,7 @@ interface SysUserRoleService {
      * @param roleIdList
      * @throws Exception
      */
-    @CacheUpdate(name = "SysUserRoleService.", key = "#id", value = "#userId")
+    @CacheUpdate(name = "SysUserRoleService.queryRoleIdList", key = "#userId", value = "#userId")
     @Throws(Exception::class)
     fun saveOrUpdate(userId: Long, roleIdList: List<Long>)
 
@@ -32,7 +32,7 @@ interface SysUserRoleService {
      * @param userId
      * @return
      */
-    @Cached(name = "SysUserRoleService.", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
+    @Cached(name = "SysUserRoleService.queryRoleIdList", key = "#userId", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryRoleIdList(userId: Long): List<Long>
 
     /**
@@ -41,7 +41,7 @@ interface SysUserRoleService {
      * @param userId
      * @throws Exception
      */
-    @CacheInvalidate(name = "SysUserRoleService.", key = "#id")
+    @CacheInvalidate(name = "SysUserRoleService.queryRoleIdList", key = "#userId")
     @Throws(Exception::class)
     fun delete(userId: Long)
 }

@@ -25,6 +25,7 @@ interface CardInfoService {
      */
     fun queryObject(id: String): CardInfo
 
+    @Cached(name = "CardInfoService.", key = "#bankNum", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryByBankNum(bankNum: String): CardInfo
 
     /**
@@ -33,7 +34,6 @@ interface CardInfoService {
      * @param map
      * @return
      */
-    @Cached(name = "CardInfoService.list", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryList(map: Map<String, Any>): List<CardInfo>
 
     /**
@@ -41,7 +41,6 @@ interface CardInfoService {
      *
      * @throws Exception
      */
-    @CacheUpdate(name = "CardInfoService.list",key = "#cardInfo.id",value = "#cardInfo")
     @Throws(Exception::class)
     fun save(cardInfo: CardInfo)
 
@@ -50,7 +49,7 @@ interface CardInfoService {
      *
      * @throws Exception
      */
-    @CacheUpdate(name = "CardInfoService.list",key = "#cardInfo.id",value = "#cardInfo")
+    @CacheUpdate(name = "CardInfoService.list", key = "#cardInfo.id", value = "#cardInfo")
     @Throws(Exception::class)
     fun update(cardInfo: CardInfo)
 

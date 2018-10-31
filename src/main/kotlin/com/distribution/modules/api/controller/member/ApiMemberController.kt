@@ -30,7 +30,6 @@ import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.web.bind.annotation.*
-import java.util.*
 import javax.servlet.http.HttpServletRequest
 
 /**
@@ -97,7 +96,7 @@ class ApiMemberController {
         }
         val member = disMemberInfoService.queryByMobile(mobile) ?: return Result().error(msg = "没有该用户")
         //查询所有锁粉信息
-        val fansParam = HashMap<String, Any>(2)
+        val fansParam = mutableMapOf<String, Any>()
         fansParam["memberId"] = member.id!!
         val disFansList = disFansService.queryList(fansParam)?.asSequence()?.map { disFans ->
             val memberInfo = disMemberInfoService.queryByOpenId(disFans.wechatId) ?: DisMemberInfoEntity()
@@ -112,10 +111,10 @@ class ApiMemberController {
         }?.toList() ?: listOf()
 
         //返回数据
-        val map = HashMap<String, Any>()
+        val map = mutableMapOf<String, Any>()
         map["countFans"] = disFansList.size
         map["fansList"] = disFansList
-        map["countChildren"] = children.size
+        map["countChirldern"] = children.size
         map["children"] = children
         return Result().ok().put("results", map)
     }

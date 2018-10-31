@@ -25,7 +25,8 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
 import org.apache.commons.collections.MapUtils
 import org.apache.commons.lang3.StringUtils
@@ -304,7 +305,7 @@ class ApiAccountController {
         redisTemplate.opsForValue().set(countKey, (count).toString(), millis, TimeUnit.MILLISECONDS)
 
         //发送提现成功提醒
-        launch {
+        GlobalScope.launch {
             //            wxMpService.templateMsgService.sendTemplateMsg(buildTemplateMsg(account.member.openId,
             //   withdrawalVo.withdrawAmount.toString(), withdrawalInfo.withdrawName))
             val templateDataList = listOf(
@@ -366,7 +367,7 @@ class ApiAccountController {
             if ("0" == member.disUserType) {
                 member.disUserType = "1"
             }
-            disMemberInfoService.updateDisLevel(member.disLevel, member.disUserType!!, member.id!!)
+            disMemberInfoService.update(member)
             //调用分润
             var money = 0.00
             when (level) {
@@ -375,7 +376,7 @@ class ApiAccountController {
                 "3" -> money = 100.00
             }
 
-            launch {
+            GlobalScope.launch {
                 profiParamService.doFeeSplitting(member, money, true)
                 //构造模板消息
                 val templateDataList = listOf(

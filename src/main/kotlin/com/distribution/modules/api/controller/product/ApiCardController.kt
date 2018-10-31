@@ -21,7 +21,8 @@ import com.github.pagehelper.PageHelper
 import com.github.pagehelper.PageInfo
 import com.google.common.collect.Lists
 import io.swagger.annotations.ApiOperation
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import me.chanjar.weixin.mp.api.WxMpService
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
 import org.apache.commons.lang.StringUtils
@@ -183,7 +184,7 @@ class ApiCardController {
             saveCardOrder(cardOrderInfoVO, cardInfo, member)
             //发送消息前先查询是否已关注
             wxMpService.userService.userInfo(member.openId, "zh_CN") ?: return Result().ok().put("url", url)
-            launch {
+            GlobalScope.launch {
                 //发送订单信息提醒
                 val message = buildTemplateMsg(member.disUserName!!, cardInfo.cardName, "", "")
                 WxUtils.buildAndSendTemplateMsg(member.openId!!, "GB5gLcSDAjHtSxnZxmkcSMd4yU_WEnt2KHhpAZF3_fw",

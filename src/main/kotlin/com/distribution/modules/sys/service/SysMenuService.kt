@@ -2,10 +2,9 @@ package com.distribution.modules.sys.service
 
 
 import com.alicp.jetcache.anno.CacheType
-import com.alicp.jetcache.anno.CacheUpdate
 import com.alicp.jetcache.anno.Cached
 import com.distribution.modules.sys.entity.SysMenuEntity
-import kotlinx.coroutines.experimental.timeunit.TimeUnit
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -24,7 +23,6 @@ interface SysMenuService {
      * @param menuIdList 用户菜单ID
      * @return
      */
-    @Cached(name = "SysMenuService.queryListParentId.", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryListParentId(parentId: Long?, menuIdList: List<Long>?): List<SysMenuEntity>
 
     /**
@@ -33,7 +31,6 @@ interface SysMenuService {
      * @param parentId 父菜单ID
      * @return
      */
-    @Cached(name = "SysMenuService.queryListParentId.", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryListParentId(parentId: Long?): List<SysMenuEntity>
 
     /**
@@ -41,7 +38,6 @@ interface SysMenuService {
      *
      * @return
      */
-    @Cached(name = "SysMenuService.queryNotButtonList.", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryNotButtonList(): MutableList<SysMenuEntity>
 
     /**
@@ -50,7 +46,6 @@ interface SysMenuService {
      * @param userId
      * @return
      */
-    @Cached(name = "SysMenuService.getUserMenuList.", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun getUserMenuList(userId: Long?): List<SysMenuEntity>
 
     /**
@@ -59,7 +54,6 @@ interface SysMenuService {
      * @param menuId
      * @return
      */
-    @Cached(name = "SysMenuService.queryObject.", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryObject(menuId: Long?): SysMenuEntity
 
     /**
@@ -68,7 +62,6 @@ interface SysMenuService {
      * @param map
      * @return
      */
-    @Cached(name = "SysMenuService.", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryList(map: Map<String, Any>): List<SysMenuEntity>
 
     /**
@@ -85,7 +78,6 @@ interface SysMenuService {
      * @param menu
      * @throws Exception
      */
-    @CacheUpdate(name = "SysMenuService.", key = "#menu.id", value = "#menu")
     @Throws(Exception::class)
     fun save(menu: SysMenuEntity)
 
@@ -95,7 +87,6 @@ interface SysMenuService {
      * @param menu
      * @throws Exception
      */
-    @CacheUpdate(name = "SysMenuService.", key = "#menu.id", value = "#menu")
     @Throws(Exception::class)
     fun update(menu: SysMenuEntity)
 
@@ -114,6 +105,5 @@ interface SysMenuService {
      * @param userId
      * @return
      */
-    @Cached(name = "SysMenuService.queryUserList", key = "#userId", localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryUserList(userId: Long?): List<SysMenuEntity>
 }

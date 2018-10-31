@@ -7,7 +7,8 @@ import com.distribution.modules.dis.entity.LoanOrderInfoEntity
 import com.distribution.modules.dis.service.DisProfiParamService
 import com.distribution.modules.dis.service.LoanOrderInfoService
 import com.distribution.queue.LevelUpSender
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -51,7 +52,7 @@ class LoanOrderInfoServiceImpl : LoanOrderInfoService {
             if ("0" == member.disUserType && "0" == member.disMemberParent!!.disUserType) {
                 return
             }
-            launch {
+            GlobalScope.launch {
                 //调用分润
                 disProfiParamService.doFeeSplitting(member, loanOrderInfo.loanMoney, false)
             }

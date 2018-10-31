@@ -18,7 +18,8 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import me.chanjar.weixin.common.bean.menu.WxMenu
 import me.chanjar.weixin.common.bean.menu.WxMenuButton
 import me.chanjar.weixin.common.exception.WxErrorException
@@ -244,7 +245,7 @@ class WeiXinMpController {
             }
 
             //发送新会员加入模板信息
-            launch {
+            GlobalScope.launch {
                 try {
                     //构造新会员加入模板信息
                     val templateDataList = Lists.newArrayList(

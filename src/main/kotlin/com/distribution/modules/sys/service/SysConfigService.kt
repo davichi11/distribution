@@ -4,7 +4,7 @@ import com.alicp.jetcache.anno.CacheType
 import com.alicp.jetcache.anno.CacheUpdate
 import com.alicp.jetcache.anno.Cached
 import com.distribution.modules.sys.entity.SysConfigEntity
-import kotlinx.coroutines.experimental.timeunit.TimeUnit
+import java.util.concurrent.TimeUnit
 
 /**
  * 系统配置信息
@@ -41,7 +41,7 @@ interface SysConfigService {
      * @param value
      * @throws Exception
      */
-    @CacheUpdate(name = "SysConfigService.*.", key = "#key", value = "#value")
+    @CacheUpdate(name = "SysConfigService.", key = "#key", value = "#value")
     @Throws(Exception::class)
     fun updateValueByKey(key: String, value: String)
 
@@ -96,7 +96,6 @@ interface SysConfigService {
      * @param <T>
      * @return T
      */
-    @Cached(name = "SysConfigService.getConfigObject.", key = "#key", localExpire = 600000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun <T> getConfigObject(key: String, clazz: Class<T>): T
 
 }

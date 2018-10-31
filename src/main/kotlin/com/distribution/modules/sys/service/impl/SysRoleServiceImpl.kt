@@ -55,7 +55,7 @@ class SysRoleServiceImpl : SysRoleService {
         checkPrems(role)
 
         //保存角色与菜单关系
-        sysRoleMenuService.saveOrUpdate(role.roleId, role.menuIdList!!)
+        sysRoleMenuService.saveOrUpdate(role.roleId!!, role.menuIdList!!)
     }
 
     @Transactional(rollbackFor = [(Exception::class)])
@@ -67,7 +67,7 @@ class SysRoleServiceImpl : SysRoleService {
         checkPrems(role)
 
         //更新角色与菜单关系
-        sysRoleMenuService.saveOrUpdate(role.roleId, role.menuIdList!!)
+        sysRoleMenuService.saveOrUpdate(role.roleId!!, role.menuIdList!!)
     }
 
     @Transactional(rollbackFor = [(Exception::class)])

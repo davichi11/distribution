@@ -11,7 +11,8 @@ import com.distribution.modules.dis.entity.CardOrderInfoEntity
 import com.distribution.modules.dis.service.CardOrderInfoService
 import com.distribution.modules.dis.service.DisProfiParamService
 import com.distribution.queue.LevelUpSender
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.apache.commons.collections.MapUtils
 import org.apache.commons.lang.StringUtils
 import org.slf4j.LoggerFactory
@@ -105,7 +106,7 @@ class CardOrderInfoServiceImpl : CardOrderInfoService {
         val status = MapUtils.getIntValue(map, "orderStatus", 0)
         //订单成功后调用分润
         if (1 == status) {
-            launch {
+            GlobalScope.launch {
                 val cardOrderInfoEntityList = cardOrderInfoDao.queryListByIds(map["ids"] as List<*>)
                 for (cardOrderInfoEntity in cardOrderInfoEntityList) {
                     val member = disMemberInfoDao.queryObject(cardOrderInfoEntity.memberInfo!!.id!!)
