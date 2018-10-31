@@ -40,7 +40,7 @@ interface AdPictureService {
      * 更新
      * @throws Exception
      */
-    @CacheUpdate(name = "AdPictureService.list", key = "#adPicture.id", value = "#adPicture")
+    @CacheUpdate(name = "AdPictureService.", key = "#adPicture.id", value = "#adPicture")
     @Throws(Exception::class)
     fun update(adPicture: AdPictureEntity)
 
