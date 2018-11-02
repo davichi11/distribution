@@ -1,5 +1,6 @@
 package com.distribution.modules.dis.dao
 
+import com.distribution.modules.api.pojo.vo.DisMemberVO
 import com.distribution.modules.dis.entity.DisMemberInfoEntity
 import com.distribution.modules.sys.dao.BaseDao
 import org.apache.ibatis.annotations.Mapper
@@ -35,4 +36,6 @@ interface DisMemberInfoDao : BaseDao<DisMemberInfoEntity> {
 
     @Throws(Exception::class)
     fun updateDisLevel(@Param("level") level: Int?, @Param("type") type: String, @Param("id") id: String)
+
+    fun queryMyTeam(parentId: String): List<DisMemberVO>
 }

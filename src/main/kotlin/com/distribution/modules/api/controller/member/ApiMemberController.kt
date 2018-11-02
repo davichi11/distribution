@@ -11,7 +11,6 @@ import com.distribution.modules.api.entity.UserEntity
 import com.distribution.modules.api.pojo.vo.DisMemberVO
 import com.distribution.modules.api.pojo.vo.POSVO
 import com.distribution.modules.api.service.UserService
-import com.distribution.modules.dis.entity.DisFans
 import com.distribution.modules.dis.entity.DisMemberInfoEntity
 import com.distribution.modules.dis.service.DisFansService
 import com.distribution.modules.dis.service.DisMemberInfoService
@@ -96,41 +95,16 @@ class ApiMemberController {
         }
         val member = disMemberInfoService.queryByMobile(mobile) ?: return Result().error(msg = "没有该用户")
         //查询所有锁粉信息
-        val fansParam = mutableMapOf<String, Any>()
-        fansParam["memberId"] = member.id!!
-        val disFansList = disFansService.queryList(fansParam)?.asSequence()?.map { disFans ->
-            val memberInfo = disMemberInfoService.queryByOpenId(disFans.wechatId) ?: DisMemberInfoEntity()
-            getDisMemberVO(disFans, memberInfo)
-        }?.filter { vo -> "0" == vo.disUserType }?.toList() ?: listOf()
+        val myTeam = disMemberInfoService.findMyTeam(member.id!!)
+        val disFansList = myTeam.filter { it.disUserType == "0" || it.disUserType == null }
 
         //所有代理信息
-        val children = member.disMemberChildren?.asSequence()?.filter { m -> "1" == m.disUserType }?.map { memberInfo ->
-            val disFans = disFansService.queryByOpenId(memberInfo.openId!!) ?: DisFans()
-            memberInfo.userEntity = userService.queryByMemberId(memberInfo.id!!)!!
-            getDisMemberVO(disFans, memberInfo)
-        }?.toList() ?: listOf()
+        val children = myTeam.filter { it.disUserType == "1" }
 
         //返回数据
-        val map = mutableMapOf<String, Any>()
-        map["countFans"] = disFansList.size
-        map["fansList"] = disFansList
-        map["countChirldern"] = children.size
-        map["children"] = children
+        val map = mapOf("countFans" to disFansList.size, "fansList" to disFansList,
+                "countChirldern" to children.size, "children" to children)
         return Result().ok().put("results", map)
-    }
-
-    private fun getDisMemberVO(disFans: DisFans, memberInfo: DisMemberInfoEntity): DisMemberVO {
-        val memberVO = DisMemberVO()
-        memberVO.disUserName = memberInfo.disUserName ?: disFans.wechatNickname
-        memberVO.disUserType = memberInfo.disUserType ?: "0"
-        memberVO.disLevel = memberInfo.disLevel ?: 0
-        memberVO.mobile = memberInfo.userEntity?.mobile ?: ""
-        memberVO.openId = disFans.wechatId
-        memberVO.addTime = StringUtils.substring(memberInfo.addTime ?: "", 0, 10)
-        memberVO.nickName = disFans.wechatNickname
-        memberVO.imgUrl = disFans.wechatImg
-        memberVO.workerId = disFans.workerId
-        return memberVO
     }
 
 

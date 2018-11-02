@@ -3,6 +3,7 @@ package com.distribution
 import com.alibaba.fastjson.JSON
 import com.distribution.modules.api.pojo.vo.LoanOrderVO
 import com.distribution.modules.api.service.IdCardQueryService
+import com.distribution.modules.dis.service.DisMemberInfoService
 import com.distribution.modules.sys.service.SysConfigService
 import com.distribution.modules.sys.service.SysUserService
 import com.distribution.pojo.Tables
@@ -36,6 +37,8 @@ class DistributionApplicationTests {
     lateinit var redisTemplate: RedisTemplate<String, Any>
     @Autowired
     lateinit var idCardQueryService: IdCardQueryService
+    @Autowired
+    lateinit var disMemberInfoService: DisMemberInfoService
     @Autowired
     lateinit var create: DSLContext
     @Autowired
@@ -109,6 +112,22 @@ class DistributionApplicationTests {
         val value = "123"
         val key = "level_price"
         sysConfigService.updateValueByKey(key, value)
+    }
+
+    @Test
+    fun testMyTeam() {
+        //查询所有锁粉信息
+        val myTeam = disMemberInfoService.findMyTeam("9f71511fad6d4e2d8b1f854e084a9d71")
+        val disFansList = myTeam.filter { "0" == it.disUserType || it.disUserType == null }
+
+        //所有代理信息
+        val children = myTeam.filter { "1" == it.disUserType }
+
+        //返回数据
+        val map = mapOf("countFans" to disFansList.size, "fansList" to disFansList,
+                "countChirldern" to children.size, "children" to children)
+
+        print(map)
     }
 
 }

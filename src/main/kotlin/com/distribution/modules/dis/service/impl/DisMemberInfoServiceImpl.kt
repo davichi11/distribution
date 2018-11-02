@@ -1,6 +1,7 @@
 package com.distribution.modules.dis.service.impl
 
 import com.distribution.modules.api.dao.UserDao
+import com.distribution.modules.api.pojo.vo.DisMemberVO
 import com.distribution.modules.dis.dao.CardOrderInfoDao
 import com.distribution.modules.dis.dao.DisFansMapper
 import com.distribution.modules.dis.dao.DisMemberInfoDao
@@ -138,6 +139,10 @@ class DisMemberInfoServiceImpl : DisMemberInfoService {
             update(member)
         }
         return parentLevelUp(parent.disMemberParent!!)
+    }
+
+    override fun findMyTeam(parentId: String): List<DisMemberVO> {
+        return disMemberInfoDao.queryMyTeam(parentId)
     }
 
 

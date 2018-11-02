@@ -3,6 +3,7 @@ package com.distribution.modules.dis.service
 import com.alicp.jetcache.anno.CacheType
 import com.alicp.jetcache.anno.CacheUpdate
 import com.alicp.jetcache.anno.Cached
+import com.distribution.modules.api.pojo.vo.DisMemberVO
 import com.distribution.modules.dis.entity.DisMemberInfoEntity
 import org.springframework.transaction.annotation.Transactional
 import java.util.concurrent.TimeUnit
@@ -97,6 +98,9 @@ interface DisMemberInfoService {
     fun levelUp(memberInfo: DisMemberInfoEntity): Boolean
 
     fun findByWorkerId(workerid: String): DisMemberInfoEntity?
+
+    fun findMyTeam(parentId: String): List<DisMemberVO>
+
 
 
 }
