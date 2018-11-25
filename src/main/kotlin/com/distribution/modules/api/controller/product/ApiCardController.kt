@@ -33,7 +33,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
-import java.util.*
 import java.util.regex.Pattern
 
 
@@ -79,7 +78,7 @@ class ApiCardController {
     @ApiOperation(value = "信用卡列表")
     fun list(@RequestParam(name = "page", defaultValue = "0") page: String = "0", @RequestParam(name = "limit", defaultValue = "10") limit: String = "10"): Result {
         //查询列表数据
-        val pageInfo = PageHelper.startPage<Any>(NumberUtils.toInt(page, 0), NumberUtils.toInt(limit, 0))
+        val pageInfo = PageHelper.startPage<CardInfo>(NumberUtils.toInt(page, 0), NumberUtils.toInt(limit, 0))
                 .doSelectPageInfo<CardInfo> { cardInfoService.queryList(mapOf()) }
         return Result().ok().put("page", pageInfo)
     }
@@ -94,23 +93,18 @@ class ApiCardController {
      */
     @GetMapping("/memberCardList/{mobile}")
     @ApiOperation(value = "用户办卡记录,订单明细")
-    fun memberCardList(@PathVariable mobile: String, page: String = "0", limit: String = "0", type: String = "0"): Result {
-        var pageInfo: PageInfo<CardOrderInfoEntity> = PageInfo()
-        val member = disMemberInfoService.queryByMobile(mobile)
-        if (member != null) {
-            val memberIds = member.disMemberChildren!!.map { it.id }.toMutableList()
-            memberIds.add(member.id)
+    fun memberCardList(@PathVariable mobile: String, page: String = "0", limit: String = "10", type: String = "0"): Result {
+        val member = disMemberInfoService.queryByMobile(mobile) ?: return Result().error(msg = "请先注册")
+        val memberIds = member.disMemberChildren!!.map { it.id }.toMutableList()
+        memberIds.add(member.id)
 
-            val param = HashMap<String, Any>(4)
-            param["memberIds"] = memberIds
-            param["orderStatus"] = type
-            pageInfo = PageHelper.startPage<Any>(NumberUtils.toInt(page, 0), NumberUtils.toInt(limit, 0))
-                    .doSelectPageInfo { cardOrderInfoService.queryList(param) }
-            //模糊手机号和身份证
-            pageInfo.list.forEach { order ->
-                order.orderIdcardno = CommonUtils.fuzzyIdCode(order.orderIdcardno)
-                order.orderMobile = CommonUtils.fuzzyMobile(order.orderMobile)
-            }
+        val param = mapOf("memberIds" to memberIds, "orderStatus" to type)
+        val pageInfo: PageInfo<CardOrderInfoEntity> = PageHelper.startPage<CardOrderInfoEntity>(NumberUtils.toInt(page, 0), NumberUtils.toInt(limit, 10))
+                .doSelectPageInfo { cardOrderInfoService.queryList(param) }
+        //模糊手机号和身份证
+        pageInfo.list.forEach { order ->
+            order.orderIdcardno = CommonUtils.fuzzyIdCode(order.orderIdcardno)
+            order.orderMobile = CommonUtils.fuzzyMobile(order.orderMobile)
         }
         return Result().ok().put("memberCardList", pageInfo)
     }
@@ -118,29 +112,24 @@ class ApiCardController {
     @ApiOperation(value = "业绩总数,信用卡,贷款,积分 数量")
     @GetMapping("/allCount/{mobile}")
     fun getAllCount(@PathVariable("mobile") mobile: String): Result {
-        val member = disMemberInfoService.queryByMobile(mobile)
-        var allCount = 0
-        var cardCount = 0
-        var loanCount = 0
-        var inteCount = 0
-        if (member != null) {
-            val memberIds = member.disMemberChildren!!.map { it.id }.toMutableList()
-            memberIds.add(member.id)
-            val param = HashMap<String, Any>(4)
-            param["memberIds"] = memberIds
-            param["orderStatus"] = "1"
-            cardCount = cardOrderInfoService.queryList(param).size
-            loanCount = create.selectCount().from(LOAN_ORDER_INFO)
-                    .where(LOAN_ORDER_INFO.ORDER_MOBILE.eq(mobile))
-                    .and(LOAN_ORDER_INFO.ORDER_STATUS.eq("1"))
-                    .fetchOneInto(Int::class.javaPrimitiveType)
-            inteCount = create.selectCount().from(INTEGRAL_ORDER)
-                    .where(INTEGRAL_ORDER.MOBILE.eq(NumberUtils.toLong(mobile)))
-                    .and(INTEGRAL_ORDER.STATUS.eq("1"))
-                    .fetchOneInto(Int::class.javaPrimitiveType)
-            allCount = cardCount + loanCount + inteCount
-
-        }
+        val member = disMemberInfoService.queryByMobile(mobile) ?: return Result().error(msg = "请先注册")
+        val memberIds = member.disMemberChildren!!.map { it.id }.toMutableList()
+        memberIds.add(member.id)
+        val param = mapOf("memberIds" to memberIds, "orderStatus" to "1")
+        //信用卡
+        val cardCount = cardOrderInfoService.queryList(param).size
+        //贷款
+        val loanCount = create.selectCount().from(LOAN_ORDER_INFO)
+                .where(LOAN_ORDER_INFO.ORDER_MOBILE.eq(mobile))
+                .and(LOAN_ORDER_INFO.ORDER_STATUS.eq("1"))
+                .fetchOneInto(Int::class.javaPrimitiveType)
+        //积分
+        val inteCount = create.selectCount().from(INTEGRAL_ORDER)
+                .where(INTEGRAL_ORDER.MOBILE.eq(NumberUtils.toLong(mobile)))
+                .and(INTEGRAL_ORDER.STATUS.eq("1"))
+                .fetchOneInto(Int::class.javaPrimitiveType)
+        //业绩总数
+        val allCount = cardCount + loanCount + inteCount
         return Result().ok().put("allCount", allCount).put("cardCount", cardCount).put("loanCount", loanCount)
                 .put("inteCount", inteCount)
     }

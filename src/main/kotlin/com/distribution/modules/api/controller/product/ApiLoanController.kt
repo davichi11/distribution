@@ -36,7 +36,6 @@ import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
-import java.util.*
 import java.util.regex.Pattern
 
 /**
@@ -99,9 +98,7 @@ class ApiLoanController {
         val member = disMemberInfoService.queryByMobile(mobile)!!
         val memberIds = member.disMemberChildren!!.asSequence().map { it.id }.toMutableList()
         memberIds.add(member.id)
-        val param = HashMap<String, Any>()
-        param["memberIds"] = memberIds
-        param["status"] = status
+        val param = mapOf("memberIds" to memberIds, "status" to status)
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(page, limit)
                 .doSelectPageInfo<LoanOrderInfoEntity> { loanOrderInfoService.queryList(param) }

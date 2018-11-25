@@ -27,7 +27,6 @@ import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
-import java.util.*
 
 /**
  * @author ChunLiang Hu
@@ -126,9 +125,7 @@ class ApiIntegralController {
         val member = disMemberInfoService.queryByMobile(mobile)!!
         val memberIds = member.disMemberChildren!!.map { it.id }.toMutableList()
         memberIds.add(member.id)
-        val param = HashMap<String, Any>()
-        param["memberIds"] = memberIds
-        param["status"] = status
+        val param = mapOf("memberIds" to memberIds, "status" to status)
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(page, limit)
                 .doSelectPageInfo<IntegralOrderEntity> { integralOrderService.queryList(param) }

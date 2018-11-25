@@ -40,7 +40,6 @@ spring:
 #      defaultZone: http://localhost:8461/eureka/
 #  instance:
 #    prefer-ip-address: true
-
 risk:
   # APP模块，是通过jwt认证的，如果要使用APP模块，则需要修改【加密秘钥】
   jwt:
@@ -77,3 +76,5 @@ wechat:
     secret: 5c8afa5a3aa30084e3b0c25fae45588b
     token: iapahify0u0mxmq3pv3w4t21bzz4ohib
     aesKey: hqtZyX24b4DJIOrIfcNDAsAtVrrBwwfMMi4QMDCqZe1
+logging:
+  path: /Users/huchunliang/Documents/logs/dis
