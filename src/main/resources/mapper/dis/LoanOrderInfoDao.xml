@@ -86,6 +86,19 @@
         </if>
     </select>
 
+
+    <select id="queryCount" resultType="int">
+        select count(*) from loan_order_info
+        <where>
+            <if test="mobile != null and mobile !=''">
+                and order_mobile = #{mobile}
+            </if>
+            <if test="status != null and status!=''">
+                and order_status = #{status}
+            </if>
+        </where>
+    </select>
+
     <insert id="save" parameterType="com.distribution.modules.dis.entity.LoanOrderInfoEntity">
         insert into loan_order_info
         <trim prefix="(" suffix=")" suffixOverrides=",">

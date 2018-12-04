@@ -12,9 +12,9 @@ import com.distribution.modules.dis.entity.CardOrderInfoEntity
 import com.distribution.modules.dis.entity.DisMemberInfoEntity
 import com.distribution.modules.dis.service.CardOrderInfoService
 import com.distribution.modules.dis.service.DisMemberInfoService
+import com.distribution.modules.dis.service.LoanOrderInfoService
 import com.distribution.modules.dis.vo.CardOrderInfoVO
-import com.distribution.pojo.Tables.INTEGRAL_ORDER
-import com.distribution.pojo.Tables.LOAN_ORDER_INFO
+import com.distribution.modules.integral.service.IntegralOrderService
 import com.distribution.weixin.service.WeiXinService
 import com.distribution.weixin.utils.WxUtils
 import com.github.pagehelper.PageHelper
@@ -27,7 +27,6 @@ import me.chanjar.weixin.mp.api.WxMpService
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
 import org.apache.commons.lang.StringUtils
 import org.apache.commons.lang3.math.NumberUtils
-import org.jooq.DSLContext
 import org.modelmapper.ModelMapper
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -45,6 +44,10 @@ class ApiCardController {
     @Autowired
     private lateinit var cardOrderInfoService: CardOrderInfoService
     @Autowired
+    private lateinit var integralOrderService: IntegralOrderService
+    @Autowired
+    private lateinit var loanOrderInfoService: LoanOrderInfoService
+    @Autowired
     private lateinit var disMemberInfoService: DisMemberInfoService
     @Autowired
     private lateinit var wxMpService: WxMpService
@@ -52,8 +55,6 @@ class ApiCardController {
     private lateinit var weiXinService: WeiXinService
     @Autowired
     private lateinit var modelMapper: ModelMapper
-    @Autowired
-    private lateinit var create: DSLContext
 
     /**
      * 手机号正则
@@ -119,15 +120,9 @@ class ApiCardController {
         //信用卡
         val cardCount = cardOrderInfoService.queryList(param).size
         //贷款
-        val loanCount = create.selectCount().from(LOAN_ORDER_INFO)
-                .where(LOAN_ORDER_INFO.ORDER_MOBILE.eq(mobile))
-                .and(LOAN_ORDER_INFO.ORDER_STATUS.eq("1"))
-                .fetchOneInto(Int::class.javaPrimitiveType)
+        val loanCount = loanOrderInfoService.countLoanOrder(mapOf("mobile" to mobile,"status" to "1"))
         //积分
-        val inteCount = create.selectCount().from(INTEGRAL_ORDER)
-                .where(INTEGRAL_ORDER.MOBILE.eq(NumberUtils.toLong(mobile)))
-                .and(INTEGRAL_ORDER.STATUS.eq("1"))
-                .fetchOneInto(Int::class.javaPrimitiveType)
+        val inteCount = integralOrderService.countIntegralOrder(mapOf("mobile" to mobile,"status" to "1"))
         //业绩总数
         val allCount = cardCount + loanCount + inteCount
         return Result().ok().put("allCount", allCount).put("cardCount", cardCount).put("loanCount", loanCount)

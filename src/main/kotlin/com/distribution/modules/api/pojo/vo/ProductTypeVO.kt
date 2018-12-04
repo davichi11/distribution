@@ -1,6 +1,6 @@
 package com.distribution.modules.api.pojo.vo
 
-import com.distribution.pojo.tables.pojos.IntegralTutorial
+import com.distribution.modules.integral.entity.IntegralTutorial
 
 /**
  * @author ChunLiang Hu

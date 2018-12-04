@@ -26,6 +26,8 @@ interface IntegralOrderService {
      */
     fun queryList(map: Map<String, Any>): List<IntegralOrderEntity>
 
+    fun countIntegralOrder(map: Map<String, Any>): Int
+
     /**
      * 保存
      *

@@ -6,10 +6,7 @@ import com.distribution.modules.api.service.IdCardQueryService
 import com.distribution.modules.dis.service.DisMemberInfoService
 import com.distribution.modules.sys.service.SysConfigService
 import com.distribution.modules.sys.service.SysUserService
-import com.distribution.pojo.Tables
-import com.distribution.pojo.tables.pojos.DisMemberInfo
 import com.distribution.queue.LevelUpSender
-import org.jooq.DSLContext
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -39,8 +36,6 @@ class DistributionApplicationTests {
     lateinit var idCardQueryService: IdCardQueryService
     @Autowired
     lateinit var disMemberInfoService: DisMemberInfoService
-    @Autowired
-    lateinit var create: DSLContext
     @Autowired
     lateinit var sysConfigService: SysConfigService
 
@@ -97,14 +92,6 @@ class DistributionApplicationTests {
         print("------------------------------------")
     }
 
-    @Test
-    fun testReceiver() {
-        val disMemberInfo = create.selectFrom(Tables.DIS_MEMBER_INFO)
-                .where(Tables.DIS_MEMBER_INFO.ID.eq("005d3832944d495e9bc05e952f253871"))
-                .fetchOneInto(DisMemberInfo::class.java)
-
-        levelUpSender.send(JSON.toJSONString(disMemberInfo))
-    }
 
     @Test
     fun testCacheConfig() {

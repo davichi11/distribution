@@ -151,7 +151,7 @@ object AliPayUtils {
         request.notifyUrl = "https://www.qiandaoshou.cn/dis/api/alipayCallback"
         request.returnUrl = "https://www.qiandaoshou.cn/#/MyCenter"
         log.info("请求参数为{}", JSON.toJSON(request))
-        //        FileUtils.writeByteArrayToFile(new File("/Users/huchunliang/Documents/form.txt"), alipayClient.pageExecute(request).getBody().getBytes());
+        //FileUtils.writeByteArrayToFile(File("/Users/huchunliang/Documents/form.txt"), alipayClient.pageExecute(request).body.toByteArray(Charsets.UTF_8))
         return alipayClient.pageExecute<AlipayTradeWapPayResponse>(request).body
     }
 }

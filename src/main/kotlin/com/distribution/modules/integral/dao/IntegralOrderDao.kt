@@ -12,4 +12,6 @@ import org.apache.ibatis.annotations.Mapper
  * @date 2018-07-01
  */
 @Mapper
-interface IntegralOrderDao : BaseDao<IntegralOrderEntity>
+interface IntegralOrderDao : BaseDao<IntegralOrderEntity> {
+    fun queryCount(param: Map<String, Any>): Int
+}

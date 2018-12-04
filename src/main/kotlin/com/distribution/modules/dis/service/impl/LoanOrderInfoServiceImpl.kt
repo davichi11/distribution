@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service("loanOrderInfoService")
 class LoanOrderInfoServiceImpl : LoanOrderInfoService {
+
     @Autowired
     private lateinit var loanOrderInfoDao: LoanOrderInfoDao
     @Autowired
@@ -31,6 +32,10 @@ class LoanOrderInfoServiceImpl : LoanOrderInfoService {
 
     override fun queryList(map: Map<String, Any>): List<LoanOrderInfoEntity> {
         return loanOrderInfoDao.queryList(map)
+    }
+
+    override fun countLoanOrder(map: Map<String, Any>): Int {
+        return loanOrderInfoDao.queryCount(map)
     }
 
 

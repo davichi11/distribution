@@ -12,9 +12,6 @@ import com.distribution.modules.dis.entity.LoanOrderInfoEntity
 import com.distribution.modules.dis.service.DisMemberInfoService
 import com.distribution.modules.dis.service.LoanInfoService
 import com.distribution.modules.dis.service.LoanOrderInfoService
-import com.distribution.pojo.Tables
-import com.distribution.pojo.Tables.LOAN_ORDER_INFO
-import com.distribution.pojo.tables.pojos.LoanInfo
 import com.distribution.weixin.service.WeiXinService
 import com.distribution.weixin.utils.WxUtils
 import com.github.pagehelper.PageHelper
@@ -30,7 +27,6 @@ import me.chanjar.weixin.mp.api.WxMpService
 import me.chanjar.weixin.mp.bean.result.WxMpUser
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
 import org.apache.commons.lang3.StringUtils
-import org.jooq.DSLContext
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -50,8 +46,6 @@ import java.util.regex.Pattern
 @RestController
 @RequestMapping("/api")
 class ApiLoanController {
-    @Autowired
-    private lateinit var create: DSLContext
     @Autowired
     private lateinit var loanInfoService: LoanInfoService
     @Autowired
@@ -76,9 +70,8 @@ class ApiLoanController {
     fun getLoanInfo(id: String?): Result {
         return when {
             StringUtils.isBlank(id) -> Result().ok().put("loanInfos",
-                    create.selectFrom(Tables.LOAN_INFO).fetchInto(LoanInfo::class.java))
-            else -> Result().ok().put("loanInfo", create.selectFrom(Tables.LOAN_INFO).where(Tables.LOAN_INFO.ID.eq(id))
-                    .fetchInto(LoanInfo::class.java))
+                    loanInfoService.queryList(mapOf()))
+            else -> Result().ok().put("loanInfo", loanInfoService.queryObject(id!!))
         }
     }
 
@@ -118,8 +111,7 @@ class ApiLoanController {
         if (StringUtils.isBlank(loanOrder.loanId)) {
             return Result().error(msg = "银行代号不能为空")
         }
-        val loanInfo = create.selectFrom(Tables.LOAN_INFO)
-                .where(Tables.LOAN_INFO.ID.eq(loanOrder.loanId)).fetchOne()
+        val loanInfo = loanInfoService.queryObject(loanOrder.loanId)
         val member = disMemberInfoService.queryByMobile(loanOrder.orderMobile)!!
         //先调用第三方接口保存用户信息并返回url
         val url: String
@@ -134,9 +126,7 @@ class ApiLoanController {
             return Result().error(msg = "申请异常")
         }
         //查看是否已办过该贷款产品
-        val count = create.selectCount().from(LOAN_ORDER_INFO)
-                .where(Tables.LOAN_ORDER_INFO.ORDER_MOBILE.eq(loanOrder.orderMobile))
-                .fetchOneInto(Int::class.javaPrimitiveType)
+        val count = loanOrderInfoService.countLoanOrder(mapOf("mobile" to loanOrder.orderMobile))
         if (count >= 1) {
             return Result().ok().put("url", url)
         }
@@ -187,16 +177,16 @@ class ApiLoanController {
      */
     @Throws(Exception::class)
     private fun saveOrder(loanOrderVO: LoanOrderVO, member: DisMemberInfoEntity) {
-        val orderInfoRecord = create.newRecord(Tables.LOAN_ORDER_INFO)
+        val orderInfoRecord = LoanOrderInfoEntity()
         BeanUtils.copyProperties(loanOrderVO, orderInfoRecord)
         orderInfoRecord.id = CommonUtils.uuid
         orderInfoRecord.orderId = AliPayUtils.generateOrderId(loanOrderVO.orderMobile,
                 Constant.PayType.applyLoan.value)
-        orderInfoRecord.memberId = member.id
-        orderInfoRecord.orderStatus = "2"
+        orderInfoRecord.memberId = member.id!!
+        orderInfoRecord.orderStatus = 2
         orderInfoRecord.isDelete = 0
         orderInfoRecord.addTime = DateUtils.formatDateTime(LocalDateTime.now())
-        orderInfoRecord.insert()
+        loanOrderInfoService.save(orderInfoRecord)
     }
 
     /**

@@ -3,17 +3,14 @@ package com.distribution.modules.integral.controller
 import com.distribution.common.utils.CommonUtils
 import com.distribution.common.utils.Result
 import com.distribution.modules.api.pojo.vo.ProductTypeVO
+import com.distribution.modules.integral.entity.IntegralTutorial
 import com.distribution.modules.integral.entity.ProductTypeEntity
+import com.distribution.modules.integral.service.IntegralTutorialService
 import com.distribution.modules.integral.service.ProductTypeService
-import com.distribution.pojo.Tables
-import com.distribution.pojo.tables.pojos.IntegralTutorial
-import com.distribution.pojo.tables.pojos.ProductType
-import com.distribution.pojo.tables.records.IntegralTutorialRecord
 import com.github.pagehelper.PageHelper
 import org.apache.commons.collections.CollectionUtils
 import org.apache.commons.collections.MapUtils
 import org.apache.shiro.authz.annotation.RequiresPermissions
-import org.jooq.DSLContext
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -34,8 +31,9 @@ import java.util.*
 class ProductTypeController {
     @Autowired
     private lateinit var productTypeService: ProductTypeService
+
     @Autowired
-    private lateinit var create: DSLContext
+    private lateinit var integralTutorialService: IntegralTutorialService
 
     private val log = LoggerFactory.getLogger(ProductTypeController::class.java)
 
@@ -62,14 +60,10 @@ class ProductTypeController {
     @RequestMapping("/info/{id}")
     @RequiresPermissions("producttype:info")
     fun info(@PathVariable("id") id: String): Result {
-        val type = create.selectFrom(Tables.PRODUCT_TYPE).where(Tables.PRODUCT_TYPE.ID.eq(id))
-                .fetchOneInto(ProductType::class.java)
+        val type = productTypeService.queryObject(id)
         val typeVO = ProductTypeVO()
         BeanUtils.copyProperties(type, typeVO)
-        typeVO.tutorials = create.selectFrom(Tables.INTEGRAL_TUTORIAL)
-                .where(Tables.INTEGRAL_TUTORIAL.TYPE_ID.eq(type.id))
-                .orderBy(Tables.INTEGRAL_TUTORIAL.STEP.asc())
-                .fetchInto(IntegralTutorial::class.java)
+        typeVO.tutorials = integralTutorialService.findByParam(mapOf("typeId" to type.id))?: listOf()
         return Result().ok().put("productType", typeVO)
     }
 
@@ -82,21 +76,21 @@ class ProductTypeController {
     @Throws(Exception::class)
     fun save(@RequestBody productType: ProductTypeVO): Result {
         val uuid = CommonUtils.uuid
-        val typeRecord = create.newRecord(Tables.PRODUCT_TYPE)
+        val typeRecord = ProductTypeEntity()
         BeanUtils.copyProperties(productType, typeRecord)
         typeRecord.id = uuid
-        typeRecord.insert()
+        productTypeService.save(typeRecord)
         if (CollectionUtils.isNotEmpty(productType.tutorials)) {
-            val tutorialRecords = ArrayList<IntegralTutorialRecord>()
+            val tutorialRecords = ArrayList<IntegralTutorial>()
             productType.tutorials.forEach { tutorial ->
-                val record = create.newRecord(Tables.INTEGRAL_TUTORIAL)
+                val record = IntegralTutorial()
                 record.step = tutorial.step
                 record.textDescribe = tutorial.textDescribe
                 record.imgDescribe = tutorial.imgDescribe
                 record.typeId = uuid
                 tutorialRecords.add(record)
             }
-            create.batchInsert(tutorialRecords).execute()
+            integralTutorialService.batchSave(tutorialRecords)
         }
         return Result().ok()
     }
@@ -108,13 +102,13 @@ class ProductTypeController {
     @RequiresPermissions("producttype:update")
     fun update(@RequestBody productType: ProductTypeVO): Result {
         try {
-            val typeRecord = create.newRecord(Tables.PRODUCT_TYPE)
+            val typeRecord = ProductTypeEntity()
             BeanUtils.copyProperties(productType, typeRecord)
-            typeRecord.update()
+            productTypeService.update(typeRecord)
             productType.tutorials.forEach { t ->
-                val tutorialRecord = create.newRecord(Tables.INTEGRAL_TUTORIAL)
+                val tutorialRecord = IntegralTutorial()
                 BeanUtils.copyProperties(t, tutorialRecord)
-                tutorialRecord.update()
+                integralTutorialService.update(tutorialRecord)
             }
         } catch (e: Exception) {
             log.error("修改异常", e)

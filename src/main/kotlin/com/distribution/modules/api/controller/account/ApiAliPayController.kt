@@ -98,12 +98,9 @@ class ApiAliPayController {
         orderHistory.finishTime = LocalDateTime.now()
         return try {
             val account = accountService.selectMemberAccountByUserId(disMemberInfoEntity.id!!)
-            if (account != null) {
-                val aliPayAccount = account.aliPayAccount
-                orderHistory.account = aliPayAccount
-            } else {
-                return modelAndView.addObject("生成APP支付订单异常")
-            }
+                    ?: return modelAndView.addObject("生成APP支付订单异常")
+            val aliPayAccount = account.aliPayAccount
+            orderHistory.account = aliPayAccount
             orderHistoryService.save(orderHistory)
             payParams.passbackParams = URLEncoder.encode(disLevel.toString(), "UTF-8")
             modelAndView.addObject("form", AliPayUtils.tradeWapPay(payParams))

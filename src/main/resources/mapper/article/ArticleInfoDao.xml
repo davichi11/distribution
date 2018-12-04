@@ -24,6 +24,9 @@
         select id, title, detail, type, order_num, add_time, is_delete
         from article_info
         where is_delete = '1'
+        <if test="id != null and id != ''">
+            and id = #{id}
+        </if>
         <if test="type != null and type != ''">
             and type = #{type}
         </if>

@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 class IntegralOrderServiceImpl : IntegralOrderService {
     @Autowired
     private lateinit var integralOrderDao: IntegralOrderDao
+
     @Autowired
     private lateinit var disProfiParamService: DisProfiParamService
     @Autowired
@@ -31,6 +32,10 @@ class IntegralOrderServiceImpl : IntegralOrderService {
 
     override fun queryList(map: Map<String, Any>): List<IntegralOrderEntity> {
         return integralOrderDao.queryList(map)
+    }
+
+    override fun countIntegralOrder(map: Map<String, Any>): Int {
+        return integralOrderDao.queryCount(map)
     }
 
 
