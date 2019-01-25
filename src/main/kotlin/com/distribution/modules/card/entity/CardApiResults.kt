@@ -1,5 +1,7 @@
 package com.distribution.modules.card.entity
 
+import java.io.Serializable
+
 /**
  * @author ChunLiang Hu
  * @Company
@@ -10,6 +12,7 @@ package com.distribution.modules.card.entity
  */
 
 data class CardApiResults(
+        private val serialVersionUID: Long = 1L,
         /**
          * maxTime : 最高期限
          */
@@ -70,5 +73,4 @@ data class CardApiResults(
 
         var moneySent: Int = 0
 
-
-)
+) : Serializable

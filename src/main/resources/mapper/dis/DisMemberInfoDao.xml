@@ -454,6 +454,23 @@
                  left join dis_fans f on f.wechat_id = d.open_id
         where f.worker_id = #{workerId}
     </select>
+    <select id="queryMyTeam" resultType="com.distribution.modules.api.pojo.vo.DisMemberVO">
+        select wechat_id        as "openId",
+               wechat_img       as "imgUrl",
+               wechat_nickname  as "nickName",
+               worker_id        as "workerId",
+               dis_level        as "disLevel",
+               dis_user_type    as "disUserType",
+               dis_model_id     as "parentId",
+               add_time         as "addTime",
+               username         as "disUserName",
+               dis_user_id_code as "idCode",
+               mobile
+        from dis_fans f
+                 left join dis_member_info m on f.wechat_id = m.open_id
+                 left join tb_user u on u.user_id = m.dis_user_id
+        where f.member_id = #{parentId}
+    </select>
     <update id="updateDisLevel">
         update dis_member_info
         set dis_level     = #{level},

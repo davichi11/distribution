@@ -19,6 +19,7 @@ interface AdPictureService {
      * 根据ID查询
      * @return
      */
+    @Cached(name = "AdPictureService.", key = "#id", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryObject(id: Int): AdPictureEntity
 
     /**
@@ -26,14 +27,12 @@ interface AdPictureService {
      * @param map
      * @return
      */
-    @Cached(name = "AdPictureService.list",localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryList(map: Map<String, Any>): List<AdPictureEntity>
 
     /**
      * 保存
      * @throws Exception
      */
-    @CacheUpdate(name = "AdPictureService.list",key = "#adPicture.id",value = "#adPicture")
     @Throws(Exception::class)
     fun save(adPicture: AdPictureEntity)
 
@@ -41,7 +40,7 @@ interface AdPictureService {
      * 更新
      * @throws Exception
      */
-    @CacheUpdate(name = "AdPictureService.list",key = "#adPicture.id",value = "#adPicture")
+    @CacheUpdate(name = "AdPictureService.", key = "#adPicture.id", value = "#adPicture")
     @Throws(Exception::class)
     fun update(adPicture: AdPictureEntity)
 

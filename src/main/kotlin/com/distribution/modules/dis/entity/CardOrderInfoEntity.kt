@@ -15,6 +15,7 @@ import java.time.LocalDateTime
  */
 
 data class CardOrderInfoEntity(
+        private val serialVersionUID: Long = 1L,
         /**
          *
          */

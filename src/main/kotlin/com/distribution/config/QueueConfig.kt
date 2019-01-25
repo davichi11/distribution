@@ -19,7 +19,7 @@ class QueueConfig {
      * @return
      */
     @Bean
-     fun delayExchange(): DirectExchange {
+    fun delayExchange(): DirectExchange {
         return DirectExchange(DELAY_EXCHANGE_NAME)
     }
 
@@ -29,9 +29,10 @@ class QueueConfig {
      * @return
      */
     @Bean
-     fun perQueueTTLExchange(): DirectExchange {
+    fun perQueueTTLExchange(): DirectExchange {
         return DirectExchange(PER_QUEUE_TTL_EXCHANGE_NAME)
     }
+
 
     /**
      * 短信发送队列
@@ -39,7 +40,7 @@ class QueueConfig {
      * @return
      */
     @Bean
-     fun notifyQueue(): Queue {
+    fun notifyQueue(): Queue {
         return QueueBuilder.durable("notify").build()
     }
 
@@ -49,7 +50,7 @@ class QueueConfig {
      * @return
      */
     @Bean
-     fun levelUpQueue(): Queue {
+    fun levelUpQueue(): Queue {
         return QueueBuilder.durable("level_up").build()
     }
 
@@ -59,7 +60,7 @@ class QueueConfig {
      * @return
      */
     @Bean
-     fun delayQueuePerMessageTTL(): Queue {
+    fun delayQueuePerMessageTTL(): Queue {
         return QueueBuilder.durable(DELAY_QUEUE_PER_MESSAGE_TTL_NAME)
                 // DLX，dead letter发送到的exchange
                 .withArgument("x-dead-letter-exchange", DELAY_EXCHANGE_NAME)
@@ -74,7 +75,7 @@ class QueueConfig {
      * @return
      */
     @Bean
-     fun delayQueuePerQueueTTL(): Queue {
+    fun delayQueuePerQueueTTL(): Queue {
         return QueueBuilder.durable(DELAY_QUEUE_PER_QUEUE_TTL_NAME)
                 // DLX
                 .withArgument("x-dead-letter-exchange", DELAY_EXCHANGE_NAME)
@@ -91,7 +92,7 @@ class QueueConfig {
      * @return
      */
     @Bean
-     fun delayProcessQueue(): Queue {
+    fun delayProcessQueue(): Queue {
         return QueueBuilder.durable(DELAY_PROCESS_QUEUE_NAME)
                 .build()
     }
@@ -104,7 +105,7 @@ class QueueConfig {
      * @return
      */
     @Bean
-     fun dlxBinding(delayProcessQueue: Queue, delayExchange: DirectExchange): Binding {
+    fun dlxBinding(delayProcessQueue: Queue, delayExchange: DirectExchange): Binding {
         return BindingBuilder.bind(delayProcessQueue)
                 .to(delayExchange)
                 .with(DELAY_PROCESS_QUEUE_NAME)
@@ -118,7 +119,7 @@ class QueueConfig {
      * @return
      */
     @Bean
-     fun queueTTLBinding(delayQueuePerQueueTTL: Queue, perQueueTTLExchange: DirectExchange): Binding {
+    fun queueTTLBinding(delayQueuePerQueueTTL: Queue, perQueueTTLExchange: DirectExchange): Binding {
         return BindingBuilder.bind(delayQueuePerQueueTTL)
                 .to(perQueueTTLExchange)
                 .with(DELAY_QUEUE_PER_QUEUE_TTL_NAME)
@@ -131,7 +132,7 @@ class QueueConfig {
      * @return
      */
     @Bean
-     fun processContainer(connectionFactory: ConnectionFactory, processReceiver: ProcessReceiver): SimpleMessageListenerContainer {
+    fun processContainer(connectionFactory: ConnectionFactory, processReceiver: ProcessReceiver): SimpleMessageListenerContainer {
         val container = SimpleMessageListenerContainer()
         container.connectionFactory = connectionFactory
         // 监听delay_process_queue
@@ -152,7 +153,7 @@ class QueueConfig {
          * 发送到该队列的message会在一段时间后过期进入到delay_process_queue
          * 队列里所有的message都有统一的失效时间
          */
-         val DELAY_QUEUE_PER_QUEUE_TTL_NAME = "delay_queue_per_queue_ttl"
+        val DELAY_QUEUE_PER_QUEUE_TTL_NAME = "delay_queue_per_queue_ttl"
         private val QUEUE_EXPIRATION = 60000
 
         /**

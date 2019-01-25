@@ -19,7 +19,7 @@
     <select id="queryObject" resultMap="productDetailMap">
         select *
         from product_detail
-        where id = #{value}
+        where id = #{value} and is_delete = '1'
     </select>
 
     <select id="queryList" resultMap="productDetailMap">
@@ -31,6 +31,9 @@
         where d.is_delete = '1'
         <if test="prodDetailName != null">
             and d.prod_detail_name like concat('%',#{prodDetailName},'%')
+        </if>
+        <if test="typeId != null and typeId != ''">
+            and d.prod_type_id = #{typeId}
         </if>
         <choose>
             <when test="sidx != null and sidx.trim() != ''">

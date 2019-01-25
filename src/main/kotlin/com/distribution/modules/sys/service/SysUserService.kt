@@ -1,7 +1,12 @@
 package com.distribution.modules.sys.service
 
 
+import com.alicp.jetcache.anno.CacheInvalidate
+import com.alicp.jetcache.anno.CacheType
+import com.alicp.jetcache.anno.CacheUpdate
+import com.alicp.jetcache.anno.Cached
 import com.distribution.modules.sys.entity.SysUserEntity
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -19,6 +24,7 @@ interface SysUserService {
      * @param userId 用户ID
      * @return
      */
+    @Cached(name = "SysUserService.queryAllPerms", key = "#userId", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryAllPerms(userId: Long): List<String>
 
     /**
@@ -27,6 +33,7 @@ interface SysUserService {
      * @param userId
      * @return
      */
+    @Cached(name = "SysUserService.queryAllMenuId", key = "#userId", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryAllMenuId(userId: Long): List<Long>
 
     /**
@@ -35,6 +42,7 @@ interface SysUserService {
      * @param username
      * @return
      */
+    @Cached(name = "SysUserService.queryByUserName", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryByUserName(username: String): SysUserEntity
 
     /**
@@ -43,6 +51,7 @@ interface SysUserService {
      * @param userId
      * @return
      */
+    @Cached(name = "SysUserService.", key = "#userId", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryObject(userId: Long): SysUserEntity
 
     /**
@@ -76,6 +85,7 @@ interface SysUserService {
      * @param user
      * @throws Exception
      */
+    @CacheUpdate(name = "SysUserService.", key = "#user.id", value = "#user")
     @Throws(Exception::class)
     fun update(user: SysUserEntity)
 
@@ -85,6 +95,7 @@ interface SysUserService {
      * @param userIds
      * @throws Exception
      */
+    @CacheInvalidate(name = "SysUserService.", key = "#user.id")
     @Throws(Exception::class)
     fun deleteBatch(userIds: Array<Long>)
 

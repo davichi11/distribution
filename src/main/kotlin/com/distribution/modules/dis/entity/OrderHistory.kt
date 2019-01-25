@@ -1,6 +1,7 @@
 package com.distribution.modules.dis.entity
 
 import org.springframework.format.annotation.DateTimeFormat
+import java.io.Serializable
 import java.time.LocalDateTime
 
 /**
@@ -11,6 +12,7 @@ import java.time.LocalDateTime
  */
 
 data class OrderHistory(
+        private val serialVersionUID: Long = 1L,
         /**
          * 订单号
          */
@@ -52,4 +54,4 @@ data class OrderHistory(
         @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:SS")
         var finishTime: LocalDateTime = LocalDateTime.now()
 
-)
+) : Serializable

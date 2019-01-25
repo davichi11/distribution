@@ -3,11 +3,10 @@ package com.distribution
 import com.alibaba.fastjson.JSON
 import com.distribution.modules.api.pojo.vo.LoanOrderVO
 import com.distribution.modules.api.service.IdCardQueryService
+import com.distribution.modules.dis.service.DisMemberInfoService
+import com.distribution.modules.sys.service.SysConfigService
 import com.distribution.modules.sys.service.SysUserService
-import com.distribution.pojo.Tables
-import com.distribution.pojo.tables.pojos.DisMemberInfo
 import com.distribution.queue.LevelUpSender
-import org.jooq.DSLContext
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -36,7 +35,10 @@ class DistributionApplicationTests {
     @Autowired
     lateinit var idCardQueryService: IdCardQueryService
     @Autowired
-    lateinit var create: DSLContext
+    lateinit var disMemberInfoService: DisMemberInfoService
+    @Autowired
+    lateinit var sysConfigService: SysConfigService
+
 
     @Autowired
     lateinit var levelUpSender: LevelUpSender
@@ -90,13 +92,29 @@ class DistributionApplicationTests {
         print("------------------------------------")
     }
 
-    @Test
-    fun testReceiver() {
-        val disMemberInfo = create.selectFrom(Tables.DIS_MEMBER_INFO)
-                .where(Tables.DIS_MEMBER_INFO.ID.eq("005d3832944d495e9bc05e952f253871"))
-                .fetchOneInto(DisMemberInfo::class.java)
 
-        levelUpSender.send(JSON.toJSONString(disMemberInfo))
+    @Test
+    fun testCacheConfig() {
+        //{"level_1":"568","level_2":"368","level_3":"168"}
+        val value = "123"
+        val key = "level_price"
+        sysConfigService.updateValueByKey(key, value)
+    }
+
+    @Test
+    fun testMyTeam() {
+        //查询所有锁粉信息
+        val myTeam = disMemberInfoService.findMyTeam("9f71511fad6d4e2d8b1f854e084a9d71")
+        val disFansList = myTeam.filter { "0" == it.disUserType || it.disUserType == null }
+
+        //所有代理信息
+        val children = myTeam.filter { "1" == it.disUserType }
+
+        //返回数据
+        val map = mapOf("countFans" to disFansList.size, "fansList" to disFansList,
+                "countChirldern" to children.size, "children" to children)
+
+        print(map)
     }
 
 }

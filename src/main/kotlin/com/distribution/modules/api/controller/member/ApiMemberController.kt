@@ -11,7 +11,6 @@ import com.distribution.modules.api.entity.UserEntity
 import com.distribution.modules.api.pojo.vo.DisMemberVO
 import com.distribution.modules.api.pojo.vo.POSVO
 import com.distribution.modules.api.service.UserService
-import com.distribution.modules.dis.entity.DisFans
 import com.distribution.modules.dis.entity.DisMemberInfoEntity
 import com.distribution.modules.dis.service.DisFansService
 import com.distribution.modules.dis.service.DisMemberInfoService
@@ -23,7 +22,6 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
-import org.apache.commons.collections.CollectionUtils
 import org.apache.commons.lang3.StringUtils
 import org.modelmapper.ModelMapper
 import org.slf4j.LoggerFactory
@@ -31,7 +29,6 @@ import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.web.bind.annotation.*
-import java.util.*
 import javax.servlet.http.HttpServletRequest
 
 /**
@@ -96,44 +93,18 @@ class ApiMemberController {
         if (StringUtils.isBlank(mobile)) {
             return Result().error(msg = "手机号不能为空")
         }
-        val member = disMemberInfoService.queryByMobile(mobile)
+        val member = disMemberInfoService.queryByMobile(mobile) ?: return Result().error(msg = "没有该用户")
         //查询所有锁粉信息
-        val fansParam = HashMap<String, Any>(2)
-        fansParam["memberId"] = member!!.id!!
-        val disFansList = disFansService.queryList(fansParam)!!
-                .map { disFans ->
-                    val memberInfo = disMemberInfoService.queryByOpenId(disFans.wechatId) ?: DisMemberInfoEntity()
-                    getDisMemberVO(disFans, memberInfo)
-                }.filter { vo -> "0" == vo.disUserType }.toList()
+        val myTeam = disMemberInfoService.findMyTeam(member.id!!)
+        val disFansList = myTeam.filter { it.disUserType == "0" || it.disUserType == null }
 
         //所有代理信息
-        val children = member.disMemberChildren?.filter { m -> "1" == m.disUserType }?.map { memberInfo ->
-            val disFans = Optional.ofNullable(disFansService.queryByOpenId(memberInfo.openId!!)).orElse(DisFans())
-            memberInfo.userEntity = userService.queryByMemberId(memberInfo.id!!)!!
-            getDisMemberVO(disFans, memberInfo)
-        }?.toList()
+        val children = myTeam.filter { it.disUserType == "1" }
 
         //返回数据
-        val map = HashMap<String, Any>()
-        map["countFans"] = Optional.ofNullable(disFansList).orElse(ArrayList()).size
-        map["fansList"] = disFansList
-        map["countChirldern"] = Optional.ofNullable(children).orElse(ArrayList()).size
-        map["children"] = children!!
+        val map = mapOf("countFans" to disFansList.size, "fansList" to disFansList,
+                "countChirldern" to children.size, "children" to children)
         return Result().ok().put("results", map)
-    }
-
-    private fun getDisMemberVO(disFans: DisFans, memberInfo: DisMemberInfoEntity): DisMemberVO {
-        val memberVO = DisMemberVO()
-        memberVO.disUserName = memberInfo.disUserName ?: disFans.wechatNickname
-        memberVO.disUserType = memberInfo.disUserType ?: "0"
-        memberVO.disLevel = memberInfo.disLevel ?: 0
-        memberVO.mobile = memberInfo.userEntity?.mobile ?: ""
-        memberVO.openId = disFans.wechatId
-        memberVO.addTime = StringUtils.substring(memberInfo.addTime ?: "", 0, 10)
-        memberVO.nickName = disFans.wechatNickname
-        memberVO.imgUrl = disFans.wechatImg
-        memberVO.workerId = disFans.workerId
-        return memberVO
     }
 
 
@@ -157,14 +128,9 @@ class ApiMemberController {
     @GetMapping("/disMember/{mobile}")
     @ApiOperation(value = "查询用户信息")
     fun disMember(@PathVariable("mobile") mobile: String): Result {
-        val map = HashMap<String, Any>(2)
-        map["mobile"] = mobile
-        val disMemberInfoEntities = disMemberInfoService.queryList(map)
-        return if (CollectionUtils.isNotEmpty(disMemberInfoEntities)) {
-            Result().ok().put("disMember", disMemberInfoEntities!![0])
-        } else {
-            Result().error(msg = "没有查询到用户信息")
-        }
+        val member = disMemberInfoService.queryByMobile(mobile) ?: return Result().error(msg = "没有查询到用户信息")
+
+        return Result().ok().put("disMember", member)
     }
 
     @AuthIgnore
@@ -172,11 +138,10 @@ class ApiMemberController {
     @ApiOperation(value = "根据工号查询用户信息")
     fun findByWorkerId(@PathVariable("workerId") workerId: String): Result {
         val disMemberInfoEntity = disMemberInfoService.findByWorkerId(workerId)
-        return if (disMemberInfoEntity?.id == null) {
-            Result().error(msg = "没有该用户信息")
-        } else {
-            Result().ok().put("disMember", disMemberInfoEntity)
-        }
+                ?: return Result().error(msg = "没有该用户信息")
+
+        return Result().ok().put("disMember", disMemberInfoEntity)
+
     }
 
     @ApiOperation(value = "根据token获取用户信息")
@@ -329,9 +294,6 @@ class ApiMemberController {
         }
 
     }
-
-
-
 
 
 }

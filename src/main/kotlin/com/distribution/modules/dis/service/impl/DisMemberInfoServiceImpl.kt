@@ -1,6 +1,7 @@
 package com.distribution.modules.dis.service.impl
 
 import com.distribution.modules.api.dao.UserDao
+import com.distribution.modules.api.pojo.vo.DisMemberVO
 import com.distribution.modules.dis.dao.CardOrderInfoDao
 import com.distribution.modules.dis.dao.DisFansMapper
 import com.distribution.modules.dis.dao.DisMemberInfoDao
@@ -129,14 +130,19 @@ class DisMemberInfoServiceImpl : DisMemberInfoService {
         val children = disMemberInfoDao.queryList(param).filter { m -> "1" == m.disUserType }.count()
         //三级升二级
         if (member.disLevel == 3 && children >= 5) {
-            disMemberInfoDao.updateDisLevel(2, "1", member.id!!)
-
+            member.disLevel = 2
+            update(member)
         }
         //二级升一级
         if (member.disLevel == 2 && children >= 15) {
-            disMemberInfoDao.updateDisLevel(1, "1", member.id!!)
+            member.disLevel = 1
+            update(member)
         }
         return parentLevelUp(parent.disMemberParent!!)
+    }
+
+    override fun findMyTeam(parentId: String): List<DisMemberVO> {
+        return disMemberInfoDao.queryMyTeam(parentId)
     }
 
 

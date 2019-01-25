@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*
  * @Company
  * @Project distribution
  * @Package com.distribution.modules.api.controller.member
- * @Description TODO(描述)
  * @author ChunLiang Hu
  * @create 2018/8/18-23:09
  */

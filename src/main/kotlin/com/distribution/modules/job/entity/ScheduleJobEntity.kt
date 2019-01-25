@@ -1,5 +1,6 @@
 package com.distribution.modules.job.entity
 
+import java.io.Serializable
 import java.time.LocalDateTime
 
 /**
@@ -10,6 +11,7 @@ import java.time.LocalDateTime
  * @date 2016年11月28日 下午12:54:44
  */
 data class ScheduleJobEntity(
+        private val serialVersionUID: Long = 1L,
         val JOB_PARAM_KEY: String = "JOB_PARAM_KEY",
         /**
          * 任务id
@@ -54,4 +56,4 @@ data class ScheduleJobEntity(
          */
         var createTime: LocalDateTime? = null
 
-)
+) : Serializable

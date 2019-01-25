@@ -4,15 +4,13 @@ import com.distribution.common.utils.CommonUtils
 import com.distribution.common.utils.Result
 import com.distribution.modules.api.pojo.vo.ProductDetailVO
 import com.distribution.modules.integral.entity.ProductDetailEntity
+import com.distribution.modules.integral.entity.ProductDetailParams
+import com.distribution.modules.integral.service.ProductDetailParamsService
 import com.distribution.modules.integral.service.ProductDetailService
-import com.distribution.pojo.Tables
-import com.distribution.pojo.tables.pojos.ProductDetailParams
-import com.distribution.pojo.tables.records.ProductDetailParamsRecord
 import com.github.pagehelper.PageHelper
 import org.apache.commons.collections.CollectionUtils
 import org.apache.commons.collections.MapUtils
 import org.apache.shiro.authz.annotation.RequiresPermissions
-import org.jooq.DSLContext
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,7 +31,7 @@ class ProductDetailController {
     @Autowired
     private lateinit var productDetailService: ProductDetailService
     @Autowired
-    private lateinit var create: DSLContext
+    private lateinit var productDetailParamsService: ProductDetailParamsService
     private val log = LoggerFactory.getLogger(ProductDetailController::class.java)
 
     /**
@@ -57,9 +55,7 @@ class ProductDetailController {
     fun info(@PathVariable("id") id: String): Result {
         val productDetail = productDetailService.queryObject(id)
         val productDetailVO = ProductDetailVO()
-        val list = create.selectFrom(Tables.PRODUCT_DETAIL_PARAMS)
-                .where(Tables.PRODUCT_DETAIL_PARAMS.DETAIL_ID.eq(id))
-                .fetchInto(ProductDetailParams::class.java)
+        val list = productDetailParamsService.queryList(mapOf("detailId" to productDetail.id))?: listOf()
         BeanUtils.copyProperties(productDetail, productDetailVO)
         productDetailVO.params = list
         return Result().ok().put("productDetail", productDetailVO)
@@ -72,21 +68,21 @@ class ProductDetailController {
     @RequiresPermissions("productdetail:save")
     fun save(@RequestBody detailVO: ProductDetailVO): Result {
         try {
-            val productDetail = create.newRecord(Tables.PRODUCT_DETAIL)
+            val productDetail = ProductDetailEntity()
             val id = CommonUtils.uuid
             BeanUtils.copyProperties(detailVO, productDetail)
             productDetail.id = id
             productDetail.prodDetailCount = "0"
-            productDetail.insert()
+            productDetailService.save(productDetail)
             if (CollectionUtils.isNotEmpty(detailVO.params)) {
-                val paramsRecords = ArrayList<ProductDetailParamsRecord>()
+                val paramsRecords = ArrayList<ProductDetailParams>()
                 detailVO.params.forEach { params ->
-                    val paramsRecord = create.newRecord(Tables.PRODUCT_DETAIL_PARAMS)
+                    val paramsRecord = ProductDetailParams()
                     BeanUtils.copyProperties(params, paramsRecord)
                     paramsRecord.detailId = id
                     paramsRecords.add(paramsRecord)
                 }
-                create.batchInsert(paramsRecords).execute()
+                productDetailParamsService.batchInsert(paramsRecords)
             }
         } catch (e: Exception) {
             log.error("保存积分兑换产品列表异常", e)
@@ -103,14 +99,14 @@ class ProductDetailController {
     @RequiresPermissions("productdetail:update")
     fun update(@RequestBody productDetail: ProductDetailVO): Result {
         try {
-            val detail = create.newRecord(Tables.PRODUCT_DETAIL)
+            val detail = ProductDetailEntity()
             BeanUtils.copyProperties(productDetail, detail)
-            detail.update()
+            productDetailService.update(detail)
             if (CollectionUtils.isNotEmpty(productDetail.params)) {
                 productDetail.params.forEach { param ->
-                    val paramsRecord = create.newRecord(Tables.PRODUCT_DETAIL_PARAMS)
+                    val paramsRecord = ProductDetailParams()
                     BeanUtils.copyProperties(param, paramsRecord)
-                    paramsRecord.update()
+                    productDetailParamsService.update(paramsRecord)
                 }
             }
         } catch (e: Exception) {

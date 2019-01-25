@@ -1,6 +1,9 @@
 package com.distribution.modules.sys.service
 
+import com.alicp.jetcache.anno.CacheType
+import com.alicp.jetcache.anno.Cached
 import com.distribution.modules.sys.entity.District
+import java.util.concurrent.TimeUnit
 
 /**
  * @author ChunLiang Hu
@@ -11,5 +14,6 @@ import com.distribution.modules.sys.entity.District
  * @create 2018/6/20-22:05
  */
 interface DistrictService {
+    @Cached(name = "DistrictService.", key = "#parentId", cacheType = CacheType.BOTH, localExpire = 600000, expire = 6000000, timeUnit = TimeUnit.SECONDS)
     fun getByParentId(parentId: String): List<District>
 }

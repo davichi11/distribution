@@ -21,12 +21,12 @@ import com.distribution.modules.memeber.service.WithdrawalInfoService
 import com.distribution.weixin.service.WeiXinService
 import com.distribution.weixin.utils.WxUtils
 import com.github.pagehelper.PageHelper
-import com.google.common.collect.Lists
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
 import org.apache.commons.collections.MapUtils
 import org.apache.commons.lang3.StringUtils
@@ -94,11 +94,10 @@ class ApiAccountController {
         if (StringUtils.isBlank(alipayAccount)) {
             return Result().error(msg = "支付宝账户不能为空")
         }
-        val map = mutableMapOf<String, Any>()
-        map["mobile"] = mobile
-        val member = disMemberInfoService.queryList(map)!!.first()
 
-        var memberAccount: MemberAccount? = memberAccountService.selectMemberAccountByUserId(mobile)
+        val member = disMemberInfoService.queryByMobile(mobile) ?: return Result().error(msg = "没有此用户")
+
+        var memberAccount = memberAccountService.selectMemberAccountByUserId(mobile)
         if (memberAccount == null) {
             memberAccount = MemberAccount()
             memberAccount.member = member
@@ -306,9 +305,9 @@ class ApiAccountController {
         redisTemplate.opsForValue().set(countKey, (count).toString(), millis, TimeUnit.MILLISECONDS)
 
         //发送提现成功提醒
-        launch {
+        GlobalScope.launch {
             //            wxMpService.templateMsgService.sendTemplateMsg(buildTemplateMsg(account.member.openId,
-//                    withdrawalVo.withdrawAmount.toString(), withdrawalInfo.withdrawName))
+            //   withdrawalVo.withdrawAmount.toString(), withdrawalInfo.withdrawName))
             val templateDataList = listOf(
                     WxMpTemplateData("first", MessageFormat.format("提现成功！", withdrawalInfo.withdrawName)),
                     WxMpTemplateData("keyword1", withdrawalVo.withdrawAmount.toString()),
@@ -331,7 +330,7 @@ class ApiAccountController {
     @RequestMapping("/alipayCallback")
     fun alipayCallback(request: HttpServletRequest, response: HttpServletResponse): String {
         val parameterMap = request.parameterMap
-        val params = HashMap<String, String>(parameterMap.size)
+        val params = mutableMapOf<String, String>()
         parameterMap.forEach { k, v -> params[k] = v.joinToString(",") }
         log.info("接收支付宝支付回调,参数为{}", params)
         //判断支付结果
@@ -346,7 +345,7 @@ class ApiAccountController {
             }
             //从回传参数中取出购买的会员等级
             val level = params["passback_params"]
-            if (level == null || level.isBlank()) {
+            if (StringUtils.isBlank(level)) {
                 log.info("回传参数中没有会员等级")
                 return "failure"
             }
@@ -360,7 +359,7 @@ class ApiAccountController {
             }
             orderHistoryService.updateOrderStatus(1, orderNo)
             //根据支付宝账户查询对应的会员信息
-            val member = disMemberInfoService.queryByMobile(orderHistory.mobile)!!
+            val member = disMemberInfoService.queryByMobile(orderHistory.mobile) ?: return "failure"
 
             //升级会员
             member.disLevel = NumberUtils.toInt(level)
@@ -368,7 +367,7 @@ class ApiAccountController {
             if ("0" == member.disUserType) {
                 member.disUserType = "1"
             }
-            disMemberInfoService.updateDisLevel(member.disLevel, member.disUserType!!, member.id!!)
+            disMemberInfoService.update(member)
             //调用分润
             var money = 0.00
             when (level) {
@@ -376,11 +375,11 @@ class ApiAccountController {
                 "2" -> money = 200.00
                 "3" -> money = 100.00
             }
-            launch {
-                profiParamService.doFeeSplitting(member, money, true)
 
+            GlobalScope.launch {
+                profiParamService.doFeeSplitting(member, money, true)
                 //构造模板消息
-                val templateDataList = Lists.newArrayList(
+                val templateDataList = listOf(
                         WxMpTemplateData("first", MessageFormat.format("尊敬的会员：{0}，您的会员已经成功开通！", member.disUserName)),
                         WxMpTemplateData("keyword1", member.disLevel.toString()),
                         WxMpTemplateData("keyword2", level),

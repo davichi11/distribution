@@ -19,6 +19,7 @@ interface LoanInfoService {
      *
      * @return
      */
+    @Cached(name = "LoanInfoService.", key = "#id", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryObject(id: String): LoanInfoEntity
 
     /**
@@ -27,7 +28,6 @@ interface LoanInfoService {
      * @param map
      * @return
      */
-    @Cached(name = "LoanInfoService.list",localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryList(map: Map<String, Any>): List<LoanInfoEntity>
 
     /**
@@ -35,7 +35,6 @@ interface LoanInfoService {
      *
      * @throws Exception
      */
-    @CacheUpdate(name = "LoanInfoService.list",key = "#loanInfo.id",value = "#loanInfo")
     @Throws(Exception::class)
     fun save(loanInfo: LoanInfoEntity)
 
@@ -44,7 +43,7 @@ interface LoanInfoService {
      *
      * @throws Exception
      */
-    @CacheUpdate(name = "LoanInfoService.list",key = "#loanInfo.id",value = "#loanInfo")
+    @CacheUpdate(name = "LoanInfoService.", key = "#loanInfo.id", value = "#loanInfo")
     @Throws(Exception::class)
     fun update(loanInfo: LoanInfoEntity)
 

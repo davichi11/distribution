@@ -19,6 +19,7 @@ interface ArticleInfoService {
      * 根据ID查询
      * @return
      */
+    @Cached(name = "ArticleInfoService.", key = "#id", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryObject(id: Int): ArticleInfoEntity
 
     /**
@@ -26,14 +27,12 @@ interface ArticleInfoService {
      * @param map
      * @return
      */
-    @Cached(name = "ArticleInfoService.list",localExpire = 60000, cacheType = CacheType.BOTH, expire = 60000, timeUnit = TimeUnit.MILLISECONDS)
     fun queryList(map: Map<String, Any>): List<ArticleInfoEntity>
 
     /**
      * 保存
      * @throws Exception
      */
-    @CacheUpdate(name = "ArticleInfoService.list",key = "#articleInfo.id",value = "#articleInfo")
     @Throws(Exception::class)
     fun save(articleInfo: ArticleInfoEntity)
 
@@ -41,7 +40,7 @@ interface ArticleInfoService {
      * 更新
      * @throws Exception
      */
-    @CacheUpdate(name = "ArticleInfoService.list",key = "#articleInfo.id",value = "#articleInfo")
+    @CacheUpdate(name = "ArticleInfoService.", key = "#articleInfo.id", value = "#articleInfo")
     @Throws(Exception::class)
     fun update(articleInfo: ArticleInfoEntity)
 

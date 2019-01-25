@@ -12,4 +12,6 @@ import org.apache.ibatis.annotations.Mapper
  * @date 2018-07-06
  */
 @Mapper
-interface LoanOrderInfoDao : BaseDao<LoanOrderInfoEntity>
+interface LoanOrderInfoDao : BaseDao<LoanOrderInfoEntity> {
+    fun queryCount(param: Map<String, Any>): Int
+}

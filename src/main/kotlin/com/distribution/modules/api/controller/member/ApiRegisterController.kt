@@ -20,6 +20,7 @@ import org.apache.commons.collections.CollectionUtils
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.PostMapping
@@ -53,6 +54,9 @@ class ApiRegisterController {
     private lateinit var sender: NotifySender
     @Autowired
     private lateinit var redisTemplate: RedisTemplate<String, String>
+    @Value("\${spring.profiles.active}")
+    private lateinit var active: String
+
     private val log = LoggerFactory.getLogger(ApiRegisterController::class.java)
 
     /**
@@ -144,13 +148,15 @@ class ApiRegisterController {
         if (StringUtils.isBlank(mobile)) {
             return Result().error(msg = "手机号不正确")
         }
-        val captcha = CommonUtils.random
+        val captcha = if (active == "pro") CommonUtils.random else "123456"
         //放入Redis缓存,60秒过期
         redisTemplate.opsForValue().set(mobile, captcha, 300, TimeUnit.SECONDS)
         val json = JSONObject()
         json["code"] = captcha
         json["cellphone"] = mobile
-        sender.send(json.toJSONString())
+        if (active == "pro") {
+            sender.send(json.toJSONString())
+        }
         return Result().ok().put("captcha", captcha)
     }
 }

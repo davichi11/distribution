@@ -180,4 +180,16 @@
         </foreach>
     </delete>
 
+    <select id="queryCount" resultType="int">
+        select count(*) from integral_order
+        <where>
+            <if test="mobile != null and mobile !=''">
+                and mobile = #{mobile}
+            </if>
+            <if test="status != null and status!=''">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
 </mapper>

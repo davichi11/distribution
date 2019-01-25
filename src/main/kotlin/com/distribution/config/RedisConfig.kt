@@ -21,7 +21,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer
 @Configuration
 class RedisConfig {
     @Autowired
-    private val factory: RedisConnectionFactory? = null
+    private lateinit var factory: RedisConnectionFactory
 
     @Bean
     fun redisTemplate(): RedisTemplate<String, Any> {
@@ -29,7 +29,7 @@ class RedisConfig {
         redisTemplate.keySerializer = StringRedisSerializer()
         redisTemplate.hashKeySerializer = StringRedisSerializer()
         redisTemplate.hashValueSerializer = StringRedisSerializer()
-        redisTemplate.connectionFactory = factory!!
+        redisTemplate.connectionFactory = factory
         val jackson2JsonRedisSerializer = Jackson2JsonRedisSerializer(Any::class.java)
         val om = ObjectMapper()
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY)

@@ -57,4 +57,6 @@ interface LoanOrderInfoService {
      */
     @Throws(Exception::class)
     fun deleteBatch(ids: Array<String>)
+
+    fun countLoanOrder(map: Map<String, Any>): Int
 }

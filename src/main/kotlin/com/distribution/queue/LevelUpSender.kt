@@ -1,6 +1,8 @@
 package com.distribution.queue
 
-import org.springframework.amqp.core.AmqpTemplate
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.amqp.rabbit.core.RabbitTemplate
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -14,11 +16,12 @@ import org.springframework.stereotype.Component
  */
 @Component
 class LevelUpSender {
+    private val log: Logger = LoggerFactory.getLogger(LevelUpSender::class.java)
     @Autowired
-    private lateinit var amqpTemplate: AmqpTemplate
+    private lateinit var rabbitAmqpTemplate: RabbitTemplate
 
     fun send(context: String) {
         println("Sender : $context")
-        amqpTemplate.convertAndSend("level_up", context)
+        rabbitAmqpTemplate.convertAndSend("level_up", context)
     }
 }

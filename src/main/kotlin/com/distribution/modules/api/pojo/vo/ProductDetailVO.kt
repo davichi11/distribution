@@ -1,6 +1,6 @@
 package com.distribution.modules.api.pojo.vo
 
-import com.distribution.pojo.tables.pojos.ProductDetailParams
+import com.distribution.modules.integral.entity.ProductDetailParams
 
 /**
  * @author ChunLiang Hu

@@ -16,6 +16,7 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.*
 
+
 /**
  * @author ChunLiang Hu
  * @Company
@@ -99,6 +100,32 @@ class MyTest {
             val cardApiResponse = JSON.parseObject(response.body()!!.string(), CardApiResponse::class.java)
             println(cardApiResponse)
         }
+    }
+
+    @Test
+    fun testKSmall() {
+        val nums1 = intArrayOf(1, 3, 5, 8, 9, 3, 12, 33)
+        val nums2 = intArrayOf(4, 22, 44, 66, 77, 1, 8)
+        print(kSmallestPairs(nums1, nums2, 3))
+    }
+
+    fun kSmallestPairs(nums1: IntArray, nums2: IntArray, k: Int): List<IntArray> {
+        var arr = k
+        val result = ArrayList<IntArray>()
+        if (nums1.isEmpty() || nums2.isEmpty() || arr == 0) return result
+        val heap = PriorityQueue(Comparator<IntArray> { o1, o2 -> o1[0] + o1[1] - o2[0] - o2[1] })
+
+        for (i in nums1.indices) {
+            heap.offer(intArrayOf(nums1[i], nums2[0], 0))
+        }
+        while (arr-- != 0 && !heap.isEmpty()) {
+            val min = heap.poll()
+            result.add(intArrayOf(min[0], min[1]))
+            if (min[2] == nums2.size) continue
+            heap.offer(intArrayOf(min[0], nums2[min[2] + 1], min[2] + 1))
+        }
+        return result
+
     }
 
     @Test

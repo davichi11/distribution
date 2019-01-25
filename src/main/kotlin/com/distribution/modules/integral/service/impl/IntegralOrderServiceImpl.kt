@@ -7,8 +7,8 @@ import com.distribution.modules.integral.dao.IntegralOrderDao
 import com.distribution.modules.integral.entity.IntegralOrderEntity
 import com.distribution.modules.integral.service.IntegralOrderService
 import com.distribution.queue.LevelUpSender
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 class IntegralOrderServiceImpl : IntegralOrderService {
     @Autowired
     private lateinit var integralOrderDao: IntegralOrderDao
+
     @Autowired
     private lateinit var disProfiParamService: DisProfiParamService
     @Autowired
@@ -31,6 +32,10 @@ class IntegralOrderServiceImpl : IntegralOrderService {
 
     override fun queryList(map: Map<String, Any>): List<IntegralOrderEntity> {
         return integralOrderDao.queryList(map)
+    }
+
+    override fun countIntegralOrder(map: Map<String, Any>): Int {
+        return integralOrderDao.queryCount(map)
     }
 
 
@@ -51,7 +56,7 @@ class IntegralOrderServiceImpl : IntegralOrderService {
             if ("0" == member.disUserType && "0" == member.disMemberParent!!.disUserType) {
                 return
             }
-            launch {
+            GlobalScope.launch {
                 //调用分润
                 disProfiParamService.doFeeSplitting(member, integralOrder.profiMoney, false)
             }

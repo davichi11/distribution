@@ -36,6 +36,8 @@
         </if>
     </select>
 
+
+
     <insert id="save" parameterType="com.distribution.modules.dis.entity.LoanInfoEntity">
         insert into loan_info
         <trim prefix="(" suffix=")" suffixOverrides=",">

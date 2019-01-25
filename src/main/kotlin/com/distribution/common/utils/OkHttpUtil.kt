@@ -14,7 +14,6 @@ import java.util.concurrent.TimeUnit
  * @Company
  * @Project swwx-payment
  * @Package com.tencent.sxwx.payment.util
- * @Description TODO(描述)
  * @create 2018/5/14-15:49
  */
 object OkHttpUtil {

@@ -1,5 +1,10 @@
 package com.distribution.modules.sys.service
 
+import com.alicp.jetcache.anno.CacheType
+import com.alicp.jetcache.anno.CacheUpdate
+import com.alicp.jetcache.anno.Cached
+import java.util.concurrent.TimeUnit
+
 
 /**
  * 角色与菜单对应关系
@@ -17,8 +22,9 @@ interface SysRoleMenuService {
      * @param menuIdList
      * @throws Exception
      */
+    @CacheUpdate(name = "SysRoleMenuService.", key = "#roleId", value = "#roleId")
     @Throws(Exception::class)
-    fun saveOrUpdate(roleId: Long?, menuIdList: List<Long>)
+    fun saveOrUpdate(roleId: Long, menuIdList: List<Long>)
 
     /**
      * 根据角色ID，获取菜单ID列表
@@ -26,6 +32,7 @@ interface SysRoleMenuService {
      * @param roleId
      * @return
      */
-    fun queryMenuIdList(roleId: Long?): List<Long>
+    @Cached(name = "SysRoleMenuService.",key = "#roleId", localExpire = 60000, cacheType = CacheType.BOTH, expire = 6000000, timeUnit = TimeUnit.MILLISECONDS)
+    fun queryMenuIdList(roleId: Long): List<Long>
 
 }

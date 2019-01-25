@@ -21,9 +21,9 @@ class SysRoleMenuServiceImpl : SysRoleMenuService {
 
     @Transactional(rollbackFor = [(Exception::class)])
     @Throws(Exception::class)
-    override fun saveOrUpdate(roleId: Long?, menuIdList: List<Long>) {
+    override fun saveOrUpdate(roleId: Long, menuIdList: List<Long>) {
         //先删除角色与菜单关系
-        sysRoleMenuDao.delete(roleId!!)
+        sysRoleMenuDao.delete(roleId)
 
         if (menuIdList.isEmpty()) {
             return
@@ -36,7 +36,7 @@ class SysRoleMenuServiceImpl : SysRoleMenuService {
         sysRoleMenuDao.save(map)
     }
 
-    override fun queryMenuIdList(roleId: Long?): List<Long> {
+    override fun queryMenuIdList(roleId: Long): List<Long> {
         return sysRoleMenuDao.queryMenuIdList(roleId)
     }
 

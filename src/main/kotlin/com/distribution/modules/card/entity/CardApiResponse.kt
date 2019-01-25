@@ -1,5 +1,7 @@
 package com.distribution.modules.card.entity
 
+import java.io.Serializable
+
 /**
  * @author ChunLiang Hu
  * @Company
@@ -10,6 +12,7 @@ package com.distribution.modules.card.entity
  */
 
 data class CardApiResponse(
+        private val serialVersionUID: Long = 1L,
         var message: String = "",
 
         var results: CardApiResults = CardApiResults(),
@@ -18,4 +21,4 @@ data class CardApiResponse(
 
 
         val isSuccess: Boolean = false
-)
+) : Serializable

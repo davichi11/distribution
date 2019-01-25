@@ -54,8 +54,9 @@ class ApiAliPayController {
     fun checkMemberDisLevel(@RequestParam mobile: String, @RequestParam disLevel: Int?): ModelAndView {
         val modelAndView = ModelAndView()
         val disMemberInfoEntity = disMemberInfoService.queryByMobile(mobile)
+                ?: return modelAndView.addObject("生成APP支付订单异常")
         //非会员可以通过
-        if ("1" == disMemberInfoEntity!!.disUserType) {
+        if ("1" == disMemberInfoEntity.disUserType) {
             //如果是1级会员
             if (1 == disMemberInfoEntity.disLevel) {
                 modelAndView.addObject("您已是1级会员，无需升级")
@@ -97,10 +98,9 @@ class ApiAliPayController {
         orderHistory.finishTime = LocalDateTime.now()
         return try {
             val account = accountService.selectMemberAccountByUserId(disMemberInfoEntity.id!!)
-            if (account != null) {
-                val aliPayAccount = account.aliPayAccount
-                orderHistory.account = aliPayAccount
-            }
+                    ?: return modelAndView.addObject("生成APP支付订单异常")
+            val aliPayAccount = account.aliPayAccount
+            orderHistory.account = aliPayAccount
             orderHistoryService.save(orderHistory)
             payParams.passbackParams = URLEncoder.encode(disLevel.toString(), "UTF-8")
             modelAndView.addObject("form", AliPayUtils.tradeWapPay(payParams))

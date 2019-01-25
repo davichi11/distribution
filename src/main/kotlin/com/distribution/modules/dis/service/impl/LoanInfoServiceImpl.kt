@@ -18,6 +18,8 @@ import java.util.*
 
 @Service("loanInfoService")
 class LoanInfoServiceImpl : LoanInfoService {
+
+
     @Autowired
     private lateinit var loanInfoDao: LoanInfoDao
     @Autowired

@@ -5,9 +5,10 @@ import com.aliyuncs.DefaultAcsClient
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest
 import com.aliyuncs.exceptions.ClientException
 import com.aliyuncs.profile.DefaultProfile
-import lombok.extern.slf4j.Slf4j
+import com.rabbitmq.client.Channel
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.amqp.core.Message
 import org.springframework.amqp.rabbit.annotation.RabbitHandler
 import org.springframework.amqp.rabbit.annotation.RabbitListener
 import org.springframework.stereotype.Component
@@ -29,7 +30,7 @@ import java.text.MessageFormat
 class NotifyReceiver {
     private val log: Logger = LoggerFactory.getLogger(NotifyReceiver::class.java)
     @RabbitHandler
-    fun process(msg: String) {
+    fun process(msg: String, channel: Channel, message: Message) {
         //可自助调整超时时间
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000")
         System.setProperty("sun.net.client.defaultReadTimeout", "10000")
@@ -71,8 +72,9 @@ class NotifyReceiver {
             }
         } catch (e: ClientException) {
             log.error("短信发送异常")
+            channel.basicReject(message.messageProperties.deliveryTag, true)
         }
-
+        channel.basicAck(message.messageProperties.deliveryTag, false)
         log.info("短信发送成功{}", msg)
     }
 

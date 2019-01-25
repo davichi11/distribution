@@ -12,29 +12,26 @@ import com.distribution.modules.dis.entity.LoanOrderInfoEntity
 import com.distribution.modules.dis.service.DisMemberInfoService
 import com.distribution.modules.dis.service.LoanInfoService
 import com.distribution.modules.dis.service.LoanOrderInfoService
-import com.distribution.pojo.Tables
-import com.distribution.pojo.Tables.LOAN_ORDER_INFO
-import com.distribution.pojo.tables.pojos.LoanInfo
 import com.distribution.weixin.service.WeiXinService
 import com.distribution.weixin.utils.WxUtils
 import com.github.pagehelper.PageHelper
 import com.google.common.collect.Lists
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
+import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import me.chanjar.weixin.common.exception.WxErrorException
 import me.chanjar.weixin.mp.api.WxMpService
 import me.chanjar.weixin.mp.bean.result.WxMpUser
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
 import org.apache.commons.lang3.StringUtils
-import org.jooq.DSLContext
 import org.slf4j.LoggerFactory
 import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
-import java.util.*
 import java.util.regex.Pattern
 
 /**
@@ -49,8 +46,6 @@ import java.util.regex.Pattern
 @RestController
 @RequestMapping("/api")
 class ApiLoanController {
-    @Autowired
-    private lateinit var create: DSLContext
     @Autowired
     private lateinit var loanInfoService: LoanInfoService
     @Autowired
@@ -75,22 +70,28 @@ class ApiLoanController {
     fun getLoanInfo(id: String?): Result {
         return when {
             StringUtils.isBlank(id) -> Result().ok().put("loanInfos",
-                    create.selectFrom(Tables.LOAN_INFO).fetchInto(LoanInfo::class.java))
-            else -> Result().ok().put("loanInfo", create.selectFrom(Tables.LOAN_INFO).where(Tables.LOAN_INFO.ID.eq(id))
-                    .fetchInto(LoanInfo::class.java))
+                    loanInfoService.queryList(mapOf()))
+            else -> Result().ok().put("loanInfo", loanInfoService.queryObject(id!!))
         }
     }
 
     @GetMapping("/loanOrder/{mobile}")
     @ApiOperation("查询用户贷款订单记录")
-    @ApiImplicitParam(paramType = "patch", dataType = "string", name = "用户手机号", value = "mobile")
-    fun getLoanOrderInfo(@PathVariable("mobile") mobile: String, page: Int = 0, limit: Int = 0, status: Int = 0): Result {
+    @AuthIgnore
+    @ApiImplicitParams(
+            ApiImplicitParam(paramType = "path", dataType = "string", name = "用户手机号", value = "mobile"),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "页数", value = "page"),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "每页数", value = "limit"),
+            ApiImplicitParam(paramType = "query", dataType = "string", name = "状态", value = "status")
+    )
+    fun getLoanOrderInfo(@PathVariable("mobile") mobile: String,
+                         @RequestParam(name = "page", defaultValue = "0") page: Int = 0,
+                         @RequestParam(name = "limit", defaultValue = "10") limit: Int = 10,
+                         @RequestParam(name = "status", defaultValue = "0") status: Int = 0): Result {
         val member = disMemberInfoService.queryByMobile(mobile)!!
-        val memberIds = member.disMemberChildren!!.map { it.id }.toMutableList()
+        val memberIds = member.disMemberChildren!!.asSequence().map { it.id }.toMutableList()
         memberIds.add(member.id)
-        val param = HashMap<String, Any>()
-        param["memberIds"] = memberIds
-        param["status"] = status
+        val param = mapOf("memberIds" to memberIds, "status" to status)
         //查询列表数据
         val pageInfo = PageHelper.startPage<Any>(page, limit)
                 .doSelectPageInfo<LoanOrderInfoEntity> { loanOrderInfoService.queryList(param) }
@@ -110,8 +111,7 @@ class ApiLoanController {
         if (StringUtils.isBlank(loanOrder.loanId)) {
             return Result().error(msg = "银行代号不能为空")
         }
-        val loanInfo = create.selectFrom(Tables.LOAN_INFO)
-                .where(Tables.LOAN_INFO.ID.eq(loanOrder.loanId)).fetchOne()
+        val loanInfo = loanInfoService.queryObject(loanOrder.loanId)
         val member = disMemberInfoService.queryByMobile(loanOrder.orderMobile)!!
         //先调用第三方接口保存用户信息并返回url
         val url: String
@@ -126,9 +126,7 @@ class ApiLoanController {
             return Result().error(msg = "申请异常")
         }
         //查看是否已办过该贷款产品
-        val count = create.selectCount().from(LOAN_ORDER_INFO)
-                .where(Tables.LOAN_ORDER_INFO.ORDER_MOBILE.eq(loanOrder.orderMobile))
-                .fetchOneInto(Int::class.javaPrimitiveType)
+        val count = loanOrderInfoService.countLoanOrder(mapOf("mobile" to loanOrder.orderMobile))
         if (count >= 1) {
             return Result().ok().put("url", url)
         }
@@ -151,7 +149,7 @@ class ApiLoanController {
         if (wxMpUser.openId.isEmpty()) {
             return Result().ok().put("url", url)
         }
-        launch {
+        GlobalScope.launch {
             //发送订单信息提醒
             try {
                 buildTemplateMsg(member.openId, member.disUserName, loanInfo.loanName, weiXinService)
@@ -179,16 +177,16 @@ class ApiLoanController {
      */
     @Throws(Exception::class)
     private fun saveOrder(loanOrderVO: LoanOrderVO, member: DisMemberInfoEntity) {
-        val orderInfoRecord = create.newRecord(Tables.LOAN_ORDER_INFO)
+        val orderInfoRecord = LoanOrderInfoEntity()
         BeanUtils.copyProperties(loanOrderVO, orderInfoRecord)
         orderInfoRecord.id = CommonUtils.uuid
         orderInfoRecord.orderId = AliPayUtils.generateOrderId(loanOrderVO.orderMobile,
                 Constant.PayType.applyLoan.value)
-        orderInfoRecord.memberId = member.id
-        orderInfoRecord.orderStatus = "2"
+        orderInfoRecord.memberId = member.id!!
+        orderInfoRecord.orderStatus = 2
         orderInfoRecord.isDelete = 0
         orderInfoRecord.addTime = DateUtils.formatDateTime(LocalDateTime.now())
-        orderInfoRecord.insert()
+        loanOrderInfoService.save(orderInfoRecord)
     }
 
     /**
