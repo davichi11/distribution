@@ -35,6 +35,7 @@ object AliPayUtils {
     private const val ENCRYPT_KEY = "5KBDk9lXy8eU23DvUNOdgg=="
     private const val ENCRYPT_TYPE = "AES"
     private val log = LoggerFactory.getLogger(AliPayUtils::class.java)
+    private const val url = "https://openapi.alipay.com/gateway.do"
 
     /**
      * 转账到支付宝账户
@@ -44,7 +45,7 @@ object AliPayUtils {
      */
     @Throws(AlipayApiException::class)
     fun transferResponse(payParams: AliPayParams): AlipayFundTransToaccountTransferResponse {
-        val alipayClient = DefaultAlipayClient("https://openapi.alipay.com/gateway.do", APP_ID, PRIVATE_KEY,
+        val alipayClient = DefaultAlipayClient(url, APP_ID, PRIVATE_KEY,
                 "json", "GBK", ALIPAY_PUBLIC_KEY, "RSA2", ENCRYPT_KEY, ENCRYPT_TYPE)
         val request = AlipayFundTransToaccountTransferRequest()
         request.isNeedEncrypt = true
@@ -94,7 +95,7 @@ object AliPayUtils {
     @Throws(AlipayApiException::class)
     fun generateAppOrder(remark: String, title: String, amount: BigDecimal, orderNo: String): String {
         //实例化客户端
-        val alipayClient = DefaultAlipayClient("https://openapi.alipay.com/gateway.do",
+        val alipayClient = DefaultAlipayClient(url,
                 APP_ID, PRIVATE_KEY, "json", "UTF-8", ALIPAY_PUBLIC_KEY, "RSA2")
         //实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
         val request = AlipayTradeAppPayRequest()
@@ -132,7 +133,7 @@ object AliPayUtils {
         //                .build();
         //        AliPayApiConfigKit.setThreadLocalAliPayApiConfig(aliPayApiConfig);
 
-        val alipayClient = DefaultAlipayClient("https://openapi.alipay.com/gateway.do",
+        val alipayClient = DefaultAlipayClient(url,
                 APP_ID, PRIVATE_KEY, "json", "UTF-8", ALIPAY_PUBLIC_KEY, "RSA2")
         val payModel = AlipayTradeWapPayModel()
         payModel.quitUrl = payParams.quitUrl
@@ -145,8 +146,6 @@ object AliPayUtils {
         payModel.productCode = payParams.productCode
         payModel.timeoutExpress = "2m"
         val request = AlipayTradeWapPayRequest()
-        //        request.setNeedEncrypt(true);
-        //        request.setBizContent(JSON.toJSONString(payParams));
         request.bizModel = payModel
         request.notifyUrl = "https://www.qiandaoshou.cn/dis/api/alipayCallback"
         request.returnUrl = "https://www.qiandaoshou.cn/#/MyCenter"

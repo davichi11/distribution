@@ -7,7 +7,6 @@ import com.alibaba.fastjson.annotation.JSONField
  * @Company
  * @Project distribution
  * @Package com.distribution.ali.pay
- * @Description TODO(描述)
  * @create 2018/5/29-22:23
  */
 data class AliPayParams(
