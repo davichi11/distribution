@@ -93,10 +93,9 @@ class DisProfiParamServiceImpl : DisProfiParamService {
             //如果是百分比 转换分润值
             if ("0" == profiParam.disProMode) {
                 //会员推荐奖励 推荐人拿全款
-                if (isReward) {
-                    profiParam.disProValue = 1.00
-                } else {
-                    profiParam.disProValue = profiParam.disProValue / 100
+                when {
+                    isReward -> profiParam.disProValue = 1.00
+                    else -> profiParam.disProValue = profiParam.disProValue / 100
                 }
             }
         }

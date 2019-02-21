@@ -46,8 +46,8 @@ class SysGeneratorController {
 
         val pageInfo: PageInfo<Map<String, Any>>
         try {
-            pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page", 0)!!,
-                    MapUtils.getInteger(params, "limit", 0)!!).doSelectPageInfo { sysGeneratorService.queryList(params) }
+            pageInfo = PageHelper.startPage<Any>(MapUtils.getInteger(params, "page", 0),
+                    MapUtils.getInteger(params, "limit", 0)).doSelectPageInfo { sysGeneratorService.queryList(params) }
         } catch (e: Exception) {
             log.error("查询异常", e)
             return Result().error(msg = "查询异常")

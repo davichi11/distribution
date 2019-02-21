@@ -31,17 +31,9 @@ object GenUtils {
 
     private val templates: List<String>
         get() {
-            val templates = ArrayList<String>()
-            templates.add("template/Entity.java.vm")
-            templates.add("template/Dao.java.vm")
-            templates.add("template/Dao.xml.vm")
-            templates.add("template/Service.java.vm")
-            templates.add("template/ServiceImpl.java.vm")
-            templates.add("template/Controller.java.vm")
-            templates.add("template/list.html.vm")
-            templates.add("template/list.js.vm")
-            templates.add("template/menu.sql.vm")
-            return templates
+            return listOf("template/Entity.java.vm", "template/Dao.java.vm", "template/Dao.xml.vm",
+                    "template/Service.java.vm", "template/ServiceImpl.java.vm", "template/Controller.java.vm",
+                    "template/list.html.vm", "template/list.js.vm", "template/menu.sql.vm")
         }
 
     /**
@@ -82,8 +74,8 @@ object GenUtils {
 
         //表信息
         val tableEntity = TableEntity()
-        tableEntity.tableName = table["tableName"]!!
-        tableEntity.comments = table["tableComment"]!!
+        tableEntity.tableName = table.getValue("tableName")
+        tableEntity.comments = table.getValue("tableComment")
         //表名转换成Java类名
         val className = tableToJava(tableEntity.tableName, config.getString("tablePrefix"))
         tableEntity.upClassName = className
@@ -92,10 +84,10 @@ object GenUtils {
         //列信息
         val columsList = columns.map { column ->
             val columnEntity = ColumnEntity()
-            columnEntity.columnName = column["columnName"]!!
-            columnEntity.dataType = column["dataType"]!!
-            columnEntity.comments = column["columnComment"]!!
-            columnEntity.extra = column["extra"]!!
+            columnEntity.columnName = column.getValue("columnName")
+            columnEntity.dataType = column.getValue("dataType")
+            columnEntity.comments = column.getValue("columnComment")
+            columnEntity.extra = column.getValue("extra")
             //列名转换成Java属性名
             val attrName = columnToJava(columnEntity.columnName)
             columnEntity.upAttrName = attrName

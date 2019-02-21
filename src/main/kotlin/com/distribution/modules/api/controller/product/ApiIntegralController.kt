@@ -8,7 +8,6 @@ import com.distribution.modules.api.pojo.vo.ProductDetailVO
 import com.distribution.modules.api.pojo.vo.ProductTypeVO
 import com.distribution.modules.dis.service.DisMemberInfoService
 import com.distribution.modules.integral.entity.IntegralOrderEntity
-import com.distribution.modules.integral.entity.ProductDetailParams
 import com.distribution.modules.integral.service.*
 import com.github.pagehelper.PageHelper
 import io.swagger.annotations.Api
@@ -70,7 +69,7 @@ class ApiIntegralController {
         val detailVOS = productDetails.map { productDetail ->
             val detailVO = ProductDetailVO()
             BeanUtils.copyProperties(productDetail, detailVO)
-            detailVO.params = productDetailParamsService.queryList(mapOf("detailId" to productDetail.id)) ?: listOf<ProductDetailParams>()
+            detailVO.params = productDetailParamsService.queryList(mapOf("detailId" to productDetail.id)) ?: listOf()
             detailVO
         }.toList()
         return Result().ok().put("productDetails", detailVOS)

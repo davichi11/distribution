@@ -125,11 +125,11 @@ class CardOrderInfoController {
                 row.createCell(3, CellType.STRING).setCellValue(obj.cardInfo!!.cardName)
                 row.createCell(4, CellType.STRING).setCellValue(obj.addTime)
                 row.createCell(5, CellType.STRING).setCellValue(obj.cardInfo!!.bankNum)
-                var status = ""
-                when (obj.orderStatus) {
-                    0 -> status = "失败"
-                    1 -> status = "成功"
-                    2 -> status = "申请中"
+                val status = when (obj.orderStatus) {
+                    0 -> "失败"
+                    1 -> "成功"
+                    2 -> "申请中"
+                    else -> ""
                 }
                 row.createCell(6, CellType.STRING).setCellValue(status)
             } as ExportExcel<CardOrderInfoEntity>).exportExcel(response, pageInfo.list,
