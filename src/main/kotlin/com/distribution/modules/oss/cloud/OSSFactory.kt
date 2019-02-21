@@ -14,24 +14,19 @@ import com.distribution.modules.sys.service.SysConfigService
  */
 object OSSFactory {
     private var sysConfigService: SysConfigService? = null
+    private val ossMap: MutableMap<Int, (CloudStorageConfig) -> AbstractCloudStorageService> = mutableMapOf()
 
     init {
         OSSFactory.sysConfigService = ApplicationContextHolder.getBean("sysConfigService") as SysConfigService
+        ossMap[Constant.CloudService.QINIU.value] = { config -> QiniuAbstractCloudStorageService(config) }
+        ossMap[Constant.CloudService.ALIYUN.value] = { config -> AliyunAbstractCloudStorageService(config) }
+        ossMap[Constant.CloudService.QCLOUD.value] = { config -> QcloudAbstractCloudStorageService(config) }
     }
 
     fun build(): AbstractCloudStorageService {
         //获取云存储配置信息
         val config = sysConfigService!!.getConfigObject(ConfigConstant.CLOUD_STORAGE_CONFIG_KEY, CloudStorageConfig::class.java)
-
-        if (config.type == Constant.CloudService.QINIU.value) {
-            return QiniuAbstractCloudStorageService(config)
-        } else if (config.type == Constant.CloudService.ALIYUN.value) {
-            return AliyunAbstractCloudStorageService(config)
-        } else if (config.type == Constant.CloudService.QCLOUD.value) {
-            return QcloudAbstractCloudStorageService(config)
-        }
-
-        return AliyunAbstractCloudStorageService(config)
+        return ossMap[config.type]?.let { it(config) } ?: AliyunAbstractCloudStorageService(config)
     }
 
 }

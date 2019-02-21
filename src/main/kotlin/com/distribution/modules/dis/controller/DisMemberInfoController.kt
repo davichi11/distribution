@@ -124,18 +124,18 @@ class DisMemberInfoController {
         }
         val errorList = mutableListOf<String>()
         ExcelUtils.readExcel(file.inputStream, 0).forEach { names ->
-            names.filter { StringUtils.isNoneBlank(it) }.forEach { it ->
+            names.filter { StringUtils.isNoneBlank(it) }.forEach {
                 val memberAccount = memberAccountService.selectByUserName(it ?: "")
                 if (memberAccount == null) {
                     errorList.add(it ?: "")
                 } else {
-                    memberAccount.forEach {
-                        it.memberAmount = it.memberAmount.inc()
-                        memberAccountService.update(it)
+                    memberAccount.forEach { account ->
+                        account.memberAmount = account.memberAmount.inc()
+                        memberAccountService.update(account)
                         //保存历史记录
                         val historyRecord = MemberAccountHistory()
                         historyRecord.id = CommonUtils.uuid
-                        historyRecord.accountId = it.accountId
+                        historyRecord.accountId = account.accountId
                         historyRecord.hisAmount = BigDecimal.ONE
                         historyRecord.hisType = MemberAccountHistory.HisType.INCOME
                         historyRecord.addTime = DateUtils.formatDateTime(LocalDateTime.now())
