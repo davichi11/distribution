@@ -22,13 +22,13 @@ import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import ma.glasnost.orika.impl.DefaultMapperFactory
 import me.chanjar.weixin.common.exception.WxErrorException
 import me.chanjar.weixin.mp.api.WxMpService
 import me.chanjar.weixin.mp.bean.result.WxMpUser
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.LoggerFactory
-import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.time.LocalDateTime
@@ -177,8 +177,7 @@ class ApiLoanController {
      */
     @Throws(Exception::class)
     private fun saveOrder(loanOrderVO: LoanOrderVO, member: DisMemberInfoEntity) {
-        val orderInfoRecord = LoanOrderInfoEntity()
-        BeanUtils.copyProperties(loanOrderVO, orderInfoRecord)
+        val orderInfoRecord = DefaultMapperFactory.Builder().build().mapperFacade.map(loanOrderVO, LoanOrderInfoEntity::class.java)
         orderInfoRecord.id = CommonUtils.uuid
         orderInfoRecord.orderId = AliPayUtils.generateOrderId(loanOrderVO.orderMobile,
                 Constant.PayType.applyLoan.value)
