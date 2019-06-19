@@ -8,9 +8,9 @@ import com.github.pagehelper.PageHelper
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiOperation
+import ma.glasnost.orika.impl.DefaultMapperFactory
 import org.apache.commons.lang3.math.NumberUtils
 import org.slf4j.LoggerFactory
-import org.springframework.beans.BeanUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
@@ -40,7 +40,7 @@ class ApiFeedBackController {
     }
 
     @ApiOperation(value = "根据id查询反馈记录")
-    @ApiImplicitParam(paramType = "path", dataType = "long", name = "id",  required = true)
+    @ApiImplicitParam(paramType = "path", dataType = "long", name = "id", required = true)
     @GetMapping("/feedback/{id}")
     fun getOneFeedbackById(@PathVariable id: Long): Result {
         val feedbackEntity = feedbackService.queryObject(id) ?: return Result().error(msg = "无此记录")
@@ -48,14 +48,13 @@ class ApiFeedBackController {
     }
 
     @ApiOperation("添加意见反馈")
-    @ApiImplicitParam(paramType = "body", dataType = "FeedBackVO", name = "feedbackVO",  required = true)
+    @ApiImplicitParam(paramType = "body", dataType = "FeedBackVO", name = "feedbackVO", required = true)
     @PostMapping("/feedback")
     fun addFeedBack(feedbackVO: FeedBackVO): Result {
         if (feedbackVO.mobile == null) {
             return Result().error(msg = "用户不能为空")
         }
-        val feedback = FeedbackEntity()
-        BeanUtils.copyProperties(feedbackVO, feedback)
+        val feedback = DefaultMapperFactory.Builder().build().mapperFacade.map(feedbackVO, FeedbackEntity::class.java)
         return try {
             feedbackService.save(feedback)
             Result().ok()

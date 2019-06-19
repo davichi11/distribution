@@ -3,17 +3,25 @@ package com.distribution
 import com.alibaba.fastjson.JSON
 import com.distribution.common.excel.ExcelUtils
 import com.distribution.common.utils.OkHttpUtil
+import com.distribution.common.utils.Result
 import com.distribution.modules.card.entity.CardApiResponse
 import com.google.common.collect.Lists
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.Request
 import org.apache.commons.lang3.StringUtils
 import org.junit.Test
 import java.io.File
 import java.io.IOException
 import java.io.UnsupportedEncodingException
+import java.text.SimpleDateFormat
 import java.time.Duration
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 
@@ -32,6 +40,13 @@ class MyTest {
         ExcelUtils.readExcel(f.inputStream(), 0).forEach { it.filter { StringUtils.isNoneBlank(it) }.forEach { println(it) } }
     }
 
+    @Test
+    fun t3() {
+        var s:String? =""
+
+        val split = s?.split(",")
+        print(split)
+    }
 
     private suspend fun aa() {
         print("123123")
@@ -150,5 +165,118 @@ class MyTest {
         //                .post(formBody).build();
         val request = Request.Builder().url(url).get().build()
         OkHttpUtil.execute(request).use { response -> println(response.isSuccessful) }
+    }
+
+    @Test
+    fun test8() {
+        val sd = "20190101"
+        val dateTime = LocalDate.parse(sd, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        print(dateTime)
+//        print(sd.length)
+    }
+
+    @Test
+    fun testFuncMap() {
+        val map = mutableMapOf<String, (Int, Int) -> Int>()
+
+        map["1"] = { i, i1 -> i + i1 }
+        map["2"] = { i, i1 -> i * i1 }
+        val f = map["1"]
+        when {
+            f != null -> print("type 1 = ${f(1, 2)}")
+            else -> print("123")
+        }
+
+    }
+
+
+
+    @Test
+    fun testCoroutine() = runBlocking {
+        GlobalScope.launch {
+            // 在后台启动一个新的协程并继续
+            delay(1000L)
+            println("World!")
+        }
+        println("Hello,") // 主线程中的代码会立即执行
+        // 但是这个表达式阻塞了主线程
+        delay(2000L)  // ……我们延迟 2 秒来保证 JVM 的存活
+    }
+
+    @Test
+    fun testCoroutine2() = runBlocking {
+        val job = GlobalScope.launch {
+            // 启动一个新协程并保持对这个作业的引用
+            delay(1000L)
+            println("World!")
+        }
+        println("Hello,")
+        job.join() // 等待直到子协程执行结束
+    }
+
+    @Test
+    fun testCoroutine3() = runBlocking {
+        launch {
+            delay(1000L)
+            println("World!")
+        }
+        print("Hello,")
+    }
+
+    @Test
+    fun testDate() {
+        val str = "2019-01-01"
+        val format = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+        print(format.parse(str))
+    }
+
+
+    @Test
+    fun testFibonacci() {
+        for (i in 0..20) {
+            println(fibonacci(i))
+        }
+
+    }
+
+    private fun fibonacci(num: Int): Int {
+        if (num < 2) {
+            return 1
+        }
+        return fibonacci(num - 1) + fibonacci(num - 2)
+    }
+
+    @Test
+    fun testFibonacci2() {
+
+        val function = fibonacci2()
+        for (i in 0..20) {
+            print(function())
+        }
+    }
+
+    private fun fibonacci2(): () -> Int {
+        var a = 0
+        var b = 1
+        return fun(): Int {
+            a = b
+            b += a
+            return a
+        }
+    }
+
+    @Test
+    fun t2() {
+        val loc = listOf("北京", "上海", "广州", "深圳", "杭州")
+        val flatMap = loc.flatMap {
+            listOf(it, it + 1)
+        }
+        println("转换后的结果:$flatMap")
+    }
+
+    @Test
+    fun tt() {
+        val r = Result().ok("123").put("test",true)
+        println(JSON.toJSONString(r))
     }
 }

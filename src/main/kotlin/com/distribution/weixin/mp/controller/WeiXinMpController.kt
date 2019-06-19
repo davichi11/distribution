@@ -112,9 +112,7 @@ class WeiXinMpController {
         if (StringUtils.isBlank(localMobile)) {
             localMobile = userService.queryObject("1")!!.mobile!!
         }
-        val map = HashMap<String, Any>()
-        map["mobile"] = localMobile
-        map["to"] = "/"
+        val map = mapOf("mobile" to localMobile, "to" to "/")
         return wxMpService.oauth2buildAuthorizationUrl(returnUrl, "snsapi_userinfo",
                 URLEncoder.encode(JSON.toJSONString(map), "UTF-8"))
     }
@@ -226,7 +224,6 @@ class WeiXinMpController {
         disFans.wechatNickname = EmojiParser.removeAllEmojis(user.nickname)
         val workerId = redisTemplate.opsForValue().increment("worker_id", 1)!!
         disFans.workerId = workerId
-
         //查询推荐人是否存在
         val disMemberInfo = disMemberInfoService.queryByMobile(mobile)
         if (disMemberInfo != null) {
