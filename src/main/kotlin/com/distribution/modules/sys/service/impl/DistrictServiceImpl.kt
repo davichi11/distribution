@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
  * @Company
  * @Project distribution
  * @Package com.distribution.modules.sys.service.impl
- * @Description TODO(描述)
+ 
  * @create 2018/6/20-22:05
  */
 @Service

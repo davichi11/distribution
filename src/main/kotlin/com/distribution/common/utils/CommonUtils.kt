@@ -10,7 +10,7 @@ import java.util.*
  * @Company
  * @Project gxph-loan
  * @Package com.gxph.common.utils
- * @Description TODO(描述)
+ 
  * @create 2018/4/27-11:24
  */
 object CommonUtils {

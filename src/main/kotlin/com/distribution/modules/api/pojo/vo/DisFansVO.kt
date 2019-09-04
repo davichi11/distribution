@@ -5,7 +5,7 @@ package com.distribution.modules.api.pojo.vo
  * @Company
  * @Project distribution
  * @Package com.distribution.modules.api.pojo.vo
- * @Description TODO(描述)
+ 
  * @create 2018/5/11-23:12
  */
 

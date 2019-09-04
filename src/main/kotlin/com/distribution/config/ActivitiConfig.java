@@ -14,7 +14,7 @@
 // * @Company
 // * @Project renren-fast
 // * @Package com.distribution.config
-// * @Description TODO(描述)
+// *
 // * @create 2018/3/13-10:34
 // */
 //@Configuration

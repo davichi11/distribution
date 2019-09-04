@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper
  * @Company
  * @Project distribution
  * @Package com.distribution.modules.sys.dao
- * @Description TODO(描述)
+ 
  * @create 2018/6/20-21:58
  */
 @Mapper

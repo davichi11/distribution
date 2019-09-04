@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component
  * @Company
  * @Project jsdemo
  * @Package com.gxzb.jsdemo.core.queue
- * @Description TODO(描述)
+
  * @create 2018/1/17-14:11
  */
 @Component
@@ -34,7 +34,7 @@ class NotifySender : RabbitTemplate.ReturnCallback, RabbitTemplate.ConfirmCallba
      * @param routingKey the routing key.
      */
     override fun returnedMessage(message: Message?, replyCode: Int, replyText: String?, exchange: String?, routingKey: String?) {
-        log.info("发送房源数据到B端,数据为:$message")
+        log.info("发送短信,数据为:$message")
     }
 
     /**

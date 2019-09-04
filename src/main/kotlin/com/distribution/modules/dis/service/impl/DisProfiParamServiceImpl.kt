@@ -103,11 +103,9 @@ class DisProfiParamServiceImpl : DisProfiParamService {
         val memberParam = if ("0" == member.disUserType) DisProfiParam() else disProfiParams.first { p -> p.disProLevel == member.disLevel.toString() }
         //当前用户账户信息
         val memberAccount = accountMapper.selectMemberAccountByUserId(member.id!!)
-        if ("1" == member.disUserType) {
-            //当前用户分润,如果是购买会员则不分
-            if (!isReward) {
-                updateAccont(member, memberAccount, BigDecimal(money * memberParam.disProValue))
-            }
+        //当前用户分润,如果是购买会员则不分
+        if ("1" == member.disUserType && !isReward) {
+            updateAccont(member, memberAccount, BigDecimal(money * memberParam.disProValue))
         }
         //当前会员的上一级
         val parent = memberInfoDao.queryObject(member.disMemberParent!!.id!!)

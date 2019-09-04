@@ -9,7 +9,7 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
  * @Company
  * @Project distribution
  * @Package com.distribution.weixin.service
- * @Description TODO(描述)
+ *
  * @create 2018/5/27-16:07
  */
 public interface WeiXinService {

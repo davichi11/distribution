@@ -24,7 +24,6 @@ import java.time.LocalDateTime
  * @Company
  * @Project distribution
  * @Package com.distribution.ali.pay
- * @Description TODO(描述)
  * @create 2018/5/29-20:50
  */
 object AliPayUtils {

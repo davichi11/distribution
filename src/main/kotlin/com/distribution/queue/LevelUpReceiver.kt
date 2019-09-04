@@ -18,7 +18,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport
  * @Company
  * @Project distribution
  * @Package com.distribution.queue
- * @Description TODO(描述)
+ 
  * @create 2018/5/12-10:31
  */
 @Component

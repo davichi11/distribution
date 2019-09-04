@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @Company
  * @Project distribution
  * @Package com.distribution.weixin.service.impl
- * @Description TODO(描述)
+ *
  * @create 2018/5/27-16:10
  */
 @Slf4j

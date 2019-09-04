@@ -5,7 +5,7 @@ package com.distribution.common.excel
  * @Company
  * @Project distribution
  * @Package com.distribution.common.excel
- * @Description TODO(描述)
+ 
  * @create 2018/7/31-23:00
  */
 @Target(AnnotationTarget.FIELD)

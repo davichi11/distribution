@@ -8,7 +8,7 @@ import java.io.Serializable
  * @Company
  * @Project distribution
  * @Package com.distribution.modules.sys.entity
- * @Description TODO(描述)
+ 
  * @create 2018/6/20-21:59
  */
 

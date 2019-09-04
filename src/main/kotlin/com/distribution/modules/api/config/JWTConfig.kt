@@ -14,7 +14,7 @@ import java.util.*
  * @Company
  * @Project renren-fast
  * @Package com.distribution.modules.api.config
- * @Description TODO(描述)
+ 
  * @create 2017/10/21-12:08
  */
 

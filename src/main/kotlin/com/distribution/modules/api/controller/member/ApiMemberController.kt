@@ -36,7 +36,7 @@ import javax.servlet.http.HttpServletRequest
  * @Company
  * @Project distribution
  * @Package com.distribution.modules.api.controller
- * @Description TODO(描述)
+ 
  * @create 2018/5/11-23:09
  */
 @Api("会员信息相关接口")

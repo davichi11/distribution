@@ -19,7 +19,7 @@ import java.util.*
  * @Company
  * @Project distribution
  * @Package com.distribution.common.excel
- * @Description TODO(描述)
+ 
  * @create 2018/7/31-22:51
  */
 object ExcelUtils {
