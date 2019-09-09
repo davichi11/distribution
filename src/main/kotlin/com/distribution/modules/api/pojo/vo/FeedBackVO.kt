@@ -7,7 +7,7 @@ import java.io.Serializable
  * @Company
  * @Project distribution
  * @Package com.distribution.modules.api.pojo.vo
- * @Description TODO(描述)
+ 
  * @author ChunLiang Hu
  * @create 2018/8/18-23:03
  */

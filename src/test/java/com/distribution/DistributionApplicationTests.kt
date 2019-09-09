@@ -61,7 +61,7 @@ class DistributionApplicationTests {
     @Test
     @Throws(IOException::class)
     fun testIdCard() {
-        println(redisTemplate.opsForValue().increment("worker_id", 1))
+        println(redisTemplate.opsForValue().increment("worker_id", 1)!!)
     }
 
     @Test

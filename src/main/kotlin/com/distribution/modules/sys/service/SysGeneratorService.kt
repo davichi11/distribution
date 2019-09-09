@@ -5,7 +5,7 @@ package com.distribution.modules.sys.service
  * @Company
  * @Project renren-fast
  * @Package com.distribution.modules.sys.service
- * @Description TODO(描述)
+ 
  * @create 2017/8/13-21:13
  */
 interface SysGeneratorService {

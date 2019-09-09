@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletRequest
  * @Company
  * @Project renren-fast
  * @Package com.distribution.modules.sys.controller
- * @Description TODO(描述)
+ 
  * @create 2017/8/13-21:24
  */
 

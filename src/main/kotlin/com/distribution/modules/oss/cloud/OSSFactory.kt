@@ -17,7 +17,7 @@ object OSSFactory {
     private val ossMap: MutableMap<Int, (CloudStorageConfig) -> AbstractCloudStorageService> = mutableMapOf()
 
     init {
-        OSSFactory.sysConfigService = ApplicationContextHolder.getBean("sysConfigService") as SysConfigService
+        sysConfigService = ApplicationContextHolder.getBean("sysConfigService") as SysConfigService
         ossMap[Constant.CloudService.QINIU.value] = { config -> QiniuAbstractCloudStorageService(config) }
         ossMap[Constant.CloudService.ALIYUN.value] = { config -> AliyunAbstractCloudStorageService(config) }
         ossMap[Constant.CloudService.QCLOUD.value] = { config -> QcloudAbstractCloudStorageService(config) }

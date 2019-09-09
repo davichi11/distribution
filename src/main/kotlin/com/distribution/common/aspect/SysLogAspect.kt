@@ -35,7 +35,7 @@ class SysLogAspect {
 
     @Pointcut("@annotation(com.distribution.common.annotation.SysLog)")
     fun logPointCut() {
-
+        //注解方法
     }
 
     @Before("logPointCut()")

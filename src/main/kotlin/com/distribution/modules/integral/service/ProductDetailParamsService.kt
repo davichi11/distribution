@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
  * @Company
  * @Project distribution
  * @Package com.distribution.modules.integral.service
- * @Description TODO(描述)
+ 
  * @author ChunLiang Hu
  * @create 2018-12-04-20:07
  */

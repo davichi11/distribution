@@ -98,6 +98,7 @@ class ApiAccountController {
         val member = disMemberInfoService.queryByMobile(mobile) ?: return Result().error(msg = "没有此用户")
 
         var memberAccount = memberAccountService.selectMemberAccountByUserId(mobile)
+        val saveUserInfoError = "保存用户账户信息异常"
         if (memberAccount == null) {
             memberAccount = MemberAccount()
             memberAccount.member = member
@@ -111,8 +112,8 @@ class ApiAccountController {
                 memberAccountService.save(memberAccount)
                 Result().ok("用户账户信息保存成功")
             } catch (e: Exception) {
-                log.error("保存用户账户信息异常", e)
-                Result().error(msg = "保存用户账户信息异常")
+                log.error(saveUserInfoError, e)
+                Result().error(msg = saveUserInfoError)
             }
 
         } else {
@@ -121,7 +122,7 @@ class ApiAccountController {
                 memberAccountService.update(memberAccount)
                 Result().ok("用户账户信息更新成功")
             } catch (e: Exception) {
-                log.error("保存用户账户信息异常", e)
+                log.error(saveUserInfoError, e)
                 Result().error(msg = "更新用户账户信息异常")
             }
 
@@ -303,7 +304,6 @@ class ApiAccountController {
         //更新每日提现次数
         count += 1
         redisTemplate.opsForValue().set(countKey, (count).toString(), millis, TimeUnit.MILLISECONDS)
-
         //发送提现成功提醒
         GlobalScope.launch {
             //            wxMpService.templateMsgService.sendTemplateMsg(buildTemplateMsg(account.member.openId,

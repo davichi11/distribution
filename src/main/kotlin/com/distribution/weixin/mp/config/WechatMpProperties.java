@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @Company
  * @Project distribution
  * @Package com.distribution.weixin.mp.config
- * @Description TODO(描述)
+ *
  * @create 2018/5/27-15:34
  */
 @Data

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
  * @Company
  * @Project distribution
  * @Package com.distribution.modules.dis.service.impl
- * @Description TODO(描述)
+ 
  * @create 2018/5/11-23:06
  */
 @Service

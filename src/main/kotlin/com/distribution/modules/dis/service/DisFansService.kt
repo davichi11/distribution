@@ -7,7 +7,7 @@ import com.distribution.modules.dis.entity.DisFans
  * @Company
  * @Project distribution
  * @Package com.distribution.modules.dis.service
- * @Description TODO(描述)
+ 
  * @create 2018/5/11-23:04
  */
 interface DisFansService {

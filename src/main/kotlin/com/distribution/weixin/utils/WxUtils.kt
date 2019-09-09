@@ -8,7 +8,7 @@ import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage
  * @Company
  * @Project distribution
  * @Package com.distribution.weixin.utils
- * @Description TODO(描述)
+ 
  * @author ChunLiang Hu
  * @create 2018/8/6-14:46
  */

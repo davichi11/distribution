@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
  * @Company
  * @Project distribution
  * @Package com.distribution.modules.card.service
- * @Description TODO(描述)
+ 
  * @create 2018/5/8-20:21
  */
 interface CardInfoService {

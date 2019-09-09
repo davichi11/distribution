@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
  * @Company
  * @Project renren-fast
  * @Package com.distribution.common.utils
- * @Description TODO(描述)
+ 
  * @create 2017/7/28-07:46
  */
 @Component

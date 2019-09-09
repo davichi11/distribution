@@ -21,7 +21,7 @@ import java.text.MessageFormat
  * @Company
  * @Project jsdemo
  * @Package com.gxzb.jsdemo.core.queue
- * @Description TODO(描述)
+ 
  * @create 2018/1/17-14:13
  */
 
