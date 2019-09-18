@@ -2,7 +2,7 @@ package com.distribution.weixin.service.impl;
 
 import com.distribution.weixin.service.WeiXinService;
 import lombok.extern.slf4j.Slf4j;
-import me.chanjar.weixin.common.exception.WxErrorException;
+import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateMessage;
 import org.apache.commons.lang3.StringUtils;

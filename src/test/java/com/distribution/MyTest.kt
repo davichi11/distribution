@@ -30,7 +30,7 @@ import java.util.*
  * @Company
  * @Project distribution
  * @Package com.distribution
- * @Description TODO(描述)
+
  * @create 2018/5/9-22:23
  */
 class MyTest {
@@ -42,7 +42,7 @@ class MyTest {
 
     @Test
     fun t3() {
-        var s:String? =""
+        val s: String? = ""
 
         val split = s?.split(",")
         print(split)
@@ -114,6 +114,8 @@ class MyTest {
         if (response.isSuccessful) {
             val cardApiResponse = JSON.parseObject(response.body()!!.string(), CardApiResponse::class.java)
             println(cardApiResponse)
+        } else {
+            print(response.message())
         }
     }
 
@@ -190,7 +192,6 @@ class MyTest {
     }
 
 
-
     @Test
     fun testCoroutine() = runBlocking {
         GlobalScope.launch {
@@ -251,7 +252,7 @@ class MyTest {
 
         val function = fibonacci2()
         for (i in 0..20) {
-            print(function())
+            println(function())
         }
     }
 
@@ -276,7 +277,7 @@ class MyTest {
 
     @Test
     fun tt() {
-        val r = Result().ok("123").put("test",true)
+        val r = Result().ok("123").put("test", true)
         println(JSON.toJSONString(r))
     }
 }

@@ -7,7 +7,7 @@ import java.util.function.IntConsumer
  * @Company
  * @Project renren-fast
  * @Package io.leetcode
- * @Description TODO(描述)
+ 
  * @author ChunLiang Hu
  * @create 2018/4/4-19:47
  */

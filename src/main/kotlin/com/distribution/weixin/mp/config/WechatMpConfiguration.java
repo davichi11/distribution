@@ -1,10 +1,10 @@
 package com.distribution.weixin.mp.config;
 
 import com.distribution.weixin.mp.handler.*;
-import me.chanjar.weixin.mp.api.WxMpConfigStorage;
-import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
+import me.chanjar.weixin.mp.config.WxMpConfigStorage;
+import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
 import me.chanjar.weixin.mp.constant.WxMpEventConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -51,7 +51,7 @@ public class WechatMpConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public WxMpConfigStorage configStorage() {
-        WxMpInMemoryConfigStorage configStorage = new WxMpInMemoryConfigStorage();
+        WxMpDefaultConfigImpl configStorage = new WxMpDefaultConfigImpl();
         configStorage.setAppId(this.properties.getAppId());
         configStorage.setSecret(this.properties.getSecret());
         configStorage.setToken(this.properties.getToken());

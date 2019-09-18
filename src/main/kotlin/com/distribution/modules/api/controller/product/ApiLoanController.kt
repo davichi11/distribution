@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiOperation
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import ma.glasnost.orika.impl.DefaultMapperFactory
-import me.chanjar.weixin.common.exception.WxErrorException
+import me.chanjar.weixin.common.error.WxErrorException
 import me.chanjar.weixin.mp.api.WxMpService
 import me.chanjar.weixin.mp.bean.result.WxMpUser
 import me.chanjar.weixin.mp.bean.template.WxMpTemplateData
