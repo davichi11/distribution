@@ -273,7 +273,7 @@
         <dependency>
             <artifactId>guava</artifactId>
             <groupId>com.google.guava</groupId>
-            <version>23.0</version>
+            <version>r03</version>
         </dependency>
 
         <dependency>
