@@ -105,7 +105,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
-            <version>2.9.6</version>
+            <version>2.10.0</version>
         </dependency>
 
         <!--数据库依赖-->
@@ -359,12 +359,12 @@
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
-            <version>3.5.0</version>
+            <version>4.0.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-pay</artifactId>
-            <version>3.5.0</version>
+            <version>4.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.jodd</groupId>
