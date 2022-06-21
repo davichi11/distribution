@@ -364,7 +364,7 @@
         <dependency>
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-pay</artifactId>
-            <version>3.5.0</version>
+            <version>4.3.6.B</version>
         </dependency>
         <dependency>
             <groupId>org.jodd</groupId>
